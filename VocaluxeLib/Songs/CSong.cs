@@ -43,7 +43,7 @@ namespace VocaluxeLib.Songs
     {
         Title = 1,
         Artist = 2,
-        MP3 = 4,
+        AUDIO = 4,
         Instrumental = 5,
         Vocals = 6,
         Bpm = 8,
@@ -308,34 +308,53 @@ namespace VocaluxeLib.Songs
             return writer.SaveFile(filePath);
         }
 
-        public string GetMP3()
+        public string GetAudioPath()
         {
-            return Path.Combine(Folder, Audio);
+            return _GetFilePathIfExist(Audio);
         }
 
-        public string GetInstrumental()
+        public string GetInstrumentalPath()
         {
-            return Path.Combine(Folder, Instrumental);
+            return _GetFilePathIfExist(Instrumental);
         }
 
-        public bool HasInstrumental()
+        public bool HasInstrumental => _FileExist(Instrumental);
+
+        public string GetVocalsPath()
         {
-            return !string.IsNullOrEmpty(Instrumental);
+            return _GetFilePathIfExist(Vocals);
         }
 
-        public string GetVocals()
+        public bool HasVocals => _FileExist(Vocals);
+
+        public bool HasVideo => _FileExist(Video);
+
+        private bool _FileExist(string fileName)
         {
-            return Path.Combine(Folder, Vocals);
+            return !string.IsNullOrEmpty(_GetFilePathIfExist(fileName));
         }
 
-        public bool HasVocals()
+        private string _GetFilePathIfExist(string fileName)
         {
-            return !string.IsNullOrEmpty(Vocals);
+            if (string.IsNullOrEmpty(Folder) || string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+
+            var filePath = Path.Combine(Folder, fileName);
+            return File.Exists(filePath) ? filePath : null;
         }
 
-        public string GetVideo()
+        public Stream GetVideoStream()
         {
-            return Path.Combine(Folder, Video);
+            var videoPath = _GetFilePathIfExist(Video);
+            if (!string.IsNullOrEmpty(videoPath))
+            {
+                return new FileStream(videoPath, FileMode.Open, FileAccess.Read);
+            }
+
+            CLog.Error($"Video file {videoPath} doesn't exist");
+            return null;
         }
 
         public void LoadSmallCover()

@@ -126,6 +126,19 @@ namespace VocaluxeLib
         X32 = 32
     }
 
+    public enum EVideoDownscaleResolution
+    {
+        // ReSharper disable InconsistentNaming
+        TR_CONFIG_SCALING_360p = 360,
+        TR_CONFIG_SCALING_480p = 480,
+        TR_CONFIG_SCALING_720p = 720,
+        TR_CONFIG_SCALING_1080p = 1080,
+        TR_CONFIG_SCALING_1440p = 1440,
+        TR_CONFIG_SCALING_2160p = 2160,
+        TR_CONFIG_SCALING_DISABLED = -1
+        // ReSharper restore InconsistentNaming
+    }
+
     public enum ETextureQuality
     {
         // ReSharper disable InconsistentNaming

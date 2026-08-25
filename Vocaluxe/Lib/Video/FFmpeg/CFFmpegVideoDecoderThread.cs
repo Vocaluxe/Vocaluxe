@@ -17,28 +17,26 @@
 
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
 
-namespace Vocaluxe.Lib.Video.Acinerella
+namespace Vocaluxe.Lib.Video.FFmpeg
 {
     //This class describes a thread decoding a video
     //All public methods are meant to be called from "reader" thread only
     //Most others are to be called by this thread  (_Thread instance) only!
-    class CDecoderThread
+    unsafe class CFFmpegVideoDecoderThread
     {
         private const float _LoopedRequestTime = -0.001f; //Magic const to detect if decoder looped automaticly
 
+        private CFFmpegVideoDecoderContext _DecoderContext;
+
         private Thread _Thread;
-        private readonly Object _BufferMutex = new Object();
+        private readonly object _BufferMutex = new();
 
-        private IntPtr _Instance = IntPtr.Zero; // acinerella instance
-        private IntPtr _Videodecoder = IntPtr.Zero; // acinerella video decoder instance
-
-        private readonly CFramebuffer _Framebuffer;
+        private readonly CVideoFramebuffer _VideoFramebuffer;
         private float _LastDecodedTime; // time of last decoded frame
         private float _LastShownTime = -1f; // time if the last shown frame in s IMPORTANT: Write only in context of reader
         // time of last requested frame aka current should-be position (_LastDecodedTime should be >=_RequestTime)
@@ -46,73 +44,63 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public float RequestTime { get; private set; }
         private bool _Paused;
 
-        private String _FileName;
         private float _FrameDuration; // frame time in s
-        private int _Width;
-        private int _Height;
 
         private bool _RequestSkip;
         private bool _Terminated;
         private bool _FrameAvailable;
         private bool _NoMoreFrames;
-        private readonly AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
-        private readonly AutoResetEvent _EvNoMoreFrames = new AutoResetEvent(false);
+        private readonly AutoResetEvent _EvWakeUp = new(false);
+        private readonly AutoResetEvent _EvNoMoreFrames = new(false);
         private bool _IsSleeping;
         private int _WaitCount;
         private bool _DropSeekEnabled = true; // Used to fallback to frame skipping if seek is failing once on this file
 
-        public float Length { get; private set; }
+        public TimeSpan Duration => _DecoderContext?.Duration ?? TimeSpan.Zero;
         public bool Loop { get; set; }
 
-        public CDecoderThread()
+        public CFFmpegVideoDecoderThread()
         {
-            _Framebuffer = new CFramebuffer(10);
+            _VideoFramebuffer = new CVideoFramebuffer(10);
             _FrameDuration = 0.02f; // Set a reasonable standard till correct value is set
         }
 
-        //Open the file and get the length.
-        public bool LoadFile(String fileName)
+        // Open the stream and get the length.
+        // We now use stream because it can also handle http files ;)
+        public bool LoadStream(Stream sourceStream)
         {
-            _FileName = fileName;
-            try
+            if (_DecoderContext != null)
             {
-                _Instance = CAcinerella.AcInit();
-                CAcinerella.AcOpen2(_Instance, fileName);
-
-                var instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
-                Length = instance.Info.Duration / 1000f;
-                var ok = instance.Opened && Length > 0.001f;
-                _DropSeekEnabled = true;
-                if (ok)
-                {
-                    return true;
-                }
-
-                _Free();
+                CLog.Error("A stream is already opened in the thread");
+                return false;
             }
-            catch (Exception) { }
 
-            CLog.Error("Error opening video file: " + _FileName);
-            _Instance = IntPtr.Zero;
-            return false;
+            _DecoderContext = new CFFmpegVideoDecoderContext();
+            if (!_DecoderContext.Initialize(sourceStream))
+            {
+                _Free();
+                return false;
+            }
+
+            return true;
         }
 
         public bool Start()
         {
-            if (_Instance == IntPtr.Zero)
+            if (_DecoderContext == null)
             {
-                CLog.Error("Tried to start a video file that is not open: " + _FileName);
+                CLog.Error("No decoder was init for for this thread");
                 return false;
             }
 
             if (_Thread != null)
             {
-                CLog.Error("Tried to start a video file that is already started: " + _FileName);
+                CLog.Error("Tried to start a video file that is already started");
                 return false;
             }
 
             RequestTime = 0f;
-            _Thread = new Thread(_Execute) { Priority = ThreadPriority.Normal, Name = Path.GetFileName(_FileName) };
+            _Thread = new Thread(_Execute) { Priority = ThreadPriority.Normal };
             _Thread.Start();
             return true;
         }
@@ -155,7 +143,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             //Fix: Use mutex (TODO: Check overhead)
             lock (_BufferMutex) //Cover clear, RequestTime=, _RequestSkip=
             {
-                _Framebuffer.Clear();
+                _VideoFramebuffer.Clear();
                 RequestTime = time;
                 _LastShownTime = time - _FrameDuration; //Set this to time to detect overflow of time in FindFrame but subtract FrameDuration so GetFrame will get the first frame
                 _RequestSkip = true;
@@ -164,12 +152,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
             _EvNoMoreFrames.Set();
         }
 
-        private CFramebuffer.CFrame _FindFrame(float now)
+        private CVideoFramebuffer.CFrame _FindFrame(float now)
         {
-            CFramebuffer.CFrame result = null;
-            CFramebuffer.CFrame frame;
-            _Framebuffer.ResetStack();
-            while ((frame = _Framebuffer.Pop()) != null)
+            CVideoFramebuffer.CFrame result = null;
+            _VideoFramebuffer.ResetStack();
+            while (_VideoFramebuffer.Pop() is { } frame)
             {
                 //float frameEnd = frame.Time + _FrameDuration;
                 var frameTime = frame.Time;
@@ -195,11 +182,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
 
                 //Get the last(newest) possible frame and skip the rest
-                if (result != null)
-                {
-                    //Frame is to old -> Discard
-                    result.SetRead();
-                }
+                //Frame is to old -> Discard
+                result?.SetRead();
 
                 result = frame;
                 if (_Paused)
@@ -233,11 +217,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 {
                     if (frame == null)
                     {
-                        frame = CDraw.AddTexture(_Width, _Height, curFrame.Data);
+                        frame = CDraw.AddTexture(_DecoderContext.FrameWidth, _DecoderContext.FrameHeight, curFrame.Data);
                     }
                     else
                     {
-                        CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data);
+                        CDraw.UpdateTexture(frame, _DecoderContext.FrameWidth, _DecoderContext.FrameHeight, curFrame.Data);
                     }
 
                     if (!_Paused)
@@ -261,7 +245,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
             }
 
-            finished = _NoMoreFrames && _Framebuffer.IsEmpty();
+            finished = _NoMoreFrames && _VideoFramebuffer.IsEmpty();
 
             return result;
         }
@@ -289,9 +273,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     //In a loop our decoder may have reset RequestTime to 0 but we want a frame from the end of the video
                     //Skipping forward is fatal as it resets the decoder to decode already decoded frames causing lags
                     //So first check if we have a valid frame in our buffer
-                    _Framebuffer.ResetStack();
-                    CFramebuffer.CFrame frame;
-                    while ((frame = _Framebuffer.Pop()) != null)
+                    _VideoFramebuffer.ResetStack();
+                    while (_VideoFramebuffer.Pop() is { } frame)
                     {
                         if (frame.Time + _FrameDuration >= time)
                         {
@@ -300,7 +283,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     }
 
                     //If we don't the Length might be inaccurate (e.g. last frame ends at 19.98 but Length=20)
-                    if (time >= Length - 2 * _FrameDuration)
+                    if (time >= Duration.TotalSeconds - 2 * _FrameDuration)
                     {
                         return;
                     }
@@ -312,34 +295,13 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private bool _OpenVideoStream()
         {
-            int videoStreamIndex;
-            SACDecoder decoder;
-            try
+            var framePerSeconds = _DecoderContext.FrameRate;
+            if (framePerSeconds > 0)
             {
-                _Videodecoder = CAcinerella.AcCreateVideoDecoder(_Instance);
-                decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-                videoStreamIndex = decoder.StreamIndex;
-            }
-            catch (Exception)
-            {
-                CLog.Error("Error opening video file (can't find decoder): " + _FileName);
-                return false;
+                _FrameDuration = 1 / framePerSeconds;
             }
 
-            if (videoStreamIndex < 0)
-            {
-                return false;
-            }
-
-            _Width = decoder.StreamInfo.VideoInfo.FrameWidth;
-            _Height = decoder.StreamInfo.VideoInfo.FrameHeight;
-
-            if (decoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
-            {
-                _FrameDuration = 1f / (float)decoder.StreamInfo.VideoInfo.FramesPerSecond;
-            }
-
-            _Framebuffer.Init(_Width * _Height * 4);
+            _VideoFramebuffer.Init(_DecoderContext.FrameBufferSize);
             _FrameAvailable = false;
             return true;
         }
@@ -347,40 +309,32 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //Just call this if thread is not alive
         private void _Free()
         {
-            if (_Videodecoder != IntPtr.Zero)
-            {
-                CAcinerella.AcFreeDecoder(_Videodecoder);
-            }
-
-            if (_Instance != IntPtr.Zero)
-            {
-                CAcinerella.AcClose(_Instance);
-                CAcinerella.AcFree(_Instance);
-            }
+            _DecoderContext?.Dispose();
         }
 
         // Skip to a given time (in s)
         private void _Skip()
         {
             var skipTime = RequestTime; //Copy to variable to have consistent checks
-            if (skipTime < 0 || skipTime >= Length)
+            if (skipTime < 0 || skipTime >= Duration.TotalSeconds)
             {
                 skipTime = 0;
             }
 
             try
             {
-                CAcinerella.AcSeek(_Videodecoder, -1, (Int64)(skipTime * 1000f));
+               _DecoderContext.Seek(true, TimeSpan.FromSeconds(skipTime));
             }
             catch (Exception e)
             {
-                CLog.Error("Error seeking video file \"" + _FileName + "\": " + e.Message);
+              CLog.Error("Error skipping video: " + e.Message);
             }
 
             _LastDecodedTime = skipTime;
-
             _FrameAvailable = false;
         }
+
+        
 
         private void _Decode()
         {
@@ -404,11 +358,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 var frameDropCount = (int)Math.Ceiling(timeDifference / _FrameDuration);
                 if (!_DropSeekEnabled || frameDropCount < seekThreshold)
                 {
-                    hasFrameDecoded = _DropWithSkip(frameDropCount);
+                    hasFrameDecoded = _DecoderContext.DropWithSkip(frameDropCount);
                 }
                 else
                 {
-                    hasFrameDecoded = _DropWithSeek(videoTime, frameDropCount);
+                    hasFrameDecoded = _DropWithSeek(TimeSpan.FromSeconds(videoTime), frameDropCount);
                 }
             }
 
@@ -416,11 +370,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 try
                 {
-                    hasFrameDecoded = CAcinerella.AcGetFrame(_Instance, _Videodecoder);
+                    hasFrameDecoded = _DecoderContext.GetFrame();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    CLog.Error("Error AcGetFrame " + _FileName);
+                    CLog.Error("Unable to get frame " + ex);
                 }
             }
 
@@ -442,40 +396,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        private bool _DropWithSeek(float videoTime, int frameDropCount)
+        private bool _DropWithSeek(TimeSpan videoTime, int frameDropCount)
         {
             var hasFrameDecoded = false;
             try
             {
-                hasFrameDecoded = CAcinerella.AcSeek(_Videodecoder, 0, (long)videoTime * 1000L);
+               hasFrameDecoded = _DecoderContext.Seek(false, videoTime);
             }
             catch (Exception)
             {
-                CLog.Error("Error AcSeek " + _FileName);
+               CLog.Error("Error seeking frame");
             }
 
             if (!hasFrameDecoded)
             {
                 // Fallback to frame skipping
                 _DropSeekEnabled = false;
-                hasFrameDecoded = _DropWithSkip(frameDropCount);
-            }
-
-            return hasFrameDecoded;
-        }
-
-        private bool _DropWithSkip(int frameDropCount)
-        {
-            var hasFrameDecoded = false;
-            // Add 1 dropped frame per 16 frames (Power of 2 -> Div is fast) as skipping takes time too and we don't want to skip again
-            frameDropCount += frameDropCount / 16;
-            try
-            {
-                hasFrameDecoded = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
-            }
-            catch (Exception)
-            {
-                CLog.Error("Error AcSkipFrame " + _FileName);
+                hasFrameDecoded = _DecoderContext.DropWithSkip(frameDropCount);
             }
 
             return hasFrameDecoded;
@@ -485,29 +422,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //Returns true if frame data is now in buffer
         private bool _CopyDecodedFrameToBuffer()
         {
-            bool result;
-            SACDecoder decoder;
-
-            try
-            {
-                decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-            }
-            catch (Exception e)
-            {
-                CLog.Error(e, "Couldn't copy the frame to the managed environment.");
-                return false;
-            }
-
-            if (decoder.Buffer != IntPtr.Zero)
-            {
-                _LastDecodedTime = (float)decoder.Timecode;
-                result = _Framebuffer.Put(decoder.Buffer, _LastDecodedTime);
-            }
-            else
-            {
-                result = false;
-            }
-
+            _LastDecodedTime = (float)_DecoderContext.Position.TotalSeconds;
+            var result = _VideoFramebuffer.Put(_DecoderContext.DecodedFrameBuffer, _LastDecodedTime);
             _FrameAvailable = false;
             return result;
         }
@@ -543,7 +459,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 //Bail out if we want to skip
                 if (!_RequestSkip && _FrameAvailable)
                 {
-                    if (!_Framebuffer.IsFull())
+                    if (!_VideoFramebuffer.IsFull())
                     {
                         if (_CopyDecodedFrameToBuffer())
                         {
@@ -555,7 +471,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                                     continue; //Frame is invalid if we want to skip
                                 }
 
-                                _Framebuffer.SetWritten();
+                                _VideoFramebuffer.SetWritten();
                             }
                         }
 
@@ -569,7 +485,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     }
                     else
                     {
-                        Thread.Sleep((int)(_Framebuffer.Size * _FrameDuration * 1000 / 2));
+                        Thread.Sleep((int)(_VideoFramebuffer.Size * _FrameDuration * 1000 / 2));
                         _WaitCount++;
                     }
                 }

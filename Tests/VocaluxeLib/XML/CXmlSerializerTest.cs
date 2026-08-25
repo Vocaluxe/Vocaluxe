@@ -413,7 +413,7 @@ namespace Tests.VocaluxeLib.XML
 
         [Test]
         public void TestRealFiles(
-            [Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme),
+            [Values(typeof(SThemeCover), typeof(CConfig.SConfig), typeof(SDefaultFonts), typeof(SSkin), typeof(STheme),
                 typeof(Dictionary<string, string>))]
             Type type)
         {

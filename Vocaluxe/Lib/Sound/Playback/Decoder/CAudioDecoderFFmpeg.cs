@@ -17,7 +17,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vocaluxe.Lib.Video.Acinerella;
+using Vocaluxe.Lib.Sound.Playback.Acinerella;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.Decoder

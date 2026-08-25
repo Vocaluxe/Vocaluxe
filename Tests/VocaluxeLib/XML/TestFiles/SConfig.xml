@@ -14,6 +14,10 @@
     <DebugLevel>TR_CONFIG_OFF</DebugLevel>
     <SaveModifiedSongs>TR_CONFIG_OFF</SaveModifiedSongs>
   </Debug>
+  <FFmpeg>
+    <FFmpegPath>libs\unmanaged\ffmpeg</FFmpegPath>
+    <VideoDownscaleResolution>TR_CONFIG_SCALING_DISABLED</VideoDownscaleResolution>
+  </FFmpeg>
   <Graphics>
     <Renderer>TR_CONFIG_DIRECT3D</Renderer>
     <TextureQuality>TR_CONFIG_TEXTURE_MEDIUM</TextureQuality>

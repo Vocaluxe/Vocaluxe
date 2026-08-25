@@ -227,19 +227,27 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public virtual CVideoStream GetVideo(string videoName, bool loop)
         {
-            CVideoSkinElement sk;
-            if (_Videos.TryGetValue(videoName, out sk))
+            if (!_Videos.TryGetValue(videoName, out var sk))
             {
-                if (sk.VideoStream == null || sk.VideoStream.IsClosed())
-                {
-                    sk.VideoStream = CVideo.Load(Path.Combine(_Folder, sk.FileName));
-                    CVideo.SetLoop(sk.VideoStream, loop);
-                }
+                return null;
+            }
 
+            if (sk.VideoStream != null && !sk.VideoStream.IsClosed())
+            {
                 return sk.VideoStream;
             }
 
-            return null;
+            var videoPath = Path.Combine(_Folder, sk.FileName);
+            if (!File.Exists(videoPath))
+            {
+                return null;
+            }
+
+            sk.VideoStream = CVideo.LoadStream(new FileStream(videoPath, FileMode.Open, FileAccess.Read));
+            CVideo.SetLoop(sk.VideoStream, loop);
+
+            return sk.VideoStream;
+
         }
 
         public virtual CTextureRef GetTexture(string name)

@@ -19,29 +19,29 @@ using System.Diagnostics;
 using System.IO;
 using VocaluxeLib.Draw;
 
-namespace Vocaluxe.Lib.Video.Acinerella
+namespace Vocaluxe.Lib.Video.FFmpeg
 {
-    class CDecoder
+    class CFFmpegVideoDecoder
     {
-        private readonly Stopwatch _LoopTimer = new Stopwatch();
+        private readonly Stopwatch _LoopTimer = new();
 
         private float _Gap;
         private bool _Paused;
         private float _LoopTime;
 
-        private CDecoderThread _Thread;
-        public float Length { get; private set; }
+        private CFFmpegVideoDecoderThread _Thread;
+        public float Duration { get; private set; }
         public bool Finished { get; private set; }
 
-        public CDecoder()
+        public CFFmpegVideoDecoder()
         {
-            Length = 0;
+            Duration = 0;
             Finished = true;
         }
 
         public bool Loop
         {
-            get { return _Thread.Loop; }
+            get => _Thread.Loop;
             set
             {
                 {
@@ -78,22 +78,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        public bool Open(string fileName)
+        public bool LoadStream(Stream stream)
         {
             if (_Thread != null)
             {
                 return false;
             }
 
-            if (!File.Exists(fileName))
+            _Thread = new CFFmpegVideoDecoderThread();
+            if (_Thread.LoadStream(stream))
             {
-                return false;
-            }
-
-            _Thread = new CDecoderThread();
-            if (_Thread.LoadFile(fileName))
-            {
-                Length = _Thread.Length;
+                Duration = (float)_Thread.Duration.TotalSeconds;
                 Finished = false;
                 return _Thread.Start();
             }
@@ -104,12 +99,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public void Close()
         {
-            if (_Thread != null)
-            {
-                _Thread.Stop();
-            }
-
-            Length = 0;
+            _Thread?.Stop();
+            Duration = 0;
             Finished = true;
         }
 
@@ -117,19 +108,19 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             if (Finished)
             {
-                videoTime = Length - _Gap;
+                videoTime = Duration - _Gap;
                 return false;
             }
 
             if (Loop)
             {
                 time = _LoopTime + _LoopTimer.ElapsedMilliseconds / 1000f;
-                if (time >= Length)
+                if (time >= Duration)
                 {
                     do
                     {
-                        time -= Length;
-                    } while (time >= Length);
+                        time -= Duration;
+                    } while (time >= Duration);
 
                     _LoopTime = time;
                     _LoopTimer.Restart();
