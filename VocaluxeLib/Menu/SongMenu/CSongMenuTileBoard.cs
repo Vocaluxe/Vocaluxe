@@ -220,6 +220,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void Update(SScreenSongOptions songOptions)
         {
+            base.Update(songOptions);
+            
             if (songOptions.Selection.RandomOnly)
             {
                 _PreviewSelectedSong();
