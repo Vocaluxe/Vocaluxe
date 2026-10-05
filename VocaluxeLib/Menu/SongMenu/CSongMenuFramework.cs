@@ -177,6 +177,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected int _AutoplayDelayinMs = CBase.Config.GetAutoplayPreviewDelay();
         protected System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
+        protected volatile bool _AutoplayPending = false;
 
         private SColorF _ColorInternal;
         protected SColorF _Color
@@ -228,12 +229,22 @@ namespace VocaluxeLib.Menu.SongMenu
             _Initialized = true;
         }
 
-        public abstract void Update(SScreenSongOptions songOptions);
+        public virtual void Update(SScreenSongOptions songOptions)
+        {
+            if (_AutoplayPending)
+            {
+                _AutoplayPending = false;
+                _PreviewSelectedSong();
+            }
+        }
 
         public abstract void OnShow();
 
         public virtual void OnHide()
         {
+            _AutoplayTimer.Stop();
+            _AutoplayPending = false;
+            
             var check = CBase.Graphics.GetNextScreenType();
             if (CBase.Graphics.GetNextScreenType() == EScreen.Sing)
             {
@@ -384,6 +395,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected virtual void _EnterCategory(int categoryNr)
         {
+            _AutoplayTimer.Stop();
+            _AutoplayPending = false;
+            
             if (!_Initialized)
             {
                 return;
@@ -400,6 +414,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected virtual void _LeaveCategory()
         {
+            _AutoplayTimer.Stop();
+            _AutoplayPending = false;
+            
             if (!_Initialized)
             {
                 return;
@@ -429,6 +446,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _ResetPreview(bool playBGagain = true)
         {
+            _AutoplayTimer.Stop();
+            _AutoplayPending = false;
+            
             if (_PreviewNrInternal == -1)
             {
                 return;
@@ -454,11 +474,19 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _InitializeAutoplayTimer()
         {
+            _AutoplayTimer.Stop();
+            _AutoplayPending = false;
             _AutoplayTimer.Interval = _AutoplayDelayinMs;
             _AutoplayTimer.AutoReset = false;
-            _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => { _PreviewSelectedSong(); };
+            _AutoplayTimer.Elapsed -= _OnAutoplayTimerElapsed;
+            _AutoplayTimer.Elapsed += _OnAutoplayTimerElapsed;
         }
 
+        private void _OnAutoplayTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            _AutoplayPending = true;
+        }
+        
         protected void _AutoplayPreviewIfEnabled()
         {
             if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
@@ -469,15 +497,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _PlayPreviewAfterDelay()
         {
-            if (!_AutoplayTimer.Enabled)
-            {
-                _AutoplayTimer.Start();
-            }
-            else
-            {
-                _AutoplayTimer.Stop();
-                _AutoplayTimer.Start();
-            }
+            _AutoplayPending = false;
+            _AutoplayTimer.Stop();
+            _AutoplayTimer.Start();
         }
 
         #region ThemeEdit
