@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ namespace VocaluxeLib.Utils.Player
 {
     public class CSongPlayer : CSoundPlayer
     {
+        private readonly object _lock = new object();
         private CSong _Song;
         private bool _VideoEnabled;
         private CVideoStream _Video;
@@ -31,37 +32,51 @@ namespace VocaluxeLib.Utils.Player
 
         public bool VideoEnabled
         {
-            get { return _VideoEnabled; }
+            get
+            {
+                lock (_lock)
+                {
+                    return _VideoEnabled;
+                }
+            }
             set
             {
-                if (_VideoEnabled == value)
+                lock (_lock)
                 {
-                    return;
-                }
+                    if (_VideoEnabled == value)
+                    {
+                        return;
+                    }
 
-                _VideoEnabled = value;
-                if (_VideoEnabled)
-                {
-                    _LoadVideo();
-                }
-                else
-                {
-                    _CloseVideo();
+                    _VideoEnabled = value;
+                    if (_VideoEnabled)
+                    {
+                        _LoadVideo();
+                    }
+                    else
+                    {
+                        _CloseVideo();
+                    }
                 }
             }
         }
 
         public int SongId
         {
-            get { return _Song == null ? -1 : _Song.Id; }
+            get
+            {
+                var song = _Song;
+                return song == null ? -1 : song.Id;
+            }
         }
 
         public bool SongHasVideo
         {
             get
             {
-                return _Song != null && !string.IsNullOrEmpty(_Song.Folder) && !string.IsNullOrEmpty(_Song.Video) &&
-                       File.Exists(Path.Combine(_Song.Folder, _Song.Video));
+                var song = _Song;
+                return song != null && !string.IsNullOrEmpty(song.Folder) && !string.IsNullOrEmpty(song.Video) &&
+                       File.Exists(Path.Combine(song.Folder, song.Video));
             }
         }
 
@@ -69,9 +84,10 @@ namespace VocaluxeLib.Utils.Player
         {
             get
             {
-                if (_Song != null && !string.IsNullOrEmpty(_Song.Artist) && !string.IsNullOrEmpty(_Song.Title))
+                var song = _Song;
+                if (song != null && !string.IsNullOrEmpty(song.Artist) && !string.IsNullOrEmpty(song.Title))
                 {
-                    return _Song.Artist + " - " + _Song.Title;
+                    return song.Artist + " - " + song.Title;
                 }
 
                 return base.ArtistAndTitle;
@@ -80,34 +96,42 @@ namespace VocaluxeLib.Utils.Player
 
         public CTextureRef Cover
         {
-            get { return _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig; }
+            get
+            {
+                var song = _Song;
+                return song == null ? CBase.Cover.GetNoCover() : song.CoverTextureBig;
+            }
         }
 
         public CSongPlayer(bool loop = false) : base(loop) { }
 
         public CTextureRef GetVideoTexture()
         {
-            if (_Video == null || _Song == null)
+            lock (_lock)
             {
-                return null;
-            }
+                var video = _Video;
+                var song = _Song;
+                if (video == null || video.IsClosed() || song == null || CBase.Video == null || CBase.Sound == null)
+                    return null;
 
-            if (CBase.Video.GetFrame(_Video, CBase.Sound.GetPosition(_StreamId)))
-            {
-                if (_VideoFading != null)
+                if (CBase.Video.GetFrame(video, CBase.Sound.GetPosition(_StreamId)))
                 {
-                    bool finished;
-                    _Video.Texture.Color.A = _VideoFading.GetValue(out finished);
-                    if (finished)
+                    var texture = video.Texture;
+                    if (texture != null)
                     {
-                        _VideoFading = null;
+                        if (_VideoFading != null)
+                        {
+                            bool finished;
+                            texture.Color.A = _VideoFading.GetValue(out finished);
+                            if (finished)
+                                _VideoFading = null;
+                        }
+                        return texture;
                     }
                 }
 
-                return _Video.Texture;
+                return null;
             }
-
-            return null;
         }
 
         public void Load(CSong song, float position = 0f, bool autoplay = false)
@@ -117,104 +141,136 @@ namespace VocaluxeLib.Utils.Player
                 throw new ArgumentNullException("song");
             }
 
-            Load(song.GetMP3(), position, autoplay);
-            _Song = song;
-            _LoadVideo();
+            lock (_lock)
+            {
+                Load(song.GetMP3(), position, autoplay);
+                _Song = song;
+                _LoadVideo();
+            }
         }
 
         private void _LoadVideo()
         {
-            if (_Song == null)
+            lock (_lock)
             {
-                return;
-            }
+                var song = _Song;
+                if (song == null)
+                {
+                    return;
+                }
 
-            if (_Video != null || !SongHasVideo)
-            {
-                return;
-            }
+                if (_Video != null || !SongHasVideo)
+                {
+                    return;
+                }
 
-            var videoFilePath = Path.Combine(_Song.Folder, _Song.Video);
-            _Video = CBase.Video.Load(videoFilePath);
-            if (_Video == null)
-            {
-                return;
-            }
+                var videoFilePath = Path.Combine(song.Folder, song.Video);
+                var video = CBase.Video?.Load(videoFilePath);
+                if (video == null)
+                {
+                    return;
+                }
 
-            _VideoFading = new CFading(0f, 1f, 3f);
+                _Video = video;
+                _VideoFading = new CFading(0f, 1f, 3f);
 
-            if (IsPlaying)
-            {
-                CBase.Video.Skip(_Video, Position, _Song.VideoGap);
-                CBase.Video.Resume(_Video);
-            }
-            else
-            {
-                CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
+                if (IsPlaying)
+                {
+                    CBase.Video?.Skip(video, Position, song.VideoGap);
+                    CBase.Video?.Resume(video);
+                }
+                else
+                {
+                    CBase.Video?.Skip(video, 0f, song.VideoGap);
+                }
             }
         }
 
         public override bool Play()
         {
-            if (!base.Play())
+            lock (_lock)
             {
-                return false;
-            }
+                if (!base.Play())
+                {
+                    return false;
+                }
 
-            if (_Video != null)
-            {
-                CBase.Video.Skip(_Video, Position, _Song.VideoGap);
-                CBase.Video.Resume(_Video);
-            }
+                var video = _Video;
+                var song = _Song;
+                if (video != null && !video.IsClosed() && song != null)
+                {
+                    CBase.Video?.Skip(video, Position, song.VideoGap);
+                    CBase.Video?.Resume(video);
+                }
 
-            return true;
+                return true;
+            }
         }
 
         public override bool Pause()
         {
-            if (!base.Pause())
+            lock (_lock)
             {
-                return false;
-            }
+                if (!base.Pause())
+                {
+                    return false;
+                }
 
-            if (_Video != null)
-            {
-                CBase.Video.Pause(_Video);
-            }
+                var video = _Video;
+                if (video != null && !video.IsClosed())
+                {
+                    CBase.Video?.Pause(video);
+                }
 
-            return true;
+                return true;
+            }
         }
 
         public override bool Stop()
         {
-            if (!base.Stop())
+            lock (_lock)
             {
-                return false;
-            }
+                if (!base.Stop())
+                {
+                    return false;
+                }
 
-            if (_Video != null)
-            {
-                CBase.Video.Pause(_Video);
-                CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
-            }
+                var video = _Video;
+                var song = _Song;
+                if (video != null && !video.IsClosed())
+                {
+                    CBase.Video?.Pause(video);
+                    if (song != null)
+                    {
+                        CBase.Video?.Skip(video, 0f, song.VideoGap);
+                    }
+                }
 
-            return true;
+                return true;
+            }
         }
 
         private void _CloseVideo()
         {
-            if (_Video != null)
+            lock (_lock)
             {
-                CBase.Video.Close(ref _Video);
+                if (_Video != null)
+                {
+                    CBase.Video?.Close(ref _Video);
+                    _Video = null;
+                }
             }
         }
 
         public override void Close()
         {
-            base.Close();
+            lock (_lock)
+            {
+                base.Close();
 
-            _Song = null;
-            _CloseVideo();
+                _Song = null;
+                _CloseVideo();
+            }
         }
     }
 }
