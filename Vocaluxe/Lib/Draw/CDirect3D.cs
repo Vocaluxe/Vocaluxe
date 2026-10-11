@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -51,9 +51,11 @@ namespace Vocaluxe.Lib.Draw
 
         public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, new Size(texWidth, texHeight))
         {
-            //Create a new texture in the managed pool, which does not need to be recreated on a lost device
-            //because a copy of the texture is hold in the Ram
-            D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            var noMips = texWidth >= 1280 || texHeight >= 720;
+            var usage = noMips ? Usage.None : Usage.AutoGenerateMipMap;
+            var levels = noMips ? 1 : 0;
+
+            D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, levels, usage, Format.A8R8G8B8, Pool.Managed);
         }
 
         public override bool IsLoaded
@@ -690,24 +692,21 @@ namespace Vocaluxe.Lib.Draw
 
         protected override void _WriteDataToTexture(CD3DTexture texture, byte[] data)
         {
-            //Lock the texture and fill it with the data
             var rect = texture.D3DTexture.LockRectangle(0, LockFlags.Discard);
-            var rowWidth = 4 * texture.DataSize.Width;
-            if (rowWidth == rect.Pitch)
+            try
             {
-                rect.Data.Write(data, 0, data.Length);
-            }
-            else
-            {
-                for (var i = 0; i + rowWidth <= data.Length; i += rowWidth)
+                var rowWidth = 4 * texture.DataSize.Width;
+                var dst = rect.Data.DataPointer;
+                if (rowWidth == rect.Pitch)
+                    Marshal.Copy(data, 0, dst, data.Length);
+                else
                 {
-                    rect.Data.Write(data, i, rowWidth);
-                    //Go to next row
-                    rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
+                    var rows = data.Length / rowWidth;
+                    for (var y = 0; y < rows; y++)
+                        Marshal.Copy(data, y * rowWidth, IntPtr.Add(dst, y * rect.Pitch), rowWidth);
                 }
             }
-
-            texture.D3DTexture.UnlockRectangle(0);
+            finally { texture.D3DTexture.UnlockRectangle(0); }
         }
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
