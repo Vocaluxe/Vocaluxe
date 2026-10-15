@@ -44,11 +44,11 @@ namespace VocaluxeLib.Songs
         Title = 1,
         Artist = 2,
         MP3 = 4,
-        Instrumental = 5,
-        Vocals = 6,
         Bpm = 8,
         MedleyStartBeat = 16,
-        MedleyEndBeat = 32
+        MedleyEndBeat = 32,
+        Instrumental = 64,
+        Vocals = 128
     }
 
     public enum EDataSource
