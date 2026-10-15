@@ -323,7 +323,7 @@ namespace Vocaluxe.Screens
 
         private void _UpdateProgressBarSound()
         {
-            if (!_ProgressBarSoundTimer.IsRunning || _ProgressBarSoundTimer.Elapsed.TotalSeconds < _ProgressBarSoundDuration)
+            if (!_ProgressBarSoundTimer.IsRunning || !_IsProgressBarAnimationFinished())
             {
                 return;
             }
@@ -331,6 +331,21 @@ namespace Vocaluxe.Screens
             _ProgressBarSoundTimer.Reset();
             _CloseStream(ref _ProgressBarSoundStream);
             _PlayApplauseSound(_ProgressBarSoundMaxPoints);
+        }
+
+        private bool _IsProgressBarAnimationFinished()
+        {
+            var animatedProgressBars = Enumerable.Range(0, CGame.NumPlayers)
+                                                 .Select(p => _ProgressBars[_ProgressBarPoints[p, CGame.NumPlayers - 1]])
+                                                 .Where(progressBar => progressBar.Visible && progressBar.AnimatesMovement)
+                                                 .ToList();
+
+            if (animatedProgressBars.Count == 0)
+            {
+                return _ProgressBarSoundTimer.Elapsed.TotalSeconds >= _ProgressBarSoundDuration;
+            }
+
+            return !animatedProgressBars.Any(progressBar => progressBar.IsAnimating);
         }
 
         private void _StopScoreSounds()
