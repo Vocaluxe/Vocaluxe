@@ -18,6 +18,7 @@
 using System;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
 using Vocaluxe.Base;
@@ -29,6 +30,9 @@ namespace Vocaluxe.Lib.Database
 {
     public class CCoverDB : CDatabaseBase
     {
+        private const long _JpegQuality = 90;
+        private static readonly ImageCodecInfo _JpegCodec = ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == ImageFormat.Jpeg.Guid);
+
         private SqliteTransaction _TransactionCover;
 
         public CCoverDB(string filePath) : base(filePath) { }
@@ -80,7 +84,11 @@ namespace Vocaluxe.Lib.Database
                 return false;
             }
 
-            var cachedData = _ReadCachedCover(coverPath);
+            var fileInfo = new FileInfo(coverPath);
+            var fileSize = fileInfo.Length;
+            var lastWrite = fileInfo.LastWriteTimeUtc.Ticks;
+
+            var cachedData = _ReadCachedCover(coverPath, fileSize, lastWrite, maxSize);
             if (cachedData != null)
             {
                 try
@@ -106,18 +114,27 @@ namespace Vocaluxe.Lib.Database
 
             try
             {
-                data = File.ReadAllBytes(coverPath);
-
                 using (var source = CHelper.LoadBitmap(coverPath))
                 {
                     if (source == null)
                         return false;
 
-                    var sourceSize = source.GetSize();
-                    width = sourceSize.Width;
-                    height = sourceSize.Height;
+                    var bitmap = _FitToMaxSize(source, maxSize);
+                    try
+                    {
+                        width = bitmap.Width;
+                        height = bitmap.Height;
+                        data = source.Width <= maxSize && source.Height <= maxSize
+                                   ? File.ReadAllBytes(coverPath)
+                                   : _EncodeCover(bitmap, source.PixelFormat);
+                    }
+                    catch
+                    {
+                        bitmap.Dispose();
+                        throw;
+                    }
 
-                    tex = CDraw.EnqueueTexture(_FitToMaxSize(source, maxSize));
+                    tex = CDraw.EnqueueTexture(bitmap);
                 }
             }
             catch (Exception e)
@@ -126,7 +143,7 @@ namespace Vocaluxe.Lib.Database
                 return false;
             }
 
-            _StoreCover(coverPath, width, height, data);
+            _StoreCover(coverPath, fileSize, lastWrite, maxSize, width, height, data);
             return true;
         }
 
@@ -142,10 +159,31 @@ namespace Vocaluxe.Lib.Database
                 EAspect.LetterBox
             ).SizeI;
 
-            return source.Resize(targetSize);
+            return source.Resize(targetSize) ?? throw new InvalidOperationException("Resizing the cover failed");
         }
 
-        private byte[] _ReadCachedCover(string coverPath)
+        private static byte[] _EncodeCover(System.Drawing.Bitmap bitmap, PixelFormat sourceFormat)
+        {
+            using (var stream = new MemoryStream())
+            {
+                if (System.Drawing.Image.IsAlphaPixelFormat(sourceFormat))
+                {
+                    bitmap.Save(stream, ImageFormat.Png);
+                }
+                else
+                {
+                    using (var parameters = new EncoderParameters(1))
+                    {
+                        parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, _JpegQuality);
+                        bitmap.Save(stream, _JpegCodec, parameters);
+                    }
+                }
+
+                return stream.ToArray();
+            }
+        }
+
+        private byte[] _ReadCachedCover(string coverPath, long fileSize, long lastWrite, int maxSize)
         {
             lock (_Mutex)
             {
@@ -160,27 +198,35 @@ namespace Vocaluxe.Lib.Database
                     if (_TransactionCover != null)
                         command.Transaction = _TransactionCover;
 
-                    command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
+                    command.CommandText = "SELECT id, FileSize, LastWrite, MaxSize FROM Cover WHERE [Path] = @path";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@path", coverPath);
 
-                    var idObj = command.ExecuteScalar();
-                    if (idObj == null)
-                        return null;
+                    int id;
+                    bool isUpToDate;
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                            return null;
 
-                    var id = Convert.ToInt32(idObj);
+                        id = reader.GetInt32(0);
+                        isUpToDate = reader.GetInt64(1) == fileSize && reader.GetInt64(2) == lastWrite && reader.GetInt32(3) == maxSize;
+                    }
 
-                    command.CommandText = "SELECT Data FROM CoverData WHERE CoverId = @id";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@id", id);
 
-                    using (var reader = command.ExecuteReader())
+                    if (isUpToDate)
                     {
-                        if (reader.Read())
-                            return _GetBytes(reader);
+                        command.CommandText = "SELECT Data FROM CoverData WHERE CoverId = @id";
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                                return _GetBytes(reader);
+                        }
                     }
 
-                    command.CommandText = "DELETE FROM Cover WHERE id = @id";
+                    command.CommandText = "DELETE FROM CoverData WHERE CoverId = @id; DELETE FROM Cover WHERE id = @id;";
                     command.ExecuteNonQuery();
 
                     return null;
@@ -188,7 +234,7 @@ namespace Vocaluxe.Lib.Database
             }
         }
 
-        private void _StoreCover(string coverPath, int width, int height, byte[] data)
+        private void _StoreCover(string coverPath, long fileSize, long lastWrite, int maxSize, int width, int height, byte[] data)
         {
             lock (_Mutex)
             {
@@ -203,11 +249,15 @@ namespace Vocaluxe.Lib.Database
                 {
                     command.Connection = _Connection;
                     command.Transaction = _TransactionCover;
-                    command.CommandText = "INSERT OR IGNORE INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
+                    command.CommandText = "INSERT OR IGNORE INTO Cover (Path, width, height, FileSize, LastWrite, MaxSize) " +
+                                          "VALUES (@path, @w, @h, @size, @lastWrite, @maxSize)";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@w", width);
                     command.Parameters.AddWithValue("@h", height);
                     command.Parameters.AddWithValue("@path", coverPath);
+                    command.Parameters.AddWithValue("@size", fileSize);
+                    command.Parameters.AddWithValue("@lastWrite", lastWrite);
+                    command.Parameters.AddWithValue("@maxSize", maxSize);
                     if (command.ExecuteNonQuery() == 0)
                         return;
 
@@ -263,7 +313,8 @@ namespace Vocaluxe.Lib.Database
                     command.ExecuteNonQuery();
 
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Cover ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                                          "Path TEXT NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL);";
+                                          "Path TEXT NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL, " +
+                                          "FileSize INTEGER NOT NULL, LastWrite INTEGER NOT NULL, MaxSize INTEGER NOT NULL);";
                     command.ExecuteNonQuery();
 
                     command.CommandText = "CREATE TABLE IF NOT EXISTS CoverData ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
