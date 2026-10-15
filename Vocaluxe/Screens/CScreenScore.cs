@@ -307,7 +307,7 @@ namespace Vocaluxe.Screens
             _StopScoreSounds();
 
             // Do not play in Karaoke Mode
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE || maxPoints <= 0)
             {
                 return;
             }
