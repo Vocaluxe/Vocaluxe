@@ -47,9 +47,11 @@ namespace Vocaluxe.Lib.Database
                     return _CreateCoverDB();
                 }
 
-                if (_Version < CSettings.DatabaseCoverVersion)
+                if (_Version != CSettings.DatabaseCoverVersion)
                 {
-                    throw new NotImplementedException("Upgrading of cover DB not implemented");
+                    CLog.Information("Cover DB has version {OldVersion}, expected {NewVersion}. Recreating it.",
+                        CLog.Params(_Version, CSettings.DatabaseCoverVersion));
+                    return _RecreateCoverDB();
                 }
             }
 
@@ -310,6 +312,28 @@ namespace Vocaluxe.Lib.Database
             }
 
             return true;
+        }
+
+        private bool _RecreateCoverDB()
+        {
+            try
+            {
+                using (var command = new SqliteCommand())
+                {
+                    command.Connection = _Connection;
+                    command.CommandText = "DROP TABLE IF EXISTS CoverData; DROP TABLE IF EXISTS Cover; DROP TABLE IF EXISTS Version;";
+                    command.ExecuteNonQuery();
+                    command.CommandText = "VACUUM;";
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                CLog.Error("Error dropping old Cover DB " + e);
+                return false;
+            }
+
+            return _CreateCoverDB();
         }
     }
 }
