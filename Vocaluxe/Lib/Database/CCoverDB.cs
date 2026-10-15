@@ -224,27 +224,17 @@ namespace Vocaluxe.Lib.Database
                     {
                         command.Connection = _Connection;
                         command.Transaction = _TransactionCover;
-                        command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
+                        command.CommandText = "INSERT OR IGNORE INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@w", width);
                         command.Parameters.AddWithValue("@h", height);
                         command.Parameters.AddWithValue("@path", coverPath);
-                        command.ExecuteNonQuery();
+                        if (command.ExecuteNonQuery() == 0)
+                            return true;
 
-                        command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
+                        command.CommandText = "SELECT last_insert_rowid()";
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@path", coverPath);
-
-                        var reader = command.ExecuteReader();
-
-                        if (reader == null || !reader.Read())
-                        {
-                            reader?.Dispose();
-                            return false;
-                        }
-
-                        var id = reader.GetInt32(0);
-                        reader.Dispose();
+                        var id = Convert.ToInt32(command.ExecuteScalar());
 
                         command.CommandText = "INSERT INTO CoverData (CoverId, Data) VALUES (@id, @data)";
                         command.Parameters.Clear();
@@ -302,6 +292,12 @@ namespace Vocaluxe.Lib.Database
 
                     command.CommandText = "CREATE TABLE IF NOT EXISTS CoverData ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                                           "CoverId INTEGER NOT NULL, Data BLOB NOT NULL);";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "CREATE UNIQUE INDEX IF NOT EXISTS IX_Cover_Path ON Cover (Path);";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "CREATE UNIQUE INDEX IF NOT EXISTS IX_CoverData_CoverId ON CoverData (CoverId);";
                     command.ExecuteNonQuery();
                 }
             }
