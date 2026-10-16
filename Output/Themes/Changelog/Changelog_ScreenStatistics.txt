@@ -1,0 +1,8 @@
+ScreenStatistics
+
+++++++++++
+Version 1:
+(2026 Oct 16)
+
+New screen: statistics dashboard with four tiles (overview, recently sung, best list per difficulty, players)
+Help text <TextHint> at the bottom of the screen

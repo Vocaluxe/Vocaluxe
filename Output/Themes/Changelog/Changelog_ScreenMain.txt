@@ -1,6 +1,16 @@
 ScreenMain
 
 ++++++++++
+Version 4:
+(2026 Oct 16)
+
+Add:
+<ButtonStatistics>
+
+Change:
+Positions of all buttons to make room for the new button
+
+++++++++++
 Version 3:
 (2023 Dec 31)
 

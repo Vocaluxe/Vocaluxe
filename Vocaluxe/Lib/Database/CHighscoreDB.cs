@@ -27,6 +27,26 @@ using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Database
 {
+    public struct SDBStatisticsScore
+    {
+        public string Artist;
+        public string Title;
+        public string PlayerName;
+        public int Score;
+        public DateTime Date;
+        public EGameDifficulty Difficulty;
+        public bool Duet;
+    }
+
+    public struct SDBPlayerStatistics
+    {
+        public string PlayerName;
+        public int NumSongs;
+        public int NumDuets;
+        public double AverageScore;
+        public int BestScore;
+    }
+
     public class CHighscoreDB : CDatabaseBase
     {
         private struct SData
@@ -378,6 +398,107 @@ namespace Vocaluxe.Lib.Database
             }
 
             return scores;
+        }
+
+        public List<SDBStatisticsScore> LoadRecentScores(int count)
+        {
+            return _LoadStatisticsScores("ORDER BY sc.Date DESC, sc.id DESC LIMIT @Count", count, null);
+        }
+
+        public List<SDBStatisticsScore> LoadTopScores(EGameDifficulty difficulty, int count)
+        {
+            return _LoadStatisticsScores("WHERE sc.Difficulty = @Difficulty ORDER BY sc.Score DESC, sc.Date ASC LIMIT @Count", count, difficulty);
+        }
+
+        private List<SDBStatisticsScore> _LoadStatisticsScores(string condition, int count, EGameDifficulty? difficulty)
+        {
+            var scores = new List<SDBStatisticsScore>();
+            using (var connection = new SqliteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _FilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                    return scores;
+                }
+
+                using (var command = new SqliteCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT so.Artist, so.Title, sc.PlayerName, sc.Score, sc.Date, sc.Difficulty, sc.Duet " +
+                                          "FROM Scores sc INNER JOIN Songs so ON sc.SongId = so.id " + condition;
+                    command.Parameters.AddWithValue("@Count", count);
+                    if (difficulty.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@Difficulty", (int)difficulty.Value);
+                    }
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            scores.Add(new SDBStatisticsScore
+                            {
+                                Artist = reader.GetString(0),
+                                Title = reader.GetString(1),
+                                PlayerName = reader.GetString(2),
+                                Score = reader.GetInt32(3),
+                                Date = new DateTime(reader.GetInt64(4)),
+                                Difficulty = (EGameDifficulty)reader.GetInt32(5),
+                                Duet = reader.GetInt32(6) != 0
+                            });
+                        }
+                    }
+                }
+            }
+
+            return scores;
+        }
+
+        public List<SDBPlayerStatistics> LoadPlayerStatistics()
+        {
+            var players = new List<SDBPlayerStatistics>();
+            using (var connection = new SqliteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _FilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                    return players;
+                }
+
+                using (var command = new SqliteCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "SELECT PlayerName, COUNT(*), SUM(Duet), AVG(Score), MAX(Score) FROM Scores " +
+                                          "GROUP BY PlayerName ORDER BY COUNT(*) DESC, AVG(Score) DESC";
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            players.Add(new SDBPlayerStatistics
+                            {
+                                PlayerName = reader.GetString(0),
+                                NumSongs = reader.GetInt32(1),
+                                NumDuets = reader.GetInt32(2),
+                                AverageScore = reader.GetDouble(3),
+                                BestScore = reader.GetInt32(4)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return players;
         }
 
         private void _IncreaseSongCounter(int dataBaseSongId, SqliteCommand command)

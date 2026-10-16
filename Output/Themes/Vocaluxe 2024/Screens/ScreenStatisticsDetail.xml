@@ -1,0 +1,1494 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenStatisticsDetail</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Default</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="StaticMenuBar">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>0</X>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticList">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.45</A>
+      </Color>
+      <Rect>
+        <X>90</X>
+        <Y>185</Y>
+        <W>1740</W>
+        <H>790</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe1">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>241</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe3">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>361</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe5">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>481</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe7">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>601</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe9">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>721</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowStripe11">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>100</X>
+        <Y>841</Y>
+        <W>1720</W>
+        <H>52</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank1">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>243</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar1">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>242</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank2">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>303</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar2">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>302</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank3">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>363</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar3">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>362</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank4">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>423</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar4">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>422</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank5">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>483</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar5">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>482</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank6">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>543</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar6">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>542</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank7">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>603</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar7">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>602</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank8">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>663</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar8">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>662</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank9">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>723</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar9">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>722</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank10">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>783</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar10">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>782</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank11">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>843</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar11">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>842</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRank12">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>118</X>
+        <Y>903</Y>
+        <W>64</W>
+        <H>46</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar12">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>300</X>
+        <Y>902</Y>
+        <W>48</W>
+        <H>48</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextTitle">
+      <X>90</X>
+      <Y>75</Y>
+      <Z>-1</Z>
+      <H>40.5</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextFilter">
+      <X>1830</X>
+      <Y>75</Y>
+      <Z>-1</Z>
+      <H>40.5</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextHint">
+      <X>90</X>
+      <Y>1050</Y>
+      <Z>0</Z>
+      <H>24</H>
+      <MaxW>1740</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_DETAILHINT</Text>
+    </Text>
+    <Text Name="TextSummary">
+      <X>90</X>
+      <Y>140</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>1740</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextHeader1">
+      <X>150</X>
+      <Y>195</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextHeader2">
+      <X>360</X>
+      <Y>195</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextHeader3">
+      <X>1080</X>
+      <Y>195</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextHeader4">
+      <X>1800</X>
+      <Y>195</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow1Column1">
+      <X>150</X>
+      <Y>246.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow1Column2">
+      <X>360</X>
+      <Y>245.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow1Column3">
+      <X>1080</X>
+      <Y>247.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow1Column4">
+      <X>1800</X>
+      <Y>245.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow2Column1">
+      <X>150</X>
+      <Y>306.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow2Column2">
+      <X>360</X>
+      <Y>305.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow2Column3">
+      <X>1080</X>
+      <Y>307.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow2Column4">
+      <X>1800</X>
+      <Y>305.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow3Column1">
+      <X>150</X>
+      <Y>366.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow3Column2">
+      <X>360</X>
+      <Y>365.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow3Column3">
+      <X>1080</X>
+      <Y>367.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow3Column4">
+      <X>1800</X>
+      <Y>365.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow4Column1">
+      <X>150</X>
+      <Y>426.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow4Column2">
+      <X>360</X>
+      <Y>425.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow4Column3">
+      <X>1080</X>
+      <Y>427.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow4Column4">
+      <X>1800</X>
+      <Y>425.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow5Column1">
+      <X>150</X>
+      <Y>486.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow5Column2">
+      <X>360</X>
+      <Y>485.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow5Column3">
+      <X>1080</X>
+      <Y>487.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow5Column4">
+      <X>1800</X>
+      <Y>485.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow6Column1">
+      <X>150</X>
+      <Y>546.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow6Column2">
+      <X>360</X>
+      <Y>545.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow6Column3">
+      <X>1080</X>
+      <Y>547.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow6Column4">
+      <X>1800</X>
+      <Y>545.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow7Column1">
+      <X>150</X>
+      <Y>606.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow7Column2">
+      <X>360</X>
+      <Y>605.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow7Column3">
+      <X>1080</X>
+      <Y>607.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow7Column4">
+      <X>1800</X>
+      <Y>605.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow8Column1">
+      <X>150</X>
+      <Y>666.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow8Column2">
+      <X>360</X>
+      <Y>665.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow8Column3">
+      <X>1080</X>
+      <Y>667.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow8Column4">
+      <X>1800</X>
+      <Y>665.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow9Column1">
+      <X>150</X>
+      <Y>726.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow9Column2">
+      <X>360</X>
+      <Y>725.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow9Column3">
+      <X>1080</X>
+      <Y>727.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow9Column4">
+      <X>1800</X>
+      <Y>725.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow10Column1">
+      <X>150</X>
+      <Y>786.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow10Column2">
+      <X>360</X>
+      <Y>785.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow10Column3">
+      <X>1080</X>
+      <Y>787.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow10Column4">
+      <X>1800</X>
+      <Y>785.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow11Column1">
+      <X>150</X>
+      <Y>846.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow11Column2">
+      <X>360</X>
+      <Y>845.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow11Column3">
+      <X>1080</X>
+      <Y>847.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow11Column4">
+      <X>1800</X>
+      <Y>845.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow12Column1">
+      <X>150</X>
+      <Y>906.0</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow12Column2">
+      <X>360</X>
+      <Y>905.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>640</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow12Column3">
+      <X>1080</X>
+      <Y>907.0</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRow12Column4">
+      <X>1800</X>
+      <Y>905.0</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+  </Texts>
+  <ProgressBars>
+    <ProgressBar Name="ProgressBarRow1">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>258</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow2">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>318</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow3">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>378</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow4">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>438</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>498</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>558</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow7">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>618</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow8">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>678</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow9">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>738</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow10">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>798</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow11">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>858</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRow12">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1410</X>
+        <Y>918</Y>
+        <W>190</W>
+        <H>12</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+  </ProgressBars>
+  <ScreenSettings />
+</Screen>
