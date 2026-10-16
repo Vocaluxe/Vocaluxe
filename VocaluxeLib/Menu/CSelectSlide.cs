@@ -389,7 +389,7 @@ namespace VocaluxeLib.Menu
 
         public void RenameValue(int index, string newName, CTextureRef newTexture = null)
         {
-            if (index < 0 && index >= _Values.Count)
+            if (index < 0 || index >= _Values.Count)
             {
                 return;
             }
