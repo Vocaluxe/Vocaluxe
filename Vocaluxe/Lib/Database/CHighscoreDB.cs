@@ -400,17 +400,22 @@ namespace Vocaluxe.Lib.Database
             return scores;
         }
 
+        private const string _StatisticsScoresQuery = "SELECT so.Artist, so.Title, sc.PlayerName, sc.Score, sc.Date, sc.Difficulty, sc.Duet " +
+                                                      "FROM Scores sc INNER JOIN Songs so ON sc.SongId = so.id ";
+        private const string _RecentScoresQuery = _StatisticsScoresQuery + "ORDER BY sc.Date DESC, sc.id DESC LIMIT @Count";
+        private const string _TopScoresQuery = _StatisticsScoresQuery + "WHERE sc.Difficulty = @Difficulty ORDER BY sc.Score DESC, sc.Date ASC LIMIT @Count";
+
         public List<SDBStatisticsScore> LoadRecentScores(int count)
         {
-            return _LoadStatisticsScores("ORDER BY sc.Date DESC, sc.id DESC LIMIT @Count", count, null);
+            return _LoadStatisticsScores(count, null);
         }
 
         public List<SDBStatisticsScore> LoadTopScores(EGameDifficulty difficulty, int count)
         {
-            return _LoadStatisticsScores("WHERE sc.Difficulty = @Difficulty ORDER BY sc.Score DESC, sc.Date ASC LIMIT @Count", count, difficulty);
+            return _LoadStatisticsScores(count, difficulty);
         }
 
-        private List<SDBStatisticsScore> _LoadStatisticsScores(string condition, int count, EGameDifficulty? difficulty)
+        private List<SDBStatisticsScore> _LoadStatisticsScores(int count, EGameDifficulty? difficulty)
         {
             var scores = new List<SDBStatisticsScore>();
             using (var connection = new SqliteConnection())
@@ -429,8 +434,7 @@ namespace Vocaluxe.Lib.Database
                 using (var command = new SqliteCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT so.Artist, so.Title, sc.PlayerName, sc.Score, sc.Date, sc.Difficulty, sc.Duet " +
-                                          "FROM Scores sc INNER JOIN Songs so ON sc.SongId = so.id " + condition;
+                    command.CommandText = difficulty.HasValue ? _TopScoresQuery : _RecentScoresQuery;
                     command.Parameters.AddWithValue("@Count", count);
                     if (difficulty.HasValue)
                     {
@@ -447,7 +451,7 @@ namespace Vocaluxe.Lib.Database
                                 Title = reader.GetString(1),
                                 PlayerName = reader.GetString(2),
                                 Score = reader.GetInt32(3),
-                                Date = new DateTime(reader.GetInt64(4)),
+                                Date = new DateTime(reader.GetInt64(4), DateTimeKind.Local),
                                 Difficulty = (EGameDifficulty)reader.GetInt32(5),
                                 Duet = reader.GetInt32(6) != 0
                             });

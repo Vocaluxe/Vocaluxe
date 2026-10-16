@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private class CRow
+        private sealed class CRow
         {
             public string[] Cells;
             public int Rank;
@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
         private static readonly string[] _PlayerFilters = { "TR_SCREENSTATISTICS_MOSTSONGS", "TR_SCREENSTATISTICS_BESTAVERAGE" };
         private static readonly string[] _RankColors = { "Top1Color", "Top2Color", "Top3Color" };
 
-        public static EStatisticsPage Page = EStatisticsPage.Overview;
+        public static EStatisticsPage Page { get; set; } = EStatisticsPage.Overview;
 
         private string[] _TextHeader;
         private string[,] _TextCell;
@@ -420,13 +420,20 @@ namespace Vocaluxe.Screens
                 {
                     var text = _Texts[_TextCell[r, c]];
                     var isNoData = r == 0 && c == 1 && _Rows.Count == 0;
-                    text.Text = row != null ? row.Cells[c] : isNoData ? "TR_SCREENSTATISTICS_NODATA" : string.Empty;
+                    if (row != null)
+                    {
+                        text.Text = row.Cells[c];
+                    }
+                    else
+                    {
+                        text.Text = isNoData ? "TR_SCREENSTATISTICS_NODATA" : string.Empty;
+                    }
                     text.Visible = row != null || isNoData;
                 }
 
                 var rank = _Statics[_StaticRank[r]];
                 rank.Visible = row != null && row.Rank >= 1 && row.Rank <= _RankColors.Length;
-                if (rank.Visible)
+                if (rank.Visible && row != null)
                 {
                     SColorF color;
                     if (CBase.Themes.GetColor(_RankColors[row.Rank - 1], PartyModeId, out color))
@@ -437,7 +444,7 @@ namespace Vocaluxe.Screens
 
                 var bar = _ProgressBars[_ProgressBarRow[r]];
                 bar.Visible = row != null && row.Bar >= 0f;
-                if (bar.Visible && Math.Abs(bar.Progress - row.Bar) > 0.0001f)
+                if (bar.Visible && row != null && Math.Abs(bar.Progress - row.Bar) > 0.0001f)
                 {
                     bar.Progress = row.Bar;
                 }
