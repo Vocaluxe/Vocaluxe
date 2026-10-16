@@ -610,6 +610,11 @@ namespace Vocaluxe.Base
             CGame.AddSong(songId, gameMode);
         }
 
+        public void AddSong(int songId, EGameMode gameMode, EAudioMode audioMode)
+        {
+            CGame.AddSong(songId, gameMode, audioMode);
+        }
+
         public void Reset()
         {
             CGame.Reset();

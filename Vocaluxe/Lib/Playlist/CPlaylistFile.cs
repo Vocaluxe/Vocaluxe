@@ -96,7 +96,7 @@ namespace Vocaluxe.Lib.Playlist
                 }
                 else
                 {
-                    var playlistSong = new CPlaylistSong(plSong.Id, songEntry.GameMode);
+                    var playlistSong = new CPlaylistSong(plSong.Id, songEntry.GameMode) { AudioMode = songEntry.AudioMode };
                     Songs.Add(playlistSong);
                 }
             }

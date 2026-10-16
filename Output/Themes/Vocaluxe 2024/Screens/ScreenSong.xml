@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>14</ScreenVersion>
+    <ScreenVersion>15</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -1530,7 +1530,7 @@
         <H>675</H>
         <Z>-0.9</Z>
       </Rect>
-      <EntryHeight>75</EntryHeight>
+      <EntryHeight>112.5</EntryHeight>
       <SkinBackground>CoverTile</SkinBackground>
       <SkinBackgroundSelected>CoverTile</SkinBackgroundSelected>
       <ColorBackground Name="StaticColorAlpha">
@@ -1787,6 +1787,47 @@
         <TextStyle>Bold</TextStyle>
         <NumVisible>1</NumVisible>
       </SelectSlideGameMode>
+      <SelectSlideAudioMode Name="SelectSlideAudioMode">
+        <Skin />
+        <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+        <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+        <SkinSelected />
+        <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+        <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+        <Rect>
+          <X>78</X>
+          <Y>75</Y>
+          <W>537</W>
+          <H>36</H>
+          <Z>-11</Z>
+        </Rect>
+        <RectArrowLeft>
+          <X>84</X>
+          <Y>79.5</Y>
+          <W>30</W>
+          <H>30</H>
+          <Z>-12</Z>
+        </RectArrowLeft>
+        <RectArrowRight>
+          <X>577.5</X>
+          <Y>79.5</Y>
+          <W>30</W>
+          <H>30</H>
+          <Z>-12</Z>
+        </RectArrowRight>
+        <Color Name="ButtonColor" />
+        <SelColor Name="ButtonSelColor" />
+        <ArrowColor Name="ArrowColor" />
+        <ArrowSelColor Name="ArrowSelColor" />
+        <TextColor Name="TextColor" />
+        <TextSelColor Name="TextSelColor" />
+        <TextH>33</TextH>
+        <TextRelativeX>37.5</TextRelativeX>
+        <TextMaxW>555</TextMaxW>
+        <TextFont>Outline</TextFont>
+        <TextStyle>Bold</TextStyle>
+        <NumVisible>1</NumVisible>
+      </SelectSlideAudioMode>
     </Playlist>
   </Playlists>
   <ParticleEffects />

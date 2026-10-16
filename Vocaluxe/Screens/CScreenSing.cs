@@ -438,7 +438,7 @@ namespace Vocaluxe.Screens
 
                             CSound.SetPosition(_CurrentStream, newTime);
 
-                            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+                            if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS)
                             {
                                 CSound.SetPosition(_CurrentStreamVocals, newTime);
                             }
@@ -1320,7 +1320,7 @@ namespace Vocaluxe.Screens
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
 
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
                 CSound.Play(_CurrentStreamVocals);
             }
@@ -1386,6 +1386,7 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ResetPlayer();
             CGame.NextRound();
+            _SetVisibility();
 
             _LoadCurrentSong();
 
@@ -1400,6 +1401,7 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.NextRound();
+            _SetVisibility();
             var voiceAssignments = new int[CGame.NumPlayers];
             if (CGame.GetSong() != null && CGame.GetSong().IsDuet)
             {
@@ -1456,8 +1458,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonRestartGame].Visible = _Pause;
             _Buttons[_ButtonRestartRound].Visible = _Pause && CGame.NumRounds > 1;
 
-            _SelectSlides[_SelectSlidePauseVocalsVolume].Visible = _Pause && CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS;
-            _Texts[_TextPauseVocalsVolume].Visible = _Pause && CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS;
+            _SelectSlides[_SelectSlidePauseVocalsVolume].Visible = _Pause && CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS;
+            _Texts[_TextPauseVocalsVolume].Visible = _Pause && CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS;
 
             if (_StartDelayed)
             {
@@ -1491,7 +1493,7 @@ namespace Vocaluxe.Screens
 
             _Texts[_TextSongName].Visible = !_Pause;
 
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
                 if (_Pause)
                 {
@@ -1557,11 +1559,11 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = songname;
             _Texts[_TextPauseSongName].Text = songname;
 
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_INSTRUMENTAL || CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_INSTRUMENTAL || CGame.AudioMode == EAudioMode.TR_AUDIOMODE_KARAOKE)
             {
                 _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
             }
-            else if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            else if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
                 _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
                 _CurrentStreamVocals = CSound.Load(song.GetVocals(), false, true, EAudioEffect.None);
@@ -1849,7 +1851,7 @@ namespace Vocaluxe.Screens
 
             for (var player = 0; player < CGame.NumPlayers; player++)
             {
-                if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+                if (CGame.AudioMode == EAudioMode.TR_AUDIOMODE_KARAOKE)
                 {
                     _Texts[_PlayerTextScore[player]].Visible = false;
                     _Statics[_PlayerStaticScore[player]].Visible = false;
