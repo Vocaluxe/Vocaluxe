@@ -1,5 +1,11 @@
 ScreenSing
 +++++++++
+Version 14
+
+Add:
+<StaticCountdownRing> Ring of dots around the countdown (skin <CountdownDot>), the countdown is centered in this rect and its size depends on the rect size
+
++++++++++
 Version 13
 
 Add:

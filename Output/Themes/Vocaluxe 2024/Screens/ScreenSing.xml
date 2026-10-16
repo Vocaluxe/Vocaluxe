@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>13</ScreenVersion>
+    <ScreenVersion>14</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -151,6 +151,22 @@
         <W>67.5</W>
         <H>54</H>
         <Z>-1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticCountdownRing">
+      <Skin>CountdownDot</Skin>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.6</A>
+      </Color>
+      <Rect>
+        <X>635</X>
+        <Y>215</Y>
+        <W>650</W>
+        <H>650</H>
+        <Z>0</Z>
       </Rect>
     </Static>
     <Static Name="StaticPauseBG">

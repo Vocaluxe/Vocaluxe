@@ -462,6 +462,16 @@ namespace Vocaluxe.Base
         {
             CDraw.DrawRectReflection(color, rect, space, height);
         }
+
+        public void PushTransform(float scale, float centerX, float centerY, float offsetY, float alpha)
+        {
+            CDraw.PushTransform(scale, centerX, centerY, offsetY, alpha);
+        }
+
+        public void PopTransform()
+        {
+            CDraw.PopTransform();
+        }
     }
 
     class CBGraphics : IGraphics
