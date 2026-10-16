@@ -144,6 +144,17 @@ namespace VocaluxeLib.Menu
                 _ProgressTarget = value;
             }
         }
+
+        public bool AnimatesMovement
+        {
+            get { return _AnimateMovement == EOffOn.TR_CONFIG_ON; }
+        }
+
+        public bool IsAnimating
+        {
+            get { return AnimatesMovement && _ProgressCurrent != _ProgressTarget; }
+        }
+
         private float _ProgressCurrent;
         private float _ProgressLast;
 

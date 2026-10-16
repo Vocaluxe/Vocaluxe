@@ -78,7 +78,7 @@ namespace Vocaluxe.Base
         }
 
         public const int DatabaseHighscoreVersion = 3;
-        public const int DatabaseCoverVersion = 1;
+        public const int DatabaseCoverVersion = 2;
         public const int DatabaseCreditsRessourcesVersion = 1;
 
         public const int MaxNumScreens = 6;
