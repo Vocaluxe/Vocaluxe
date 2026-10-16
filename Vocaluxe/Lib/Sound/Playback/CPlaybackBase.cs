@@ -160,7 +160,7 @@ namespace Vocaluxe.Lib.Sound.Playback
                 return -1;
             }
 
-            var stream = _CreateStream(_NextId++, medium, loop, effect);
+            var stream = _CreateStream(Interlocked.Increment(ref _NextId) - 1, medium, loop, effect);
 
             if (stream.Open(prescan))
             {
