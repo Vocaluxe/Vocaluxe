@@ -17,8 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Server;
@@ -155,6 +155,8 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            _UpdateProgressBarSound();
+
             var players = new SPlayer[CGame.NumPlayers];
             if (_Round >= 0)
             {
@@ -295,39 +297,73 @@ namespace Vocaluxe.Screens
         }
 
         private int _ProgressBarSoundStream = -1;
+        private readonly Stopwatch _ProgressBarSoundTimer = new Stopwatch();
+        private double _ProgressBarSoundDuration;
+        private int _ProgressBarSoundMaxPoints;
 
         private void _PlayProgressBarSound(int maxPoints)
         {
+            // Stop any previous ProgressBar sound
+            _StopScoreSounds();
+
             // Do not play in Karaoke Mode
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE || maxPoints <= 0)
             {
                 return;
             }
 
-            // Stop any previous ProgressBar sound
-            if (_ProgressBarSoundStream != -1)
-            {
-                CSound.Close(_ProgressBarSoundStream);
-                _ProgressBarSoundStream = -1;
-            }
-
             // Calculate duration: 10,000 points = 5 seconds
-            var duration = Math.Min(maxPoints / 10000.0, 1.0) * 5;
+            _ProgressBarSoundDuration = Math.Min(maxPoints / 10000.0, 1.0) * 5;
+            _ProgressBarSoundMaxPoints = maxPoints;
 
             // Play the sound
             _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.SoundEffectVolume);
+            _ProgressBarSoundTimer.Restart();
+        }
 
-            // Schedule stop after duration and start Applause sound
-            Task.Run(async () =>
+        private void _UpdateProgressBarSound()
+        {
+            if (!_ProgressBarSoundTimer.IsRunning || !_IsProgressBarAnimationFinished())
             {
-                await Task.Delay((int)(duration * 1000));
-                if (_ProgressBarSoundStream != -1)
-                {
-                    CSound.Close(_ProgressBarSoundStream);
-                    _ProgressBarSoundStream = -1;
-                    _PlayApplauseSound(maxPoints);
-                }
-            });
+                return;
+            }
+
+            _ProgressBarSoundTimer.Reset();
+            _CloseStream(ref _ProgressBarSoundStream);
+            _PlayApplauseSound(_ProgressBarSoundMaxPoints);
+        }
+
+        private bool _IsProgressBarAnimationFinished()
+        {
+            var animatedProgressBars = Enumerable.Range(0, CGame.NumPlayers)
+                                                 .Select(p => _ProgressBars[_ProgressBarPoints[p, CGame.NumPlayers - 1]])
+                                                 .Where(progressBar => progressBar.Visible && progressBar.AnimatesMovement)
+                                                 .ToList();
+
+            if (animatedProgressBars.Count == 0)
+            {
+                return _ProgressBarSoundTimer.Elapsed.TotalSeconds >= _ProgressBarSoundDuration;
+            }
+
+            return !animatedProgressBars.Any(progressBar => progressBar.IsAnimating);
+        }
+
+        private void _StopScoreSounds()
+        {
+            _ProgressBarSoundTimer.Reset();
+            _CloseStream(ref _ProgressBarSoundStream);
+            _CloseStream(ref _ApplauseStream);
+        }
+
+        private static void _CloseStream(ref int stream)
+        {
+            if (stream == -1)
+            {
+                return;
+            }
+
+            CSound.Close(stream);
+            stream = -1;
         }
 
         private int _ApplauseStream = -1;
@@ -531,17 +567,7 @@ namespace Vocaluxe.Screens
 
         private void _LeaveScreen()
         {
-            if (_ApplauseStream != -1)
-            {
-                CSound.Close(_ApplauseStream);
-                _ApplauseStream = -1;
-            }
-
-            if (_ProgressBarSoundStream != -1)
-            {
-                CSound.Close(_ProgressBarSoundStream);
-                _ProgressBarSoundStream = -1;
-            }
+            _StopScoreSounds();
 
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
             {

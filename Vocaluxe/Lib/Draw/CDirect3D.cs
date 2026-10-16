@@ -65,6 +65,11 @@ namespace Vocaluxe.Lib.Draw
 
         public override void Dispose()
         {
+            if (IsDisposed)
+            {
+                return;
+            }
+
             base.Dispose();
             if (D3DTexture != null)
             {

@@ -92,17 +92,17 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        private bool _IsDisposed;
+        protected bool IsDisposed { get; private set; }
 
         public virtual void Dispose()
         {
-            if (_IsDisposed)
+            if (IsDisposed)
             {
-                throw new ObjectDisposedException(GetType().Name);
+                return;
             }
 
             RefCount = 0;
-            _IsDisposed = true;
+            IsDisposed = true;
         }
     }
 }

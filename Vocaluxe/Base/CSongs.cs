@@ -247,7 +247,7 @@ namespace Vocaluxe.Base
                 return -1;
             }
 
-            var song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count - 1)];
+            var song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count)];
             _SongsForRandom.Remove(song);
             return GetVisibleSongNumber(song.Id);
         }
@@ -291,7 +291,7 @@ namespace Vocaluxe.Base
                 return -1;
             }
 
-            var category = _CategoriesForRandom[CGame.Rand.Next(0, _CategoriesForRandom.Count - 1)];
+            var category = _CategoriesForRandom[CGame.Rand.Next(0, _CategoriesForRandom.Count)];
             _CategoriesForRandom.Remove(category);
             return _GetCategoryNumber(category);
         }
