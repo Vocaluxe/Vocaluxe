@@ -17,10 +17,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 
@@ -31,22 +33,28 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const int _NumEntrys = 10;
+        private const int _NumPodium = 3;
+        private const int _NumRows = _NumEntrys - _NumPodium;
         private const string _TextSongName = "TextSongName";
         private const string _TextSongMode = "TextSongMode";
+        private const string _StaticCrown = "StaticCrown";
         private string[] _TextNumber;
         private string[] _TextName;
         private string[] _TextScore;
         private string[] _TextDate;
         private string[] _ParticleEffectNew;
+        private string[] _StaticPodium;
+        private string[] _StaticAvatar;
+        private string[] _ProgressBarScore;
 
+        private CTextureRef[] _PodiumAvatars;
         private List<SDBScoreEntry>[] _Scores;
         private List<int> _NewEntryIds;
         private int _Round;
-        private int _Pos;
         private bool _IsDuet;
         private bool _FromScreenSong = false;
 
@@ -57,6 +65,17 @@ namespace Vocaluxe.Screens
 
         private int _HighscoreStream = -1;
         private bool _HasPlayedHighscoreSound = false;
+
+        private struct STextStyle
+        {
+            public float Height;
+            public float Y;
+            public SColorF Color;
+        }
+
+        private readonly Dictionary<string, STextStyle> _TextStyles = new Dictionary<string, STextStyle>();
+        private readonly Stopwatch _PulseTimer = new Stopwatch();
+        private SColorF _NewEntryColor;
 
         private static int PlaySound(ESounds sound, int volume)
         {
@@ -106,11 +125,54 @@ namespace Vocaluxe.Screens
                 _ParticleEffectNew[i] = "ParticleEffectNew" + (i + 1);
             }
 
-            _ThemeStatics = new string[] { "StaticTop1Bar", "StaticTop2Bar", "StaticTop3Bar" };
+            var statics = new List<string> { _StaticCrown };
+
+            _StaticPodium = new string[_NumPodium];
+            _StaticAvatar = new string[_NumPodium];
+            for (var i = 0; i < _NumPodium; i++)
+            {
+                _StaticPodium[i] = "StaticPodium" + (i + 1);
+                _StaticAvatar[i] = "StaticAvatar" + (i + 1);
+                statics.Add(_StaticPodium[i]);
+                statics.Add(_StaticAvatar[i]);
+            }
+
+            _ProgressBarScore = new string[_NumRows];
+            for (var i = 0; i < _NumRows; i++)
+            {
+                _ProgressBarScore[i] = "ProgressBarScore" + (i + _NumPodium + 1);
+            }
+
+            _ThemeStatics = statics.ToArray();
             _ThemeTexts = texts.ToArray();
             _ThemeParticleEffects = _ParticleEffectNew;
+            _ThemeProgressBars = _ProgressBarScore;
 
+            _PodiumAvatars = new CTextureRef[_NumPodium];
             _NewEntryIds = new List<int>();
+        }
+
+        public override void LoadTheme(string xmlPath)
+        {
+            base.LoadTheme(xmlPath);
+
+            foreach (var avatar in _StaticAvatar)
+            {
+                _Statics[avatar].Aspect = EAspect.Crop;
+            }
+
+            _TextStyles.Clear();
+            foreach (var name in _TextNumber.Concat(_TextName).Concat(_TextScore).Concat(_TextDate))
+            {
+                _TextStyles[name] = new STextStyle { Height = _Texts[name].Font.Height, Y = _Texts[name].Y, Color = _Texts[name].Color };
+            }
+
+            if (!CBase.Themes.GetColor("Top1Color", PartyModeId, out _NewEntryColor))
+            {
+                _NewEntryColor = new SColorF(1f, 0.8f, 0f, 1f);
+            }
+
+            _NewEntryColor.A = 1f;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -124,22 +186,6 @@ namespace Vocaluxe.Screens
                     case Keys.Back:
                     case Keys.Enter:
                         _LeaveScreen();
-                        break;
-
-                    case Keys.Down:
-                        if (!_FromScreenSong)
-                        {
-                            _ChangePos(1);
-                        }
-
-                        break;
-
-                    case Keys.Up:
-                        if (!_FromScreenSong)
-                        {
-                            _ChangePos(-1);
-                        }
-
                         break;
 
                     case Keys.Left:
@@ -180,87 +226,93 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            _ChangePos(mouseEvent.Wheel);
             return true;
         }
 
         public override bool UpdateGame()
         {
             var numScores = _Scores[_Round].Count;
-            _Statics["StaticTop1Bar"].Visible = numScores >= 1;
-            _Statics["StaticTop2Bar"].Visible = numScores >= 2;
-            _Statics["StaticTop3Bar"].Visible = numScores >= 3;
+            _Statics[_StaticCrown].Visible = numScores > 0;
+            foreach (var podium in _StaticPodium)
+            {
+                _Statics[podium].Visible = numScores > 0;
+            }
 
             for (var p = 0; p < _NumEntrys; p++)
             {
-                if (_Pos + p < _Scores[_Round].Count)
+                var isEntry = p < numScores;
+                var isNew = isEntry && _IsNewEntry(_Scores[_Round][p].Id);
+
+                _Texts[_TextNumber[p]].Visible = isEntry || (p < _NumPodium && numScores > 0);
+                _Texts[_TextName[p]].Visible = isEntry;
+                _Texts[_TextScore[p]].Visible = isEntry;
+                _Texts[_TextDate[p]].Visible = isEntry;
+                _ParticleEffects[_ParticleEffectNew[p]].Visible = isNew;
+                _SetNewEntryStyle(p, isNew);
+
+                _Texts[_TextNumber[p]].Text = (p + 1).ToString();
+
+                if (p < _NumPodium)
                 {
-                    _Texts[_TextNumber[p]].Visible = true;
-                    _Texts[_TextName[p]].Visible = true;
-                    _Texts[_TextScore[p]].Visible = true;
-                    _Texts[_TextDate[p]].Visible = true;
-
-                    _Texts[_TextNumber[p]].Text = (_Pos + p + 1).ToString();
-
-                    var name = _Scores[_Round][_Pos + p].Name;
-                    name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][_Pos + p].Difficulty)) + "]";
-                    if (_IsDuet)
-                    {
-                        var voiceNr = _Scores[_Round][_Pos + p].VoiceNr;
-                        string voiceName = null;
-
-                        CSong song;
-                        if (_FromScreenSong)
-                        {
-                            song = CSongs.GetSong(CScreenSong.getSelectedSongId());
-                        }
-                        else
-                        {
-                            song = CGame.GetSong(_Round);
-                        }
-
-                        if (song != null && song.Notes != null && song.Notes.VoiceNames != null)
-                        {
-                            try
-                            {
-                                voiceName = song.Notes.VoiceNames[voiceNr];
-                            }
-                            catch
-                            {
-                                voiceName = null; // Ungültiger Index
-                            }
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(voiceName))
-                        {
-                            name += " (" + voiceName + ")";
-                        }
-                        else
-                        {
-                            name += " (P" + (voiceNr + 1) + ")";
-                        }
-                    }
-
-                    _Texts[_TextName[p]].Text = name;
-
-                    _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("D");
-                    _Texts[_TextDate[p]].Text = _Scores[_Round][_Pos + p].Date;
-
-                    _ParticleEffects[_ParticleEffectNew[p]].Visible = _IsNewEntry(_Scores[_Round][_Pos + p].Id);
-
-                    if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedHighscoreSound)
-                    {
-                        _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
-                        _HasPlayedHighscoreSound = true;
-                    }
+                    _Statics[_StaticAvatar[p]].Texture = _PodiumAvatars[p];
+                    _Statics[_StaticAvatar[p]].Visible = isEntry && _Statics[_StaticAvatar[p]].Texture != null;
                 }
                 else
                 {
-                    _Texts[_TextNumber[p]].Visible = false;
-                    _Texts[_TextName[p]].Visible = false;
-                    _Texts[_TextScore[p]].Visible = false;
-                    _Texts[_TextDate[p]].Visible = false;
-                    _ParticleEffects[_ParticleEffectNew[p]].Visible = false;
+                    var row = p - _NumPodium;
+                    _ProgressBars[_ProgressBarScore[row]].Visible = isEntry;
+
+                    var progress = isEntry ? (float)_Scores[_Round][p].Score / CSettings.MaxScore : 0f;
+                    if (_ProgressBars[_ProgressBarScore[row]].Progress != progress)
+                    {
+                        _ProgressBars[_ProgressBarScore[row]].Progress = progress;
+                    }
+                }
+
+                if (!isEntry)
+                {
+                    continue;
+                }
+
+                var name = _Scores[_Round][p].Name;
+                name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][p].Difficulty)) + "]";
+                if (_IsDuet)
+                {
+                    var voiceNr = _Scores[_Round][p].VoiceNr;
+                    string voiceName = null;
+
+                    var song = _GetCurrentSong();
+                    if (song != null && song.Notes != null && song.Notes.VoiceNames != null)
+                    {
+                        try
+                        {
+                            voiceName = song.Notes.VoiceNames[voiceNr];
+                        }
+                        catch
+                        {
+                            voiceName = null; // Ungültiger Index
+                        }
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(voiceName))
+                    {
+                        name += " (" + voiceName + ")";
+                    }
+                    else
+                    {
+                        name += " (P" + (voiceNr + 1) + ")";
+                    }
+                }
+
+                _Texts[_TextName[p]].Text = name;
+
+                _Texts[_TextScore[p]].Text = _Scores[_Round][p].Score.ToString("D");
+                _Texts[_TextDate[p]].Text = _Scores[_Round][p].Date;
+
+                if (isNew && !_HasPlayedHighscoreSound)
+                {
+                    _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
+                    _HasPlayedHighscoreSound = true;
                 }
             }
 
@@ -271,14 +323,27 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
             _HasPlayedHighscoreSound = false;
+            _PulseTimer.Restart();
             _Round = 0;
-            _Pos = 0;
             _NewEntryIds.Clear();
             _AddScoresToDB();
             _LoadScores();
             _UpdateRound();
 
             UpdateGame();
+        }
+
+        private void _SetNewEntryStyle(int entry, bool isNew)
+        {
+            var scale = isNew ? 1f + 0.03f * (float)Math.Sin(_PulseTimer.ElapsedMilliseconds / 1000.0 * Math.PI * 1.4) : 1f;
+            foreach (var name in new[] { _TextNumber[entry], _TextName[entry], _TextScore[entry], _TextDate[entry] })
+            {
+                var style = _TextStyles[name];
+                var text = _Texts[name];
+                text.Color = isNew ? _NewEntryColor : style.Color;
+                text.Font.Height = style.Height * scale;
+                text.Y = style.Y - style.Height * (scale - 1f) / 2f;
+            }
         }
 
         private bool _IsNewEntry(int id)
@@ -316,7 +381,6 @@ namespace Vocaluxe.Screens
 
         private void _LoadScores()
         {
-            _Pos = 0;
             var rounds = CGame.NumRounds;
 
             if (rounds == 0)
@@ -357,16 +421,12 @@ namespace Vocaluxe.Screens
             _IsDuet = false;
             var points = CGame.GetPoints();
 
-            CSong song;
-            if (_FromScreenSong)
+            for (var p = 0; p < _NumPodium; p++)
             {
-                song = CSongs.GetSong(CScreenSong.getSelectedSongId());
-            }
-            else
-            {
-                song = CGame.GetSong(_Round);
+                _PodiumAvatars[p] = p < _Scores[_Round].Count ? _GetAvatarTexture(_Scores[_Round][p].Name) : null;
             }
 
+            var song = _GetCurrentSong();
             if (song == null)
             {
                 return;
@@ -401,21 +461,22 @@ namespace Vocaluxe.Screens
                     _Texts[_TextSongMode].Text = "TR_GAMEMODE_NORMAL";
                     break;
             }
-
-            _Pos = 0;
         }
 
-        private void _ChangePos(int num)
+        private CSong _GetCurrentSong()
         {
-            if (_Scores[_Round].Count == 0 || _Scores[_Round].Count <= _NumEntrys)
+            if (_FromScreenSong)
             {
-                _Pos = 0;
+                return CSongs.GetSong(CScreenSong.getSelectedSongId());
             }
-            else
-            {
-                _Pos += num;
-                _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1, true);
-            }
+
+            return CGame.GetSong(_Round);
+        }
+
+        private static CTextureRef _GetAvatarTexture(string playerName)
+        {
+            var profile = CProfiles.GetProfiles().FirstOrDefault(pr => pr.PlayerName == playerName && pr.Avatar != null);
+            return profile == null ? null : profile.Avatar.Texture;
         }
 
         private void _ChangeRound(int num)
