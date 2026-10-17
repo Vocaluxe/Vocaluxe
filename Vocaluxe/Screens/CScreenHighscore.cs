@@ -359,14 +359,14 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            // No points in Karaoke Mode
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
-            {
-                return;
-            }
-
             for (var round = 0; round < points.NumRounds; round++)
             {
+                // No points in Karaoke Mode
+                if (CGame.GetAudioMode(round) == EAudioMode.TR_AUDIOMODE_KARAOKE)
+                {
+                    continue;
+                }
+
                 var players = points.GetPlayer(round, CGame.NumPlayers);
 
                 for (var p = 0; p < players.Length; p++)

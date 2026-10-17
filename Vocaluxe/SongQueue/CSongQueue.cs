@@ -28,11 +28,13 @@ namespace Vocaluxe.SongQueue
     {
         public readonly int SongId;
         public readonly EGameMode GameMode;
+        public readonly EAudioMode AudioMode;
 
-        public SSongQueueEntry(int songId, EGameMode gameMode)
+        public SSongQueueEntry(int songId, EGameMode gameMode, EAudioMode audioMode)
         {
             SongId = songId;
             GameMode = gameMode;
+            AudioMode = audioMode;
         }
     }
 
@@ -56,24 +58,35 @@ namespace Vocaluxe.SongQueue
             return GetGameMode(_CurrentRound);
         }
 
-        public bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
+        public EAudioMode GetCurrentAudioMode()
         {
-            return CSongs.VisibleSongs.Count > visibleIndex && _AddSong(CSongs.VisibleSongs[visibleIndex].Id, gameMode);
+            return GetAudioMode(_CurrentRound);
         }
 
-        public bool AddSong(int absoluteIndex, EGameMode gameMode)
+        public bool AddVisibleSong(int visibleIndex, EGameMode gameMode, EAudioMode audioMode)
         {
-            return CSongs.AllSongs.Count > absoluteIndex && _AddSong(CSongs.AllSongs[absoluteIndex].Id, gameMode);
+            return CSongs.VisibleSongs.Count > visibleIndex && _AddSong(CSongs.VisibleSongs[visibleIndex].Id, gameMode, audioMode);
         }
 
-        private bool _AddSong(int songId, EGameMode gameMode)
+        public bool AddSong(int absoluteIndex, EGameMode gameMode, EAudioMode audioMode)
         {
-            if (!CSongs.GetSong(songId).IsGameModeAvailable(gameMode))
+            return CSongs.AllSongs.Count > absoluteIndex && _AddSong(CSongs.AllSongs[absoluteIndex].Id, gameMode, audioMode);
+        }
+
+        private bool _AddSong(int songId, EGameMode gameMode, EAudioMode audioMode)
+        {
+            var song = CSongs.GetSong(songId);
+            if (!song.IsGameModeAvailable(gameMode))
             {
                 return false;
             }
 
-            _SongQueue.Add(new SSongQueueEntry(songId, gameMode));
+            if (!song.HasInstrumental() || audioMode == EAudioMode.TR_AUDIOMODE_VOCALS && !song.HasVocals())
+            {
+                audioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
+            }
+
+            _SongQueue.Add(new SSongQueueEntry(songId, gameMode, audioMode));
             return true;
         }
 
@@ -208,6 +221,16 @@ namespace Vocaluxe.SongQueue
             }
 
             return EGameMode.TR_GAMEMODE_NORMAL;
+        }
+
+        public EAudioMode GetAudioMode(int round)
+        {
+            if (round < _SongQueue.Count && round >= 0)
+            {
+                return _SongQueue[round].AudioMode;
+            }
+
+            return EAudioMode.TR_AUDIOMODE_NORMAL;
         }
 
         public CPoints GetPoints()

@@ -42,7 +42,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 14; }
+            get { return 15; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -1302,7 +1302,7 @@ namespace Vocaluxe.Screens
                     gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
                 }
 
-                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag;
+                _AudioMode = _SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag >= 0 ? (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag : EAudioMode.TR_AUDIOMODE_NORMAL;
                 _PlayerSelect = (EPlayerSelect)_SelectSlides[_SelectSlideOptionsPlayerSelect].Selection;
 
                 CGame.Reset();
@@ -1849,7 +1849,11 @@ namespace Vocaluxe.Screens
                 _Texts[_TextOptionsAudioMode].Visible = false;
             }
 
-            _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
+            _SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag = (int)_AudioMode;
+            if (_SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag != (int)_AudioMode)
+            {
+                _SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag = (int)EAudioMode.TR_AUDIOMODE_NORMAL;
+            }
 
             _SelectSlides[_SelectSlideOptionsPlayerSelect].Clear();
             _SelectSlides[_SelectSlideOptionsPlayerSelect].AddValue("TR_SCREENSONG_PLAYERSELECT_ON");
