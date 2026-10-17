@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using Vocaluxe.Screens;
 using Vocaluxe.SongQueue;
 using VocaluxeLib;
 using VocaluxeLib.Game;
@@ -97,14 +98,24 @@ namespace Vocaluxe.Base
             get { return _SongQueue.GetCurrentGameMode(); }
         }
 
+        public static EAudioMode AudioMode
+        {
+            get { return _SongQueue.GetCurrentAudioMode(); }
+        }
+
         public static bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
         {
-            return _SongQueue.AddVisibleSong(visibleIndex, gameMode);
+            return _SongQueue.AddVisibleSong(visibleIndex, gameMode, CScreenSong.GetAudioMode());
         }
 
         public static bool AddSong(int absoluteIndex, EGameMode gameMode)
         {
-            return _SongQueue.AddSong(absoluteIndex, gameMode);
+            return _SongQueue.AddSong(absoluteIndex, gameMode, CScreenSong.GetAudioMode());
+        }
+
+        public static bool AddSong(int absoluteIndex, EGameMode gameMode, EAudioMode audioMode)
+        {
+            return _SongQueue.AddSong(absoluteIndex, gameMode, audioMode);
         }
 
         public static bool RemoveVisibleSong(int visibleIndex)
@@ -160,6 +171,11 @@ namespace Vocaluxe.Base
         public static EGameMode GetGameMode(int round)
         {
             return _SongQueue.GetGameMode(round);
+        }
+
+        public static EAudioMode GetAudioMode(int round)
+        {
+            return _SongQueue.GetAudioMode(round);
         }
 
         public static int GetNumSongs()
