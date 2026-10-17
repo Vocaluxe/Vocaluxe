@@ -1,0 +1,7 @@
+ScreenStatisticsDetail
+
+++++++++++
+Version 1:
+(2026 Oct 16)
+
+New screen: details for the tiles of the statistics dashboard (table with rank, avatar, progress bar per row, filter and help text)

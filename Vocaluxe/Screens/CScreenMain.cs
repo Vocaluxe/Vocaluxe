@@ -27,11 +27,12 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 4; }
         }
 
         private const string _ButtonSing = "ButtonSing";
         private const string _ButtonParty = "ButtonParty";
+        private const string _ButtonStatistics = "ButtonStatistics";
         private const string _ButtonOptions = "ButtonOptions";
         private const string _ButtonProfiles = "ButtonProfiles";
         private const string _ButtonExit = "ButtonExit";
@@ -56,7 +57,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeStatics = new string[] { "StaticMenuBar", _StaticWarningProfiles };
-            _ThemeButtons = new string[] { _ButtonSing, _ButtonParty, _ButtonOptions, _ButtonProfiles, _ButtonExit };
+            _ThemeButtons = new string[] { _ButtonSing, _ButtonParty, _ButtonStatistics, _ButtonOptions, _ButtonProfiles, _ButtonExit };
             _ThemeTexts = new string[] { _TextRelease, _TextWarningProfiles };
         }
 
@@ -118,6 +119,12 @@ namespace Vocaluxe.Screens
                             _LeaveScreen();
                         }
 
+                        if (_Buttons[_ButtonStatistics].Selected)
+                        {
+                            CGraphics.FadeTo(EScreen.Statistics);
+                            _LeaveScreen();
+                        }
+
                         if (_Buttons[_ButtonOptions].Selected)
                         {
                             CGraphics.FadeTo(EScreen.Options);
@@ -162,6 +169,12 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonParty].Selected)
                 {
                     CGraphics.FadeTo(EScreen.Party);
+                    _LeaveScreen();
+                }
+
+                if (_Buttons[_ButtonStatistics].Selected)
+                {
+                    CGraphics.FadeTo(EScreen.Statistics);
                     _LeaveScreen();
                 }
 

@@ -78,6 +78,21 @@ namespace Vocaluxe.Base
             return _HighscoreDB.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreId);
         }
 
+        public static List<SDBStatisticsScore> LoadRecentScores(int count)
+        {
+            return _HighscoreDB == null ? new List<SDBStatisticsScore>() : _HighscoreDB.LoadRecentScores(count);
+        }
+
+        public static List<SDBStatisticsScore> LoadTopScores(EGameDifficulty difficulty, int count)
+        {
+            return _HighscoreDB == null ? new List<SDBStatisticsScore>() : _HighscoreDB.LoadTopScores(difficulty, count);
+        }
+
+        public static List<SDBPlayerStatistics> LoadPlayerStatistics()
+        {
+            return _HighscoreDB == null ? new List<SDBPlayerStatistics>() : _HighscoreDB.LoadPlayerStatistics();
+        }
+
         public static List<SDBScoreEntry> LoadScore(int songId, EGameMode gameMode, EHighscoreStyle style)
         {
             return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songId, gameMode, style);
