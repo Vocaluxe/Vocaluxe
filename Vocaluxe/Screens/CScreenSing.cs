@@ -39,7 +39,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 13; }
+            get { return 14; }
         }
 
         private struct STimeRect
@@ -74,6 +74,7 @@ namespace Vocaluxe.Screens
         private const string _StaticLyricHelper = "StaticLyricHelper";
         private const string _StaticLyricHelperDuet = "StaticLyricHelperDuet";
         private const string _StaticLyricHelperTop = "StaticLyricHelperTop";
+        private const string _StaticCountdownRing = "StaticCountdownRing";
         private List<string> _StaticsPause;
 
         private string[,,] _StaticScores;
@@ -141,9 +142,21 @@ namespace Vocaluxe.Screens
         private Stopwatch _TimerDuetText1;
         private Stopwatch _TimerDuetText2;
         private Stopwatch _TimerStartCountdown;
+        private Stopwatch _TimerMedleyCountdown;
+        private float _MedleyCountdownStart;
+        private float _CountdownProgress = -1f;
+
+        private float[] _ScoreTextHeight;
+        private float[] _ScoreTextY;
+
+        private readonly Stopwatch _TimerPauseAnimation = new Stopwatch();
+        private readonly List<IMenuElement> _PauseAnimationBackgrounds = new List<IMenuElement>();
+        private readonly List<IMenuElement> _PauseAnimationElements = new List<IMenuElement>();
+        private bool _PauseAnimationOpening;
 
         private bool _StartDelayed;
         private const float _StartCountdownSeconds = 3f;
+        private const int _CountdownRingDots = 60;
 
         private bool _Pause;
         private bool _Webcam;
@@ -180,7 +193,8 @@ namespace Vocaluxe.Screens
                 _StaticTimePointer,
                 _StaticLyricHelper,
                 _StaticLyricHelperDuet,
-                _StaticLyricHelperTop
+                _StaticLyricHelperTop,
+                _StaticCountdownRing
             };
             _BuildStaticStrings(ref statics);
             _ThemeStatics = statics.ToArray();
@@ -209,6 +223,10 @@ namespace Vocaluxe.Screens
             _TimerDuetText1 = new Stopwatch();
             _TimerDuetText2 = new Stopwatch();
             _TimerStartCountdown = new Stopwatch();
+            _TimerMedleyCountdown = new Stopwatch();
+
+            _ScoreTextHeight = new float[CSettings.MaxNumPlayer];
+            _ScoreTextY = new float[CSettings.MaxNumPlayer];
 
             _TimerShortInfoText = new System.Timers.Timer(5000);
             _TimerShortInfoText.AutoReset = false;
@@ -241,6 +259,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlidePauseVocalsVolume].AddValues(new string[]
                 { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });
             _SelectSlides[_SelectSlidePauseVocalsVolume].Selection = CConfig.VocalsVolume / 5;
+            _Statics[_StaticCountdownRing].Visible = false;
 
             //Automatically find statics and texts with pause prefix
             foreach (var s in _Statics.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("StaticPause")))
@@ -531,7 +550,11 @@ namespace Vocaluxe.Screens
             _TimeToFirstNoteDuet = 0f;
             _StartDelayed = false;
             _TimerStartCountdown.Reset();
+            _TimerMedleyCountdown.Reset();
+            _CountdownProgress = -1f;
+            _PrepareCountdownFont();
             _SetPause(false);
+            _TimerPauseAnimation.Reset();
 
             _TimeRects.Clear();
             try
@@ -556,6 +579,8 @@ namespace Vocaluxe.Screens
             {
                 _Statics[_PlayerStaticAvatar[p]].Aspect = EAspect.Crop;
                 _Texts[_PlayerTextScore[p]].Color = new SColorF(CBase.Themes.GetPlayerColor(p + 1), _Texts[_PlayerTextScore[p]].Color.A);
+                _ScoreTextHeight[p] = _Texts[_PlayerTextScore[p]].Font.Height;
+                _ScoreTextY[p] = _Texts[_PlayerTextScore[p]].Y;
             }
 
             _SetVisibility();
@@ -684,8 +709,7 @@ namespace Vocaluxe.Screens
 
             for (var p = 0; p < CGame.NumPlayers; p++)
             {
-                var fmtString = CGame.Players[p].Points < 10000 ? "0000" : "00000";
-                _Texts[_PlayerTextScore[p]].Text = CGame.Players[p].Points.ToString(fmtString);
+                _UpdateScoreText(p);
             }
 
             if (_CurrentVideo != null && !_FadeOut && CConfig.Config.Video.VideosInSongs == EOffOn.TR_CONFIG_ON)
@@ -815,22 +839,105 @@ namespace Vocaluxe.Screens
             var timeToFirstMedleyNote = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.Bpm) + song.Gap;
             if (_CurrentTime < timeToFirstMedleyNote)
             {
-                var timeDiff = timeToFirstMedleyNote - _CurrentTime + 1;
-                var fullSeconds = (float)Math.Truncate(timeDiff);
-                var partSeconds = timeDiff - fullSeconds;
-                _Texts[_TextMedleyCountdown].Visible = true;
-                _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString();
-                _Texts[_TextMedleyCountdown].Font.Height = Math.Max(CSettings.RenderH / 8f, partSeconds * CSettings.RenderH);
-
-                var textBounds = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown]);
-                var x = CSettings.RenderW / 2 - textBounds.Width / 2;
-                var y = CSettings.RenderH / 2 - textBounds.Height / 2;
-                _Texts[_TextMedleyCountdown].X = x;
-                _Texts[_TextMedleyCountdown].Y = y;
+                _SetCountdown(_GetSmoothedMedleyCountdown(timeToFirstMedleyNote - _CurrentTime));
             }
             else
             {
-                _Texts[_TextMedleyCountdown].Visible = false;
+                _TimerMedleyCountdown.Reset();
+                _SetCountdown(0f);
+            }
+        }
+
+        private float _GetSmoothedMedleyCountdown(float remaining)
+        {
+            if (_Pause)
+            {
+                _TimerMedleyCountdown.Reset();
+                return remaining;
+            }
+
+            var predicted = _MedleyCountdownStart - _TimerMedleyCountdown.ElapsedMilliseconds / 1000f;
+            if (!_TimerMedleyCountdown.IsRunning || Math.Abs(predicted - remaining) > 0.1f)
+            {
+                _MedleyCountdownStart = remaining;
+                _TimerMedleyCountdown.Restart();
+                return remaining;
+            }
+
+            return predicted;
+        }
+
+        private float _GetCountdownHeight()
+        {
+            return Math.Min(_Statics[_StaticCountdownRing].Rect.W, _Statics[_StaticCountdownRing].Rect.H) * 0.62f;
+        }
+
+        private void _PrepareCountdownFont()
+        {
+            var text = _Texts[_TextMedleyCountdown];
+            text.Text = "0123456789";
+            text.Font.Height = _GetCountdownHeight() * 1.2f;
+            CFonts.GetTextBounds(text);
+            text.Text = string.Empty;
+            text.Visible = false;
+        }
+
+        private void _SetCountdown(float remaining)
+        {
+            var text = _Texts[_TextMedleyCountdown];
+            if (remaining <= 0f)
+            {
+                text.Visible = false;
+                _CountdownProgress = -1f;
+                return;
+            }
+
+            var fullSeconds = (float)Math.Ceiling(remaining);
+            var phase = fullSeconds - remaining;
+            var scale = 0.6f + 0.4f * CHelper.EaseOutBack(Math.Min(1f, phase / 0.35f));
+            var alpha = 1f;
+            if (phase > 0.75f)
+            {
+                var fade = (phase - 0.75f) / 0.25f;
+                alpha = 1f - fade;
+                scale += fade * 0.2f;
+            }
+
+            text.Visible = true;
+            text.Text = fullSeconds.ToString("0");
+            text.Font.Height = _GetCountdownHeight() * scale;
+            text.Alpha = alpha;
+
+            var ring = _Statics[_StaticCountdownRing].Rect;
+            var textBounds = CFonts.GetTextBounds(text);
+            text.X = ring.X + ring.W / 2f - textBounds.Width / 2f;
+            text.Y = ring.Y + ring.H / 2f - textBounds.Height / 2f;
+
+            _CountdownProgress = 1f - phase;
+        }
+
+        private void _DrawCountdownRing()
+        {
+            var ring = _Statics[_StaticCountdownRing];
+            if (!_Texts[_TextMedleyCountdown].Visible || _CountdownProgress <= 0f || ring.Texture == null)
+            {
+                return;
+            }
+
+            var rect = ring.Rect;
+            var radius = Math.Min(rect.W, rect.H) / 2f;
+            var dotSize = radius * 0.05f;
+            var centerX = rect.X + rect.W / 2f;
+            var centerY = rect.Y + rect.H / 2f;
+            var dots = _CountdownRingDots * _CountdownProgress;
+
+            for (var i = 0; i < _CountdownRingDots && i < dots; i++)
+            {
+                var angle = (i + 0.5f) / _CountdownRingDots * 2f * (float)Math.PI;
+                var x = centerX + radius * (float)Math.Sin(angle) - dotSize / 2f;
+                var y = centerY - radius * (float)Math.Cos(angle) - dotSize / 2f;
+                var color = new SColorF(ring.Color.R, ring.Color.G, ring.Color.B, ring.Color.A * Math.Min(1f, dots - i));
+                CDraw.DrawTexture(ring.Texture, new SRectF(x, y, dotSize, dotSize, rect.Z), color);
             }
         }
 
@@ -846,22 +953,11 @@ namespace Vocaluxe.Screens
 
             if (remaining > 0f)
             {
-                var fullSeconds = (float)Math.Ceiling(remaining);
-                var partSeconds = remaining - (float)Math.Floor(remaining);
-
-                _Texts[_TextMedleyCountdown].Visible = true;
-                _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString("0");
-                _Texts[_TextMedleyCountdown].Font.Height = Math.Max(CSettings.RenderH / 8f, partSeconds * CSettings.RenderH);
-
-                var textBounds = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown]);
-                var x = CSettings.RenderW / 2f - textBounds.Width / 2f;
-                var y = CSettings.RenderH / 2f - textBounds.Height / 2f;
-                _Texts[_TextMedleyCountdown].X = x;
-                _Texts[_TextMedleyCountdown].Y = y;
+                _SetCountdown(remaining);
             }
             else
             {
-                _Texts[_TextMedleyCountdown].Visible = false;
+                _SetCountdown(0f);
                 _Texts[_TextMedleyCountdown].Text = string.Empty;
                 _TimerStartCountdown.Reset();
 
@@ -1076,24 +1172,57 @@ namespace Vocaluxe.Screens
             }
         }
 
+        private void _UpdateScoreText(int player)
+        {
+            var fmtString = CGame.Players[player].Points < 10000 ? "0000" : "00000";
+            var text = _Texts[_PlayerTextScore[player]];
+            text.Text = CGame.Players[player].Points.ToString(fmtString);
+
+            var scale = 1f;
+            var timeSinceLastLine = _CurrentTime - CGame.Players[player].TimeLastLineChange;
+            if (timeSinceLastLine >= 0f && timeSinceLastLine < 0.5f)
+            {
+                scale = 1f + 0.05f * (float)Math.Sin(Math.PI * timeSinceLastLine / 0.5f);
+            }
+
+            text.Font.Height = _ScoreTextHeight[player] * scale;
+            text.Y = _ScoreTextY[player] - _ScoreTextHeight[player] * (scale - 1f) / 2f;
+        }
+
         private void _UpdateRatingPopups()
         {
             for (var i = 0; i < CGame.NumPlayers; i++)
             {
-                var fadeOutTime = 1f;
-                var showTime = 0.5f;
+                var fadeInTime = 0.25f;
+                var fadeOutTime = 0.5f;
+                var showTime = 0.9f;
+                var popup = _RatingPopups[_PlayerRatingPopup[i]];
                 var timeSinceLastLine = Math.Abs(_CurrentTime - CGame.Players[i].TimeLastLineChange);
-                if (timeSinceLastLine < showTime)
+                if (timeSinceLastLine < fadeInTime)
                 {
-                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 1;
+                    var progress = timeSinceLastLine / fadeInTime;
+                    popup.Alpha = Math.Min(1f, timeSinceLastLine / 0.12f);
+                    popup.Scale = 0.6f + 0.4f * CHelper.EaseOutBack(progress);
+                    popup.OffsetY = (1f - CHelper.EaseOutCubic(progress)) * popup.Rect.H * 0.5f;
+                }
+                else if (timeSinceLastLine < showTime)
+                {
+                    popup.Alpha = 1;
+                    popup.Scale = 1;
+                    popup.OffsetY = 0;
                 }
                 else if (timeSinceLastLine < showTime + fadeOutTime)
                 {
-                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 1 - (timeSinceLastLine - showTime) / fadeOutTime;
+                    var progress = (timeSinceLastLine - showTime) / fadeOutTime;
+                    popup.Alpha = 1 - progress;
+                    popup.Scale = 1;
+                    popup.OffsetY = -CHelper.EaseOutCubic(progress) * popup.Rect.H * 0.5f;
                 }
                 else
                 {
-                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 0;
+                    popup.Alpha = 0;
+                    popup.Scale = 1;
+                    popup.OffsetY = 0;
                 }
 
                 switch (CGame.Players[i].RatingLastLine)
@@ -1169,7 +1298,25 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            var pauseAnimation = _GetPauseAnimation(out var pauseAlpha, out var pauseScale);
+            if (pauseAnimation)
+            {
+                _SetPauseAnimationVisibility(false);
+            }
+
             base.Draw();
+
+            if (pauseAnimation)
+            {
+                _SetPauseAnimationVisibility(true);
+                CDraw.PushTransform(1f, 0f, 0f, 0f, pauseAlpha);
+                _PauseAnimationBackgrounds.ForEach(element => element.Draw());
+                CDraw.PushTransform(pauseScale, CSettings.RenderW / 2f, CSettings.RenderH / 2f, 0f, 1f);
+                _PauseAnimationElements.ForEach(element => element.Draw());
+                CDraw.PopTransform();
+                CDraw.PopTransform();
+                _SetPauseAnimationVisibility(_PauseAnimationOpening);
+            }
 
             switch (CConfig.Config.Theme.TimerLook)
             {
@@ -1186,6 +1333,7 @@ namespace Vocaluxe.Screens
             }
 
             _DrawLyricHelper();
+            _DrawCountdownRing();
         }
 
         private void _DrawLyricHelper()
@@ -1433,8 +1581,76 @@ namespace Vocaluxe.Screens
             _SetPause(!_Pause);
         }
 
+        private bool _GetPauseAnimation(out float alpha, out float scale)
+        {
+            alpha = 1f;
+            scale = 1f;
+            if (!_TimerPauseAnimation.IsRunning || CSettings.ProgramState == EProgramState.EditTheme)
+            {
+                return false;
+            }
+
+            var duration = _PauseAnimationOpening ? 250f : 200f;
+            var progress = _TimerPauseAnimation.ElapsedMilliseconds / duration;
+            if (progress >= 1f)
+            {
+                _TimerPauseAnimation.Stop();
+                return false;
+            }
+
+            if (_PauseAnimationOpening)
+            {
+                alpha = Math.Min(1f, progress / 0.6f);
+                scale = 0.85f + 0.15f * CHelper.EaseOutBack(progress);
+            }
+            else
+            {
+                alpha = 1f - progress;
+                scale = 1f - 0.08f * progress;
+            }
+
+            return true;
+        }
+
+        private void _SetPauseAnimationVisibility(bool visible)
+        {
+            foreach (var element in _PauseAnimationBackgrounds.Concat(_PauseAnimationElements))
+            {
+                element.Visible = visible;
+            }
+        }
+
+        private void _StorePauseAnimationElements()
+        {
+            _PauseAnimationBackgrounds.Clear();
+            _PauseAnimationElements.Clear();
+
+            _PauseAnimationBackgrounds.AddRange(_StaticsPause.Select(s => (IMenuElement)_Statics[s]).Where(s => s.Visible));
+
+            var elements = new List<IMenuElement>
+            {
+                _Buttons[_ButtonCancel],
+                _Buttons[_ButtonContinue],
+                _Buttons[_ButtonSkip],
+                _Buttons[_ButtonRestartGame],
+                _Buttons[_ButtonRestartRound],
+                _SelectSlides[_SelectSlidePauseVocalsVolume]
+            };
+            elements.AddRange(_SelectSlidesPause.Select(s => (IMenuElement)_SelectSlides[s]));
+            elements.AddRange(_TextsPause.Select(s => (IMenuElement)_Texts[s]));
+            _PauseAnimationElements.AddRange(elements.Distinct().Where(e => e.Visible));
+        }
+
         private void _SetPause(bool paused)
         {
+            var pauseChanged = paused != _Pause;
+            if (pauseChanged && !paused)
+            {
+                _StorePauseAnimationElements();
+                _PauseAnimationOpening = false;
+                _TimerPauseAnimation.Restart();
+            }
+
             _Pause = paused;
 
             foreach (var s in _StaticsPause)
@@ -1460,6 +1676,13 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlidePauseVocalsVolume].Visible = _Pause && CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS;
             _Texts[_TextPauseVocalsVolume].Visible = _Pause && CGame.AudioMode == EAudioMode.TR_AUDIOMODE_VOCALS;
+
+            if (pauseChanged && paused)
+            {
+                _StorePauseAnimationElements();
+                _PauseAnimationOpening = true;
+                _TimerPauseAnimation.Restart();
+            }
 
             if (_StartDelayed)
             {

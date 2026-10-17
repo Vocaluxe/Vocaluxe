@@ -372,5 +372,18 @@ namespace VocaluxeLib
 
             return bmp;
         }
+
+        public static float EaseOutBack(float t)
+        {
+            const float overshoot = 1.70158f;
+            t -= 1f;
+            return t * t * ((overshoot + 1f) * t + overshoot) + 1f;
+        }
+
+        public static float EaseOutCubic(float t)
+        {
+            t = 1f - t;
+            return 1f - t * t * t;
+        }
     }
 }

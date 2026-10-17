@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib;
@@ -27,6 +28,64 @@ namespace Vocaluxe.Base
     static class CDraw
     {
         private static IDraw _Draw;
+
+        private struct STransform
+        {
+            public float Scale;
+            public float CenterX;
+            public float CenterY;
+            public float OffsetY;
+            public float Alpha;
+        }
+
+        private static readonly List<STransform> _Transforms = new List<STransform>();
+
+        public static void PushTransform(float scale, float centerX, float centerY, float offsetY, float alpha)
+        {
+            _Transforms.Add(new STransform { Scale = scale, CenterX = centerX, CenterY = centerY, OffsetY = offsetY, Alpha = alpha });
+        }
+
+        public static void PopTransform()
+        {
+            if (_Transforms.Count > 0)
+            {
+                _Transforms.RemoveAt(_Transforms.Count - 1);
+            }
+        }
+
+        private static SRectF _Transform(SRectF rect)
+        {
+            for (var i = _Transforms.Count - 1; i >= 0; i--)
+            {
+                var transform = _Transforms[i];
+                rect.X = transform.CenterX + (rect.X - transform.CenterX) * transform.Scale;
+                rect.Y = transform.CenterY + (rect.Y - transform.CenterY) * transform.Scale + transform.OffsetY;
+                rect.W *= transform.Scale;
+                rect.H *= transform.Scale;
+            }
+
+            return rect;
+        }
+
+        private static SColorF _Transform(SColorF color)
+        {
+            foreach (var transform in _Transforms)
+            {
+                color.A *= transform.Alpha;
+            }
+
+            return color;
+        }
+
+        private static float _TransformScale(float value)
+        {
+            foreach (var transform in _Transforms)
+            {
+                value *= transform.Scale;
+            }
+
+            return value;
+        }
 
         /// <summary>
         ///     Initializes the Driver selected in the config
@@ -295,7 +354,7 @@ namespace Vocaluxe.Base
         /// <param name="allMonitors">Render on all monitors</param>
         public static void DrawRect(SColorF color, SRectF rect, bool allMonitors = true)
         {
-            _Draw.DrawRect(color, rect, allMonitors);
+            _Draw.DrawRect(_Transform(color), _Transform(rect), allMonitors);
         }
 
         /// <summary>
@@ -307,7 +366,7 @@ namespace Vocaluxe.Base
         /// <param name="height">Height of the reflection</param>
         public static void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
-            _Draw.DrawRectReflection(color, rect, space, height);
+            _Draw.DrawRectReflection(_Transform(color), _Transform(rect), _TransformScale(space), _TransformScale(height));
         }
 
         /// <summary>
@@ -339,7 +398,7 @@ namespace Vocaluxe.Base
         /// <param name="allMonitors">Render on all monitors</param>
         public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, mirrored, allMonitors);
+            _Draw.DrawTexture(textureRef, _Transform(rect), _Transform(color), mirrored, allMonitors);
         }
 
         /// <summary>
@@ -353,7 +412,7 @@ namespace Vocaluxe.Base
         /// <param name="allMonitors">Render on all monitors</param>
         public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, bounds, mirrored, allMonitors);
+            _Draw.DrawTexture(textureRef, _Transform(rect), _Transform(color), _Transform(bounds), mirrored, allMonitors);
         }
 
         /// <summary>
@@ -367,7 +426,7 @@ namespace Vocaluxe.Base
         /// <param name="allMonitors">Render on all monitors</param>
         public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, begin, end, allMonitors);
+            _Draw.DrawTexture(textureRef, _Transform(rect), _Transform(color), begin, end, allMonitors);
         }
 
         /// <summary>
@@ -410,7 +469,7 @@ namespace Vocaluxe.Base
         /// <param name="height">Height of the reflection</param>
         public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height, bool allMonitors = true)
         {
-            _Draw.DrawTextureReflection(textureRef, rect, color, bounds, space, height, allMonitors);
+            _Draw.DrawTextureReflection(textureRef, _Transform(rect), _Transform(color), _Transform(bounds), _TransformScale(space), _TransformScale(height), allMonitors);
         }
     }
 }
