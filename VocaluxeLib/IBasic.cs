@@ -149,6 +149,9 @@ namespace VocaluxeLib
 
         void DrawRect(SColorF color, SRectF rect, bool allMonitors = true);
         void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
+
+        void PushTransform(float scale, float centerX, float centerY, float offsetY, float alpha);
+        void PopTransform();
     }
 
     public interface IGraphics
@@ -198,6 +201,7 @@ namespace VocaluxeLib
         float GetBeatFromTime(float time, float bpm, float gap);
 
         void AddSong(int songId, EGameMode gameMode);
+        void AddSong(int songId, EGameMode gameMode, EAudioMode audioMode);
         void Reset();
         void ClearSongs();
         int GetNumSongs();

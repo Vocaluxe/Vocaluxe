@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
@@ -29,6 +30,8 @@ namespace VocaluxeLib.Menu
         public bool ThemeLoaded { get; private set; }
         public CText Text;
         public float Alpha = 1;
+        public float Scale = 1;
+        public float OffsetY;
         public SColorF Color;
 
         public CRatingPopup(int partyModeId)
@@ -65,12 +68,37 @@ namespace VocaluxeLib.Menu
             color.A = Alpha;
             Text.Color.A = Alpha;
 
+            var w = Rect.W * Scale;
+            var h = Rect.H * Scale;
+            var x = Rect.X + (Rect.W - w) / 2f;
+            var y = Rect.Y + (Rect.H - h) / 2f + OffsetY;
+
             if (_TextureRatingPopup != null)
             {
-                CBase.Drawing.DrawTexture(_TextureRatingPopup, Rect, color, false);
+                CBase.Drawing.DrawTexture(_TextureRatingPopup, new SRectF(x, y, w, h, Rect.Z), color, false);
             }
 
-            Text.DrawRelative(Rect.X, Rect.Y);
+            if (Math.Abs(Scale - 1f) < 0.001f)
+            {
+                Text.DrawRelative(x, y);
+                return;
+            }
+
+            var textX = Text.X;
+            var textY = Text.Y;
+            var textW = Text.W;
+            var fontHeight = Text.Font.Height;
+
+            Text.X = textX * Scale;
+            Text.Y = textY * Scale;
+            Text.W = textW * Scale;
+            Text.Font.Height = fontHeight * Scale;
+            Text.DrawRelative(x, y);
+
+            Text.X = textX;
+            Text.Y = textY;
+            Text.W = textW;
+            Text.Font.Height = fontHeight;
         }
 
         public object GetTheme()

@@ -430,6 +430,8 @@ namespace VocaluxeLib
         Names,
         Credits,
         Party,
+        Statistics,
+        StatisticsDetail,
 
         CountEntry //Leave this as last entry and never use it!
     }

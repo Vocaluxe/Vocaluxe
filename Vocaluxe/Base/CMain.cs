@@ -462,6 +462,16 @@ namespace Vocaluxe.Base
         {
             CDraw.DrawRectReflection(color, rect, space, height);
         }
+
+        public void PushTransform(float scale, float centerX, float centerY, float offsetY, float alpha)
+        {
+            CDraw.PushTransform(scale, centerX, centerY, offsetY, alpha);
+        }
+
+        public void PopTransform()
+        {
+            CDraw.PopTransform();
+        }
     }
 
     class CBGraphics : IGraphics
@@ -608,6 +618,11 @@ namespace Vocaluxe.Base
         public void AddSong(int songId, EGameMode gameMode)
         {
             CGame.AddSong(songId, gameMode);
+        }
+
+        public void AddSong(int songId, EGameMode gameMode, EAudioMode audioMode)
+        {
+            CGame.AddSong(songId, gameMode, audioMode);
         }
 
         public void Reset()

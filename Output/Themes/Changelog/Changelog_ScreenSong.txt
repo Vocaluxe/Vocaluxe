@@ -1,6 +1,16 @@
 ScreenSong
 
 ++++++++++
+Version 15:
+(2026 Oct 16)
+
+Add:
+<SelectSlideAudioMode> in <Playlist> (audio mode for each playlist entry, only shown if the song has an instrumental file)
+
+Change:
+<EntryHeight> of <Playlist> to make room for the second select slide
+
+++++++++++
 Version 14:
 Add InstrumentalIcon
 Add VocalsIcon

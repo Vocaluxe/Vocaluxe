@@ -182,11 +182,29 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private static string _GetRating(double points)
+        private bool _IsKaraokeMode(int round)
+        {
+            if (round >= 0)
+            {
+                return CGame.GetAudioMode(round) == EAudioMode.TR_AUDIOMODE_KARAOKE;
+            }
+
+            for (var r = 0; r < CGame.NumRounds; r++)
+            {
+                if (CGame.GetAudioMode(r) != EAudioMode.TR_AUDIOMODE_KARAOKE)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private string _GetRating(double points)
         {
             string rating;
 
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (_IsKaraokeMode(_Round))
             {
                 rating = "TR_RATING_KARAOKE";
             }
@@ -307,7 +325,7 @@ namespace Vocaluxe.Screens
             _StopScoreSounds();
 
             // Do not play in Karaoke Mode
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE || maxPoints <= 0)
+            if (_IsKaraokeMode(_Round) || maxPoints <= 0)
             {
                 return;
             }
@@ -371,7 +389,7 @@ namespace Vocaluxe.Screens
         private void _PlayApplauseSound(int maxPoints)
         {
             // Play no applause sound based on Karaoke Mode
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (_IsKaraokeMode(_Round))
             {
                 return;
             }
@@ -501,7 +519,7 @@ namespace Vocaluxe.Screens
 
         private void _SetVisibility()
         {
-            var isKaraokeMode = CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE;
+            var isKaraokeMode = _IsKaraokeMode(_Round);
 
             for (var numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -569,7 +587,7 @@ namespace Vocaluxe.Screens
         {
             _StopScoreSounds();
 
-            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            if (_IsKaraokeMode(-1))
             {
                 CGraphics.FadeTo(EScreen.Song);
             }

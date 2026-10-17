@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
@@ -33,16 +34,19 @@ namespace VocaluxeLib.Menu
     {
         public int SongId;
         public EGameMode GameMode;
+        public EAudioMode AudioMode;
 
         public CPlaylistSong(int songId, EGameMode gm)
         {
             SongId = songId;
             GameMode = gm;
+            AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
         }
 
         public CPlaylistSong()
         {
             GameMode = EGameMode.TR_GAMEMODE_NORMAL;
+            AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
         }
 
         public SPlaylistSong ToStruct()
@@ -53,7 +57,7 @@ namespace VocaluxeLib.Menu
                 throw new Exception("Can't find Song. This should never happen!");
             }
 
-            return new SPlaylistSong { Artist = song.Artist, Title = song.Title, GameMode = GameMode };
+            return new SPlaylistSong { Artist = song.Artist, Title = song.Title, GameMode = GameMode, AudioMode = AudioMode };
         }
     }
 
@@ -87,6 +91,7 @@ namespace VocaluxeLib.Menu
         public SThemeButton ButtonPlaylistList;
 
         public SThemeSelectSlide SelectSlideGameMode;
+        public SThemeSelectSlide? SelectSlideAudioMode;
     }
 
     //TODO: Refactor this class, it is almost unreadable and may not work in some occasions
@@ -97,6 +102,7 @@ namespace VocaluxeLib.Menu
             public IList<EGameMode> Modes;
             public int SongId;
             public EGameMode Mode;
+            public EAudioMode AudioMode;
         }
 
         private class CPlaylistElement
@@ -105,6 +111,7 @@ namespace VocaluxeLib.Menu
             public CStatic Background;
             public CText Text1;
             public CSelectSlide SelectSlide;
+            public CSelectSlide SelectSlideAudio;
             public int Content;
 
             public CPlaylistElement() { }
@@ -115,6 +122,7 @@ namespace VocaluxeLib.Menu
                 Background = new CStatic(pe.Background);
                 Text1 = new CText(pe.Text1);
                 SelectSlide = new CSelectSlide(pe.SelectSlide);
+                SelectSlideAudio = pe.SelectSlideAudio == null ? null : new CSelectSlide(pe.SelectSlideAudio);
                 Content = pe.Content;
             }
 
@@ -122,6 +130,7 @@ namespace VocaluxeLib.Menu
             {
                 Background.Draw();
                 SelectSlide.Draw();
+                SelectSlideAudio?.Draw();
                 Cover.Draw();
                 Text1.Draw();
             }
@@ -139,6 +148,12 @@ namespace VocaluxeLib.Menu
 
                 SelectSlide.X += diffX;
                 SelectSlide.Y += diffY;
+
+                if (SelectSlideAudio != null)
+                {
+                    SelectSlideAudio.X += diffX;
+                    SelectSlideAudio.Y += diffY;
+                }
 
                 Text1.X += diffX;
                 Text1.Y += diffY;
@@ -170,6 +185,7 @@ namespace VocaluxeLib.Menu
         private readonly CButton _ButtonPlaylistList;
         private readonly CText _Text1;
         private readonly CSelectSlide _SelectSlideGameMode;
+        private readonly CSelectSlide _SelectSlideAudioMode;
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
 
@@ -265,6 +281,10 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistSing = new CButton(_Theme.ButtonPlaylistSing, _PartyModeId);
             _ButtonPlaylistList = new CButton(_Theme.ButtonPlaylistList, _PartyModeId);
             _SelectSlideGameMode = new CSelectSlide(_Theme.SelectSlideGameMode, _PartyModeId);
+            if (_Theme.SelectSlideAudioMode.HasValue)
+            {
+                _SelectSlideAudioMode = new CSelectSlide(_Theme.SelectSlideAudioMode.Value, _PartyModeId);
+            }
 
             _AddStatic(_StaticPlaylistFooter);
             _AddStatic(_StaticPlaylistHeader);
@@ -344,6 +364,7 @@ namespace VocaluxeLib.Menu
             _StaticPlaylistHeader.UnloadSkin();
 
             _SelectSlideGameMode.UnloadSkin();
+            _SelectSlideAudioMode?.UnloadSkin();
             _ClearElements();
         }
 
@@ -366,6 +387,7 @@ namespace VocaluxeLib.Menu
             _StaticPlaylistHeader.LoadSkin();
 
             _SelectSlideGameMode.LoadSkin();
+            _SelectSlideAudioMode?.LoadSkin();
 
             _UpdateRect();
 
@@ -449,6 +471,10 @@ namespace VocaluxeLib.Menu
                             base.HandleInput(keyEvent);
                             _CurrentPlaylistElement = _GetSelectedElementNr();
                         }
+                        else if (_IsAudioSlideSelected(_CurrentPlaylistElement))
+                        {
+                            _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
+                        }
                         else if (_CurrentPlaylistElement > scrollLimit || _PlaylistElementContents.Count == 0)
                         {
                             base.HandleInput(keyEvent);
@@ -460,6 +486,7 @@ namespace VocaluxeLib.Menu
                             {
                                 _Offset--;
                                 _Update();
+                                _SelectLastSlide(_CurrentPlaylistElement);
                             }
                             else
                             {
@@ -483,12 +510,17 @@ namespace VocaluxeLib.Menu
                                 }
                             }
                         }
+                        else if (_IsAudioSlideVisible(_CurrentPlaylistElement) && !_IsAudioSlideSelected(_CurrentPlaylistElement))
+                        {
+                            _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlideAudio);
+                        }
                         else if (_CurrentPlaylistElement >= scrollLimit)
                         {
                             if (_Offset < _PlaylistElementContents.Count - _PlaylistElements.Count)
                             {
                                 _Offset++;
                                 _Update();
+                                _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
                             }
                             else
                             {
@@ -646,9 +678,7 @@ namespace VocaluxeLib.Menu
 
                         if (_CurrentPlaylistElement != -1)
                         {
-                            CBase.Playlist.GetSong(ActivePlaylistId, _CurrentPlaylistElement + _Offset).GameMode =
-                                _PlaylistElementContents[_CurrentPlaylistElement + _Offset].Modes[_PlaylistElements[_CurrentPlaylistElement].SelectSlide.Selection];
-                            UpdatePlaylist();
+                            _ApplySelection(_CurrentPlaylistElement);
                         }
 
                         break;
@@ -659,9 +689,7 @@ namespace VocaluxeLib.Menu
 
                         if (_CurrentPlaylistElement != -1)
                         {
-                            CBase.Playlist.GetSong(ActivePlaylistId, _CurrentPlaylistElement + _Offset).GameMode =
-                                _PlaylistElementContents[_CurrentPlaylistElement + _Offset].Modes[_PlaylistElements[_CurrentPlaylistElement].SelectSlide.Selection];
-                            UpdatePlaylist();
+                            _ApplySelection(_CurrentPlaylistElement);
                         }
 
                         break;
@@ -784,13 +812,40 @@ namespace VocaluxeLib.Menu
         {
             for (var i = 0; i < _PlaylistElements.Count; i++)
             {
-                if (_PlaylistElements[i].SelectSlide.Selected)
+                if (_PlaylistElements[i].SelectSlide.Selected || _IsAudioSlideSelected(i))
                 {
                     return i;
                 }
             }
 
             return -1;
+        }
+
+        private bool _IsAudioSlideVisible(int element)
+        {
+            return element >= 0 && element < _PlaylistElements.Count && _PlaylistElements[element].SelectSlideAudio != null && _PlaylistElements[element].SelectSlideAudio.Visible;
+        }
+
+        private bool _IsAudioSlideSelected(int element)
+        {
+            return element >= 0 && element < _PlaylistElements.Count && _PlaylistElements[element].SelectSlideAudio != null && _PlaylistElements[element].SelectSlideAudio.Selected;
+        }
+
+        private void _SelectLastSlide(int element)
+        {
+            _SelectElement(_IsAudioSlideVisible(element) ? _PlaylistElements[element].SelectSlideAudio : _PlaylistElements[element].SelectSlide);
+        }
+
+        private void _ApplySelection(int element)
+        {
+            var playlistSong = CBase.Playlist.GetSong(ActivePlaylistId, element + _Offset);
+            playlistSong.GameMode = _PlaylistElementContents[element + _Offset].Modes[_PlaylistElements[element].SelectSlide.Selection];
+            if (_IsAudioSlideVisible(element))
+            {
+                playlistSong.AudioMode = (EAudioMode)_PlaylistElements[element].SelectSlideAudio.SelectedTag;
+            }
+
+            UpdatePlaylist();
         }
 
         public void ScrollToBottom()
@@ -843,7 +898,9 @@ namespace VocaluxeLib.Menu
                     {
                         hoverSet = true;
                         _CurrentPlaylistElement = i;
-                        _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
+                        _SelectElement(_IsAudioSlideVisible(i) && CHelper.IsInBounds(_PlaylistElements[i].SelectSlideAudio.Rect, mouseEvent)
+                                           ? _PlaylistElements[i].SelectSlideAudio
+                                           : _PlaylistElements[i].SelectSlide);
                         ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
                     }
 
@@ -876,9 +933,7 @@ namespace VocaluxeLib.Menu
 
                             if (_CurrentPlaylistElement != -1)
                             {
-                                CBase.Playlist.GetSong(ActivePlaylistId, _CurrentPlaylistElement + _Offset).GameMode =
-                                    _PlaylistElementContents[_CurrentPlaylistElement + _Offset].Modes[_PlaylistElements[_CurrentPlaylistElement].SelectSlide.Selection];
-                                UpdatePlaylist();
+                                _ApplySelection(_CurrentPlaylistElement);
                             }
 
                             if (_ButtonPlaylistClose.Selected)
@@ -938,6 +993,11 @@ namespace VocaluxeLib.Menu
                                 SelectSlide = { Z = CBase.Settings.GetZNear() },
                                 Text1 = { Z = CBase.Settings.GetZNear() }
                             };
+
+                            if (_ChangeOrderElement.SelectSlideAudio != null)
+                            {
+                                _ChangeOrderElement.SelectSlideAudio.Z = CBase.Settings.GetZNear();
+                            }
 
                             _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeId);
                             _ChangeOrderElement.Background.Color = _BackgroundColor;
@@ -1116,10 +1176,23 @@ namespace VocaluxeLib.Menu
                 en.SelectSlide.X += _Theme.Rect.X;
                 en.SelectSlide.Y += _Theme.Rect.Y + i * _Theme.EntryHeight;
 
+                if (_SelectSlideAudioMode != null)
+                {
+                    en.SelectSlideAudio = new CSelectSlide(_SelectSlideAudioMode);
+                    en.SelectSlideAudio.LoadSkin();
+                    en.SelectSlideAudio.X += _Theme.Rect.X;
+                    en.SelectSlideAudio.Y += _Theme.Rect.Y + i * _Theme.EntryHeight;
+                }
+
                 en.Content = -1;
 
                 _PlaylistElements.Add(en);
                 _AddSelectSlide(en.SelectSlide);
+                if (en.SelectSlideAudio != null)
+                {
+                    _AddSelectSlide(en.SelectSlideAudio);
+                }
+
                 _AddText(en.Text1);
                 _AddStatic(en.Background);
                 _AddStatic(en.Cover);
@@ -1142,7 +1215,8 @@ namespace VocaluxeLib.Menu
                 {
                     SongId = CBase.Playlist.GetSong(ActivePlaylistId, i).SongId,
                     Modes = CBase.Songs.GetSongById(CBase.Playlist.GetSong(ActivePlaylistId, i).SongId).AvailableGameModes,
-                    Mode = CBase.Playlist.GetSong(ActivePlaylistId, i).GameMode
+                    Mode = CBase.Playlist.GetSong(ActivePlaylistId, i).GameMode,
+                    AudioMode = CBase.Playlist.GetSong(ActivePlaylistId, i).AudioMode
                 };
                 _PlaylistElementContents.Add(pec);
             }
@@ -1160,6 +1234,7 @@ namespace VocaluxeLib.Menu
                 var pec = new CPlaylistElementContent { SongId = CBase.Playlist.GetSong(ActivePlaylistId, i).SongId };
                 pec.Modes = CBase.Songs.GetSongById(pec.SongId).AvailableGameModes;
                 pec.Mode = CBase.Playlist.GetSong(ActivePlaylistId, i).GameMode;
+                pec.AudioMode = CBase.Playlist.GetSong(ActivePlaylistId, i).AudioMode;
                 _PlaylistElementContents.Add(pec);
             }
 
@@ -1183,7 +1258,7 @@ namespace VocaluxeLib.Menu
             {
                 for (var i = 0; i < CBase.Playlist.GetSongCount(ActivePlaylistId); i++)
                 {
-                    CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistId, i).SongId, CBase.Playlist.GetSong(ActivePlaylistId, i).GameMode);
+                    CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistId, i).SongId, CBase.Playlist.GetSong(ActivePlaylistId, i).GameMode, CBase.Playlist.GetSong(ActivePlaylistId, i).AudioMode);
                 }
 
                 if (CBase.Game.GetNumSongs() > 0)
@@ -1198,7 +1273,7 @@ namespace VocaluxeLib.Menu
             CBase.Game.Reset();
             CBase.Game.ClearSongs();
 
-            CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistId, selected).SongId, CBase.Playlist.GetSong(ActivePlaylistId, selected).GameMode);
+            CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistId, selected).SongId, CBase.Playlist.GetSong(ActivePlaylistId, selected).GameMode, CBase.Playlist.GetSong(ActivePlaylistId, selected).AudioMode);
 
             if (CBase.Game.GetNumSongs() > 0)
             {
@@ -1234,16 +1309,59 @@ namespace VocaluxeLib.Menu
                     }
 
                     _PlaylistElements[i].SelectSlide.SelectedTag = (int)pec.Mode;
+                    _UpdateAudioSlide(i, song, pec.AudioMode);
                 }
                 else
                 {
                     _PlaylistElements[i].Background.Visible = false;
                     _PlaylistElements[i].Cover.Visible = false;
                     _PlaylistElements[i].SelectSlide.Visible = false;
+                    if (_PlaylistElements[i].SelectSlideAudio != null)
+                    {
+                        _PlaylistElements[i].SelectSlideAudio.Visible = false;
+                    }
+
                     _PlaylistElements[i].Text1.Visible = false;
                     _PlaylistElements[i].Content = -1;
                 }
             }
+        }
+
+        private void _UpdateAudioSlide(int element, CSong song, EAudioMode audioMode)
+        {
+            var audioSlide = _PlaylistElements[element].SelectSlideAudio;
+            if (audioSlide == null)
+            {
+                return;
+            }
+
+            audioSlide.Clear();
+            if (!song.HasInstrumental())
+            {
+                if (audioSlide.Selected)
+                {
+                    _SelectElement(_PlaylistElements[element].SelectSlide);
+                }
+
+                audioSlide.Visible = false;
+                return;
+            }
+
+            audioSlide.AddValue("TR_AUDIOMODE_NORMAL", null, (int)EAudioMode.TR_AUDIOMODE_NORMAL);
+            audioSlide.AddValue("TR_AUDIOMODE_INSTRUMENTAL", null, (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
+            if (song.HasVocals())
+            {
+                audioSlide.AddValue("TR_AUDIOMODE_VOCALS", null, (int)EAudioMode.TR_AUDIOMODE_VOCALS);
+            }
+
+            audioSlide.AddValue("TR_AUDIOMODE_KARAOKE", null, (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
+            audioSlide.SelectedTag = (int)audioMode;
+            if (audioSlide.SelectedTag != (int)audioMode)
+            {
+                audioSlide.SelectedTag = (int)EAudioMode.TR_AUDIOMODE_NORMAL;
+            }
+
+            audioSlide.Visible = true;
         }
 
         public object GetTheme()

@@ -1,0 +1,1170 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenStatistics</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Default</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="StaticMenuBar">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>0</X>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTile1">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.45</A>
+      </Color>
+      <Rect>
+        <X>90</X>
+        <Y>165</Y>
+        <W>855</W>
+        <H>405</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTile2">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.45</A>
+      </Color>
+      <Rect>
+        <X>975</X>
+        <Y>165</Y>
+        <W>855</W>
+        <H>405</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTile3">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.45</A>
+      </Color>
+      <Rect>
+        <X>90</X>
+        <Y>600</Y>
+        <W>855</W>
+        <H>405</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTile4">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.45</A>
+      </Color>
+      <Rect>
+        <X>975</X>
+        <Y>600</Y>
+        <W>855</W>
+        <H>405</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTileSelection">
+      <Skin />
+      <Color>
+        <R>0.2</R>
+        <G>0.8</G>
+        <B>0.99</B>
+        <A>0.25</A>
+      </Color>
+      <Rect>
+        <X>90</X>
+        <Y>165</Y>
+        <W>855</W>
+        <H>405</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar1">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>1005</X>
+        <Y>660</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar2">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>1005</X>
+        <Y>740</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar3">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>1005</X>
+        <Y>820</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatar4">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>1005</X>
+        <Y>900</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestColumn1">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>119</X>
+        <Y>658</Y>
+        <W>257</W>
+        <H>300</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal11">
+      <Skin>Star</Skin>
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>131</X>
+        <Y>728</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal12">
+      <Skin>Star</Skin>
+      <Color Name="Top2Color" />
+      <Rect>
+        <X>131</X>
+        <Y>806</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal13">
+      <Skin>Star</Skin>
+      <Color Name="Top3Color" />
+      <Rect>
+        <X>131</X>
+        <Y>884</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestColumn2">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>389</X>
+        <Y>658</Y>
+        <W>257</W>
+        <H>300</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal21">
+      <Skin>Star</Skin>
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>401</X>
+        <Y>728</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal22">
+      <Skin>Star</Skin>
+      <Color Name="Top2Color" />
+      <Rect>
+        <X>401</X>
+        <Y>806</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal23">
+      <Skin>Star</Skin>
+      <Color Name="Top3Color" />
+      <Rect>
+        <X>401</X>
+        <Y>884</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestColumn3">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.07</A>
+      </Color>
+      <Rect>
+        <X>659</X>
+        <Y>658</Y>
+        <W>257</W>
+        <H>300</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal31">
+      <Skin>Star</Skin>
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>671</X>
+        <Y>728</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal32">
+      <Skin>Star</Skin>
+      <Color Name="Top2Color" />
+      <Rect>
+        <X>671</X>
+        <Y>806</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticBestMedal33">
+      <Skin>Star</Skin>
+      <Color Name="Top3Color" />
+      <Rect>
+        <X>671</X>
+        <Y>884</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextTitle">
+      <X>960</X>
+      <Y>75</Y>
+      <Z>-1</Z>
+      <H>40.5</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_TITLE</Text>
+    </Text>
+    <Text Name="TextHint">
+      <X>90</X>
+      <Y>1050</Y>
+      <Z>0</Z>
+      <H>24</H>
+      <MaxW>1740</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_HINT</Text>
+    </Text>
+    <Text Name="TextTileTitle1">
+      <X>120</X>
+      <Y>183</Y>
+      <Z>-1</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_OVERVIEW</Text>
+    </Text>
+    <Text Name="TextTileTitle2">
+      <X>1005</X>
+      <Y>183</Y>
+      <Z>-1</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_RECENT</Text>
+    </Text>
+    <Text Name="TextTileTitle3">
+      <X>120</X>
+      <Y>618</Y>
+      <Z>-1</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_BEST</Text>
+    </Text>
+    <Text Name="TextTileTitle4">
+      <X>1005</X>
+      <Y>618</Y>
+      <Z>-1</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_PLAYERS</Text>
+    </Text>
+    <Text Name="TextSongsValue">
+      <X>120</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>60</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextLabel1">
+      <X>120</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>30</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_SONGS</Text>
+    </Text>
+    <Text Name="TextSungValue">
+      <X>390</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>60</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextLabel2">
+      <X>390</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>30</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_SUNG</Text>
+    </Text>
+    <Text Name="TextPlayersValue">
+      <X>660</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>60</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextLabel3">
+      <X>660</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>30</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_PLAYERCOUNT</Text>
+    </Text>
+    <Text Name="TextCoverage">
+      <X>120</X>
+      <Y>344</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextMostSungTitle">
+      <X>120</X>
+      <Y>424</Y>
+      <Z>-1</Z>
+      <H>30</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSTATISTICS_MOSTSUNG</Text>
+    </Text>
+    <Text Name="TextMostSung1">
+      <X>120</X>
+      <Y>460</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>795</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextMostSung2">
+      <X>120</X>
+      <Y>502</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>795</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentDate1">
+      <X>1005</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>140</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentSong1">
+      <X>1155</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>560</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentScore1">
+      <X>1800</X>
+      <Y>232</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentDate2">
+      <X>1005</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>140</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentSong2">
+      <X>1155</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>560</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentScore2">
+      <X>1800</X>
+      <Y>296</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentDate3">
+      <X>1005</X>
+      <Y>360</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>140</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentSong3">
+      <X>1155</X>
+      <Y>360</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>560</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentScore3">
+      <X>1800</X>
+      <Y>360</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentDate4">
+      <X>1005</X>
+      <Y>424</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>140</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentSong4">
+      <X>1155</X>
+      <Y>424</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>560</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentScore4">
+      <X>1800</X>
+      <Y>424</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentDate5">
+      <X>1005</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>140</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentSong5">
+      <X>1155</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>560</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextRecentScore5">
+      <X>1800</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>34</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextDifficulty1">
+      <X>249</X>
+      <Y>668</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_CONFIG_EASY</Text>
+    </Text>
+    <Text Name="TextBestName11">
+      <X>167</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore11">
+      <X>366</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName12">
+      <X>167</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore12">
+      <X>366</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName13">
+      <X>167</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore13">
+      <X>366</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextDifficulty2">
+      <X>519</X>
+      <Y>668</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_CONFIG_NORMAL</Text>
+    </Text>
+    <Text Name="TextBestName21">
+      <X>437</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore21">
+      <X>636</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName22">
+      <X>437</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore22">
+      <X>636</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName23">
+      <X>437</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore23">
+      <X>636</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextDifficulty3">
+      <X>789</X>
+      <Y>668</Y>
+      <Z>-1</Z>
+      <H>32</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_CONFIG_HARD</Text>
+    </Text>
+    <Text Name="TextBestName31">
+      <X>707</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore31">
+      <X>906</X>
+      <Y>722</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName32">
+      <X>707</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore32">
+      <X>906</X>
+      <Y>800</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestName33">
+      <X>707</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>110</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextBestScore33">
+      <X>906</X>
+      <Y>878</Y>
+      <Z>-1</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerName1">
+      <X>1085</X>
+      <Y>670</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>540</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerAverage1">
+      <X>1800</X>
+      <Y>670</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerName2">
+      <X>1085</X>
+      <Y>750</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>540</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerAverage2">
+      <X>1800</X>
+      <Y>750</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerName3">
+      <X>1085</X>
+      <Y>830</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>540</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerAverage3">
+      <X>1800</X>
+      <Y>830</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerName4">
+      <X>1085</X>
+      <Y>910</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>540</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPlayerAverage4">
+      <X>1800</X>
+      <Y>910</Y>
+      <Z>-1</Z>
+      <H>38</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+  </Texts>
+  <ProgressBars>
+    <ProgressBar Name="ProgressBarCoverage">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_OFF</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_OFF</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="ButtonSelColor" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>120</X>
+        <Y>388</Y>
+        <W>795</W>
+        <H>18</H>
+        <Z>-1</Z>
+      </Rect>
+    </ProgressBar>
+  </ProgressBars>
+  <ScreenSettings />
+</Screen>

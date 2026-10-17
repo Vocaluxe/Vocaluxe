@@ -144,10 +144,17 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        private readonly Stopwatch _SelectTimer = new Stopwatch();
+
         public override bool Selected
         {
             set
             {
+                if (value && !base.Selected)
+                {
+                    _SelectTimer.Restart();
+                }
+
                 base.Selected = value;
 
                 if (!value)
@@ -582,6 +589,38 @@ namespace VocaluxeLib.Menu
         }
 
         public void Draw()
+        {
+            var scale = _GetSelectionScale();
+            if (scale > 1f)
+            {
+                CBase.Drawing.PushTransform(scale, Rect.X + Rect.W / 2f, Rect.Y + Rect.H / 2f, 0f, 1f);
+                _DrawSelectSlide();
+                CBase.Drawing.PopTransform();
+            }
+            else
+            {
+                _DrawSelectSlide();
+            }
+        }
+
+        private float _GetSelectionScale()
+        {
+            if (!Selected || !_SelectTimer.IsRunning || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            {
+                return 1f;
+            }
+
+            var progress = _SelectTimer.ElapsedMilliseconds / 450f;
+            if (progress >= 1f)
+            {
+                _SelectTimer.Stop();
+                return 1f;
+            }
+
+            return 1f + 0.025f * (float)Math.Sin(Math.PI * progress);
+        }
+
+        private void _DrawSelectSlide()
         {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
             {
