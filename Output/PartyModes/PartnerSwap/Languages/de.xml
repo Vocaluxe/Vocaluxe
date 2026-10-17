@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Deutsch</string>
+  <string name="TR_PARTYMODE_NAME">Partnertausch</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Singt zu zweit mit ständig wechselnden Partnern. Beide Sänger bekommen die Punkte des Paares, der beste Durchschnitt gewinnt.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Für 3 bis 12 Spieler, die gern gemeinsam singen, 2 Mikrofone nötig.</string>
+  <string name="TR_BUTTON_NEXT">Weiter</string>
+  <string name="TR_BUTTON_BACK">Zurück</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Beenden</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nein</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Song starten</string>
+  <string name="TR_SONGS">Songs</string>
+  <string name="TR_SCREENCONFIG_TITLE">Partnertausch: Konfiguration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
+  <string name="TR_SCREENCONFIG_NUMPASSES">Durchgänge</string>
+  <string name="TR_SCREENCONFIG_HARMONYBONUS">Gleichklang-Bonus</string>
+  <string name="TR_SCREENCONFIG_DUETS">Duett-Songs</string>
+  <string name="TR_SCREENCONFIG_DUETS_MIXED">Gemischt</string>
+  <string name="TR_SCREENCONFIG_DUETS_ONLY">Nur Duette</string>
+  <string name="TR_SCREENCONFIG_DUETS_NONE">Keine Duette</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Joker pro Spieler</string>
+  <string name="TR_SCREENNAMES_TITLE">Partnertausch: Spieler auswählen</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig wählen</string>
+  <string name="TR_SCREENMAIN_TITLE">Partnertausch</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Willst du das Spiel wirklich beenden?</string>
+  <string name="TR_SCREENMAIN_HEADER_POS">Pos</string>
+  <string name="TR_SCREENMAIN_HEADER_NAME">Name</string>
+  <string name="TR_SCREENMAIN_HEADER_SONGS">Songs</string>
+  <string name="TR_SCREENMAIN_HEADER_AVERAGE">Ø</string>
+  <string name="TR_SCREENMAIN_PASS">Durchgang</string>
+  <string name="TR_SCREENMAIN_SONG">Song</string>
+  <string name="TR_SCREENMAIN_PAUSE">Pause:</string>
+  <string name="TR_SCREENMAIN_FIRST_TIME">singen zum ersten Mal zusammen</string>
+  <string name="TR_SCREENMAIN_TIMES_TOGETHER">singen zum %n. Mal zusammen</string>
+  <string name="TR_SCREENMAIN_LAST_SONG">Letzter Song:</string>
+  <string name="TR_SCREENMAIN_HARMONY_BONUS">Gleichklang-Bonus</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR">Bestes Paar bisher</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR_FINAL">Bestes Paar des Abends</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Sieger</string>
+</resources>
