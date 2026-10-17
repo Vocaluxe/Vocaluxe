@@ -8,6 +8,8 @@
     <VersionMinor>1</VersionMinor>
   </Info>
   <Colors />
-  <Skins />
+  <Skins>
+    <PartyModeIcon>PartyModeIcon.png</PartyModeIcon>
+  </Skins>
   <Videos />
 </root>

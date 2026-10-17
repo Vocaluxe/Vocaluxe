@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenParty</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -25,6 +25,61 @@
         <Z>1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticTile">
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>170</X>
+        <Y>160</Y>
+        <W>500</W>
+        <H>250</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTileSelected">
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonSelColor" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>500</W>
+        <H>250</H>
+        <Z>0.5</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTileIcon">
+      <Skin />
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>345</X>
+        <Y>182</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0.4</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTileIconSelected">
+      <Skin />
+      <Color Name="ButtonTextSelColor" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0.4</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticDetailPanel">
+      <Skin>SongMenu</Skin>
+      <Color Name="StaticColorAlpha" />
+      <Rect>
+        <X>170</X>
+        <Y>720</Y>
+        <W>1580</W>
+        <H>190</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
@@ -41,201 +96,250 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_TITLE</Text>
     </Text>
-    <Text Name="TextPartyModes">
-      <X>112.5</X>
-      <Y>160.5</Y>
+    <Text Name="TextTileName">
+      <X>420</X>
+      <Y>345</Y>
       <Z>0</Z>
-      <H>0</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
+      <H>40</H>
+      <MaxW>470</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_MODES</Text>
+      <Text />
     </Text>
-    <Text Name="TextPartyDescription">
-      <X>112.5</X>
-      <Y>250.5</Y>
+    <Text Name="TextTileNameSelected">
+      <X>0</X>
+      <Y>0</Y>
       <Z>0</Z>
-      <H>0</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
+      <H>40</H>
+      <MaxW>470</MaxW>
+      <Color Name="ButtonTextSelColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_DESCRIPTION</Text>
+      <Text />
     </Text>
-    <Text Name="TextPartyTargetaudience">
-      <X>112.5</X>
-      <Y>340.5</Y>
+    <Text Name="TextPage">
+      <X>960</X>
+      <Y>691</Y>
       <Z>0</Z>
-      <H>0</H>
+      <H>24</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_TARGETAUDIENCE</Text>
-    </Text>
-    <Text Name="TextPartyNumTeams">
-      <X>742.5</X>
-      <Y>580.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_NUMTEAMS</Text>
-    </Text>
-    <Text Name="TextPartyNumPlayers">
-      <X>742.5</X>
-      <Y>670.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_NUMPLAYERS</Text>
-    </Text>
-    <Text Name="TextPartyAuthor">
-      <X>112.5</X>
-      <Y>610.5</Y>
-      <Z>0</Z>
-      <H>0</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_AUTHOR</Text>
-    </Text>
-    <Text Name="TextPartyVersion">
-      <X>112.5</X>
-      <Y>700.5</Y>
-      <Z>0</Z>
-      <H>0</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENPARTY_VERSION</Text>
-    </Text>
-    <Text Name="TextDescription">
-      <X>975</X>
-      <Y>400.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextDetailName">
+      <X>200</X>
+      <Y>742</Y>
+      <Z>0</Z>
+      <H>40</H>
+      <MaxW>1000</MaxW>
+      <Color Name="ButtonSelColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextDescription">
+      <X>200</X>
+      <Y>790</Y>
+      <Z>0</Z>
+      <H>30</H>
+      <MaxW>1000</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextTargetAudience">
-      <X>975</X>
-      <Y>490.5</Y>
+      <X>200</X>
+      <Y>832</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
+      <H>28</H>
+      <MaxW>1000</MaxW>
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
+      <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextNumTeams">
-      <X>1155</X>
-      <Y>580.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextNumPlayers">
-      <X>1155</X>
-      <Y>670.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextAuthor">
-      <X>1275</X>
-      <Y>610.5</Y>
-      <Z>0</Z>
-      <H>0</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextVersion">
-      <X>1275</X>
-      <Y>700.5</Y>
-      <Z>0</Z>
-      <H>0</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextError">
-      <X>1275</X>
-      <Y>790.5</Y>
+      <X>200</X>
+      <Y>868</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>900</MaxW>
-      <Color Name="TextWarningColor" />
+      <H>28</H>
+      <MaxW>1000</MaxW>
+      <Color>
+        <R>1</R>
+        <G>0.45</G>
+        <B>0.45</B>
+        <A>1</A>
+      </Color>
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
+      <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_ERROR</Text>
+    </Text>
+    <Text Name="TextPartyNumPlayers">
+      <X>1480</X>
+      <Y>742</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>280</MaxW>
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENPARTY_NUMPLAYERS</Text>
+    </Text>
+    <Text Name="TextNumPlayers">
+      <X>1500</X>
+      <Y>742</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>235</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPartyNumTeams">
+      <X>1480</X>
+      <Y>780</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>280</MaxW>
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENPARTY_NUMTEAMS</Text>
+    </Text>
+    <Text Name="TextNumTeams">
+      <X>1500</X>
+      <Y>780</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>235</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPartyNumMics">
+      <X>1480</X>
+      <Y>818</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>280</MaxW>
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENPARTY_NUMMICS</Text>
+    </Text>
+    <Text Name="TextNumMics">
+      <X>1500</X>
+      <Y>818</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>235</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPartyAuthor">
+      <X>1480</X>
+      <Y>856</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>280</MaxW>
+      <Color>
+        <R>0.75</R>
+        <G>0.78</G>
+        <B>0.85</B>
+        <A>1</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENPARTY_AUTHOR</Text>
+    </Text>
+    <Text Name="TextAuthor">
+      <X>1500</X>
+      <Y>856</Y>
+      <Z>0</Z>
+      <H>28</H>
+      <MaxW>235</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
     </Text>
   </Texts>
   <Buttons>
@@ -243,8 +347,8 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1477.5</X>
-        <Y>900</Y>
+        <X>1545</X>
+        <Y>945</Y>
         <W>225</W>
         <H>75</H>
         <Z>0</Z>
@@ -278,8 +382,8 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>217.5</X>
-        <Y>900</Y>
+        <X>150</X>
+        <Y>945</Y>
         <W>225</W>
         <H>75</H>
         <Z>0</Z>
@@ -309,53 +413,64 @@
         <Space>15</Space>
       </SelReflection>
     </Button>
+    <Button Name="ButtonPageUp">
+      <Skin>ScrollUp</Skin>
+      <SkinSelected>ScrollUp</SkinSelected>
+      <Rect>
+        <X>1775</X>
+        <Y>170</Y>
+        <W>60</W>
+        <H>32</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonPageDown">
+      <Skin>ScrollDown</Skin>
+      <SkinSelected>ScrollDown</SkinSelected>
+      <Rect>
+        <X>1775</X>
+        <Y>648</Y>
+        <W>60</W>
+        <H>32</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+      </Text>
+    </Button>
   </Buttons>
   <SongMenus />
   <Lyrics />
-  <SelectSlides>
-    <SelectSlide Name="SelectSlideModes">
-      <Skin />
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>450</X>
-        <Y>300</Y>
-        <W>1072.5</W>
-        <H>75</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>457.5</X>
-        <Y>307.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1455</X>
-        <Y>307.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
-      <TextSelColor Name="TextColor" />
-      <TextH>81</TextH>
-      <TextRelativeX>75</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>900</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>1</NumVisible>
-    </SelectSlide>
-  </SelectSlides>
+  <SelectSlides />
   <SingNotes />
   <NameSelections />
   <Equalizers />

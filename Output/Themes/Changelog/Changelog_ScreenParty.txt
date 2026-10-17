@@ -1,2 +1,30 @@
 ScreenParty
 +++++++++
+Version 2:
+(2026 Oct 17)
+
+Add:
+<StaticTile>
+<StaticTileSelected>
+<StaticTileIcon>
+<StaticTileIconSelected>
+<StaticDetailPanel>
+<TextTileName>
+<TextTileNameSelected>
+<TextPage>
+<TextDetailName>
+<TextNumMics>
+<TextPartyNumMics>
+<ButtonPageUp>
+<ButtonPageDown>
+
+Remove:
+<SelectSlideModes>
+<TextPartyModes>
+<TextPartyDescription>
+<TextPartyTargetaudience>
+<TextPartyVersion>
+<TextVersion>
+
+Change:
+All party modes are shown as tiles with an icon, the details of the selected mode are shown below
