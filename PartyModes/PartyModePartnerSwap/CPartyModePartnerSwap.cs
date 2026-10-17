@@ -75,7 +75,7 @@ namespace VocaluxeLib.PartyModes.PartnerSwap
         public const int PlayersPerSong = 2;
         public const int MaxJokers = 3;
         public const int HarmonyRange = 500;
-        public const int HarmonyBonus = 500;
+        public const int HarmonyBonusPoints = 500;
 
         public override int MinMics
         {
@@ -706,7 +706,7 @@ namespace VocaluxeLib.PartyModes.PartnerSwap
                 pair.Scores[p] = (int)Math.Round(scores[p] / points.NumRounds);
             }
 
-            pair.Bonus = GameData.HarmonyBonus && Math.Abs(pair.Scores[0] - pair.Scores[1]) <= HarmonyRange ? HarmonyBonus : 0;
+            pair.Bonus = GameData.HarmonyBonus && Math.Abs(pair.Scores[0] - pair.Scores[1]) <= HarmonyRange ? HarmonyBonusPoints : 0;
             pair.Sung = true;
 
             foreach (var player in pair.Players)
