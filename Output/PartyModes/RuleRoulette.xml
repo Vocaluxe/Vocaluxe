@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>McSchneidar</Author>
+    <Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>RuleRoulette</Folder>
+    <PartyModeFile>CPartyModeRuleRoulette</PartyModeFile>
+    <PartyModeVersionMajor>1</PartyModeVersionMajor>
+    <PartyModeVersionMinor>0</PartyModeVersionMinor>
+    <TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>CPartyScreenRuleRouletteMain</ScreenFile>
+    <ScreenFile>CPartyScreenRuleRouletteConfig</ScreenFile>
+    <ScreenFile>CPartyScreenRuleRouletteNames</ScreenFile>
+    <ScreenFile>CPartyScreenRuleRouletteSongs</ScreenFile>
+    <ScreenFile>CPartyScreenRuleRouletteRules</ScreenFile>
+  </PartyScreens>
+</root>
