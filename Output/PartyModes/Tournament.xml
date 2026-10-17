@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>McSchneidar</Author>
+    <Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>Tournament</Folder>
+    <PartyModeFile>CPartyModeTournament</PartyModeFile>
+    <PartyModeVersionMajor>1</PartyModeVersionMajor>
+    <PartyModeVersionMinor>0</PartyModeVersionMinor>
+    <TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>CPartyScreenTournamentMain</ScreenFile>
+    <ScreenFile>CPartyScreenTournamentConfig</ScreenFile>
+    <ScreenFile>CPartyScreenTournamentNames</ScreenFile>
+    <ScreenFile>CPartyScreenTournamentSongs</ScreenFile>
+  </PartyScreens>
+</root>

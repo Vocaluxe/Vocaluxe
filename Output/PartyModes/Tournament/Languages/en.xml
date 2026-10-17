@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">English</string>
+  <string name="TR_PARTYMODE_NAME">Knockout Tournament</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Sing duels in a knockout bracket until only one champion is left.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">For 3 to 16 players who like a real competition.</string>
+  <string name="TR_BUTTON_NEXT">Next</string>
+  <string name="TR_BUTTON_BACK">Back</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Exit</string>
+  <string name="TR_BUTTON_YES">Yes</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Start duel</string>
+  <string name="TR_SONGS">Songs</string>
+  <string name="TR_SCREENCONFIG_TITLE">Knockout Tournament: Configuration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Number of players</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokers per player</string>
+  <string name="TR_SCREENNAMES_TITLE">Knockout Tournament: Choose Players</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Select random</string>
+  <string name="TR_SCREENMAIN_TITLE">Knockout Tournament</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Do you really want to exit the tournament?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Round of 16</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Quarterfinal</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Semifinal</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Final</string>
+  <string name="TR_SCREENMAIN_BYE">Bye</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Champion</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Next duel:</string>
+  <string name="TR_SCREENMAIN_VERSUS">vs.</string>
+  <string name="TR_SCREENMAIN_REMATCH">Tie! The duel is sung again.</string>
+</resources>
