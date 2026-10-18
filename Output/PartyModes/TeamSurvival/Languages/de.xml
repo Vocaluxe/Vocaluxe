@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Deutsch</string>
+  <string name="TR_PARTYMODE_NAME">Team Survival</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Zwei Teams singen Duelle, der Verlierer verliert ein Herz, das letzte Team gewinnt.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Für zwei Teams mit bis zu 8 Spielern, 2 Mikrofone nötig.</string>
+  <string name="TR_BUTTON_NEXT">Weiter</string>
+  <string name="TR_BUTTON_BACK">Zurück</string>
+  <string name="TR_BUTTON_EXIT">Beenden</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nein</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Duell starten</string>
+  <string name="TR_SONGS">Songs</string>
+  <string name="TR_TEAM">Team</string>
+  <string name="TR_SCREENCONFIG_TITLE">Team Survival: Konfiguration</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Herzen</string>
+  <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Für alle gleich</string>
+  <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Pro Spieler festlegen</string>
+  <string name="TR_SCREENCONFIG_NUMHEARTS">Herzen pro Spieler</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Joker pro Spieler</string>
+  <string name="TR_SCREENNAMES_TITLE">Team Survival: Teams zusammenstellen</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Ausgewählte Spieler für dieses Team:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Team 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig wählen</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Füge beiden Teams mindestens einen Spieler hinzu! / Ziehe Avatare in die Liste der ausgewählten Spieler! / Rechtsklick auf einen ausgewählten Avatar entfernt ihn!</string>
+  <string name="TR_SCREENHEARTS_TITLE">Team Survival: Herzen pro Spieler</string>
+  <string name="TR_SCREENHEARTS_HINT">Hoch/Runter = Spieler wählen  ·  Links/Rechts oder Herz anklicken = Herzen ändern  ·  Enter = Weiter  ·  ESC = Zurück</string>
+  <string name="TR_SCREENMAIN_TITLE">Team Survival</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Willst du das Spiel wirklich beenden?</string>
+  <string name="TR_SCREENMAIN_PASS">Durchgang</string>
+  <string name="TR_SCREENMAIN_DUEL">Duell</string>
+  <string name="TR_SCREENMAIN_VERSUS">gegen</string>
+  <string name="TR_SCREENMAIN_REMATCH">Gleichstand! Das Duell wird nachgesungen.</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Siegerteam</string>
+</resources>
