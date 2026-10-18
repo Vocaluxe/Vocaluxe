@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglický</string>
+  <string name="language">Čeština</string>
   <string name="TR_PARTYMODE_NAME">Výměna spoluhráčů</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Zpívejte ve dvojicích s neustále se měnícími spoluhráči. Oba zpěváci z každé dvojice získávají výsledek dané dvojice; vyhrává ten, kdo dosáhne lepšího průměru.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pro 3 až 12 hráčů, kteří rádi společně zpívají; jsou potřeba 2 mikrofony.</string>
