@@ -113,7 +113,7 @@
   <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Keine Profile gefunden!</string>
   <string name="TR_SCREENMAIN_BUTTON_STATISTICS">Statistik</string>
   <string name="TR_SCREENSTATISTICS_TITLE">Statistik</string>
-  <string name="TR_SCREENSTATISTICS_HINT">Navigieren = Kachel wählen • Enter = Details öffnen • ESC = Zurück zum Hauptmenü</string>
+  <string name="TR_SCREENSTATISTICS_HINT">Navigieren = Kachel wählen • Enter = Details öffnen • ESC = Zurück zum Hauptmenü<</string>
   <string name="TR_SCREENSTATISTICS_DETAILHINT">Links/Rechts = Ansicht wechseln • Hoch/Runter = Blättern • ESC = Zurück zur Statistik</string>
   <string name="TR_SCREENSTATISTICS_OVERVIEW">Übersicht</string>
   <string name="TR_SCREENSTATISTICS_RECENT">Zuletzt gesungen</string>
