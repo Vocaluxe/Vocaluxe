@@ -479,30 +479,13 @@ namespace VocaluxeLib.Menu
 
         public Guid GetRandomUnusedProfile()
         {
-            var id = Guid.Empty;
-
-            if (_VisibleProfiles.Count == 0)
+            var unusedProfiles = _VisibleProfiles.Where(profileId => !_UsedProfiles.Contains(profileId)).ToList();
+            if (unusedProfiles.Count == 0)
             {
-                return id;
+                return Guid.Empty;
             }
 
-            if (_VisibleProfiles.Count == _UsedProfiles.Count)
-            {
-                return id;
-            }
-
-            while (id == Guid.Empty)
-            {
-                var rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
-                if (_UsedProfiles.Contains(_VisibleProfiles[rand]))
-                {
-                    continue;
-                }
-
-                id = _VisibleProfiles.ElementAt(rand);
-            }
-
-            return id;
+            return unusedProfiles[CBase.Game.GetRandom(unusedProfiles.Count)];
         }
 
         private void _PrepareTiles()
