@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglický</string>
+  <string name="language">Čeština</string>
   <string name="TR_PARTYMODE_NAME">Přežití družstva</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Dvě družstva proti sobě soutěží v pěveckých soubojích, poražený tým přijde o jedno srdce a vítězem se stane tým, který zůstane jako poslední.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pro dvě družstva, z nichž každé má až 8 hráčů, jsou potřeba 2 mikrofony.</string>
@@ -18,7 +18,7 @@
   <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Sada na hráče</string>
   <string name="TR_SCREENCONFIG_NUMHEARTS">Počet srdíček na hráče</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků na hráče</string>
-  <string name="TR_SCREENNAMES_TITLE">Přežití družstva: Zvolte družstva</string>
+  <string name="TR_SCREENNAMES_TITLE">Přežití družstva: Výběr družstev</string>
   <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Vybraní hráči pro toto družstvo:</string>
   <string name="TR_SCREENNAMES_TEAM1">Družstvo 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Družstvo 2</string>
