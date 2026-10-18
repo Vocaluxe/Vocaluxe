@@ -120,6 +120,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             public int CurrentRoundNr;
             public int FieldNr;
+            public int LastWonField;
 
             public int[] NumJokerRandom;
             public int[] NumJokerRetry;
@@ -246,6 +247,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     GameData.Team = CBase.Game.GetRandom(100) < 50 ? 0 : 1;
                     CBase.Songs.ResetSongSung();
                     GameData.CurrentRoundNr = 1;
+                    GameData.LastWonField = -1;
                     _CreateRounds();
                     _SetNumJokers();
                     break;
@@ -479,6 +481,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             GameData.Rounds[GameData.FieldNr].PointsTeam1 = (int)Math.Round(results[0].Points);
             GameData.Rounds[GameData.FieldNr].PointsTeam2 = (int)Math.Round(results[1].Points);
             GameData.Rounds[GameData.FieldNr].Finished = true;
+            GameData.LastWonField = GameData.FieldNr;
             if (GameData.Rounds[GameData.FieldNr].PointsTeam1 < GameData.Rounds[GameData.FieldNr].PointsTeam2)
             {
                 GameData.Rounds[GameData.FieldNr].Winner = 2;
@@ -490,6 +493,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             else
             {
                 GameData.Rounds[GameData.FieldNr].Finished = false;
+                GameData.LastWonField = -1;
                 GameData.CurrentRoundNr--;
             }
         }

@@ -4,6 +4,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41} = {7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}
 		{55F89808-4E79-4FFE-BC13-48258913F5C9} = {55F89808-4E79-4FFE-BC13-48258913F5C9}
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
 		{9D4F1C27-3B8E-4A62-B5D0-7E1A2C6F9B53} = {9D4F1C27-3B8E-4A62-B5D0-7E1A2C6F9B53}
@@ -25,6 +26,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitchTracker", "PitchTracker\PitchTracker.vcxproj", "{54A48AF7-515C-4EDD-B395-2BFFA096050A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeTeamSurvival", "PartyModes\PartyModeTeamSurvival\PartyModeTeamSurvival.csproj", "{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,6 +199,26 @@ Global
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.ReleaseWin|x64.Build.0 = Release|x64
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.ReleaseWin|x86.ActiveCfg = Release|x86
 		{8EDF4429-251A-416D-BB68-93F227191BCF}.ReleaseWin|x86.Build.0 = Release|x86
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugLinux|x86.Build.0 = DebugLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugWin|x64.Build.0 = DebugWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.DebugWin|x86.Build.0 = DebugWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.InstallerWin|x64.ActiveCfg = InstallerWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.InstallerWin|x64.Build.0 = InstallerWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.InstallerWin|x86.ActiveCfg = InstallerWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.InstallerWin|x86.Build.0 = InstallerWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseLinux|x86.Build.0 = ReleaseLinux|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
+		{7B2E4A19-5C3D-4E8F-A16B-2D9C0F3E8B41}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

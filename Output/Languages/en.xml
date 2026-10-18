@@ -162,6 +162,7 @@
   <string name="TR_SCREENPARTY_NOTEAMS">No teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Number of teams</string>
   <string name="TR_SCREENPARTY_NUMPLAYERS">Number of players</string>
+  <string name="TR_SCREENPARTY_NUMMICS">Microphones</string>
   <string name="TR_SCREENNAMES_MENU">Player Selection</string>
   <string name="TR_SCREENNAMES_PLAYER">Player</string>
   <string name="TR_SCREENNAMES_1PLAYER">1 player</string>
