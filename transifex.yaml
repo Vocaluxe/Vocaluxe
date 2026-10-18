@@ -9,7 +9,7 @@ git:
       file_format: ANDROID
       source_files_expression: Output/PartyModes/<dir>/Languages/en.xml
       source_language: en
-      translation_files_expression: 'Output/PartyModes/Challenge/Languages/<lang>.xml'
+      translation_files_expression: 'Output/PartyModes/<dir>/Languages/<lang>.xml'
     - filter_type: file
       file_format: KEYVALUEJSON
       source_file: Vocaluxe/Website/locales/en.json
