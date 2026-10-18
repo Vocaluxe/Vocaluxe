@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
@@ -30,6 +31,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         public CText Won;
         public CText SingPoints;
         public CText GamePoints;
+        public CStatic Avatar;
+        public CStatic Highlight;
     }
 
     class CRoundsTableRow
@@ -46,7 +49,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _TextPosition = "TextPosition";
@@ -63,6 +66,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         private const string _TextFinishMessage = "TextFinishMessage";
         private const string _TextFinishPlayerWin = "TextFinishPlayerWin";
         private const string _TextNextPlayerMessage = "TextNextPlayerMessage";
+        private const string _TextRoundWinner = "TextRoundWinner";
 
         private const string _ButtonNextRound = "ButtonNextRound";
         private const string _ButtonBack = "ButtonBack";
@@ -76,6 +80,17 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private const string _StaticPopupBG = "StaticPopupBG";
         private const string _StaticNextPlayer = "StaticNextPlayer";
+        private const string _StaticTableAvatar = "StaticTableAvatar";
+        private const string _StaticTableHighlight = "StaticTableHighlight";
+
+        private const string _ParticleEffectWinner = "ParticleEffectWinner";
+
+        private const float _WinnerPopDuration = 700f;
+        private const float _WinnerAvatarY = 885f;
+
+        private readonly Stopwatch _WinnerTimer = new Stopwatch();
+        private float _WinnerTextHeight;
+        private readonly string[] _RankColors = new string[] { "Top1Color", "Top2Color", "Top3Color" };
 
         private bool _ExitPopupVisible;
 
@@ -100,14 +115,15 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber,
                 _TextRoundPlayer,
-                _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage
+                _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage, _TextRoundWinner
             };
             _ThemeButtons = new string[]
             {
                 _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown,
                 _ButtonRoundsScrollUp
             };
-            _ThemeStatics = new string[] { _StaticPopupBG, _StaticNextPlayer };
+            _ThemeStatics = new string[] { _StaticPopupBG, _StaticNextPlayer, _StaticTableAvatar, _StaticTableHighlight };
+            _ThemeParticleEffects = new string[] { _ParticleEffectWinner };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -129,6 +145,10 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
 
             _Statics[_StaticNextPlayer].Visible = false;
+            _Statics[_StaticTableAvatar].Visible = false;
+            _Statics[_StaticTableHighlight].Visible = false;
+            _Texts[_TextRoundWinner].Visible = false;
+            _WinnerTextHeight = _Texts[_TextFinishPlayerWin].Font.Height;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -356,14 +376,78 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _Texts[_TextFinishPlayerWin].Visible = true;
                 _Texts[_TextFinishPlayerWin].Text = _GetPlayerWinString();
                 _SelectElement(_Buttons[_ButtonExit]);
+                _ShowWinnerAvatars();
             }
+
+            _ParticleEffects[_ParticleEffectWinner].Visible = _Texts[_TextFinishPlayerWin].Visible;
+            _WinnerTimer.Reset();
+            _WinnerTimer.Start();
 
             _ShowPopup(false);
         }
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextFinishPlayerWin].Visible)
+            {
+                _UpdateWinnerAnimation();
+            }
+
             return true;
+        }
+
+        private static float _EaseOutBack(float t)
+        {
+            const float c1 = 1.70158f;
+            const float c3 = c1 + 1f;
+            return 1f + c3 * (float)Math.Pow(t - 1f, 3) + c1 * (float)Math.Pow(t - 1f, 2);
+        }
+
+        private void _UpdateWinnerAnimation()
+        {
+            var time = _WinnerTimer.ElapsedMilliseconds;
+            float scale;
+            if (time < _WinnerPopDuration)
+            {
+                scale = 0.3f + 0.7f * _EaseOutBack(time / _WinnerPopDuration);
+            }
+            else
+            {
+                scale = 1f + 0.03f * (float)Math.Sin((time - _WinnerPopDuration) / 1000.0 * Math.PI * 1.4);
+            }
+
+            _Texts[_TextFinishPlayerWin].Font.Height = _WinnerTextHeight * scale;
+        }
+
+        private void _ShowWinnerAvatars()
+        {
+            var winners = new List<Guid>();
+            foreach (var row in _PartyMode.GameData.ResultTable)
+            {
+                if (row.Position == 1 && winners.Count < _NextPlayerStatics.Count)
+                {
+                    winners.Add(row.PlayerId);
+                }
+            }
+
+            const float gap = 20f;
+            var size = _Statics[_StaticNextPlayer].Rect.W;
+            var x = (CBase.Settings.GetRenderW() - winners.Count * size - (winners.Count - 1) * gap) / 2;
+            for (var i = 0; i < _NextPlayerStatics.Count; i++)
+            {
+                var visible = i < winners.Count;
+                _NextPlayerStatics[i].Visible = visible;
+                _NextPlayerTexts[i].Visible = false;
+                if (!visible)
+                {
+                    continue;
+                }
+
+                _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(winners[i]);
+                _NextPlayerStatics[i].X = x;
+                _NextPlayerStatics[i].Y = _WinnerAvatarY;
+                x += size + gap;
+            }
         }
 
         private void _EndParty()
@@ -557,6 +641,10 @@ namespace VocaluxeLib.PartyModes.Challenge
                         {
                             _RoundsTable[i].TextScores[p].Text = "";
                         }
+
+                        var color = _IsRoundWinner(i + _RoundsTableOffset, p) ? _Texts[_TextRoundWinner].Color : _Texts[_TextRoundPlayer].Color;
+                        _RoundsTable[i].TextPlayer[p].Color = color;
+                        _RoundsTable[i].TextScores[p].Color = color;
                     }
                     else
                     {
@@ -578,6 +666,22 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             _Buttons[_ButtonRoundsScrollUp].Visible = _RoundsTableOffset > 0;
             _Buttons[_ButtonRoundsScrollDown].Visible = _PartyMode.GameData.Rounds.Count - _NumRoundsVisible - _RoundsTableOffset > 0;
+        }
+
+        private bool _IsRoundWinner(int round, int player)
+        {
+            if (_PartyMode.GameData.CurrentRoundNr - 1 <= round || _PartyMode.GameData.Results == null)
+            {
+                return false;
+            }
+
+            var max = 0;
+            for (var p = 0; p < _PartyMode.GameData.NumPlayerAtOnce; p++)
+            {
+                max = Math.Max(max, _PartyMode.GameData.Results[round, p]);
+            }
+
+            return max > 0 && _PartyMode.GameData.Results[round, player] == max;
         }
 
         private void _BuildPlayerTable()
@@ -609,6 +713,17 @@ namespace VocaluxeLib.PartyModes.Challenge
                 row.GamePoints.Y += delta * (i + 1);
 
                 row.Pos.Text = i + 1 + ".";
+
+                row.Avatar = GetNewStatic(_Statics[_StaticTableAvatar]);
+                row.Avatar.Aspect = EAspect.Crop;
+                row.Avatar.Y = row.Name.Y + (row.Name.H - row.Avatar.H) / 2;
+                row.Avatar.Visible = false;
+                _AddStatic(row.Avatar);
+
+                row.Highlight = GetNewStatic(_Statics[_StaticTableHighlight]);
+                row.Highlight.Y = row.Name.Y + (row.Name.H - row.Highlight.H) / 2;
+                row.Highlight.Visible = false;
+                _AddStatic(row.Highlight);
 
                 row.Pos.Visible = false;
                 row.Name.Visible = false;
@@ -653,6 +768,21 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.Won.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
                     row.SingPoints.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumGamePoints.ToString();
+
+                    var position = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].Position;
+                    row.Avatar.Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ResultTable[i + _PlayerTableOffset].PlayerId);
+                    row.Avatar.Visible = true;
+                    row.Highlight.Visible = position == 1;
+
+                    SColorF rankColor;
+                    var color = _Texts[_TextPlayerName].Color;
+                    if (position <= _RankColors.Length && CBase.Themes.GetColor(_RankColors[position - 1], PartyModeId, out rankColor))
+                    {
+                        color = rankColor;
+                    }
+
+                    row.Pos.Color = color;
+                    row.Name.Color = color;
                 }
                 else
                 {
@@ -662,6 +792,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.Won.Visible = false;
                     row.SingPoints.Visible = false;
                     row.GamePoints.Visible = false;
+                    row.Avatar.Visible = false;
+                    row.Highlight.Visible = false;
                 }
             }
 

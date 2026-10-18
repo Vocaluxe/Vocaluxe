@@ -27,25 +27,25 @@ namespace VocaluxeLib.PartyModes.Challenge
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideNumPlayers = "SelectSlideNumPlayers";
         private const string _SelectSlideNumMics = "SelectSlideNumMics";
-        private const string _SelectSlideNumRounds = "SelectSlideNumRounds";
+        private const string _SelectSlideSongsPerPlayer = "SelectSlideSongsPerPlayer";
         private const string _SelectSlideNumJokers = "SelectSlideNumJokers";
         private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
+        private const string _SelectSlideRememberSongs = "SelectSlideRememberSongs";
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
 
-        private const int _MaxNumRounds = 100;
-        private int _RoundSteps = 1;
+        private const int _MaxSongsPerPlayer = 10;
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeSelectSlides = new string[] { _SelectSlideNumPlayers, _SelectSlideNumMics, _SelectSlideNumRounds, _SelectSlideNumJokers, _SelectSlideRefillJokers };
+            _ThemeSelectSlides = new string[] { _SelectSlideNumPlayers, _SelectSlideNumMics, _SelectSlideSongsPerPlayer, _SelectSlideNumJokers, _SelectSlideRefillJokers, _SelectSlideRememberSongs };
             _ThemeButtons = new string[] { _ButtonNext, _ButtonBack };
         }
 
@@ -147,44 +147,48 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _SelectSlides[_SelectSlideNumJokers].AddValue(i.ToString());
             }
 
-            _SelectSlides[_SelectSlideNumJokers].SelectedValue = "5";
+            _SelectSlides[_SelectSlideNumJokers].SelectedValue = _PartyMode.GameData.NumJokers.ToString();
 
             //build joker config slide
             _SelectSlides[_SelectSlideRefillJokers].Clear();
             _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeId));
             _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeId));
-            _SelectSlides[_SelectSlideRefillJokers].SelectLastValue();
+            _SelectSlides[_SelectSlideRefillJokers].Selection = _PartyMode.GameData.RefillJokers ? 1 : 0;
+
+            _SelectSlides[_SelectSlideSongsPerPlayer].Clear();
+            for (var i = 1; i <= _MaxSongsPerPlayer; i++)
+            {
+                _SelectSlides[_SelectSlideSongsPerPlayer].AddValue(i.ToString());
+            }
+
+            _SelectSlides[_SelectSlideSongsPerPlayer].SelectedValue = _PartyMode.GameData.SongsPerPlayer.ToString();
+
+            _SelectSlides[_SelectSlideRememberSongs].Clear();
+            _SelectSlides[_SelectSlideRememberSongs].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeId));
+            _SelectSlides[_SelectSlideRememberSongs].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeId));
+            _SelectSlides[_SelectSlideRememberSongs].Selection = _PartyMode.GameData.RememberSongs ? 1 : 0;
 
             _UpdateMicsAtOnce();
-            _SetRoundSteps();
-            _UpdateSlideRounds();
+            _UpdateNumRounds();
         }
 
         private void _UpdateSlides()
         {
-            var player = _PartyMode.GameData.NumPlayer;
-            var mics = _PartyMode.GameData.NumPlayerAtOnce;
             _PartyMode.GameData.NumPlayer = _SelectSlides[_SelectSlideNumPlayers].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.MinPlayers;
-            _PartyMode.GameData.NumRounds = (_SelectSlides[_SelectSlideNumRounds].Selection + 1) * _RoundSteps;
+            _PartyMode.GameData.SongsPerPlayer = _SelectSlides[_SelectSlideSongsPerPlayer].Selection + 1;
             _PartyMode.GameData.NumJokers = _SelectSlides[_SelectSlideNumJokers].Selection + 1;
-            _PartyMode.GameData.RefillJokers = _SelectSlides[_SelectSlideRefillJokers].Selection == 1 ? true : false;
+            _PartyMode.GameData.RefillJokers = _SelectSlides[_SelectSlideRefillJokers].Selection == 1;
+            _PartyMode.GameData.RememberSongs = _SelectSlides[_SelectSlideRememberSongs].Selection == 1;
 
             _UpdateMicsAtOnce();
-            _SetRoundSteps();
+            _UpdateNumRounds();
+        }
 
-            if (player != _PartyMode.GameData.NumPlayer || mics != _PartyMode.GameData.NumPlayerAtOnce)
-            {
-                var num = CHelper.CombinationCount(_PartyMode.GameData.NumPlayer, _PartyMode.GameData.NumPlayerAtOnce);
-                while (num > _MaxNumRounds)
-                {
-                    num -= _RoundSteps;
-                }
-
-                _PartyMode.GameData.NumRounds = num;
-            }
-
-            _UpdateSlideRounds();
+        private void _UpdateNumRounds()
+        {
+            var numSongs = _PartyMode.GameData.NumPlayer * _PartyMode.GameData.SongsPerPlayer;
+            _PartyMode.GameData.NumRounds = Math.Max(1, (numSongs + _PartyMode.GameData.NumPlayerAtOnce - 1) / _PartyMode.GameData.NumPlayerAtOnce);
         }
 
         private void _UpdateMicsAtOnce()
@@ -204,32 +208,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
 
             _SelectSlides[_SelectSlideNumMics].Selection = _PartyMode.GameData.NumPlayerAtOnce - _PartyMode.MinPlayers;
-        }
-
-        private void _UpdateSlideRounds()
-        {
-            // build num rounds slide
-            _SelectSlides[_SelectSlideNumRounds].Clear();
-            for (var i = _RoundSteps; i <= _MaxNumRounds; i += _RoundSteps)
-            {
-                _SelectSlides[_SelectSlideNumRounds].AddValue(i.ToString());
-            }
-
-            _SelectSlides[_SelectSlideNumRounds].Selection = _PartyMode.GameData.NumRounds / _RoundSteps - 1;
-        }
-
-        private void _SetRoundSteps()
-        {
-            if (_PartyMode.GameData.NumPlayerAtOnce < 1 || _PartyMode.GameData.NumPlayer < 1 || _PartyMode.GameData.NumPlayerAtOnce > _PartyMode.GameData.NumPlayer)
-            {
-                _RoundSteps = 1;
-                return;
-            }
-
-            var res = _PartyMode.GameData.NumPlayer / _PartyMode.GameData.NumPlayerAtOnce;
-            var mod = _PartyMode.GameData.NumPlayer % _PartyMode.GameData.NumPlayerAtOnce;
-
-            _RoundSteps = mod == 0 ? res : _PartyMode.GameData.NumPlayer;
         }
     }
 }

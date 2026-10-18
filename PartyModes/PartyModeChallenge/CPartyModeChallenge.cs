@@ -86,7 +86,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         }
         public override int MaxPlayers
         {
-            get { return 12; }
+            get { return 16; }
         }
         public override int MinTeams
         {
@@ -121,8 +121,10 @@ namespace VocaluxeLib.PartyModes.Challenge
             public int NumPlayer;
             public int NumPlayerAtOnce;
             public int NumRounds;
+            public int SongsPerPlayer;
             public int NumJokers;
             public bool RefillJokers;
+            public bool RememberSongs;
             public int[] Jokers;
             public List<Guid> ProfileIds;
 
@@ -153,6 +155,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public SData GameData;
         private EStage _Stage;
+        private readonly HashSet<int> _SungSongs = new HashSet<int>();
 
         public CPartyModeChallenge(int id) : base(id)
         {
@@ -171,9 +174,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 NumPlayer = 4,
                 NumPlayerAtOnce = 2,
-                NumRounds = 12,
+                NumRounds = 6,
+                SongsPerPlayer = 3,
                 NumJokers = 5,
                 RefillJokers = true,
+                RememberSongs = true,
                 CurrentRoundNr = 1,
                 ProfileIds = new List<Guid>(),
                 Sorting = CBase.Config.GetSongSorting(),
@@ -258,6 +263,19 @@ namespace VocaluxeLib.PartyModes.Challenge
                 case EStage.Names:
                     _Stage = EStage.Main;
                     CBase.Songs.ResetSongSung();
+                    if (GameData.RememberSongs)
+                    {
+                        foreach (var songId in _SungSongs)
+                        {
+                            CBase.Songs.AddPartySongSung(songId);
+                        }
+                    }
+                    else
+                    {
+                        _SungSongs.Clear();
+                    }
+
+                    GameData.Songs.Clear();
                     GameData.ResultTable = new List<CResultTableRow>();
                     GameData.Rounds = new CChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                     GameData.CurrentRoundNr = 1;
@@ -398,6 +416,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             for (var i = 0; i < CBase.Game.GetNumSongs(); i++)
             {
                 CBase.Songs.AddPartySongSung(CBase.Game.GetSong(i).Id);
+                _SungSongs.Add(CBase.Game.GetSong(i).Id);
             }
 
             GameData.CurrentRoundNr++;
@@ -607,6 +626,12 @@ namespace VocaluxeLib.PartyModes.Challenge
                     CBase.Songs.SetCategory(-1);
                     CBase.Songs.SortSongs(oldSorting, CBase.Config.GetTabs(), CBase.Config.GetIgnoreArticles(), string.Empty, EDuetOptions.NoDuets, -1);
                     break;
+            }
+
+            var notSung = GameData.Songs.Where(songId => !_SungSongs.Contains(songId)).ToList();
+            if (notSung.Count >= GameData.NumMedleySongs)
+            {
+                GameData.Songs = notSung;
             }
 
             GameData.Songs.Shuffle();

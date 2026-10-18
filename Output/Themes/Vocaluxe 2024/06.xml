@@ -335,6 +335,7 @@
     <LogoMain>LogoMain.png</LogoMain>
     <Menu>SongMenu.png</Menu>
     <Button>Button.png</Button>
+    <ButtonTile>ButtonTile.png</ButtonTile>
     <CoverTile>CoverTile.png</CoverTile>
     <PlayerTile>PlayerTile.png</PlayerTile>
     <CoverTextBackground>CoverTextBackground.png</CoverTextBackground>
@@ -370,6 +371,7 @@
     <ToneHelper>ToneHelper.png</ToneHelper>
     <Score>Score.png</Score>
     <Star>Star.png</Star>
+    <PartyModeIcon>PartyModeIcon.png</PartyModeIcon>
     <CountdownDot>CountdownDot.png</CountdownDot>
     <NoAvatar>NoAvatar.png</NoAvatar>
     <SongMenu>SongMenu.png</SongMenu>
