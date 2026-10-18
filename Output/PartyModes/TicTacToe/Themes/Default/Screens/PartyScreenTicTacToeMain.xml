@@ -2,7 +2,7 @@
 <Screen>
   <Informations>
     <ScreenName>PartyScreenTicTacToeMain</ScreenName>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -78,6 +78,38 @@
         <W>487.5</W>
         <H>165</H>
         <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTeamPanel1">
+      <Skin />
+      <Color>
+        <R>0.1</R>
+        <G>0.09</G>
+        <B>0.25</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>5</X>
+        <Y>210</Y>
+        <W>485</W>
+        <H>470</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTeamPanel2">
+      <Skin />
+      <Color>
+        <R>0.1</R>
+        <G>0.09</G>
+        <B>0.25</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>1430</X>
+        <Y>210</Y>
+        <W>485</W>
+        <H>470</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
   </Statics>
@@ -171,7 +203,7 @@
       <Y>300</Y>
       <Z>0</Z>
       <H>52.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>300</MaxW>
       <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -185,7 +217,7 @@
       <Y>300</Y>
       <Z>0</Z>
       <H>60</H>
-      <MaxW>0</MaxW>
+      <MaxW>300</MaxW>
       <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -193,6 +225,62 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
+    </Text>
+    <Text Name="TextJokerRandomT1">
+      <X>90</X>
+      <Y>640</Y>
+      <Z>0</Z>
+      <H>26</H>
+      <MaxW>150</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_JOKER_RANDOM</Text>
+    </Text>
+    <Text Name="TextJokerRetryT1">
+      <X>240</X>
+      <Y>640</Y>
+      <Z>0</Z>
+      <H>26</H>
+      <MaxW>150</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_JOKER_RETRY</Text>
+    </Text>
+    <Text Name="TextJokerRandomT2">
+      <X>1830</X>
+      <Y>640</Y>
+      <Z>0</Z>
+      <H>26</H>
+      <MaxW>150</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_JOKER_RANDOM</Text>
+    </Text>
+    <Text Name="TextJokerRetryT2">
+      <X>1680</X>
+      <Y>640</Y>
+      <Z>0</Z>
+      <H>26</H>
+      <MaxW>150</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_JOKER_RETRY</Text>
     </Text>
   </Texts>
   <Buttons>

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">English</string>
+  <string name="TR_PARTYMODE_NAME">Partner Swap</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Sing in pairs with ever-changing partners. Both singers of a pair get the pair score, the best average wins.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">For 3 to 12 players who like to sing together, 2 microphones needed.</string>
+  <string name="TR_BUTTON_NEXT">Next</string>
+  <string name="TR_BUTTON_BACK">Back</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Exit</string>
+  <string name="TR_BUTTON_YES">Yes</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Start song</string>
+  <string name="TR_SONGS">Songs</string>
+  <string name="TR_SCREENCONFIG_TITLE">Partner Swap: Configuration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Number of players</string>
+  <string name="TR_SCREENCONFIG_NUMPASSES">Rounds</string>
+  <string name="TR_SCREENCONFIG_HARMONYBONUS">Harmony bonus</string>
+  <string name="TR_SCREENCONFIG_DUETS">Duet songs</string>
+  <string name="TR_SCREENCONFIG_DUETS_MIXED">Mixed</string>
+  <string name="TR_SCREENCONFIG_DUETS_ONLY">Duets only</string>
+  <string name="TR_SCREENCONFIG_DUETS_NONE">No duets</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokers per player</string>
+  <string name="TR_SCREENNAMES_TITLE">Partner Swap: Choose Players</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Select random</string>
+  <string name="TR_SCREENMAIN_TITLE">Partner Swap</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Do you really want to exit the game?</string>
+  <string name="TR_SCREENMAIN_HEADER_POS">Pos</string>
+  <string name="TR_SCREENMAIN_HEADER_NAME">Name</string>
+  <string name="TR_SCREENMAIN_HEADER_SONGS">Songs</string>
+  <string name="TR_SCREENMAIN_HEADER_AVERAGE">Ø</string>
+  <string name="TR_SCREENMAIN_PASS">Round</string>
+  <string name="TR_SCREENMAIN_SONG">Song</string>
+  <string name="TR_SCREENMAIN_PAUSE">Taking a break:</string>
+  <string name="TR_SCREENMAIN_FIRST_TIME">singing together for the first time</string>
+  <string name="TR_SCREENMAIN_TIMES_TOGETHER">singing together for the %n. time</string>
+  <string name="TR_SCREENMAIN_LAST_SONG">Last song:</string>
+  <string name="TR_SCREENMAIN_HARMONY_BONUS">Harmony bonus</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR">Best pair so far</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR_FINAL">Best pair of the night</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Winner</string>
+</resources>
