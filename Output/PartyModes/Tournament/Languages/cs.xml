@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Anglický</string>
+  <string name="TR_PARTYMODE_NAME">Vyřazovací turnaj</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Zpívejte v soubojích ve vyřazovacím pavouku, dokud nezůstane jen jeden vítěz.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pro 3 až 16 hráčů, kteří mají rádi opravdovou soutěž.</string>
+  <string name="TR_BUTTON_NEXT">Další</string>
+  <string name="TR_BUTTON_BACK">Zpět</string>
+  <string name="TR_BUTTON_START">Spustit</string>
+  <string name="TR_BUTTON_EXIT">Ukončit</string>
+  <string name="TR_BUTTON_YES">Ano</string>
+  <string name="TR_BUTTON_NO">Ne</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Spustit souboj</string>
+  <string name="TR_SONGS">Písně</string>
+  <string name="TR_SCREENCONFIG_TITLE">Vyřazovací turnaj: Nastavení</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků na hráče</string>
+  <string name="TR_SCREENNAMES_TITLE">Vyřazovací turnaj: Vyberte hráče</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENMAIN_TITLE">Vyřazovací turnaj</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu chcete odejít z klání\?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Osmifinále</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Čtvrtfinále</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Semifinále</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Finále</string>
+  <string name="TR_SCREENMAIN_BYE">Ahoj</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Vítěz</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Další souboj</string>
+  <string name="TR_SCREENMAIN_VERSUS">proti</string>
+  <string name="TR_SCREENMAIN_REMATCH">Nerozhodná hra! Souboj se opakuje.</string>
+</resources>
