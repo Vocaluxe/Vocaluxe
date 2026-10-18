@@ -1,5 +1,9 @@
 ScreenProfiles
 ++++++++++
+Version 5:
+Add: <StaticPopupBG>, <TextPopup>, <ButtonPopupYes>, <ButtonPopupNo>, <ButtonPopupCancel> (popup to confirm deleting a profile and to save changes before leaving)
+
+++++++++++
 Version 4:
 Add: <NameSelection>
 
