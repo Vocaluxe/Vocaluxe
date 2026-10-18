@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 4; }
+            get { return 5; }
         }
 
         private const string _ButtonSing = "ButtonSing";
@@ -206,6 +206,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextWarningProfiles].Visible = !profileOK;
             _Buttons[_ButtonSing].Selectable = profileOK;
             _Buttons[_ButtonParty].Selectable = profileOK;
+            _Buttons[_ButtonSing].Visible = profileOK;
+            _Buttons[_ButtonParty].Visible = profileOK;
 
             if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedWarningSound)
             {
