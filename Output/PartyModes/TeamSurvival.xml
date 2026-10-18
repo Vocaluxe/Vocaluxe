@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>McSchneidar</Author>
+    <Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>TeamSurvival</Folder>
+    <PartyModeFile>CPartyModeTeamSurvival</PartyModeFile>
+    <PartyModeVersionMajor>1</PartyModeVersionMajor>
+    <PartyModeVersionMinor>0</PartyModeVersionMinor>
+    <TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>CPartyScreenTeamSurvivalMain</ScreenFile>
+    <ScreenFile>CPartyScreenTeamSurvivalConfig</ScreenFile>
+    <ScreenFile>CPartyScreenTeamSurvivalNames</ScreenFile>
+    <ScreenFile>CPartyScreenTeamSurvivalSongs</ScreenFile>
+    <ScreenFile>CPartyScreenTeamSurvivalHearts</ScreenFile>
+  </PartyScreens>
+</root>

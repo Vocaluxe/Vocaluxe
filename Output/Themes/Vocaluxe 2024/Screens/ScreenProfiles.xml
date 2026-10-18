@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenProfiles</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -29,7 +29,7 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1147.5</X>
+        <X>1340</X>
         <Y>150</Y>
         <W>240</W>
         <H>240</H>
@@ -53,11 +53,11 @@
       <Text>TR_SCREENPROFILES_PROFILES</Text>
     </Text>
     <Text Name="TextPlayerName">
-      <X>112.5</X>
-      <Y>430.5</Y>
+      <X>730</X>
+      <Y>435.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>295</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -67,11 +67,11 @@
       <Text>TR_SCREENPROFILES_PLAYERNAME</Text>
     </Text>
     <Text Name="TextGameDifficulty">
-      <X>112.5</X>
-      <Y>520.5</Y>
+      <X>730</X>
+      <Y>525.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>295</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -81,11 +81,11 @@
       <Text>TR_SCREENPROFILES_GAMEDIFFICULTY</Text>
     </Text>
     <Text Name="TextAvatar">
-      <X>112.5</X>
-      <Y>610.5</Y>
+      <X>730</X>
+      <Y>615.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>295</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -95,11 +95,11 @@
       <Text>TR_SCREENPROFILES_AVATAR</Text>
     </Text>
     <Text Name="TextUserrole">
-      <X>112.5</X>
-      <Y>700.5</Y>
+      <X>730</X>
+      <Y>705.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>295</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -109,11 +109,11 @@
       <Text>TR_SCREENPROFILES_USERROLE</Text>
     </Text>
     <Text Name="TextActive">
-      <X>112.5</X>
-      <Y>790.5</Y>
+      <X>730</X>
+      <Y>795.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>295</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -128,20 +128,20 @@
       <Skin />
       <SkinSelected>SelectSlide</SkinSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>420</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
       <Text Name="Text">
-        <X>532.5</X>
-        <Y>15</Y>
+        <X>420</X>
+        <Y>5</Y>
         <Z>0</Z>
         <H>60</H>
-        <MaxW>1053</MaxW>
+        <MaxW>800</MaxW>
         <Color Name="ButtonTextSelColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -155,7 +155,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>112.5</X>
+        <X>50</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -190,7 +190,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>682.5</X>
+        <X>1050</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -225,7 +225,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>997.5</X>
+        <X>1347.5</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -260,7 +260,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1312.5</X>
+        <X>1645</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -295,7 +295,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1627.5</X>
+        <X>752.5</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -330,7 +330,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1147.5</X>
+        <X>1340</X>
         <Y>270</Y>
         <W>240</W>
         <H>75</H>
@@ -357,7 +357,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1147.5</X>
+        <X>1340</X>
         <Y>195</Y>
         <W>240</W>
         <H>75</H>
@@ -384,7 +384,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1627.5</X>
+        <X>752.5</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -427,21 +427,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>217.5</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>120</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
+        <X>1050</X>
         <Y>247.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
+        <X>1810</X>
         <Y>247.5</Y>
         <W>60</W>
         <H>60</H>
@@ -454,9 +454,9 @@
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>65</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>328.8</TextMaxW>
+      <TextMaxW>630</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>0</NumVisible>
@@ -469,21 +469,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>510</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
+        <X>1050</X>
         <Y>517.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
+        <X>1810</X>
         <Y>517.5</Y>
         <W>60</W>
         <H>60</H>
@@ -496,9 +496,9 @@
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>65</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>313.01</TextMaxW>
+      <TextMaxW>630</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -511,21 +511,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>600</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
+        <X>1050</X>
         <Y>607.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
+        <X>1810</X>
         <Y>607.5</Y>
         <W>60</W>
         <H>60</H>
@@ -538,9 +538,9 @@
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>65</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>313.01</TextMaxW>
+      <TextMaxW>630</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -553,21 +553,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>690</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
+        <X>1050</X>
         <Y>697.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
+        <X>1810</X>
         <Y>697.5</Y>
         <W>60</W>
         <H>60</H>
@@ -580,9 +580,9 @@
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>65</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>469.5</TextMaxW>
+      <TextMaxW>630</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -595,21 +595,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
+        <X>1040</X>
         <Y>780</Y>
-        <W>1072.5</W>
+        <W>840</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
+        <X>1050</X>
         <Y>787.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
+        <X>1810</X>
         <Y>787.5</Y>
         <W>60</W>
         <H>60</H>
@@ -622,16 +622,44 @@
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>65</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>469.5</TextMaxW>
+      <TextMaxW>630</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes />
-  <NameSelections />
+  <NameSelections>
+    <NameSelection Name="NameSelection">
+      <Rect>
+        <X>50</X>
+        <Y>195</Y>
+        <W>1230</W>
+        <H>540</H>
+        <Z>0</Z>
+      </Rect>
+      <SkinEmptyTile>PlayerTile</SkinEmptyTile>
+      <ColorEmptyTile Name="EmptyTileColor" />
+      <SkinTileSelected>PlayerSelector</SkinTileSelected>
+      <Tiles>
+        <W>150</W>
+        <H>150</H>
+        <NumW>4</NumW>
+        <NumH>4</NumH>
+        <SpaceW>10</SpaceW>
+        <SpaceH>10</SpaceH>
+        <Name>
+          <Space>-20</Space>
+          <H>25.5</H>
+          <Font>Outline</Font>
+          <Style>Bold</Style>
+          <Color Name="TextColor" />
+        </Name>
+      </Tiles>
+    </NameSelection>
+  </NameSelections>
   <Equalizers />
   <Playlists />
   <ParticleEffects />

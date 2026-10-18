@@ -48,10 +48,16 @@ namespace Vocaluxe.Base
             set
             {
                 if (value == _Tabs)
+                {
                     return;
+                }
+
                 _Tabs = value;
                 if (_Tabs == EOffOn.TR_CONFIG_ON)
+                {
                     CSongs.Category = -1;
+                }
+
                 _SetChanged();
             }
         }
@@ -67,7 +73,7 @@ namespace Vocaluxe.Base
 
             CCategory lastCategory = null;
             CCategory noCategory = null;
-            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
+            foreach (var songPointer in CSongs.Sorter.SortedSongs)
             {
                 if (songPointer.SortString != "")
                 {
@@ -76,6 +82,7 @@ namespace Vocaluxe.Base
                         lastCategory = new CCategory(songPointer.SortString);
                         _Categories.Add(lastCategory);
                     }
+
                     lastCategory.Songs.Add(songPointer);
                 }
                 else
@@ -85,6 +92,7 @@ namespace Vocaluxe.Base
                         noCategory = new CCategory(_GetNoCategoryName());
                         _Categories.Add(noCategory);
                     }
+
                     noCategory.Songs.Add(songPointer);
                 }
             }
@@ -95,28 +103,35 @@ namespace Vocaluxe.Base
         /// </summary>
         private static void _AdjustCategoryNames()
         {
-            ESongSorting sorting = CSongs.Sorter.SongSorting;
+            var sorting = CSongs.Sorter.SongSorting;
             switch (sorting)
             {
                 case ESongSorting.TR_CONFIG_DECADE:
-                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
+                    foreach (var songPointer in CSongs.Sorter.SortedSongs)
                     {
-                        string year = songPointer.SortString;
+                        var year = songPointer.SortString;
                         if (year != "")
                         {
                             year = year.Substring(0, 3);
                             songPointer.SortString = year + "0 - " + year + "9";
                         }
                     }
+
                     break;
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
-                        songPointer.SortString = (songPointer.SortString.Length == 0 || !Char.IsLetter(songPointer.SortString, 0)) ? "#" : songPointer.SortString[0].ToString();
+                    foreach (var songPointer in CSongs.Sorter.SortedSongs)
+                    {
+                        songPointer.SortString = songPointer.SortString.Length == 0 || !Char.IsLetter(songPointer.SortString, 0) ? "#" : songPointer.SortString[0].ToString();
+                    }
+
                     break;
                 case ESongSorting.TR_CONFIG_DATEADDED:
-                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
-                        songPointer.SortString = CSongs.GetSong(songPointer.SongID).DateAdded.ToString("dd/MM/yyyy");
+                    foreach (var songPointer in CSongs.Sorter.SortedSongs)
+                    {
+                        songPointer.SortString = CSongs.GetSong(songPointer.SongId).DateAdded.ToString("dd/MM/yyyy");
+                    }
+
                     break;
             }
         }
@@ -161,18 +176,23 @@ namespace Vocaluxe.Base
                     Debug.Assert(false, "Forgot category option");
                     break;
             }
+
             return noCategoryName;
         }
 
         private void _FillCategories()
         {
             if (!_Changed)
+            {
                 return;
+            }
 
             _Categories.Clear();
 
             if (_Tabs != EOffOn.TR_CONFIG_OFF)
+            {
                 _CreateCategories();
+            }
             else
             {
                 //No categories. So don't create them!
@@ -180,12 +200,15 @@ namespace Vocaluxe.Base
                 _Categories[0].Songs.AddRange(CSongs.Sorter.SortedSongs);
             }
 
-            foreach (CCategory cat in _Categories)
+            foreach (var cat in _Categories)
             {
                 cat.CoverTextureSmall = CCover.Cover(cat.Name);
                 if (cat.CoverTextureSmall == CCover.NoCover)
+                {
                     cat.CoverTextureSmall = CCover.GenerateCover(cat.Name, CCover._SongSortingToType(CSongs.Sorter.SongSorting), cat.GetSong(0));
+                }
             }
+
             _Changed = false;
         }
     }

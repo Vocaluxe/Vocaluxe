@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.IO;
 using System.Reflection;
 using System.Security;
@@ -32,32 +31,44 @@ namespace Vocaluxe
     {
         private static bool _CheckUninstallKey(string name, string key)
         {
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(key))
+            using (var rk = Registry.LocalMachine.OpenSubKey(key))
             {
                 if (rk == null)
-                    throw new SecurityException();
-                foreach (string skName in rk.GetSubKeyNames())
                 {
-                    using (RegistryKey sk = rk.OpenSubKey(skName))
+                    throw new SecurityException();
+                }
+
+                foreach (var skName in rk.GetSubKeyNames())
+                {
+                    using (var sk = rk.OpenSubKey(skName))
                     {
                         if (sk == null || sk.GetValue("DisplayName") == null)
+                        {
                             continue;
-                        string displayName = sk.GetValue("DisplayName").ToString().ToLower();
+                        }
+
+                        var displayName = sk.GetValue("DisplayName").ToString().ToLower();
                         if (displayName.Equals(name) || displayName.StartsWith(name) || name.StartsWith(displayName))
+                        {
                             return true;
+                        }
                     }
                 }
             }
+
             return false;
         }
 
         private static bool _KeyExists(string key)
         {
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(key))
+            using (var rk = Registry.LocalMachine.OpenSubKey(key))
             {
                 if (rk != null)
+                {
                     return true;
+                }
             }
+
             return false;
         }
 
@@ -75,40 +86,66 @@ namespace Vocaluxe
             return _CheckUninstallKey(name, baseKey + uninstallKey) || (_KeyExists(baseKey64) && _CheckUninstallKey(name, baseKey64 + uninstallKey));
         }
 
-        private static bool _SystemDllExists(string dllName)
-        {
-            const string sysDir = "%windir%\\system32\\";
-            return File.Exists(Environment.ExpandEnvironmentVariables(sysDir + dllName + ".dll"));
-        }
-
-        private static bool _IsVC2012Installed()
-        {
-            return _SystemDllExists("msvcr110") && _SystemDllExists("msvcp110");
-        }
-
-        private static bool _IsVC2008Installed()
-        {
-            return _IsProgramInstalled("Microsoft Visual C++ 2008 Redistributable");
-        }
-
         private static bool _IsVC2010Installed()
         {
             //Note: Maybe check for x64 or x86
             return _IsProgramInstalled("Microsoft Visual C++ 2010");
         }
 
+        private static bool _IsVC2015To2022Installed()
+        {
+            const string baseKey = @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\";
+            const string wow6432BaseKey = @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\";
+
+#if ARCH_X64
+            string[] arches = { "x64" };
+#elif ARCH_X86
+            string[] arches = { "x86" };
+#else
+            string[] arches = { "x86", "x64" };
+#endif
+
+            foreach (var arch in arches)
+            {
+                using (var rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
+                                Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
+                {
+                    if (rk == null)
+                    {
+                        continue;
+                    }
+
+                    var installed = rk.GetValue("Installed");
+                    if (installed == null)
+                    {
+                        continue;
+                    }
+
+                    int installedValue;
+                    if (int.TryParse(installed.ToString(), out installedValue) && installedValue == 1)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private static void _EnsureDataFolderExists()
         {
-            if (!Directory.Exists(CSettings.DataFolder)) {
+            if (!Directory.Exists(CSettings.DataFolder))
+            {
                 Directory.CreateDirectory(CSettings.DataFolder);
                 // copy default profiles to DataFolder instead of adding ProgramFolder to CConfig.ProfileFolders
                 // because we want to be able to edit them, but might not have permission to write to ProgramFolder
-                string profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
+                var profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
                 Directory.CreateDirectory(profilePath);
-                DirectoryInfo defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
-                FileInfo[] files = defaultProfileDir.GetFiles();
-                foreach (FileInfo file in files) {
-                    string newPath = Path.Combine(profilePath, file.Name);
+                var defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
+                var files = defaultProfileDir.GetFiles();
+                foreach (var file in files)
+                {
+                    var newPath = Path.Combine(profilePath, file.Name);
                     file.CopyTo(newPath, false);
                 }
             }
@@ -123,26 +160,16 @@ namespace Vocaluxe
                     "VC++ 2010 Redistributables are missing. Please install them first.\r\nDownload: https://www.microsoft.com/download/details.aspx?id=26999");
                 return false;
             }
-            /*
-            if (!_IsVC2012Installed())
+
+            if (!_IsVC2015To2022Installed())
             {
                 CLog.Fatal(
-                    "VC++ 2012 Redistributables are missing. Please install them first.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=30679");
+                    "VC++ 2015-2022 Redistributables are missing. Please install them first.\r\n" +
+                    "Download x64: https://aka.ms/vc14/vc_redist.x64.exe\r\n" +
+                    "Download x86: https://aka.ms/vc14/vc_redist.x86.exe");
                 return false;
             }
-            bool vc2008Installed = _IsVC2008Installed();
-            if (!vc2008Installed)
-            {
-                CLog.Fatal(
-                    "VC++ 2008 Redistributables are missing. Portaudio might not be working.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=29");
-            }
-            if (!vc2008Installed && !_IsVC2010Installed())
-            {
-                CLog.Fatal(
-                    "VC++ 2010 and 2008 Redistributables are missing. Please install them first. VC++ 2008 is preferred as Portaudio doesn't work with VC++ 2010.\r\nDownload(2008): http://www.microsoft.com/de-de/download/details.aspx?id=29 \r\nDownload(2010): http://www.microsoft.com/de-de/download/details.aspx?id=5555");
-                return false;
-            }
-            */
+
 #endif //TODO: check for dependencies on linux?
             return true;
         }
@@ -153,7 +180,7 @@ namespace Vocaluxe
             string path = "x86";
 #endif
 #if ARCH_X64
-            string path = "x64";
+            var path = "x64";
 #endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
             COSFunctions.AddEnvironmentPath(path);

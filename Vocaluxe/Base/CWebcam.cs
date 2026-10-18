@@ -29,7 +29,10 @@ namespace Vocaluxe.Base
         public static bool Init()
         {
             if (_Webcam != null)
+            {
                 return false;
+            }
+
             switch (CConfig.Config.Video.WebcamLib)
             {
                 case EWebcamLib.AForgeNet:
@@ -40,8 +43,12 @@ namespace Vocaluxe.Base
                     _Webcam = new CAForgeNet();
                     break;
             }
+
             if (!_Webcam.Init())
+            {
                 return false;
+            }
+
             _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
 
             CConfig.Config.Video.WebcamConfig = _Webcam.GetConfig();
@@ -52,7 +59,10 @@ namespace Vocaluxe.Base
         public static void Close()
         {
             if (_Webcam == null)
+            {
                 return;
+            }
+
             _Webcam.Close();
             _Webcam = null;
         }
@@ -70,19 +80,25 @@ namespace Vocaluxe.Base
         public static void Pause()
         {
             if (_Webcam != null)
+            {
                 _Webcam.Pause();
+            }
         }
 
         public static void Start()
         {
             if (_Webcam != null)
+            {
                 _Webcam.Start();
+            }
         }
 
         public static void Stop()
         {
             if (_Webcam != null)
+            {
                 _Webcam.Stop();
+            }
         }
 
         public static bool Select(SWebcamConfig c)
@@ -93,7 +109,9 @@ namespace Vocaluxe.Base
         public static void DeSelect()
         {
             if (_Webcam != null)
+            {
                 _Webcam.DeSelect();
+            }
         }
 
         public static SWebcamDevice[] GetDevices()
@@ -103,12 +121,12 @@ namespace Vocaluxe.Base
 
         public static bool IsDeviceAvailable()
         {
-            return (_Webcam != null) && _Webcam.IsDeviceAvailable();
+            return _Webcam != null && _Webcam.IsDeviceAvailable();
         }
 
         public static bool IsCapturing()
         {
-            return (_Webcam != null) && _Webcam.IsCapturing();
+            return _Webcam != null && _Webcam.IsCapturing();
         }
     }
 }

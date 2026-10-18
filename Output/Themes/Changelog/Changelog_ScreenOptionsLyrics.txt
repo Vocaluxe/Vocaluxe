@@ -1,6 +1,11 @@
 ScreenOptionsLyrics
 
 ++++++++++
+Version 4:
+Remove Graphics Options
+(moved to new Graphics Options screen)
+
+++++++++++
 Version 3:
 
 Add Graphics Options:

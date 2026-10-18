@@ -39,7 +39,7 @@ namespace VocaluxeLib.Xml
         /// <returns></returns>
         private string _GetXPath(XmlNode node)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             while (node != null)
             {
                 switch (node.NodeType)
@@ -49,7 +49,7 @@ namespace VocaluxeLib.Xml
                         node = ((XmlAttribute)node).OwnerElement;
                         break;
                     case XmlNodeType.Element:
-                        string index = _FindElementIndex(node);
+                        var index = _FindElementIndex(node);
                         builder.Insert(0, "/" + node.Name + index);
                         node = node.ParentNode;
                         break;
@@ -59,6 +59,7 @@ namespace VocaluxeLib.Xml
                         throw new ArgumentException("Only elements and attributes are supported");
                 }
             }
+
             throw new ArgumentException("Node was not in a document");
         }
 
@@ -69,21 +70,28 @@ namespace VocaluxeLib.Xml
         /// <returns></returns>
         private string _FindElementIndex(XmlNode element)
         {
-            XmlNode parentNode = element.ParentNode;
+            var parentNode = element.ParentNode;
             if (parentNode is XmlDocument)
+            {
                 return "";
-            XmlElement parent = (XmlElement)parentNode;
-            int index = 1;
+            }
+
+            var parent = (XmlElement)parentNode;
+            var index = 1;
             if (parent != null)
             {
-                XmlNode[] siblings = parent.ChildNodes.Cast<XmlNode>().Where(candidate => candidate is XmlElement && candidate.Name == element.Name).ToArray();
-                foreach (XmlNode candidate in siblings)
+                var siblings = parent.ChildNodes.Cast<XmlNode>().Where(candidate => candidate is XmlElement && candidate.Name == element.Name).ToArray();
+                foreach (var candidate in siblings)
                 {
                     if (candidate == element)
+                    {
                         return siblings.Length > 1 ? "[" + index + "]" : "";
+                    }
+
                     index++;
                 }
             }
+
             throw new ArgumentException("Couldn't find element within parent");
         }
         #endregion Debug Helpers
@@ -105,8 +113,8 @@ namespace VocaluxeLib.Xml
 
         public override String ToString()
         {
-            string xPath = Node == null ? "" : _GetXPath(Node);
-            string type = IsError ? "Error" : "Warning";
+            var xPath = Node == null ? "" : _GetXPath(Node);
+            var type = IsError ? "Error" : "Warning";
             return type + ": " + base.Message.Replace("%n", xPath);
         }
     }
@@ -174,7 +182,10 @@ namespace VocaluxeLib.Xml
             public virtual void HandleError(CXmlException e)
             {
                 if (e.IsError)
+                {
                     throw e;
+                }
+
                 CLog.Error(e.ToString());
             }
         }
@@ -191,7 +202,6 @@ namespace VocaluxeLib.Xml
             _ErrorHandler = new CXmlDefaultErrorHandler();
             _UnescapeStringValues = unescapeStringValues;
         }
-
 
         /// <summary>
         ///     Creates a new XmlDeserializer
@@ -217,8 +227,11 @@ namespace VocaluxeLib.Xml
             if (type.IsEnum)
             {
                 if (node == null)
+                {
                     return null;
-                string stringValue = node.InnerText;
+                }
+
+                var stringValue = node.InnerText;
                 try
                 {
                     return Enum.Parse(type, stringValue);
@@ -229,84 +242,134 @@ namespace VocaluxeLib.Xml
                     return value;
                 }
             }
+
             if (type == typeof(Guid))
+            {
                 return Guid.Parse(node.InnerText);
-            if (type == typeof(string)) {
-                if(node == null) {
+            }
+
+            if (type == typeof(string))
+            {
+                if (node == null)
+                {
                     return null;
-                } else if(_UnescapeStringValues) {
+                }
+                else if (_UnescapeStringValues)
+                {
                     return Regex.Unescape(node.InnerText);
-                } else {
+                }
+                else
+                {
                     return node.InnerText;
                 }
             }
+
             if (type.IsPrimitive)
+            {
                 return _GetPrimitiveValue(node, type) ?? value;
+            }
+
             if (type.IsNullable())
             {
                 if (node == null || !node.HasChildNodes)
+                {
                     return null;
-                Type subType = type.GetGenericArguments()[0];
+                }
+
+                var subType = type.GetGenericArguments()[0];
                 return _GetValue(node, subType, subName, value);
             }
+
             if (type.IsList() || type.IsArray)
             {
-                Type subType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
+                var subType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
                 if (subName == null)
+                {
                     subName = subType.GetTypeName();
+                }
+
                 subName = subName.ToLowerInvariant();
-                List<object> subValues = new List<object>();
+                var subValues = new List<object>();
                 if (node != null)
                 {
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
                         if (subNode is XmlComment)
+                        {
                             continue;
+                        }
+
                         if (subName == subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
+                        {
                             _ErrorHandler.HandleError(new CXmlException("Invalid list entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
-                        object subValue = _GetValue(subNode, subType);
+                        }
+
+                        var subValue = _GetValue(subNode, subType);
                         if (subValue != null)
+                        {
                             subValues.Add(subValue);
+                        }
                     }
                 }
+
                 if (value == null)
+                {
                     return _CreateList(type, subValues);
+                }
+
                 _FillList(value, type, subValues);
                 return value;
             }
+
             if (type.IsDictionary())
             {
-                Type subType = type.GetGenericArguments()[1];
-                object dict = value ?? Activator.CreateInstance(type);
-                MethodInfo add = type.GetMethod("Add");
+                var subType = type.GetGenericArguments()[1];
+                var dict = value ?? Activator.CreateInstance(type);
+                var add = type.GetMethod("Add");
                 if (subName != null)
+                {
                     subName = subName.ToLowerInvariant();
+                }
+
                 if (node != null)
                 {
                     foreach (XmlNode subNode in node.ChildNodes)
                     {
                         if (subNode is XmlComment)
+                        {
                             continue;
+                        }
+
                         string key;
                         if (subName != null)
                         {
                             if (subName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
+                            {
                                 _ErrorHandler.HandleError(new CXmlException("Invalid dictionary entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
-                            XmlNode nameAtt = (subNode.Attributes == null) ? null : subNode.Attributes.GetNamedItem("name");
+                            }
+
+                            var nameAtt = subNode.Attributes == null ? null : subNode.Attributes.GetNamedItem("name");
                             if (nameAtt == null)
                             {
                                 _ErrorHandler.HandleError(new CXmlException("'name' attribute is missing in %n", subNode));
                                 continue;
                             }
+
                             key = nameAtt.Value;
                         }
                         else
+                        {
                             key = subNode.Name;
-                        object subValue = _GetValue(subNode, subType);
+                        }
+
+                        var subValue = _GetValue(subNode, subType);
                         if (subValue != null)
-                            add.Invoke(dict, new object[] {key, subValue});
+                        {
+                            add.Invoke(dict, new object[] { key, subValue });
+                        }
                     }
                 }
+
                 return dict;
             }
 
@@ -322,6 +385,7 @@ namespace VocaluxeLib.Xml
                     return null;
                 }
             }
+
             _ReadChildNodes(node, value, true);
             _ReadChildNodes(node, value, false);
             return value;
@@ -336,19 +400,23 @@ namespace VocaluxeLib.Xml
         private object _GetPrimitiveValue(XmlNode node, Type type)
         {
             if (node == null)
+            {
                 return null;
+            }
+
             object value;
-            string nodeVal = node.InnerText;
+            var nodeVal = node.InnerText;
             try
             {
-                int p = nodeVal.IndexOf(',');
+                var p = nodeVal.IndexOf(',');
                 if (p > 0 && p >= nodeVal.Length - 3)
                 {
                     _ErrorHandler.HandleError(new CXmlInvalidValueException("German number format converted to English in %n", node, nodeVal, false));
-                    char[] tmp = nodeVal.ToCharArray();
+                    var tmp = nodeVal.ToCharArray();
                     tmp[p] = '.';
                     nodeVal = new string(tmp);
                 }
+
                 value = Convert.ChangeType(nodeVal, type, CultureInfo.InvariantCulture);
             }
             catch (FormatException e)
@@ -361,6 +429,7 @@ namespace VocaluxeLib.Xml
                 _ErrorHandler.HandleError(new CXmlInvalidValueException(e.Message + " in %n: '%v'", node, nodeVal));
                 return null;
             }
+
             return value;
         }
 
@@ -377,8 +446,12 @@ namespace VocaluxeLib.Xml
                 _AddList(result, field, new List<object>());
                 return true;
             }
+
             if (!field.HasDefaultValue)
+            {
                 return false;
+            }
+
             field.SetValue(result, field.DefaultValue);
             return true;
         }
@@ -392,19 +465,26 @@ namespace VocaluxeLib.Xml
         private static void _FillList(object list, Type type, ICollection values)
         {
             if (values.Count <= 0)
+            {
                 return;
+            }
+
             if (type.IsArray)
             {
-                Array array = (Array)list;
-                int i = 0;
-                foreach (object value in values)
+                var array = (Array)list;
+                var i = 0;
+                foreach (var value in values)
+                {
                     array.SetValue(value, i++);
+                }
             }
             else
             {
-                MethodInfo addMethod = type.GetMethod("Add");
-                foreach (object value in values)
-                    addMethod.Invoke(list, new object[] {value});
+                var addMethod = type.GetMethod("Add");
+                foreach (var value in values)
+                {
+                    addMethod.Invoke(list, new object[] { value });
+                }
             }
         }
 
@@ -416,7 +496,7 @@ namespace VocaluxeLib.Xml
         /// <returns>Newly created collection</returns>
         private static object _CreateList(Type type, ICollection values)
         {
-            object list = type.IsArray ? Array.CreateInstance(type.GetElementType(), values.Count) : Activator.CreateInstance(type, new object[] {values.Count});
+            var list = type.IsArray ? Array.CreateInstance(type.GetElementType(), values.Count) : Activator.CreateInstance(type, new object[] { values.Count });
             _FillList(list, type, values);
             return list;
         }
@@ -442,36 +522,50 @@ namespace VocaluxeLib.Xml
         {
             IEnumerable nodes;
             if (parent == null)
+            {
                 nodes = null;
+            }
             else if (attributes)
+            {
                 nodes = parent.Attributes;
+            }
             else
+            {
                 nodes = parent.ChildNodes;
+            }
 
-            List<SFieldInfo> fields = o.GetType().GetFields(attributes);
+            var fields = o.GetType().GetFields(attributes);
 
             if (nodes != null)
             {
                 //Dictionary of all embedded lists to allow interleaved/mixed elements
-                Dictionary<string, Tuple<SFieldInfo, List<object>>> embLists = new Dictionary<string, Tuple<SFieldInfo, List<object>>>();
+                var embLists = new Dictionary<string, Tuple<SFieldInfo, List<object>>>();
                 foreach (XmlNode node in nodes)
                 {
                     if (node is XmlComment || node.LocalName == "xsd" || node.LocalName == "xsi")
+                    {
                         continue;
+                    }
 
-                    SFieldInfo field = new SFieldInfo();
+                    var field = new SFieldInfo();
                     int curField;
                     for (curField = 0; curField < fields.Count; curField++)
                     {
                         field = fields[curField];
                         if (field.Name == node.Name || field.AltName == node.Name || (field.IsEmbeddedList && node.Name.StartsWith(field.Name)))
+                        {
                             break;
+                        }
                     }
+
                     if (curField >= fields.Count)
                     {
-                        string msg = "Unexpected element: %n";
+                        var msg = "Unexpected element: %n";
                         if (fields.Count > 0)
+                        {
                             msg += " Expected: " + string.Join(", ", fields.Select(f => f.Name));
+                        }
+
                         _ErrorHandler.HandleError(new CXmlException(msg, node));
                         continue;
                     }
@@ -488,9 +582,13 @@ namespace VocaluxeLib.Xml
                         {
                             _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid value in %n: %v", node, node.InnerText));
                             if (!_CheckAndSetDefaultValue(o, field))
+                            {
                                 _ErrorHandler.HandleError(new CXmlException("No default value for %n", node));
+                            }
+
                             continue;
                         }
+
                         field.SetValue(o, value);
                     }
                     else if (field.IsEmbeddedList)
@@ -501,24 +599,31 @@ namespace VocaluxeLib.Xml
                             entry = new Tuple<SFieldInfo, List<object>>(field, new List<object>());
                             embLists.Add(field.Name, entry);
                         }
-                        object subValue = _GetValue(node, field.SubType);
+
+                        var subValue = _GetValue(node, field.SubType);
                         if (subValue != null)
+                        {
                             entry.Item2.Add(subValue);
+                        }
                     }
                     else
                     {
                         fields.RemoveAt(curField); //Do this also on error
-                        object value = _GetValue(node, field.Type, field.ArrayItemName);
+                        var value = _GetValue(node, field.Type, field.ArrayItemName);
                         if (value == null)
                         {
                             if (_CheckAndSetDefaultValue(o, field))
+                            {
                                 continue;
+                            }
+
                             if (!field.IsNullable)
                             {
                                 _ErrorHandler.HandleError(new CXmlException("No default value for unset field at %n", node));
                                 continue;
                             }
                         }
+
                         if (field.Ranged != null && value != null && !field.Ranged.IsValid(field.IsNullable ? field.SubType : field.Type, value))
                         {
                             _ErrorHandler.HandleError(new CXmlInvalidValueException("Value in %n is not in the range " + field.Ranged +
@@ -528,22 +633,29 @@ namespace VocaluxeLib.Xml
                         field.SetValue(o, value);
                     }
                 }
+
                 //Add embedded lists
-                foreach (Tuple<SFieldInfo, List<object>> entry in embLists.Values)
+                foreach (var entry in embLists.Values)
                 {
                     _AddList(o, entry.Item1, entry.Item2);
                     fields.Remove(entry.Item1);
                 }
             }
-            foreach (SFieldInfo field in fields)
+
+            foreach (var field in fields)
             {
                 if (!_CheckAndSetDefaultValue(o, field))
                 {
                     if (parent != null)
+                    {
                         _ErrorHandler.HandleError(new CXmlMissingElementException(parent, field));
-                    object value = _GetValue(null, field.Type, field.ArrayItemName, field.GetValue(o));
+                    }
+
+                    var value = _GetValue(null, field.Type, field.ArrayItemName, field.GetValue(o));
                     if (value != null)
+                    {
                         field.SetValue(o, value);
+                    }
                 }
             }
         }
@@ -563,13 +675,14 @@ namespace VocaluxeLib.Xml
                 return (T)o;
             }
 
-            XmlDocument xDoc = new XmlDocument();
+            var xDoc = new XmlDocument();
             xDoc.Load(reader);
             if (xDoc.DocumentElement == null)
             {
                 _ErrorHandler.HandleError(new CXmlException("Root element not found!", null));
                 return (T)o;
             }
+
             try
             {
                 o = _GetValue(xDoc.DocumentElement, o.GetType(), o.GetType().GetSubTypeName(), o);
@@ -578,6 +691,7 @@ namespace VocaluxeLib.Xml
             {
                 throw e.InnerException ?? e;
             }
+
             return (T)o;
         }
 
@@ -603,11 +717,11 @@ namespace VocaluxeLib.Xml
         public T DeserializeString<T>(string xml, T o) where T : new()
         {
             var reader = new XmlTextReader(new StringReader(xml))
-                {
-                    WhitespaceHandling = WhitespaceHandling.Significant,
-                    Normalization = true,
-                    XmlResolver = null
-                };
+            {
+                WhitespaceHandling = WhitespaceHandling.Significant,
+                Normalization = true,
+                XmlResolver = null
+            };
             try
             {
                 return _Deserialize<T>(reader, o);
@@ -640,13 +754,16 @@ namespace VocaluxeLib.Xml
         public T Deserialize<T>(string filePath, T o) where T : new()
         {
             if (!File.Exists(filePath))
+            {
                 throw new FileNotFoundException(filePath);
+            }
+
             var reader = new XmlTextReader(filePath)
-                {
-                    WhitespaceHandling = WhitespaceHandling.Significant,
-                    Normalization = true,
-                    XmlResolver = null
-                };
+            {
+                WhitespaceHandling = WhitespaceHandling.Significant,
+                Normalization = true,
+                XmlResolver = null
+            };
             try
             {
                 return _Deserialize<T>(reader, o);

@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Utils;
 
@@ -57,26 +56,30 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             _CurTestCount = 0;
             _CurPassedCount = new int[_Analyzers.Count];
             _Weights = new float[_Analyzers.Count][];
-            for (int i = 0; i < _Analyzers.Count; i++)
+            for (var i = 0; i < _Analyzers.Count; i++)
+            {
                 _Weights[i] = new float[_Analyzers[i].GetNumHalfTones()];
+            }
+
             _SamplesPerSec = new int[_Analyzers.Count];
         }
 
         private void _InitNext(string lastTest)
         {
-            string msg = "Errors " + lastTest + ": ";
-            for (int i = 0; i < _CurPassedCount.Length; i++)
+            var msg = "Errors " + lastTest + ": ";
+            for (var i = 0; i < _CurPassedCount.Length; i++)
             {
                 msg += _CurTestCount - _CurPassedCount[i] + " ";
                 _PassedCount[i] += _CurPassedCount[i];
                 _CurPassedCount[i] = 0;
             }
+
             msg += "of " + _CurTestCount;
             CLog.Debug(msg);
             _TestCount += _CurTestCount;
             _CurTestCount = 0;
             //Do a reset first as we actually have an impossible situation (drop by multiple octaves)
-            byte[] data = new byte[4096 * 2];
+            var data = new byte[4096 * 2];
             _Process(data);
         }
         #endregion
@@ -84,7 +87,10 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         public void RunTest(bool reRun = false)
         {
             if (_IsRun && !reRun)
+            {
                 return;
+            }
+
             _IsRun = true;
 
             _InitTests();
@@ -109,13 +115,13 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
             _TestSpeed();
             CLog.Debug("Finished: ");
-            for (int i = 0; i < _Analyzers.Count; i++)
+            for (var i = 0; i < _Analyzers.Count; i++)
             {
-                string msg = _Analyzers[i].GetType().Name + ":";
+                var msg = _Analyzers[i].GetType().Name + ":";
                 msg += " Errors=" + (_TestCount - _PassedCount[i]);
                 msg += " Passed=" + _PassedCount[i];
                 msg += " Total=" + _TestCount;
-                msg += " Speed=" + _SamplesPerSec[i] / 1000 + "kSamples/s (=" + (_SamplesPerSec[i] / 44100) + "rec.s/s)";
+                msg += " Speed=" + _SamplesPerSec[i] / 1000 + "kSamples/s (=" + _SamplesPerSec[i] / 44100 + "rec.s/s)";
                 CLog.Debug(msg);
             }
         }
@@ -124,21 +130,22 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         {
             const int samplesPerBuffer = 512;
             byte[] data;
-            byte[] data2 = new byte[samplesPerBuffer * 2];
+            var data2 = new byte[samplesPerBuffer * 2];
             double angle = 0;
             const int repeats = 100;
             _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, samplesPerBuffer * repeats, ref angle, out data);
-            for (int i = 0; i < _Analyzers.Count; i++)
+            for (var i = 0; i < _Analyzers.Count; i++)
             {
-                CPitchTracker analyzer = _Analyzers[i];
-                Stopwatch sw = new Stopwatch();
+                var analyzer = _Analyzers[i];
+                var sw = new Stopwatch();
                 sw.Start();
-                for (int j = 0; j < repeats; j++)
+                for (var j = 0; j < repeats; j++)
                 {
                     Buffer.BlockCopy(data, 0, data2, 0, samplesPerBuffer * 2);
                     analyzer.Input(data2);
                     analyzer.GetNote(out _MaxVolume, _Weights[i]);
                 }
+
                 sw.Stop();
                 _SamplesPerSec[i] = (int)Math.Round(samplesPerBuffer * repeats / (sw.ElapsedMilliseconds / 1000.0));
             }
@@ -146,7 +153,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         private void _Process(byte[] data)
         {
-            for (int j = 0; j < _Analyzers.Count; j++)
+            for (var j = 0; j < _Analyzers.Count; j++)
             {
                 _Analyzers[j].Input(data);
                 _Tones[j] = _Analyzers[j].GetNote(out _MaxVolume, _Weights[j]);
@@ -156,12 +163,18 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         private static string _ToneToNote(int tone, bool withOctave = true)
         {
             if (tone < 0)
+            {
                 return "inv.";
+            }
+
             tone += 24;
-            string[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-            string result = notes[tone % 12];
+            string[] notes = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+            var result = notes[tone % 12];
             if (withOctave)
-                result += (tone / 12);
+            {
+                result += tone / 12;
+            }
+
             return result;
         }
 
@@ -172,43 +185,60 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             const int toneTo = 47; //B5
             const int sampleCt = 4096;
             const int batchCt = 512;
-            byte[] data2 = new byte[batchCt * 2];
+            var data2 = new byte[batchCt * 2];
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             double angle = 0;
-            bool[] valids = new bool[_Analyzers.Count];
-            for (int distort = 0; distort < 10; distort++)
+            var valids = new bool[_Analyzers.Count];
+            for (var distort = 0; distort < 10; distort++)
             {
                 //Do a reset first as we actually have an impossible situation (drop by multiple octaves)
-                byte[] data = new byte[sampleCt * 2];
+                var data = new byte[sampleCt * 2];
                 _Process(data);
-                for (int tone = toneFrom; tone <= toneTo; tone++)
+                for (var tone = toneFrom; tone <= toneTo; tone++)
                 {
                     _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, sampleCt, ref angle, out data);
                     if (tone == 46 && distort == 4)
+                    {
                         data = new byte[data.Length];
+                    }
+
                     _Distort(data, tone, distort);
 
-                    for (int i = 0; i < sampleCt / batchCt; i++)
+                    for (var i = 0; i < sampleCt / batchCt; i++)
                     {
                         Buffer.BlockCopy(data, i * batchCt * 2, data2, 0, batchCt * 2);
                         _Process(data2);
                         if (i * batchCt < 2048)
+                        {
                             continue;
+                        }
+
                         _CurTestCount++;
-                        bool ok = true;
-                        for (int j = 0; j < valids.Length; j++)
+                        var ok = true;
+                        for (var j = 0; j < valids.Length; j++)
                         {
                             valids[j] = _Tones[j] == tone;
                             if (!valids[j])
+                            {
                                 ok = false;
+                            }
                             else
+                            {
                                 _CurPassedCount[j]++;
+                            }
                         }
+
                         if (ok)
+                        {
                             continue;
-                        string msg = "Note " + _ToneToNote(tone) + "(" + distort + ") at buffer " + (i + 1) + "/" + (sampleCt / batchCt) + " detected as ";
-                        for (int j = 0; j < valids.Length; j++)
+                        }
+
+                        var msg = "Note " + _ToneToNote(tone) + "(" + distort + ") at buffer " + (i + 1) + "/" + sampleCt / batchCt + " detected as ";
+                        for (var j = 0; j < valids.Length; j++)
+                        {
                             msg += _ToneToNote(_Tones[j]) + (valids[j] ? "" : "(!)") + "; ";
+                        }
+
                         CLog.Debug(msg);
                         /*CWavFile w = new CWavFile();
                         w.Create(tone + "-" + distort + ".wav", 1, 44100, 16);
@@ -221,10 +251,10 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         private static short[] _GetDistort(int sampleCt, int tone, int type)
         {
-            short[] sdata = new short[sampleCt];
+            var sdata = new short[sampleCt];
             if (type < 9)
             {
-                int newTone = 1;
+                var newTone = 1;
                 switch (type)
                 {
                     case 0:
@@ -255,6 +285,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                         newTone = 29;
                         break;
                 }
+
                 byte[] data2;
                 double angle = 0;
                 _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone + newTone), 44100, sampleCt, ref angle, out data2);
@@ -262,41 +293,56 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             }
             else
             {
-                Random r = new Random(0xBEEF);
-                for (int i = 0; i < sdata.Length; i++)
+                var r = new Random(0xBEEF);
+                for (var i = 0; i < sdata.Length; i++)
+                {
                     sdata[i] = (short)(r.Next() - Int16.MinValue);
+                }
             }
+
             return sdata;
         }
 
         private static void _Distort(byte[] data, int tone, int distortCt)
         {
             if (distortCt < 1)
+            {
                 return;
-            short[] sdata = new short[data.Length / 2];
+            }
+
+            var sdata = new short[data.Length / 2];
             Buffer.BlockCopy(data, 0, sdata, 0, data.Length);
 
-            short[][] distortions = new short[distortCt][];
-            for (int i = 0; i < distortCt; i++)
+            var distortions = new short[distortCt][];
+            for (var i = 0; i < distortCt; i++)
+            {
                 distortions[i] = _GetDistort(data.Length / 2, tone, i);
+            }
 
-            for (int i = 0; i < sdata.Length; i++)
+            for (var i = 0; i < sdata.Length; i++)
             {
                 double distortion = 0;
-                for (int j = 0; j < distortCt; j++)
+                for (var j = 0; j < distortCt; j++)
+                {
                     distortion += distortions[j][i];
+                }
+
                 distortion /= distortCt;
                 sdata[i] = (short)(sdata[i] * 4.0 / 5.0 + distortion / 5.0);
             }
+
             Buffer.BlockCopy(sdata, 0, data, 0, data.Length);
         }
 
         private static void _GetSineWave(double freq, int sampleRate, int sampleCt, ref double angle, out byte[] data)
         {
             const short max = short.MaxValue;
-            short[] data16Bit = new short[sampleCt];
-            for (int i = 0; i < sampleCt; i++)
+            var data16Bit = new short[sampleCt];
+            for (var i = 0; i < sampleCt; i++)
+            {
                 data16Bit[i] = (short)(Math.Sin(2 * Math.PI * i / sampleRate * freq + angle) * max);
+            }
+
             angle = 2 * Math.PI * sampleCt / sampleRate * freq + angle;
             angle = angle % (2 * Math.PI);
             data = new byte[data16Bit.Length * 2];
@@ -313,22 +359,29 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         private void _TestFile(string fileName, string testFileName)
         {
             if (!File.Exists(testFileName))
+            {
                 return;
-            List<STimedNote> tones = new List<STimedNote>();
-            using (StreamReader reader = new StreamReader(testFileName))
+            }
+
+            var tones = new List<STimedNote>();
+            using (var reader = new StreamReader(testFileName))
             {
                 String line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    int p = line.IndexOf(' ');
+                    var p = line.IndexOf(' ');
                     if (p < 0)
+                    {
                         continue;
+                    }
+
                     STimedNote note;
                     note.Time = int.Parse(line.Substring(0, p));
                     note.Note = int.Parse(line.Substring(p + 1));
                     tones.Add(note);
                 }
             }
+
             _TestFile(fileName, tones);
         }
 
@@ -337,71 +390,93 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             STimedNote note;
             note.Note = tone;
             note.Time = 46;
-            List<STimedNote> tones = new List<STimedNote> {note};
+            var tones = new List<STimedNote> { note };
             _TestFile(fileName, tones);
         }
 
         private static bool _IsNoteValid(int note, int time, IList<STimedNote> tones)
         {
             const int lastNoteMaxTimeDiff = 1536 * 1000 / 44100; // old note is valid for 1536 more samples
-            for (int i = 0; i < tones.Count; i++)
+            for (var i = 0; i < tones.Count; i++)
             {
                 if (tones[i].Time > time)
+                {
                     break;
+                }
+
                 if (i + 1 == tones.Count || time <= tones[i + 1].Time + lastNoteMaxTimeDiff)
                 {
                     if (tones[i].Note == note || tones[i].Note < 0)
+                    {
                         return true;
+                    }
                 }
             }
+
             return false;
         }
 
         private void _TestFile(string fileName, IList<STimedNote> tones)
         {
-            CWavFile wavFile = new CWavFile();
+            var wavFile = new CWavFile();
             try
             {
                 if (!wavFile.Open(fileName))
+                {
                     return;
+                }
+
                 if (wavFile.BitsPerSample != 16)
                 {
                     wavFile.Close();
                     return;
                 }
-                int samplesRead = 0;
-                int curTimeIndex = -1;
-                int curNote = -1;
+
+                var samplesRead = 0;
+                var curTimeIndex = -1;
+                var curNote = -1;
                 const int maxSamplesPerBatch = 512;
-                bool[] valids = new bool[_Tones.Length];
+                var valids = new bool[_Tones.Length];
                 while (wavFile.NumSamplesLeft > maxSamplesPerBatch)
                 {
-                    byte[] samples = wavFile.GetNextSamples16BitAsBytes(maxSamplesPerBatch, 1);
+                    var samples = wavFile.GetNextSamples16BitAsBytes(maxSamplesPerBatch, 1);
                     samplesRead += samples.Length / 2;
-                    int time = samplesRead * 1000 / wavFile.SampleRate;
+                    var time = samplesRead * 1000 / wavFile.SampleRate;
                     _Process(samples);
                     while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
                     {
                         curTimeIndex++;
                         curNote = tones[curTimeIndex].Note;
                     }
+
                     if (curNote < 0)
+                    {
                         continue;
+                    }
+
                     _CurTestCount++;
-                    bool error = false;
-                    for (int i = 0; i < _Tones.Length; i++)
+                    var error = false;
+                    for (var i = 0; i < _Tones.Length; i++)
                     {
                         valids[i] = _IsNoteValid(_Tones[i], time, tones);
                         if (valids[i])
+                        {
                             _CurPassedCount[i]++;
+                        }
                         else
+                        {
                             error = true;
+                        }
                     }
+
                     if (error)
                     {
-                        string msg = "Note " + _ToneToNote(curNote) + " at " + time + "ms detected as ";
-                        for (int i = 0; i < _Tones.Length; i++)
+                        var msg = "Note " + _ToneToNote(curNote) + " at " + time + "ms detected as ";
+                        for (var i = 0; i < _Tones.Length; i++)
+                        {
                             msg += _ToneToNote(_Tones[i]) + (valids[i] ? "" : "(!)") + "; ";
+                        }
+
                         CLog.Debug(msg);
                     }
                 }
@@ -410,6 +485,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             {
                 Console.WriteLine("Error on file " + fileName + ": " + e);
             }
+
             wavFile.Close();
         }
         #endregion

@@ -42,7 +42,7 @@ namespace Vocaluxe.Base.ThemeSystem
             get { return _Skins.Keys.ToArray(); }
         }
 
-        public readonly int PartyModeID;
+        public readonly int PartyModeId;
 
         protected readonly string _Folder;
         private readonly string _FileName;
@@ -53,11 +53,11 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private bool _IsLoaded;
 
-        protected CTheme(string filePath, int partyModeID)
+        protected CTheme(string filePath, int partyModeId)
         {
             _Folder = Path.GetDirectoryName(filePath);
             _FileName = Path.GetFileName(filePath);
-            PartyModeID = partyModeID;
+            PartyModeId = partyModeId;
             CurrentSkin = null;
         }
 
@@ -74,7 +74,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 _Data = xml.Deserialize<STheme>(Path.Combine(_Folder, _FileName));
                 if (_Data.ThemeSystemVersion != _ThemeSystemVersion)
                 {
-                    string errorMsg = _Data.ThemeSystemVersion < _ThemeSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
+                    var errorMsg = _Data.ThemeSystemVersion < _ThemeSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
                     errorMsg += " Current Version is " + _ThemeSystemVersion;
                     throw new Exception(errorMsg);
                 }
@@ -85,20 +85,21 @@ namespace Vocaluxe.Base.ThemeSystem
                 return false;
             }
 
-            string path = Path.Combine(_Folder, Name);
-            IEnumerable<string> files = CHelper.ListFiles(path, "*.xml");
+            var path = Path.Combine(_Folder, Name);
+            var files = CHelper.ListFiles(path, "*.xml");
 
             // Load skins, succeed if at least 1 skin was loaded
-            bool ok = false;
-            foreach (string file in files)
+            var ok = false;
+            foreach (var file in files)
             {
-                CSkin skin = _GetNewSkin(path, file);
+                var skin = _GetNewSkin(path, file);
                 if (skin.Init())
                 {
                     _Skins.Add(skin.Name, skin);
                     ok = true;
                 }
             }
+
             return ok;
         }
 
@@ -109,11 +110,16 @@ namespace Vocaluxe.Base.ThemeSystem
         public bool Load()
         {
             if (_IsLoaded)
+            {
                 return true;
+            }
 
             if (!_LoadSkin())
+            {
                 return false;
-            bool ok = _Load();
+            }
+
+            var ok = _Load();
 
             _IsLoaded = ok;
             return ok;
@@ -126,6 +132,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 CurrentSkin.Unload();
                 CurrentSkin = null;
             }
+
             _IsLoaded = false;
         }
 
@@ -141,7 +148,8 @@ namespace Vocaluxe.Base.ThemeSystem
                 CurrentSkin.Unload();
                 CurrentSkin = null;
             }
-            bool ok = _LoadSkin();
+
+            var ok = _LoadSkin();
             Debug.Assert(ok);
         }
     }

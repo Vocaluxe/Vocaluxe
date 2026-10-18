@@ -80,14 +80,18 @@ namespace VocaluxeLib.Xml
         public void SetValue(object o, object value)
         {
             if (_Field != null)
+            {
                 _Field.SetValue(o, value);
+            }
             else
-                _Property.SetValue(o, value, new object[] {});
+            {
+                _Property.SetValue(o, value, new object[] { });
+            }
         }
 
         public object GetValue(object o)
         {
-            return (_Field != null) ? _Field.GetValue(o) : _Property.GetValue(o, new object[] {});
+            return _Field != null ? _Field.GetValue(o) : _Property.GetValue(o, new object[] { });
         }
     }
 }

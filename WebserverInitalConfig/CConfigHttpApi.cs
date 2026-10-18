@@ -15,27 +15,27 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Security.Authentication;
-using System.Security.Principal;
-using System.Windows.Forms;
-using Security.Cryptography;
-using Security.Cryptography.X509Certificates;
 using System;
 using System.Linq;
 using System.Net;
+using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
+using System.Windows.Forms;
 using NetFwTypeLib;
+using Security.Cryptography;
+using Security.Cryptography.X509Certificates;
 
 namespace WebserverInitalConfig
 {
     public class CConfigHttpApi
     {
         // ReSharper disable InconsistentNaming
-        private const String CLSID_NetFwMgr = "{304CE942-6E39-40D8-943A-B913C40C9CD4}";
-        private const String CLSID_NetAuthApp = "{EC9846B3-2762-4A6B-A214-6ACB603462D2}";
-        private const String CLSID_NetOpenPort = "{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}";
-        private const string _AppGUID = "{7baf41f1-48b7-42cb-b145-f815499cb48f}";
+        private const String CLSId_NetFwMgr = "{304CE942-6E39-40D8-943A-B913C40C9CD4}";
+        private const String CLSId_NetAuthApp = "{EC9846B3-2762-4A6B-A214-6ACB603462D2}";
+        private const String CLSId_NetOpenPort = "{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}";
+        private const string _AppGUId = "{7baf41f1-48b7-42cb-b145-f815499cb48f}";
         // ReSharper restore InconsistentNaming
 
         private readonly string _RuleName;
@@ -56,41 +56,49 @@ namespace WebserverInitalConfig
         private static void _ReserveUrl(string networkString)
         {
             if (!IsAdministrator())
+            {
                 throw new AuthenticationException();
+            }
+
             HttpApi.ReserveURL(networkString, "D:(A;;GX;;;S-1-1-0)");
         }
 
         public void ReserveUrl(bool secure)
         {
-            string http = secure ? "https" : "http";
+            var http = secure ? "https" : "http";
             _ReserveUrl(http + "://+:" + _Port + "/");
         }
 
         private void _BindCert(X509Certificate cert)
         {
-            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(_IP), _Port);
-            HttpApi.SslCertificateInfo certificateInfo = HttpApi.QuerySslCertificateInfo(endpoint);
+            var endpoint = new IPEndPoint(IPAddress.Parse(_IP), _Port);
+            var certificateInfo = HttpApi.QuerySslCertificateInfo(endpoint);
             if (certificateInfo != null && !certificateInfo.Hash.SequenceEqual(cert.GetCertHash()))
             {
                 if (!IsAdministrator())
+                {
                     throw new AuthenticationException();
+                }
+
                 HttpApi.DeleteCertificateBinding(endpoint);
 
-                HttpApi.BindCertificate(endpoint, cert.GetCertHash(), StoreName.My, new Guid(_AppGUID));
+                HttpApi.BindCertificate(endpoint, cert.GetCertHash(), StoreName.My, new Guid(_AppGUId));
             }
         }
 
         private static void _AddCertToStore(X509Certificate2 cert)
         {
-            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadWrite);
 
             // ReSharper disable AssignNullToNotNullAttribute
-            X509Certificate2Collection oldCerts = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, cert.SubjectName.Name, false);
+            var oldCerts = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, cert.SubjectName.Name, false);
             // ReSharper restore AssignNullToNotNullAttribute
 
-            foreach (X509Certificate2 oldCert in oldCerts)
+            foreach (var oldCert in oldCerts)
+            {
                 store.Remove(oldCert);
+            }
 
             store.Add(cert);
             store.Close();
@@ -99,15 +107,17 @@ namespace WebserverInitalConfig
         private static X509Certificate2 _GetCert(string name)
         {
             X509Certificate2 result = null;
-            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly);
 
             var name2 = new X500DistinguishedName(name);
             // ReSharper disable AssignNullToNotNullAttribute
-            X509Certificate2Collection certs = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, name2.Name, false);
+            var certs = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, name2.Name, false);
             // ReSharper restore AssignNullToNotNullAttribute
             if (certs.Count > 0)
+            {
                 result = certs[0];
+            }
 
             store.Close();
 
@@ -117,12 +127,12 @@ namespace WebserverInitalConfig
         private X509Certificate2 _GetSelfSignedCert(string subjectName)
         {
             var keyParam = new CngKeyCreationParameters
-                {
-                    ExportPolicy = CngExportPolicies.AllowExport,
-                    KeyCreationOptions = CngKeyCreationOptions.MachineKey | CngKeyCreationOptions.OverwriteExistingKey,
-                    KeyUsage = CngKeyUsages.AllUsages,
-                    Provider = CngProvider.MicrosoftSoftwareKeyStorageProvider,
-                };
+            {
+                ExportPolicy = CngExportPolicies.AllowExport,
+                KeyCreationOptions = CngKeyCreationOptions.MachineKey | CngKeyCreationOptions.OverwriteExistingKey,
+                KeyUsage = CngKeyUsages.AllUsages,
+                Provider = CngProvider.MicrosoftSoftwareKeyStorageProvider,
+            };
 
             keyParam.Parameters.Add(new CngProperty("Length", BitConverter.GetBytes(2048), CngPropertyOptions.None));
 
@@ -143,59 +153,70 @@ namespace WebserverInitalConfig
                 }
             }
 
-            X509CertificateCreationParameters param = new X509CertificateCreationParameters(new X500DistinguishedName(subjectName))
-                {
-                    SubjectName = new X500DistinguishedName(subjectName),
-                    EndTime = DateTime.Today.AddYears(20) //,SignatureAlgorithm = X509CertificateSignatureAlgorithm.RsaSha512
-                };
+            var param = new X509CertificateCreationParameters(new X500DistinguishedName(subjectName))
+            {
+                SubjectName = new X500DistinguishedName(subjectName),
+                EndTime = DateTime.Today.AddYears(20) //,SignatureAlgorithm = X509CertificateSignatureAlgorithm.RsaSha512
+            };
 
-            OidCollection oc = new OidCollection {new Oid("1.3.6.1.5.5.7.3.1")};
+            var oc = new OidCollection { new Oid("1.3.6.1.5.5.7.3.1") };
             X509Extension eku = new X509EnhancedKeyUsageExtension(oc, true);
             param.Extensions.Add(eku);
 
             param.TakeOwnershipOfKey = true;
 
-            byte[] rawData = key.CreateSelfSignedCertificate(param).Export(X509ContentType.Pfx, "");
+            var rawData = key.CreateSelfSignedCertificate(param).Export(X509ContentType.Pfx, "");
             var cert = new X509Certificate2(rawData, "", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet)
-                {
-                    FriendlyName = _RuleName + " Server Certificate"
-                };
+            {
+                FriendlyName = _RuleName + " Server Certificate"
+            };
             return cert;
         }
 
         public void CreateAndAddCert(string hostName)
         {
-            string certName = "CN=" + hostName + ", C=DE, O=" + _RuleName + ", OU=" + _RuleName + " Server";
+            var certName = "CN=" + hostName + ", C=DE, O=" + _RuleName + ", OU=" + _RuleName + " Server";
 
-            X509Certificate2 cert = _GetCert(certName);
+            var cert = _GetCert(certName);
             if (cert == null)
             {
                 if (!IsAdministrator())
+                {
                     throw new AuthenticationException();
+                }
+
                 cert = _GetSelfSignedCert(certName);
                 if (cert == null)
                 {
                     MessageBox.Show("Could not create certificate. Secure server connection may not work. Disable it if required.");
                     return;
                 }
+
                 _AddCertToStore(cert);
             }
+
             _BindCert(cert);
         }
 
         private bool _IsAppAuthorized(INetFwProfile profile)
         {
             if (!profile.FirewallEnabled)
+            {
                 return true;
+            }
+
             return profile.AuthorizedApplications.Cast<INetFwAuthorizedApplication>().Any(a => a.ProcessImageFileName == _ExePath);
         }
 
         private bool _IsPortOpen(INetFwProfile profile)
         {
-            NET_FW_IP_PROTOCOL_ protocol = _GetProtocol();
+            var protocol = _GetProtocol();
 
             if (!profile.FirewallEnabled)
+            {
                 return true;
+            }
+
             return profile.GloballyOpenPorts.Cast<INetFwOpenPort>().Any(p => p.Protocol == protocol && p.Port == _Port);
         }
 
@@ -206,21 +227,28 @@ namespace WebserverInitalConfig
 
         private void _AddFirewallRuleForProfile(INetFwProfile profile)
         {
-            bool isAppAuthorized = _IsAppAuthorized(profile);
-            bool isPortOpen = _IsPortOpen(profile);
+            var isAppAuthorized = _IsAppAuthorized(profile);
+            var isPortOpen = _IsPortOpen(profile);
 
             if ((!isAppAuthorized || !isPortOpen) && !IsAdministrator())
+            {
                 throw new AuthenticationException();
+            }
+
             if (!isAppAuthorized)
+            {
                 _AddAppToFirewall(profile);
+            }
 
             if (!isPortOpen)
+            {
                 _AddPortToFirewall(profile);
+            }
         }
 
         private void _AddPortToFirewall(INetFwProfile profile)
         {
-            INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetOpenPort)));
+            var openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSId_NetOpenPort)));
             openPort.Enabled = true;
             openPort.Port = _Port;
             openPort.Protocol = _GetProtocol();
@@ -232,8 +260,8 @@ namespace WebserverInitalConfig
 
         private void _AddAppToFirewall(INetFwProfile profile)
         {
-            INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
-                Type.GetTypeFromCLSID(new Guid(CLSID_NetAuthApp)));
+            var application = (INetFwAuthorizedApplication)Activator.CreateInstance(
+                Type.GetTypeFromCLSID(new Guid(CLSId_NetAuthApp)));
 
             application.Name = _RuleName;
             application.ProcessImageFileName = _ExePath;
@@ -244,16 +272,16 @@ namespace WebserverInitalConfig
 
         public static bool IsAdministrator()
         {
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            var identity = WindowsIdentity.GetCurrent();
             // ReSharper disable AssignNullToNotNullAttribute
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            var principal = new WindowsPrincipal(identity);
             // ReSharper restore AssignNullToNotNullAttribute
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         public void AddFirewallRule()
         {
-            INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetFwMgr)));
+            var manage = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSId_NetFwMgr)));
             //_AddFirewallRuleForProfile(manage.LocalPolicy.CurrentProfile);
             //if (manage.CurrentProfileType != NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD)
             //Add to Home/Work(Private) and current net
@@ -267,8 +295,8 @@ namespace WebserverInitalConfig
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
 
             Mono.Security.Authenticode.PrivateKey key = new Mono.Security.Authenticode.PrivateKey { RSA=RSA.Create()};
-            
-           
+
+
             Mono.Security.X509.X509CertificateBuilder x509 = new Mono.Security.X509.X509CertificateBuilder();
             x509.IssuerName = "CN=Vocaluxe Server";
             x509.NotAfter = DateTime.Today.AddYears(20);

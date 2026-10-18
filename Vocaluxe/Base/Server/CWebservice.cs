@@ -28,17 +28,20 @@ namespace Vocaluxe.Base.Server
     {
         private static Guid _GetSession()
         {
-            Guid sessionKey = Guid.Empty;
-            string sessionHeader =
+            var sessionKey = Guid.Empty;
+            var sessionHeader =
                 ((HttpRequestMessageProperty)OperationContext.Current.IncomingMessageProperties["httpRequest"]).Headers["session"];
             if (string.IsNullOrEmpty(sessionHeader))
+            {
                 return sessionKey;
+            }
+
             try
             {
                 sessionKey = Guid.Parse(sessionHeader);
             }
-            catch (Exception)
-            { }
+            catch (Exception) { }
+
             CSessionControl.ResetSessionTimeout(sessionKey);
             return sessionKey;
         }
@@ -46,24 +49,28 @@ namespace Vocaluxe.Base.Server
         public void SendKeyEvent(string key)
         {
             if (!_CheckRight(EUserRights.UseKeyboard))
+            {
                 return;
+            }
 
 
-            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyEvent,key);
+            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyEvent, key);
         }
 
         public void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false)
         {
             if (!_CheckRight(EUserRights.UseKeyboard))
+            {
                 return;
-           
+            }
+
             CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyStringEvent, keyString, isShiftPressed, isAltPressed, isCtrlPressed);
         }
 
         #region profile
         public Guid GetOwnProfileId()
         {
-            Guid sessionKey = _GetSession();
+            var sessionKey = _GetSession();
             if (sessionKey == Guid.Empty)
             {
                 if (WebOperationContext.Current != null)
@@ -71,9 +78,11 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
+
                 return Guid.Empty;
             }
-            Guid profileId = CSessionControl.GetUserIdFromSession(sessionKey);
+
+            var profileId = CSessionControl.GetUserIdFromSession(sessionKey);
             if (profileId == Guid.Empty)
             {
                 if (WebOperationContext.Current != null)
@@ -81,20 +90,24 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
+
                 return Guid.Empty;
             }
+
             return profileId;
         }
 
         public void SendProfile(SProfileData profile)
         {
-            Guid sessionKey = _GetSession();
+            var sessionKey = _GetSession();
 
             if (profile.ProfileId != Guid.Empty) //Guid.Empty is the id for a new profile
             {
                 if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId
-                    && !(_CheckRight(EUserRights.EditAllProfiles)))
+                    && !_CheckRight(EUserRights.EditAllProfiles))
+                {
                     return;
+                }
             }
 
             CVocaluxeServer.DoTask(CVocaluxeServer.SendProfileData, profile);
@@ -102,15 +115,16 @@ namespace Vocaluxe.Base.Server
 
         public SProfileData GetProfile(Guid profileId)
         {
-            Guid sessionKey = _GetSession();
+            var sessionKey = _GetSession();
             if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
             {
-                bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
-                                   CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
+                var isReadonly = !CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
+                                 CSessionControl.GetUserIdFromSession(sessionKey) != profileId;
 
 
-                return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileData,profileId, isReadonly);
+                return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileData, profileId, isReadonly);
             }
+
             return new SProfileData();
         }
 
@@ -124,14 +138,16 @@ namespace Vocaluxe.Base.Server
         public void SendPhoto(SPhotoData photo)
         {
             if (_CheckRight(EUserRights.UploadPhotos))
+            {
                 CVocaluxeServer.DoTask(CVocaluxeServer.SendPhoto, photo);
+            }
         }
         #endregion
 
         #region website
         public Guid Login(string username, string password)
         {
-            Guid sessionId = CSessionControl.OpenSession(username, password);
+            var sessionId = CSessionControl.OpenSession(username, password);
             if (sessionId == Guid.Empty)
             {
                 if (WebOperationContext.Current != null)
@@ -140,21 +156,24 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "Wrong username or password";
                 }
             }
+
             return sessionId;
         }
 
         public void Logout()
         {
-            Guid sessionKey = _GetSession();
-            CSessionControl.InvalidateSessionByID(sessionKey);
+            var sessionKey = _GetSession();
+            CSessionControl.InvalidateSessionById(sessionKey);
         }
 
         public Stream Index()
         {
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
+            }
 
-            return new MemoryStream(CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile,"index.html"));
+            return new MemoryStream(CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "index.html"));
         }
 
         public Stream GetJsFile(string filename)
@@ -168,13 +187,18 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "js/" + filename);
+            var data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "js/" + filename);
 
             if (data != null)
+            {
                 return new MemoryStream(data);
+            }
 
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+
             return null;
         }
 
@@ -189,12 +213,18 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css/" + filename);
+            var data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css/" + filename);
 
             if (data != null)
+            {
                 return new MemoryStream(data);
+            }
+
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+
             return null;
         }
 
@@ -209,12 +239,18 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css\\images\\" + filename);
+            var data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css\\images\\" + filename);
 
             if (data != null)
+            {
                 return new MemoryStream(data);
+            }
+
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+
             return null;
         }
 
@@ -229,12 +265,18 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "img/" + filename);
+            var data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "img/" + filename);
 
             if (data != null)
+            {
                 return new MemoryStream(data);
+            }
+
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+
             return null;
         }
 
@@ -249,13 +291,18 @@ namespace Vocaluxe.Base.Server
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "locales/" + filename);
+            var data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "locales/" + filename);
 
             if (data != null)
+            {
                 return new MemoryStream(data);
+            }
 
             if (WebOperationContext.Current != null)
+            {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+
             return null;
         }
 
@@ -303,18 +350,21 @@ namespace Vocaluxe.Base.Server
             }
 
 
-            String path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path,songId);
+            var path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path, songId);
             path = path.Replace("..", "");
 
 
-            if (!File.Exists(path) 
-                || !(path.EndsWith(".mp3", StringComparison.InvariantCulture) 
-                        || path.EndsWith(".ogg", StringComparison.InvariantCulture)
-                        || path.EndsWith(".wav", StringComparison.InvariantCulture)
-                        || path.EndsWith(".webm", StringComparison.InvariantCulture)))
+            if (!File.Exists(path)
+                || !(path.EndsWith(".mp3", StringComparison.InvariantCulture)
+                     || path.EndsWith(".ogg", StringComparison.InvariantCulture)
+                     || path.EndsWith(".wav", StringComparison.InvariantCulture)
+                     || path.EndsWith(".webm", StringComparison.InvariantCulture)))
             {
                 if (WebOperationContext.Current != null)
+                {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                }
+
                 return null;
             }
 
@@ -364,13 +414,14 @@ namespace Vocaluxe.Base.Server
 
                 return new SPlaylistData();
             }
-           
         }
 
         public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
             if (!_CheckRight(EUserRights.AddSongToPlaylist))
+            {
                 return;
+            }
 
             try
             {
@@ -389,7 +440,9 @@ namespace Vocaluxe.Base.Server
         public void RemoveSongFromPlaylist(int position, int playlistId, int songId)
         {
             if (!_CheckRight(EUserRights.RemoveSongsFromPlaylists))
+            {
                 return;
+            }
 
             try
             {
@@ -408,7 +461,9 @@ namespace Vocaluxe.Base.Server
         public void MoveSongInPlaylist(int newPosition, int playlistId, int songId)
         {
             if (!_CheckRight(EUserRights.ReorderPlaylists))
+            {
                 return;
+            }
 
             try
             {
@@ -455,6 +510,7 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
                 }
+
                 return new SPlaylistSongInfo[0];
             }
         }
@@ -462,7 +518,9 @@ namespace Vocaluxe.Base.Server
         public void RemovePlaylist(int playlistId)
         {
             if (!_CheckRight(EUserRights.DeletePlaylists))
+            {
                 return;
+            }
 
             try
             {
@@ -481,7 +539,9 @@ namespace Vocaluxe.Base.Server
         public int AddPlaylist(string playlistName)
         {
             if (!_CheckRight(EUserRights.CreatePlaylists))
-            return -1;
+            {
+                return -1;
+            }
 
             try
             {
@@ -509,7 +569,9 @@ namespace Vocaluxe.Base.Server
         public void SetUserRole(Guid profileId, int userRole)
         {
             if (_CheckRight(EUserRights.EditAllProfiles))
+            {
                 CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.SetUserRole, profileId, userRole);
+            }
         }
 
         public bool HasUserRight(int right)
@@ -519,7 +581,7 @@ namespace Vocaluxe.Base.Server
 
         private static bool _CheckRight(EUserRights requestedRight)
         {
-            Guid sessionKey = _GetSession();
+            var sessionKey = _GetSession();
 
             if (sessionKey == Guid.Empty)
             {
@@ -528,6 +590,7 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
+
                 return false;
             }
 
@@ -538,20 +601,26 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
                 }
+
                 return false;
             }
+
             return true;
         }
 
         private static bool _CheckRightWithNoErrorMessage(EUserRights requestedRight)
         {
-            Guid sessionKey = _GetSession();
+            var sessionKey = _GetSession();
 
             if (sessionKey == Guid.Empty)
+            {
                 return false;
+            }
 
             if (!CSessionControl.RequestRight(sessionKey, requestedRight))
+            {
                 return false;
+            }
 
             return true;
         }

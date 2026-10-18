@@ -75,3 +75,5 @@ tx.exe
 /PitchTracker/obj
 /Logs
 /Tests/bin
+*.orig
+*.DotSettings

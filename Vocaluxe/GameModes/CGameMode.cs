@@ -23,16 +23,17 @@ namespace Vocaluxe.GameModes
     abstract class CGameMode : IGameMode
     {
         private CSong _LastSong;
-        private int _LastSongID = -1;
+        private int _LastSongId = -1;
 
-        public CSong GetSong(int songID)
+        public CSong GetSong(int songId)
         {
-            if (songID != _LastSongID)
+            if (songId != _LastSongId)
             {
-                CSong song = CSongs.GetSong(songID);
+                var song = CSongs.GetSong(songId);
                 _LastSong = _PrepareSong(song);
-                _LastSongID = songID;
+                _LastSongId = songId;
             }
+
             return _LastSong;
         }
 

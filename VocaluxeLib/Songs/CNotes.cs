@@ -25,7 +25,7 @@ namespace VocaluxeLib.Songs
         {
             private readonly List<string> _Names = new List<string>();
 
-            public CVoiceNames() {}
+            public CVoiceNames() { }
 
             public CVoiceNames(CVoiceNames names)
             {
@@ -37,7 +37,10 @@ namespace VocaluxeLib.Songs
                 get
                 {
                     if (IsSet(index))
+                    {
                         return _Names[index];
+                    }
+
                     return "Part " + (index + 1);
                 }
                 set
@@ -61,12 +64,15 @@ namespace VocaluxeLib.Songs
         private readonly List<CVoice> _Voices = new List<CVoice>();
         public readonly CVoiceNames VoiceNames = new CVoiceNames();
 
-        public CNotes() {}
+        public CNotes() { }
 
         public CNotes(CNotes notes)
         {
-            foreach (CVoice voice in notes._Voices)
+            foreach (var voice in notes._Voices)
+            {
                 _Voices.Add(new CVoice(voice));
+            }
+
             VoiceNames = new CVoiceNames(notes.VoiceNames);
         }
 
@@ -85,10 +91,14 @@ namespace VocaluxeLib.Songs
             if (add)
             {
                 while (index >= _Voices.Count)
+                {
                     _Voices.Add(new CVoice());
+                }
             }
             else if (index >= _Voices.Count)
+            {
                 return null;
+            }
 
             return _Voices[index];
         }
@@ -96,7 +106,9 @@ namespace VocaluxeLib.Songs
         public int GetPoints(int index)
         {
             if (index >= _Voices.Count)
+            {
                 return 0;
+            }
 
             return _Voices[index].Points;
         }
@@ -104,7 +116,9 @@ namespace VocaluxeLib.Songs
         public int GetNumLinesWithPoints(int index)
         {
             if (index >= _Voices.Count)
+            {
                 return 0;
+            }
 
             return _Voices[index].NumLinesWithPoints;
         }
@@ -117,7 +131,9 @@ namespace VocaluxeLib.Songs
         public bool ReplaceVoiceAt(int index, CVoice voice)
         {
             if (index >= _Voices.Count)
+            {
                 return false;
+            }
 
             _Voices[index] = voice;
             return true;
@@ -127,13 +143,17 @@ namespace VocaluxeLib.Songs
         {
             _Voices.Clear();
             if (resetVoices)
+            {
                 VoiceNames.Reset();
+            }
         }
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CVoice voice in _Voices)
+            foreach (var voice in _Voices)
+            {
                 voice.SetMedley(startBeat, endBeat);
+            }
         }
     }
 }

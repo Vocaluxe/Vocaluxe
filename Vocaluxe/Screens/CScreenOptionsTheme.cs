@@ -49,18 +49,18 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] { _ButtonExit };
             _ThemeSelectSlides = new string[]
-                {
-                    _SelectSlideTheme,
-                    _SelectSlideSkin,
-                    _SelectSlideCover,
-                    _SelectSlideNoteLines,
-                    _SelectSlideToneHelper,
-                    _SelectSlideTimerLook,
-                    _SelectSlideFadeInfo,
-                    _SelectSlideCoverLoading
-                };
+            {
+                _SelectSlideTheme,
+                _SelectSlideSkin,
+                _SelectSlideCover,
+                _SelectSlideNoteLines,
+                _SelectSlideToneHelper,
+                _SelectSlideTimerLook,
+                _SelectSlideFadeInfo,
+                _SelectSlideCoverLoading
+            };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -80,7 +80,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -98,7 +98,10 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
+                        {
                             _Close();
+                        }
+
                         break;
 
                     case Keys.Left:
@@ -110,6 +113,7 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
+
             return true;
         }
 
@@ -118,15 +122,22 @@ namespace Vocaluxe.Screens
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
+            {
                 _Close();
+            }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
+                {
                     _Close();
+                }
                 else
+                {
                     _OnChange();
+                }
             }
+
             return true;
         }
 
@@ -173,7 +184,9 @@ namespace Vocaluxe.Screens
             CConfig.SaveConfig();
 
             if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].SelectedValue)
+            {
                 CCover.ReloadCovers();
+            }
         }
 
         private void _OnChange()

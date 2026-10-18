@@ -39,8 +39,8 @@ namespace VocaluxeLib
         public static IPlaylist Playlist;
 
         public static void Assign(IConfig config, ISettings settings, IThemes themes, IBackgroundMusic backgroundMusic,
-                                  IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
-                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
+            IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
+            ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;

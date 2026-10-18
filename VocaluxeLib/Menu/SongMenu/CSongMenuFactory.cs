@@ -21,34 +21,27 @@ namespace VocaluxeLib.Menu.SongMenu
 {
     public static class CSongMenuFactory
     {
-        public static ISongMenu CreateSongMenu(SThemeSongMenu theme, int partyModeID)
+        public static ISongMenu CreateSongMenu(SThemeSongMenu theme, int partyModeId)
         {
             switch (CBase.Config.GetSongMenuType())
             {
                 case ESongMenu.TR_CONFIG_LIST:
-                    return new CSongMenuList(theme, partyModeID);
-
-                    //case ESongMenu.TR_CONFIG_DREIDEL:
-                    //    _SongMenu = new CSongMenuDreidel();
-                    //    break;
+                    return new CSongMenuList(theme, partyModeId);
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    return new CSongMenuTileBoard(theme, partyModeID);
-
-                    //case ESongMenu.TR_CONFIG_BOOK:
-                    //    _SongMenu = new CSongMenuBook();
-                    //    break;
+                    return new CSongMenuTileBoard(theme, partyModeId);
             }
+
             throw new ArgumentException("Invalid songmenu type: " + CBase.Config.GetSongMenuType());
         }
 
         /// <summary>
         ///     Deprecated! Only used for old theme loading.
         /// </summary>
-        /// <param name="partyModeID"></param>
+        /// <param name="partyModeId"></param>
         /// <returns></returns>
-        public static ISongMenu CreateSongMenu(int partyModeID)
+        public static ISongMenu CreateSongMenu(int partyModeId)
         {
-            return new CSongMenuTileBoard(partyModeID);
+            return new CSongMenuTileBoard(partyModeId);
         }
     }
 }

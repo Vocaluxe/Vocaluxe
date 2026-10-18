@@ -66,16 +66,17 @@ namespace VocaluxeLib.Songs
         #region Methods
         public void CheckPerfect()
         {
-            bool result = HitNote != null;
+            var result = HitNote != null;
             if (result)
             {
-                result = (StartBeat == HitNote.StartBeat);
-                result &= (EndBeat == HitNote.EndBeat);
-                result &= (Tone == HitNote.Tone);
+                result = StartBeat == HitNote.StartBeat;
+                result &= EndBeat == HitNote.EndBeat;
+                result &= Tone == HitNote.Tone;
             }
 
             Perfect = result;
         }
+
         public override bool IsNoteType(params ENoteType[] noteTypes)
         {
             return HitNote != null && noteTypes.Contains(HitNote.Type);
@@ -84,7 +85,7 @@ namespace VocaluxeLib.Songs
 
         public override int PointsForBeat
         {
-            get { return (HitNote == null) ? 0 : HitNote.PointsForBeat; }
+            get { return HitNote == null ? 0 : HitNote.PointsForBeat; }
         }
     }
 }

@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -28,12 +27,12 @@ namespace VocaluxeLib.Log.Rolling
         {
             _DeleteOldLogs(mainLogFile, numLogsToKeep);
 
-            string currentSourceFile = _GenerateRollLogFileName(mainLogFile, numLogsToKeep);
+            var currentSourceFile = _GenerateRollLogFileName(mainLogFile, numLogsToKeep);
 
 
             for (var i = numLogsToKeep; i > 1; i--)
             {
-                string currentTargetFile = currentSourceFile;
+                var currentTargetFile = currentSourceFile;
                 currentSourceFile = _GenerateRollLogFileName(mainLogFile, i - 1);
 
                 if (File.Exists(currentSourceFile))
@@ -57,9 +56,13 @@ namespace VocaluxeLib.Log.Rolling
                 try
                 {
                     if (numLogsToKeep > 0)
+                    {
                         File.Move(mainLogFile, currentSourceFile);
+                    }
                     else
+                    {
                         File.Delete(mainLogFile);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -73,14 +76,16 @@ namespace VocaluxeLib.Log.Rolling
 
         private static void _DeleteOldLogs(string mainLogFile, int numLogsToKeep)
         {
-            Regex r = new Regex($"{Regex.Escape(Path.GetDirectoryName(mainLogFile)??"")}\\{Path.DirectorySeparatorChar}{Regex.Escape(Path.GetFileNameWithoutExtension(mainLogFile)??"")}_([0-9]+){Path.GetExtension(mainLogFile)}", RegexOptions.IgnoreCase);
-            IEnumerable<string> logFiles = Directory.EnumerateFiles($"{Path.GetDirectoryName(mainLogFile)}", $"{Path.GetFileNameWithoutExtension(mainLogFile)}*{Path.GetExtension(mainLogFile)}");
-            foreach (string file in logFiles)
+            var r = new Regex(
+                $"{Regex.Escape(Path.GetDirectoryName(mainLogFile) ?? "")}\\{Path.DirectorySeparatorChar}{Regex.Escape(Path.GetFileNameWithoutExtension(mainLogFile) ?? "")}_([0-9]+){Path.GetExtension(mainLogFile)}",
+                RegexOptions.IgnoreCase);
+            var logFiles = Directory.EnumerateFiles($"{Path.GetDirectoryName(mainLogFile)}", $"{Path.GetFileNameWithoutExtension(mainLogFile)}*{Path.GetExtension(mainLogFile)}");
+            foreach (var file in logFiles)
             {
-                Match m = r.Match(file);
+                var m = r.Match(file);
                 if (m.Success)
                 {
-                    int logNum = -1;
+                    var logNum = -1;
                     Int32.TryParse(m.Groups[1].Value, out logNum);
 
                     if (logNum < 0 || logNum > numLogsToKeep - 1)
@@ -96,7 +101,6 @@ namespace VocaluxeLib.Log.Rolling
                             Console.WriteLine($"Error deleting old log file: {e.Message}");
 #endif
                         }
-
                     }
                 }
             }
@@ -104,7 +108,7 @@ namespace VocaluxeLib.Log.Rolling
 
         private static string _GenerateRollLogFileName(string mainLogFile, int number)
         {
-            return $"{ Path.GetDirectoryName(mainLogFile) }{ Path.DirectorySeparatorChar }{ Path.GetFileNameWithoutExtension(mainLogFile) }_{ number }{ Path.GetExtension(mainLogFile) }";
+            return $"{Path.GetDirectoryName(mainLogFile)}{Path.DirectorySeparatorChar}{Path.GetFileNameWithoutExtension(mainLogFile)}_{number}{Path.GetExtension(mainLogFile)}";
         }
     }
 }

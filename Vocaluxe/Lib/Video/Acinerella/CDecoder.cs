@@ -60,7 +60,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
             set
             {
                 if (_Paused == value)
+                {
                     return;
+                }
+
                 _Paused = value;
                 if (_Paused)
                 {
@@ -78,10 +81,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public bool Open(string fileName)
         {
             if (_Thread != null)
+            {
                 return false;
+            }
 
             if (!File.Exists(fileName))
+            {
                 return false;
+            }
 
             _Thread = new CDecoderThread();
             if (_Thread.LoadFile(fileName))
@@ -90,6 +97,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 Finished = false;
                 return _Thread.Start();
             }
+
             _Thread = null;
             return false;
         }
@@ -97,7 +105,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public void Close()
         {
             if (_Thread != null)
+            {
                 _Thread.Stop();
+            }
+
             Length = 0;
             Finished = true;
         }
@@ -109,6 +120,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 videoTime = Length - _Gap;
                 return false;
             }
+
             if (Loop)
             {
                 time = _LoopTime + _LoopTimer.ElapsedMilliseconds / 1000f;
@@ -118,12 +130,16 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     {
                         time -= Length;
                     } while (time >= Length);
+
                     _LoopTime = time;
                     _LoopTimer.Restart();
                 }
             }
             else
+            {
                 time += _Gap;
+            }
+
             _Thread.SyncTime(time);
 
             bool finished;
@@ -131,7 +147,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
             videoTime = time - _Gap;
 
             if (finished) //Only set, not reset
+            {
                 Finished = true;
+            }
+
             return frame != null;
         }
 
@@ -141,7 +160,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
             _Gap = gap;
             _Thread.Skip(start + gap);
             if (Loop)
+            {
                 Loop = true; //Reset loop (timer)
+            }
+
             return true;
         }
     }

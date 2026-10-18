@@ -35,7 +35,10 @@ namespace VocaluxeLib
         public CFading(float fromValue, float toValue, float duration)
         {
             if (duration < 0)
+            {
                 duration = 0;
+            }
+
             _FromValue = fromValue;
             _ToValue = toValue;
             _Duration = duration * 1000f;
@@ -52,7 +55,7 @@ namespace VocaluxeLib
             float result;
             if (_Timer.ElapsedMilliseconds < _Duration)
             {
-                result = (_Timer.ElapsedMilliseconds / _Duration) * (_ToValue - _FromValue) + _FromValue;
+                result = _Timer.ElapsedMilliseconds / _Duration * (_ToValue - _FromValue) + _FromValue;
                 finished = false;
             }
             else
@@ -60,6 +63,7 @@ namespace VocaluxeLib
                 result = _ToValue;
                 finished = true;
             }
+
             return result;
         }
     }

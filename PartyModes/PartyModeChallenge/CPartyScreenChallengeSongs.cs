@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using VocaluxeLib.Menu;
+﻿using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
@@ -26,7 +22,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             Source = _PartyMode.GameData.SongSource;
             Sorting = _PartyMode.GameData.Sorting;
             Category = _PartyMode.GameData.CategoryIndex;
-            Playlist = _PartyMode.GameData.PlaylistID;
+            Playlist = _PartyMode.GameData.PlaylistId;
             SongMode = _PartyMode.GameData.GameMode;
             NumMedleySongs = _PartyMode.GameData.NumMedleySongs;
 
@@ -62,7 +58,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _PartyMode.GameData.SongSource = Source;
             _PartyMode.GameData.Sorting = Sorting;
             _PartyMode.GameData.CategoryIndex = Category;
-            _PartyMode.GameData.PlaylistID = Playlist;
+            _PartyMode.GameData.PlaylistId = Playlist;
             _PartyMode.GameData.GameMode = SongMode;
             _PartyMode.GameData.NumMedleySongs = NumMedleySongs;
         }

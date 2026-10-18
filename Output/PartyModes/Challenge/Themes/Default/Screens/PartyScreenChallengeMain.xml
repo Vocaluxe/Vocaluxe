@@ -2,7 +2,7 @@
 <Screen>
   <Informations>
     <ScreenName>PartyScreenChallengeMain</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -47,6 +47,65 @@
         <Z>0</Z>
       </Rect>
     </Static>
+    <Static Name="StaticTablePanel">
+      <Skin />
+      <Color>
+        <R>0.1</R>
+        <G>0.09</G>
+        <B>0.25</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>30</X>
+        <Y>185</Y>
+        <W>900</W>
+        <H>552</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRoundsPanel">
+      <Skin />
+      <Color>
+        <R>0.1</R>
+        <G>0.09</G>
+        <B>0.25</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>950</X>
+        <Y>185</Y>
+        <W>945</W>
+        <H>552</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTableHighlight">
+      <Skin />
+      <Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.18</A>
+      </Color>
+      <Rect>
+        <X>40</X>
+        <Y>0</Y>
+        <W>880</W>
+        <H>46</H>
+        <Z>0.6</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTableAvatar">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>105</X>
+        <Y>0</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0.4</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
@@ -64,7 +123,7 @@
       <Text>TR_SCREENMAIN_TITLE</Text>
     </Text>
     <Text Name="TextPosition">
-      <X>60</X>
+      <X>90</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -78,11 +137,11 @@
       <Text>TR_SCREENMAIN_TABLE_POS</Text>
     </Text>
     <Text Name="TextPlayerName">
-      <X>75</X>
+      <X>152</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>195</MaxW>
+      <MaxW>200</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -92,7 +151,7 @@
       <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
     </Text>
     <Text Name="TextNumPlayed">
-      <X>390</X>
+      <X>420</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -106,7 +165,7 @@
       <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
     </Text>
     <Text Name="TextWon">
-      <X>510</X>
+      <X>540</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -120,7 +179,7 @@
       <Text>TR_SCREENMAIN_TABLE_WON</Text>
     </Text>
     <Text Name="TextSingPoints">
-      <X>735</X>
+      <X>765</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -134,7 +193,7 @@
       <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
     </Text>
     <Text Name="TextGamePoints">
-      <X>885</X>
+      <X>915</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -176,7 +235,7 @@
       <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
     </Text>
     <Text Name="TextRoundNumber">
-      <X>990</X>
+      <X>1010</X>
       <Y>202.5</Y>
       <Z>0</Z>
       <H>40.5</H>
@@ -217,11 +276,30 @@
       <Font>Outline</Font>
       <Text />
     </Text>
+    <Text Name="TextRoundWinner">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>0.31</R>
+        <G>0.82</G>
+        <B>0.91</B>
+        <A>1</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
     <Text Name="TextFinishMessage">
       <X>960</X>
-      <Y>780</Y>
+      <Y>760</Y>
       <Z>0</Z>
-      <H>66</H>
+      <H>44</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -233,11 +311,16 @@
     </Text>
     <Text Name="TextFinishPlayerWin">
       <X>960</X>
-      <Y>862.5</Y>
+      <Y>808</Y>
       <Z>0</Z>
-      <H>46.5</H>
-      <MaxW>1155</MaxW>
-      <Color Name="TextColor" />
+      <H>56</H>
+      <MaxW>1100</MaxW>
+      <Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>1</A>
+      </Color>
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -440,7 +523,7 @@
       <Skin>ScrollDown</Skin>
       <SkinSelected>ScrollDown</SkinSelected>
       <Rect>
-        <X>421.5</X>
+        <X>459</X>
         <Y>742.5</Y>
         <W>42</W>
         <H>22.5</H>
@@ -467,8 +550,8 @@
       <Skin>ScrollUp</Skin>
       <SkinSelected>ScrollUp</SkinSelected>
       <Rect>
-        <X>421.5</X>
-        <Y>165</Y>
+        <X>459</X>
+        <Y>158</Y>
         <W>42</W>
         <H>22.5</H>
         <Z>-01</Z>
@@ -494,8 +577,8 @@
       <Skin>ScrollDown</Skin>
       <SkinSelected>ScrollDown</SkinSelected>
       <Rect>
-        <X>1431</X>
-        <Y>705</Y>
+        <X>1401.5</X>
+        <Y>742.5</Y>
         <W>42</W>
         <H>22.5</H>
         <Z>-01</Z>
@@ -521,8 +604,8 @@
       <Skin>ScrollUp</Skin>
       <SkinSelected>ScrollUp</SkinSelected>
       <Rect>
-        <X>1431</X>
-        <Y>165</Y>
+        <X>1401.5</X>
+        <Y>158</Y>
         <W>42</W>
         <H>22.5</H>
         <Z>-01</Z>
@@ -552,6 +635,26 @@
   <NameSelections />
   <Equalizers />
   <Playlists />
-  <ParticleEffects />
+  <ParticleEffects>
+    <ParticleEffect Name="ParticleEffectWinner">
+      <Skin>Star</Skin>
+      <Rect>
+        <X>560</X>
+        <Y>780</Y>
+        <W>800</W>
+        <H>260</H>
+        <Z>-1</Z>
+      </Rect>
+      <Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.6</A>
+      </Color>
+      <Type>Star</Type>
+      <Size>18</Size>
+      <MaxNumber>40</MaxNumber>
+    </ParticleEffect>
+  </ParticleEffects>
   <ScreenSettings />
 </Screen>

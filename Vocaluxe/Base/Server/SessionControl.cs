@@ -31,32 +31,34 @@ namespace Vocaluxe.Base.Server
         static CSessionControl()
         {
             _ActiveSessions = new Dictionary<Guid, CSession>();
-            Timer timer = new Timer(_UserTimeoutCheckIntervall) {AutoReset = true, Enabled = true};
+            var timer = new Timer(_UserTimeoutCheckIntervall) { AutoReset = true, Enabled = true };
             timer.Elapsed += _CheckForUserTimeouts;
             timer.Start();
         }
 
         private static void _CheckForUserTimeouts(object sender, ElapsedEventArgs e)
         {
-            var sessionIdsToRemove = _ActiveSessions.Where(pair => (DateTime.Now-pair.Value.LastSeen).TotalMilliseconds > _UserTimeout)
-                         .Select(pair => pair.Key)
-                         .ToList();
+            var sessionIdsToRemove = _ActiveSessions.Where(pair => (DateTime.Now - pair.Value.LastSeen).TotalMilliseconds > _UserTimeout)
+                .Select(pair => pair.Key)
+                .ToList();
 
             foreach (var sessionToRemove in sessionIdsToRemove)
             {
-                InvalidateSessionByID(sessionToRemove);
+                InvalidateSessionById(sessionToRemove);
             }
         }
 
         public static Guid OpenSession(string userName, string password)
         {
             if (!_ValidateUserAndPassword(userName, password))
+            {
                 return Guid.Empty;
+            }
 
-            Guid newId = Guid.NewGuid();
-            Guid id = _GetProfileIdFormUsername(userName);
-            EUserRoles roles = _GetUserRoles(id);
-            CSession session = new CSession(newId, id, roles);
+            var newId = Guid.NewGuid();
+            var id = _GetProfileIdFormUsername(userName);
+            var roles = _GetUserRoles(id);
+            var session = new CSession(newId, id, roles);
             //InvalidateSessions(id);
             _ActiveSessions.Add(newId, session);
 
@@ -80,13 +82,15 @@ namespace Vocaluxe.Base.Server
 
         internal static void InvalidateSessionByProfile(Guid profileId)
         {
-            foreach (KeyValuePair<Guid, CSession> s in (from kv in _ActiveSessions
-                                                        where kv.Value.ProfileId == profileId
-                                                        select kv).ToList())
+            foreach (var s in (from kv in _ActiveSessions
+                         where kv.Value.ProfileId == profileId
+                         select kv).ToList())
+            {
                 _ActiveSessions.Remove(s.Key);
+            }
         }
 
-        internal static void InvalidateSessionByID(Guid sessionId)
+        internal static void InvalidateSessionById(Guid sessionId)
         {
             if (_ActiveSessions.ContainsKey(sessionId))
             {
@@ -96,14 +100,17 @@ namespace Vocaluxe.Base.Server
 
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
-            return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
-                                     .HasFlag(requestedRight)));
+            return CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
+                .HasFlag(requestedRight);
         }
 
         internal static Guid GetUserIdFromSession(Guid sessionId)
         {
             if (!_ActiveSessions.ContainsKey(sessionId))
+            {
                 return Guid.Empty;
+            }
+
             return _ActiveSessions[sessionId].ProfileId;
         }
 

@@ -96,22 +96,33 @@ namespace VocaluxeLib.Menu
 
         private void _SetSelected(int newSelection)
         {
-            IMenuElement el = _GetElement(_Selection);
+            var el = _GetElement(_Selection);
             if (newSelection == _Selection)
             {
                 // Don't change current selection
                 if (el == null)
+                {
                     _Selection = -1;
+                }
                 else if (!el.Selected)
+                {
                     el.Selected = true;
+                }
+
                 return;
             }
+
             if (el != null)
+            {
                 el.Selected = false;
+            }
+
             _Selection = newSelection;
             el = _GetElement(_Selection);
             if (el != null)
+            {
                 el.Selected = true;
+            }
         }
 
         #region MenuHandler
@@ -122,18 +133,26 @@ namespace VocaluxeLib.Menu
                 if (keyEvent.Key == Keys.Left)
                 {
                     if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                    {
                         keyEvent.Handled = PrevValue();
+                    }
                     else
+                    {
                         keyEvent.Handled = _NextElement(keyEvent);
+                    }
 
                     return true;
                 }
                 else if (keyEvent.Key == Keys.Right)
                 {
                     if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                    {
                         keyEvent.Handled = NextValue();
+                    }
                     else
+                    {
                         keyEvent.Handled = _NextElement(keyEvent);
+                    }
 
                     return true;
                 }
@@ -149,9 +168,13 @@ namespace VocaluxeLib.Menu
                 if (keyEvent.Key == Keys.Tab)
                 {
                     if (keyEvent.Mod == EModifier.Shift)
+                    {
                         PrevElement();
+                    }
                     else
+                    {
                         NextElement();
+                    }
 
                     return true;
                 }
@@ -178,7 +201,9 @@ namespace VocaluxeLib.Menu
             ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
 
             if (mouseEvent.LB)
+            {
                 ProcessMouseClick(mouseEvent.X, mouseEvent.Y);
+            }
 
             _PrevMouse.X = mouseEvent.X;
             _PrevMouse.Y = mouseEvent.Y;
@@ -188,8 +213,8 @@ namespace VocaluxeLib.Menu
 
         public virtual bool HandleInputThemeEditor(SKeyEvent keyEvent)
         {
-            int dx = 0;
-            int dy = 0;
+            var dx = 0;
+            var dy = 0;
             if (!keyEvent.KeyPressed)
             {
                 switch (keyEvent.Key)
@@ -214,7 +239,9 @@ namespace VocaluxeLib.Menu
                 }
             }
             else
+            {
                 return false;
+            }
 
             if ((keyEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
             {
@@ -223,15 +250,24 @@ namespace VocaluxeLib.Menu
             }
 
             if ((keyEvent.Mod & EModifier.Alt) == EModifier.Alt)
+            {
                 _MoveElement(dx, dy);
+            }
             else if ((keyEvent.Mod & EModifier.Shift) == EModifier.Shift)
+            {
                 _ResizeElement(dx, dy);
+            }
             else
             {
                 if (_IsSelectionValid())
+                {
                     _GetElement(_Selection).Highlighted = false;
+                }
+
                 if (_NextElement(keyEvent))
+                {
                     _GetElement(_Selection).Highlighted = true;
+                }
             }
 
             return true;
@@ -240,9 +276,11 @@ namespace VocaluxeLib.Menu
         public virtual bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
         {
             if (_IsSelectionValid())
+            {
                 _GetElement(_Selection).Highlighted = false;
+            }
 
-            Point mouse = new Point(mouseEvent.X, mouseEvent.Y);
+            var mouse = new Point(mouseEvent.X, mouseEvent.Y);
             if ((mouseEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
             {
                 // Clip to raster
@@ -250,8 +288,8 @@ namespace VocaluxeLib.Menu
                 mouse.Y = (int)(Math.Round((double)mouse.Y / 5) * 5);
             }
 
-            int mouseDX = mouse.X - _PrevMouse.X;
-            int mouseDY = mouse.Y - _PrevMouse.Y;
+            var mouseDX = mouse.X - _PrevMouse.X;
+            var mouseDY = mouse.Y - _PrevMouse.Y;
 
             _PrevMouse.X = mouseEvent.X;
             _PrevMouse.Y = mouseEvent.Y;
@@ -259,12 +297,18 @@ namespace VocaluxeLib.Menu
             if (mouseEvent.LBH)
             {
                 if (mouseEvent.Mod == EModifier.Shift)
+                {
                     _ResizeElement(mouseDX, mouseDX);
+                }
                 else
+                {
                     _MoveElement(mouseDX, mouseDY);
+                }
             }
             else
+            {
                 ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
+            }
 
             return true;
         }
@@ -308,44 +352,55 @@ namespace VocaluxeLib.Menu
                 case EType.RatingPopup:
                     return _RatingPopups[element.Num];
             }
+
             throw new ArgumentException("Invalid element type: " + element.Type);
         }
 
         private IMenuElement _GetElement(int element)
         {
-            return (element >= 0 && element < _Elements.Count) ? _GetElement(_Elements[element]) : null;
+            return element >= 0 && element < _Elements.Count ? _GetElement(_Elements[element]) : null;
         }
 
         #region Drawing
         public virtual void Draw()
         {
             if (!_Active)
+            {
                 return;
+            }
+
             if (_Elements.Count <= 0)
+            {
                 return;
+            }
 
             var items = new List<SZSort>();
 
-            for (int i = 0; i < _Elements.Count; i++)
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (_IsVisible(i))
                 {
-                    var zs = new SZSort {ID = i, Z = _GetZValue(i)};
+                    var zs = new SZSort { Id = i, Z = _GetZValue(i) };
                     items.Add(zs);
                 }
             }
 
             if (items.Count <= 0)
+            {
                 return;
+            }
 
 
             items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
-            for (int i = 0; i < items.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
-                IMenuElement el = _GetElement(items[i].ID);
+                var el = _GetElement(items[i].Id);
                 if (el.Highlighted)
+                {
                     CBase.Drawing.DrawRect(_HighlightColor, el.MaxRect);
+                }
+
                 el.Draw();
             }
         }
@@ -427,8 +482,11 @@ namespace VocaluxeLib.Menu
         protected void _SelectElement(IMenuElement element)
         {
             if (!element.Visible)
+            {
                 return;
-            for (int i = 0; i < _Elements.Count; i++)
+            }
+
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (_GetElement(i) == element)
                 {
@@ -441,12 +499,16 @@ namespace VocaluxeLib.Menu
         public void ProcessMouseClick(int x, int y)
         {
             if (!_IsSelectionValid())
+            {
                 return;
+            }
 
             if (_Elements[_Selection].Type == EType.SelectSlide)
             {
                 if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                {
                     _SelectSlides[_Elements[_Selection].Num].ProcessMouseLBClick(x, y);
+                }
             }
         }
 
@@ -455,80 +517,112 @@ namespace VocaluxeLib.Menu
             _SelectByMouse(x, y);
 
             if (!_IsSelectionValid())
+            {
                 return;
+            }
 
             if (_Elements[_Selection].Type == EType.SelectSlide)
             {
                 if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                {
                     _SelectSlides[_Elements[_Selection].Num].ProcessMouseMove(x, y);
+                }
             }
         }
 
         private void _SelectByMouse(int x, int y)
         {
-            float z = CBase.Settings.GetZFar();
-            int element = -1;
-            for (int i = 0; i < _Elements.Count; i++)
+            var z = CBase.Settings.GetZFar();
+            var element = -1;
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (!_IsSelectable(i))
+                {
                     continue;
+                }
+
                 if (!_IsMouseOverElement(x, y, _Elements[i]))
+                {
                     continue;
+                }
+
                 if (_GetZValue(i) > z)
+                {
                     continue;
+                }
+
                 z = _GetZValue(i);
                 element = i;
             }
+
             _SetSelected(element);
         }
 
         protected bool _IsMouseOverCurSelection(SMouseEvent mouseEvent)
         {
             if (!_IsSelectionValid())
+            {
                 return false;
+            }
 
             return _IsMouseOverElement(mouseEvent.X, mouseEvent.Y, _Elements[_Selection]);
         }
 
         private bool _IsMouseOverElement(int x, int y, CInteraction interact)
         {
-            bool result = CHelper.IsInBounds(_GetRect(interact), x, y);
+            var result = CHelper.IsInBounds(_GetRect(interact), x, y);
             if (result)
+            {
                 return true;
+            }
+
             if (interact.Type == EType.SelectSlide)
             {
                 return CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y);
             }
+
             return false;
         }
 
         public void NextElement()
         {
-            int element = _Selection;
-            for (int i = 0; i < _Elements.Count; i++)
+            var element = _Selection;
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 element++;
                 if (element >= _Elements.Count)
+                {
                     element = 0;
+                }
+
                 if (_IsSelectable(element))
+                {
                     break;
+                }
             }
+
             _SetSelected(element);
         }
 
         public void PrevElement()
         {
             Debug.Assert(_Selection == 0 || _Selection < _Elements.Count);
-            int element = _Selection;
-            for (int i = 0; i < _Elements.Count; i++)
+            var element = _Selection;
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 element--;
                 if (element < 0)
+                {
                     element = _Elements.Count - 1;
+                }
+
                 if (_IsSelectable(element))
+                {
                     break;
+                }
             }
+
             _SetSelected(element);
         }
 
@@ -556,15 +650,23 @@ namespace VocaluxeLib.Menu
                     break;
                 case Keys.Tab:
                     if (key.Mod == EModifier.Shift)
+                    {
                         PrevElement();
+                    }
                     else
+                    {
                         NextElement();
+                    }
+
                     return true;
                 default:
                     return false;
             }
+
             if (element < 0)
+            {
                 return false;
+            }
 
             // select the new element
             _SetSelected(element);
@@ -573,15 +675,15 @@ namespace VocaluxeLib.Menu
 
         private int _GetNextElement(EDirection direction)
         {
-            float distance = float.MaxValue;
-            int min = -1;
-            SRectF currentRect = _IsSelectionValid() ? _GetRect(_Selection) : new SRectF(_PrevMouse.X, _PrevMouse.Y, 1, 1, 1);
+            var distance = float.MaxValue;
+            var min = -1;
+            var currentRect = _IsSelectionValid() ? _GetRect(_Selection) : new SRectF(_PrevMouse.X, _PrevMouse.Y, 1, 1, 1);
 
-            for (int i = 0; i < _Elements.Count; i++)
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (i != _Selection && _IsSelectable(i))
                 {
-                    float dist = _GetDistanceDirect(direction, currentRect, _GetRect(i));
+                    var dist = _GetDistanceDirect(direction, currentRect, _GetRect(i));
                     if (dist >= 0f && dist < distance)
                     {
                         distance = dist;
@@ -589,14 +691,17 @@ namespace VocaluxeLib.Menu
                     }
                 }
             }
-            if (min >= 0)
-                return min;
 
-            for (int i = 0; i < _Elements.Count; i++)
+            if (min >= 0)
+            {
+                return min;
+            }
+
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (i != _Selection && _IsSelectable(i))
                 {
-                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    var dist = _GetDistance180(direction, currentRect, _GetRect(i));
                     if (dist >= 0f && dist < distance)
                     {
                         distance = dist;
@@ -604,8 +709,11 @@ namespace VocaluxeLib.Menu
                     }
                 }
             }
+
             if (min >= 0)
+            {
                 return min;
+            }
 
             switch (direction)
             {
@@ -623,11 +731,11 @@ namespace VocaluxeLib.Menu
                     break;
             }
 
-            for (int i = 0; i < _Elements.Count; i++)
+            for (var i = 0; i < _Elements.Count; i++)
             {
                 if (i != _Selection && _IsSelectable(i))
                 {
-                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    var dist = _GetDistance180(direction, currentRect, _GetRect(i));
                     if (dist >= 0f && dist < distance)
                     {
                         distance = dist;
@@ -635,6 +743,7 @@ namespace VocaluxeLib.Menu
                     }
                 }
             }
+
             return min;
         }
 
@@ -645,15 +754,22 @@ namespace VocaluxeLib.Menu
                 case EDirection.Up:
                 case EDirection.Down:
                     if (!other.X.IsInRange(current.X, current.Right) && !other.Right.IsInRange(current.X, current.Right) && !current.X.IsInRange(other.X, other.Right))
+                    {
                         return float.MaxValue;
+                    }
+
                     break;
 
                 case EDirection.Left:
                 case EDirection.Right:
                     if (!other.Y.IsInRange(current.Y, current.Bottom) && !other.Bottom.IsInRange(current.Y, current.Bottom) && !current.Y.IsInRange(other.Y, other.Bottom))
+                    {
                         return float.MaxValue;
+                    }
+
                     break;
             }
+
             return _GetDistance180(direction, current, other);
         }
 
@@ -668,24 +784,37 @@ namespace VocaluxeLib.Menu
             {
                 case EDirection.Up:
                     if (vector.Y < 0f)
+                    {
                         return distance;
+                    }
+
                     break;
 
                 case EDirection.Down:
                     if (vector.Y > 0f)
+                    {
                         return distance;
+                    }
+
                     break;
 
                 case EDirection.Left:
                     if (vector.X < 0f)
+                    {
                         return distance;
+                    }
+
                     break;
 
                 case EDirection.Right:
                     if (vector.X > 0f)
+                    {
                         return distance;
+                    }
+
                     break;
             }
+
             return float.MaxValue;
         }
 
@@ -696,7 +825,9 @@ namespace VocaluxeLib.Menu
         public bool NextValue()
         {
             if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+            {
                 return _SelectSlides[_Elements[_Selection].Num].SelectNextValue();
+            }
 
             return false;
         }
@@ -710,7 +841,9 @@ namespace VocaluxeLib.Menu
         public bool PrevValue()
         {
             if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+            {
                 return _SelectSlides[_Elements[_Selection].Num].SelectPrevValue();
+            }
 
             return false;
         }
@@ -719,22 +852,26 @@ namespace VocaluxeLib.Menu
         {
             _Elements.Add(new CInteraction(num, type));
             if (_IsSelectable(_Selection))
+            {
                 _SetSelected(_Selection);
+            }
             else
+            {
                 NextElement();
+            }
         }
         #endregion InteractionHandling
 
         #region Element-property getters
         private bool _IsVisible(int element)
         {
-            IMenuElement el = _GetElement(element);
+            var el = _GetElement(element);
             return el != null && el.Visible;
         }
 
         private bool _IsSelectable(int element)
         {
-            IMenuElement el = _GetElement(element);
+            var el = _GetElement(element);
             return el != null && (el.Selectable || CBase.Settings.GetProgramState() == EProgramState.EditTheme);
         }
 
@@ -757,16 +894,20 @@ namespace VocaluxeLib.Menu
         #region Theme Handling
         private void _MoveElement(int stepX, int stepY)
         {
-            IMenuElement el = _GetElement(_Selection);
+            var el = _GetElement(_Selection);
             if (el != null)
+            {
                 el.MoveElement(stepX, stepY);
+            }
         }
 
         private void _ResizeElement(int stepW, int stepH)
         {
-            IMenuElement el = _GetElement(_Selection);
+            var el = _GetElement(_Selection);
             if (el != null)
+            {
                 el.ResizeElement(stepW, stepH);
+            }
         }
         #endregion Theme Handling
     }

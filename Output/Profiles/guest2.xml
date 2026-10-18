@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <ID>abeb987f-bf44-4d6d-b922-e5deb608a1ab</ID>
+  <Id>abeb987f-bf44-4d6d-b922-e5deb608a1ab</Id>
   <PlayerName>Advanced</PlayerName>
   <Difficulty>TR_CONFIG_NORMAL</Difficulty>
   <UserRole>TR_USERROLE_GUEST</UserRole>

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
@@ -30,6 +31,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         public CText Won;
         public CText SingPoints;
         public CText GamePoints;
+        public CStatic Avatar;
+        public CStatic Highlight;
     }
 
     class CRoundsTableRow
@@ -41,12 +44,12 @@ namespace VocaluxeLib.PartyModes.Challenge
 
     // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeMain : CPartyScreenChallenge
-        // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _TextPosition = "TextPosition";
@@ -63,6 +66,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         private const string _TextFinishMessage = "TextFinishMessage";
         private const string _TextFinishPlayerWin = "TextFinishPlayerWin";
         private const string _TextNextPlayerMessage = "TextNextPlayerMessage";
+        private const string _TextRoundWinner = "TextRoundWinner";
 
         private const string _ButtonNextRound = "ButtonNextRound";
         private const string _ButtonBack = "ButtonBack";
@@ -76,6 +80,17 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private const string _StaticPopupBG = "StaticPopupBG";
         private const string _StaticNextPlayer = "StaticNextPlayer";
+        private const string _StaticTableAvatar = "StaticTableAvatar";
+        private const string _StaticTableHighlight = "StaticTableHighlight";
+
+        private const string _ParticleEffectWinner = "ParticleEffectWinner";
+
+        private const float _WinnerPopDuration = 700f;
+        private const float _WinnerAvatarY = 885f;
+
+        private readonly Stopwatch _WinnerTimer = new Stopwatch();
+        private float _WinnerTextHeight;
+        private readonly string[] _RankColors = new string[] { "Top1Color", "Top2Color", "Top3Color" };
 
         private bool _ExitPopupVisible;
 
@@ -97,17 +112,18 @@ namespace VocaluxeLib.PartyModes.Challenge
             base.Init();
 
             _ThemeTexts = new string[]
-                {
-                    _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber,
-                    _TextRoundPlayer,
-                    _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage
-                };
+            {
+                _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber,
+                _TextRoundPlayer,
+                _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage, _TextRoundWinner
+            };
             _ThemeButtons = new string[]
-                {
-                    _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown,
-                    _ButtonRoundsScrollUp
-                };
-            _ThemeStatics = new string[] {_StaticPopupBG, _StaticNextPlayer};
+            {
+                _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown,
+                _ButtonRoundsScrollUp
+            };
+            _ThemeStatics = new string[] { _StaticPopupBG, _StaticNextPlayer, _StaticTableAvatar, _StaticTableHighlight };
+            _ThemeParticleEffects = new string[] { _ParticleEffectWinner };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -119,7 +135,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _NextPlayerTexts = new List<CText>();
             _NextPlayerStatics = new List<CStatic>();
 
-            for (int i = 0; i < _PartyMode.MaxPlayers; i++)
+            for (var i = 0; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerTexts.Add(GetNewText(_Texts[_TextNextPlayer]));
                 _AddText(_NextPlayerTexts[_NextPlayerTexts.Count - 1]);
@@ -127,14 +143,19 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _AddStatic(_NextPlayerStatics[_NextPlayerStatics.Count - 1]);
                 _NextPlayerStatics[_NextPlayerStatics.Count - 1].Aspect = EAspect.Crop;
             }
+
             _Statics[_StaticNextPlayer].Visible = false;
+            _Statics[_StaticTableAvatar].Visible = false;
+            _Statics[_StaticTableHighlight].Visible = false;
+            _Texts[_TextRoundWinner].Visible = false;
+            _WinnerTextHeight = _Texts[_TextFinishPlayerWin].Font.Height;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -144,42 +165,76 @@ namespace VocaluxeLib.PartyModes.Challenge
                         if (!_ExitPopupVisible)
                         {
                             if (_PartyMode.GameData.CurrentRoundNr == 1)
+                            {
                                 _PartyMode.Back();
+                            }
                             else
+                            {
                                 _ShowPopup(true);
+                            }
                         }
                         else
+                        {
                             _ShowPopup(false);
+                        }
+
                         break;
 
                     case Keys.Enter:
                         if (!_ExitPopupVisible)
                         {
                             if (_Buttons[_ButtonNextRound].Selected)
+                            {
                                 _PartyMode.Next();
+                            }
+
                             if (_Buttons[_ButtonBack].Selected && _PartyMode.GameData.CurrentRoundNr == 1)
+                            {
                                 _PartyMode.Back();
+                            }
+
                             if (_Buttons[_ButtonExit].Selected && _PartyMode.GameData.CurrentRoundNr > 1)
+                            {
                                 _ShowPopup(true);
+                            }
+
                             if (_Buttons[_ButtonPlayerScrollUp].Selected)
+                            {
                                 _ScrollPlayerTable(-1);
+                            }
+
                             if (_Buttons[_ButtonPlayerScrollDown].Selected)
+                            {
                                 _ScrollPlayerTable(1);
+                            }
+
                             if (_Buttons[_ButtonRoundsScrollUp].Selected)
+                            {
                                 _ScrollRoundsTable(-1);
+                            }
+
                             if (_Buttons[_ButtonRoundsScrollDown].Selected)
+                            {
                                 _ScrollRoundsTable(1);
+                            }
                         }
                         else
                         {
                             if (_Buttons[_ButtonPopupYes].Selected)
+                            {
                                 _EndParty();
+                            }
+
                             if (_Buttons[_ButtonPopupNo].Selected)
+                            {
                                 _ShowPopup(false);
+                            }
                         }
+
                         break;
                 }
             }
+
             return true;
         }
 
@@ -192,26 +247,51 @@ namespace VocaluxeLib.PartyModes.Challenge
                 if (!_ExitPopupVisible)
                 {
                     if (_Buttons[_ButtonNextRound].Selected)
+                    {
                         _PartyMode.Next();
+                    }
+
                     if (_Buttons[_ButtonBack].Selected && _PartyMode.GameData.CurrentRoundNr == 1)
+                    {
                         _PartyMode.Back();
+                    }
+
                     if (_Buttons[_ButtonExit].Selected && _PartyMode.GameData.CurrentRoundNr > 1)
+                    {
                         _ShowPopup(true);
+                    }
+
                     if (_Buttons[_ButtonPlayerScrollUp].Selected)
+                    {
                         _ScrollPlayerTable(-1);
+                    }
+
                     if (_Buttons[_ButtonPlayerScrollDown].Selected)
+                    {
                         _ScrollPlayerTable(1);
+                    }
+
                     if (_Buttons[_ButtonRoundsScrollUp].Selected)
+                    {
                         _ScrollRoundsTable(-1);
+                    }
+
                     if (_Buttons[_ButtonRoundsScrollDown].Selected)
+                    {
                         _ScrollRoundsTable(1);
+                    }
                 }
                 else
                 {
                     if (_Buttons[_ButtonPopupYes].Selected)
+                    {
                         _EndParty();
+                    }
+
                     if (_Buttons[_ButtonPopupNo].Selected)
+                    {
                         _ShowPopup(false);
+                    }
                 }
             }
 
@@ -220,20 +300,31 @@ namespace VocaluxeLib.PartyModes.Challenge
                 if (!_ExitPopupVisible)
                 {
                     if (_PartyMode.GameData.CurrentRoundNr == 1)
+                    {
                         _PartyMode.Back();
+                    }
                     else
+                    {
                         _ShowPopup(true);
+                    }
                 }
                 else
+                {
                     _ShowPopup(false);
+                }
             }
 
             if (mouseEvent.Wheel != 0)
             {
                 if (CHelper.IsInBounds(_RoundsTableScrollArea, mouseEvent))
+                {
                     _ScrollRoundsTable(mouseEvent.Wheel);
+                }
+
                 if (CHelper.IsInBounds(_PlayerTableScrollArea, mouseEvent))
+                {
                     _ScrollPlayerTable(mouseEvent.Wheel);
+                }
             }
 
             return true;
@@ -250,9 +341,14 @@ namespace VocaluxeLib.PartyModes.Challenge
             _UpdateNextPlayerPositions();
             _UpdateNextPlayerContents();
             if (_PartyMode.GameData.CurrentRoundNr == 1)
+            {
                 _BuildRoundsTable();
+            }
             else
+            {
                 _ScrollRoundsTable(_PartyMode.GameData.CurrentRoundNr - 2);
+            }
+
             _UpdateRoundsTable();
 
             if (_PartyMode.GameData.CurrentRoundNr == 1)
@@ -280,14 +376,78 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _Texts[_TextFinishPlayerWin].Visible = true;
                 _Texts[_TextFinishPlayerWin].Text = _GetPlayerWinString();
                 _SelectElement(_Buttons[_ButtonExit]);
+                _ShowWinnerAvatars();
             }
+
+            _ParticleEffects[_ParticleEffectWinner].Visible = _Texts[_TextFinishPlayerWin].Visible;
+            _WinnerTimer.Reset();
+            _WinnerTimer.Start();
 
             _ShowPopup(false);
         }
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextFinishPlayerWin].Visible)
+            {
+                _UpdateWinnerAnimation();
+            }
+
             return true;
+        }
+
+        private static float _EaseOutBack(float t)
+        {
+            const float c1 = 1.70158f;
+            const float c3 = c1 + 1f;
+            return 1f + c3 * (float)Math.Pow(t - 1f, 3) + c1 * (float)Math.Pow(t - 1f, 2);
+        }
+
+        private void _UpdateWinnerAnimation()
+        {
+            var time = _WinnerTimer.ElapsedMilliseconds;
+            float scale;
+            if (time < _WinnerPopDuration)
+            {
+                scale = 0.3f + 0.7f * _EaseOutBack(time / _WinnerPopDuration);
+            }
+            else
+            {
+                scale = 1f + 0.03f * (float)Math.Sin((time - _WinnerPopDuration) / 1000.0 * Math.PI * 1.4);
+            }
+
+            _Texts[_TextFinishPlayerWin].Font.Height = _WinnerTextHeight * scale;
+        }
+
+        private void _ShowWinnerAvatars()
+        {
+            var winners = new List<Guid>();
+            foreach (var row in _PartyMode.GameData.ResultTable)
+            {
+                if (row.Position == 1 && winners.Count < _NextPlayerStatics.Count)
+                {
+                    winners.Add(row.PlayerId);
+                }
+            }
+
+            const float gap = 20f;
+            var size = _Statics[_StaticNextPlayer].Rect.W;
+            var x = (CBase.Settings.GetRenderW() - winners.Count * size - (winners.Count - 1) * gap) / 2;
+            for (var i = 0; i < _NextPlayerStatics.Count; i++)
+            {
+                var visible = i < winners.Count;
+                _NextPlayerStatics[i].Visible = visible;
+                _NextPlayerTexts[i].Visible = false;
+                if (!visible)
+                {
+                    continue;
+                }
+
+                _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(winners[i]);
+                _NextPlayerStatics[i].X = x;
+                _NextPlayerStatics[i].Y = _WinnerAvatarY;
+                x += size + gap;
+            }
         }
 
         private void _EndParty()
@@ -305,16 +465,18 @@ namespace VocaluxeLib.PartyModes.Challenge
             _Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
             if (_ExitPopupVisible)
+            {
                 _SelectElement(_Buttons[_ButtonPopupNo]);
+            }
         }
 
         private void _UpdateNextPlayerPositions()
         {
-            float x = (float)CBase.Settings.GetRenderW() / 2 -
-                      ((_PartyMode.GameData.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_PartyMode.GameData.NumPlayerAtOnce - 1) * 15)) / 2;
+            var x = (float)CBase.Settings.GetRenderW() / 2 -
+                    (_PartyMode.GameData.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W + (_PartyMode.GameData.NumPlayerAtOnce - 1) * 15) / 2;
             const float staticY = 885;
             const float textY = 825;
-            for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
+            for (var i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
             {
                 //static
                 _NextPlayerStatics[i].X = x;
@@ -327,7 +489,8 @@ namespace VocaluxeLib.PartyModes.Challenge
 
                 x += _Statics[_StaticNextPlayer].Rect.W + 15;
             }
-            for (int i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.MaxPlayers; i++)
+
+            for (var i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerStatics[i].Visible = false;
                 _NextPlayerTexts[i].Visible = false;
@@ -339,9 +502,9 @@ namespace VocaluxeLib.PartyModes.Challenge
             if (_PartyMode.GameData.CurrentRoundNr <= _PartyMode.GameData.Rounds.Count)
             {
                 _Texts[_TextNextPlayerMessage].Visible = true;
-                for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
+                for (var i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
                 {
-                    Guid id = _PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Players[i]];
+                    var id = _PartyMode.GameData.ProfileIds[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Players[i]];
                     _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(id);
                     _NextPlayerTexts[i].Text = CBase.Profiles.GetPlayerName(id);
                     _NextPlayerTexts[i].Color = CBase.Themes.GetPlayerColor(i + 1);
@@ -350,7 +513,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             else
             {
                 _Texts[_TextNextPlayerMessage].Visible = false;
-                for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
+                for (var i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
                 {
                     _NextPlayerStatics[i].Visible = false;
                     _NextPlayerTexts[i].Visible = false;
@@ -362,21 +525,22 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             //Create lists
             _RoundsTable = new List<CRoundsTableRow>();
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
-                var rtr = new CRoundsTableRow {TextPlayer = new List<CText>(), TextScores = new List<CText>()};
+                var rtr = new CRoundsTableRow { TextPlayer = new List<CText>(), TextScores = new List<CText>() };
                 _RoundsTable.Add(rtr);
             }
+
             //Create statics and texts for rounds
-            foreach (CRoundsTableRow roundRow in _RoundsTable)
+            foreach (var roundRow in _RoundsTable)
             {
                 //Round-number
-                CText text = GetNewText(_Texts[_TextRoundNumber]);
+                var text = GetNewText(_Texts[_TextRoundNumber]);
                 _AddText(text);
                 roundRow.Number = text;
-                for (int row = 0; row < 2; row++)
+                for (var row = 0; row < 2; row++)
                 {
-                    for (int column = 0; column < 3; column++)
+                    for (var column = 0; column < 3; column++)
                     {
                         //Player
                         text = GetNewText(_Texts[_TextRoundPlayer]);
@@ -399,39 +563,42 @@ namespace VocaluxeLib.PartyModes.Challenge
             _NumRoundsVisible = _PartyMode.GameData.NumPlayerAtOnce <= numPlayerInOneRow ? 5 : 3;
 
             if (_NumRoundsVisible > _PartyMode.GameData.Rounds.Count)
+            {
                 _NumRoundsVisible = _PartyMode.GameData.Rounds.Count;
+            }
 
-            float numberX = _Texts[_TextRoundNumber].X;
-            float numberY = _Texts[_TextRoundNumber].Y;
+            var numberX = _Texts[_TextRoundNumber].X;
+            var numberY = _Texts[_TextRoundNumber].Y;
 
             _RoundsTableScrollArea.X = numberX;
             _RoundsTableScrollArea.Y = numberY;
             _RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20;
 
-            float delta = _Texts[_TextRoundNumber].Rect.H;
+            var delta = _Texts[_TextRoundNumber].Rect.H;
 
             //Update statics and texts for rounds
-            foreach (CRoundsTableRow roundRow in _RoundsTable)
+            foreach (var roundRow in _RoundsTable)
             {
                 //Round-number
                 roundRow.Number.X = numberX;
                 roundRow.Number.Y = numberY;
-                var numInnerRows = (int)Math.Ceiling(_PartyMode.GameData.NumPlayerAtOnce / ((double)numPlayerInOneRow));
-                for (int row = 0; row < numInnerRows; row++)
+                var numInnerRows = (int)Math.Ceiling(_PartyMode.GameData.NumPlayerAtOnce / (double)numPlayerInOneRow);
+                for (var row = 0; row < numInnerRows; row++)
                 {
-                    int num = (row + 1) * numPlayerInOneRow;
-                    int numPlayerInThisRow = numPlayerInOneRow;
+                    var num = (row + 1) * numPlayerInOneRow;
+                    var numPlayerInThisRow = numPlayerInOneRow;
                     if (num > _PartyMode.GameData.NumPlayerAtOnce)
                     {
                         num = _PartyMode.GameData.NumPlayerAtOnce;
-                        numPlayerInThisRow = _PartyMode.GameData.NumPlayerAtOnce - (row * numPlayerInOneRow);
+                        numPlayerInThisRow = _PartyMode.GameData.NumPlayerAtOnce - row * numPlayerInOneRow;
                     }
-                    for (int column = row * numPlayerInOneRow; column < num; column++)
+
+                    for (var column = row * numPlayerInOneRow; column < num; column++)
                     {
                         //Player
-                        float x = numberX + 15 + (CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow * (column - row * numPlayerInOneRow) +
-                                  ((CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2;
-                        float maxw = ((CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2 - 5;
+                        var x = numberX + 15 + (CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow * (column - row * numPlayerInOneRow) +
+                                (CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow / 2;
+                        var maxw = (CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow / 2 - 5;
                         roundRow.TextPlayer[column].X = x;
                         roundRow.TextPlayer[column].Y = numberY;
                         roundRow.TextPlayer[column].W = maxw;
@@ -440,33 +607,44 @@ namespace VocaluxeLib.PartyModes.Challenge
                         roundRow.TextScores[column].Y = numberY + delta;
                         roundRow.TextScores[column].W = maxw;
                     }
+
                     numberY = numberY + 2 * delta;
                 }
+
                 numberY = numberY + delta / 2;
             }
+
             _RoundsTableScrollArea.H = numberY - _RoundsTableScrollArea.Y;
         }
 
         private void _UpdateRoundsTable()
         {
-            for (int i = 0; i < _RoundsTable.Count; i++)
+            for (var i = 0; i < _RoundsTable.Count; i++)
             {
-                for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
+                for (var p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
                 {
                     if (_PartyMode.GameData.Rounds.Count > i + _RoundsTableOffset && _PartyMode.GameData.Rounds[i + _RoundsTableOffset].Players.Count > p)
                     {
                         _RoundsTable[i].Number.Visible = true;
                         _RoundsTable[i].TextPlayer[p].Visible = true;
                         _RoundsTable[i].TextScores[p].Visible = true;
-                        _RoundsTable[i].Number.Text = (i + 1 + _RoundsTableOffset) + ")";
+                        _RoundsTable[i].Number.Text = i + 1 + _RoundsTableOffset + ")";
                         _RoundsTable[i].TextPlayer[p].Text =
-                            CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[i + _RoundsTableOffset].Players[p]]);
+                            CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIds[_PartyMode.GameData.Rounds[i + _RoundsTableOffset].Players[p]]);
                         // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                        if ((_PartyMode.GameData.CurrentRoundNr - 1) > i + _RoundsTableOffset)
+                        if (_PartyMode.GameData.CurrentRoundNr - 1 > i + _RoundsTableOffset)
                             // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
+                        {
                             _RoundsTable[i].TextScores[p].Text = _PartyMode.GameData.Results[i + _RoundsTableOffset, p].ToString();
+                        }
                         else
+                        {
                             _RoundsTable[i].TextScores[p].Text = "";
+                        }
+
+                        var color = _IsRoundWinner(i + _RoundsTableOffset, p) ? _Texts[_TextRoundWinner].Color : _Texts[_TextRoundPlayer].Color;
+                        _RoundsTable[i].TextPlayer[p].Color = color;
+                        _RoundsTable[i].TextScores[p].Color = color;
                     }
                     else
                     {
@@ -474,10 +652,11 @@ namespace VocaluxeLib.PartyModes.Challenge
                         _RoundsTable[i].TextScores[p].Visible = false;
                     }
                 }
+
                 if (_PartyMode.GameData.Rounds.Count < i + _RoundsTableOffset || i + 1 > _NumRoundsVisible)
                 {
                     _RoundsTable[i].Number.Visible = false;
-                    for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
+                    for (var p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
                     {
                         _RoundsTable[i].TextPlayer[p].Visible = false;
                         _RoundsTable[i].TextScores[p].Visible = false;
@@ -489,26 +668,42 @@ namespace VocaluxeLib.PartyModes.Challenge
             _Buttons[_ButtonRoundsScrollDown].Visible = _PartyMode.GameData.Rounds.Count - _NumRoundsVisible - _RoundsTableOffset > 0;
         }
 
+        private bool _IsRoundWinner(int round, int player)
+        {
+            if (_PartyMode.GameData.CurrentRoundNr - 1 <= round || _PartyMode.GameData.Results == null)
+            {
+                return false;
+            }
+
+            var max = 0;
+            for (var p = 0; p < _PartyMode.GameData.NumPlayerAtOnce; p++)
+            {
+                max = Math.Max(max, _PartyMode.GameData.Results[round, p]);
+            }
+
+            return max > 0 && _PartyMode.GameData.Results[round, player] == max;
+        }
+
         private void _BuildPlayerTable()
         {
-            _PlayerTableScrollArea = new SRectF {X = _Texts[_TextPosition].X, Y = _Texts[_TextPosition].Y, W = _Texts[_TextGamePoints].X - _Texts[_TextPosition].X};
+            _PlayerTableScrollArea = new SRectF { X = _Texts[_TextPosition].X, Y = _Texts[_TextPosition].Y, W = _Texts[_TextGamePoints].X - _Texts[_TextPosition].X };
 
             _PlayerTable = new List<STableRow>();
-            float delta = _Texts[_TextPosition].Rect.H * 1.2f;
+            var delta = _Texts[_TextPosition].Rect.H * 1.2f;
 
             float h = 0;
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 var row = new STableRow
-                    {
-                        Pos = GetNewText(_Texts[_TextPosition]),
-                        Name = GetNewText(_Texts[_TextPlayerName]),
-                        Rounds = GetNewText(_Texts[_TextNumPlayed]),
-                        Won = GetNewText(_Texts[_TextWon]),
-                        SingPoints = GetNewText(_Texts[_TextSingPoints]),
-                        GamePoints = GetNewText(_Texts[_TextGamePoints])
-                    };
+                {
+                    Pos = GetNewText(_Texts[_TextPosition]),
+                    Name = GetNewText(_Texts[_TextPlayerName]),
+                    Rounds = GetNewText(_Texts[_TextNumPlayed]),
+                    Won = GetNewText(_Texts[_TextWon]),
+                    SingPoints = GetNewText(_Texts[_TextSingPoints]),
+                    GamePoints = GetNewText(_Texts[_TextGamePoints])
+                };
 
                 row.Pos.Y += delta * (i + 1);
                 row.Name.Y += delta * (i + 1);
@@ -517,7 +712,18 @@ namespace VocaluxeLib.PartyModes.Challenge
                 row.SingPoints.Y += delta * (i + 1);
                 row.GamePoints.Y += delta * (i + 1);
 
-                row.Pos.Text = (i + 1) + ".";
+                row.Pos.Text = i + 1 + ".";
+
+                row.Avatar = GetNewStatic(_Statics[_StaticTableAvatar]);
+                row.Avatar.Aspect = EAspect.Crop;
+                row.Avatar.Y = row.Name.Y + (row.Name.H - row.Avatar.H) / 2;
+                row.Avatar.Visible = false;
+                _AddStatic(row.Avatar);
+
+                row.Highlight = GetNewStatic(_Statics[_StaticTableHighlight]);
+                row.Highlight.Y = row.Name.Y + (row.Name.H - row.Highlight.H) / 2;
+                row.Highlight.Visible = false;
+                _AddStatic(row.Highlight);
 
                 row.Pos.Visible = false;
                 row.Name.Visible = false;
@@ -537,14 +743,15 @@ namespace VocaluxeLib.PartyModes.Challenge
 
                 h = delta * (i + 1);
             }
+
             _PlayerTableScrollArea.H = h + delta;
         }
 
         private void _UpdatePlayerTable()
         {
-            for (int i = 0; i < _PlayerTable.Count; i++)
+            for (var i = 0; i < _PlayerTable.Count; i++)
             {
-                STableRow row = _PlayerTable[i];
+                var row = _PlayerTable[i];
 
                 if (i + _PlayerTableOffset < _PartyMode.GameData.ResultTable.Count)
                 {
@@ -556,11 +763,26 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.GamePoints.Visible = true;
 
                     row.Pos.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].Position + ".";
-                    row.Name.Text = CBase.Profiles.GetPlayerName(_PartyMode.GameData.ResultTable[i + _PlayerTableOffset].PlayerID);
+                    row.Name.Text = CBase.Profiles.GetPlayerName(_PartyMode.GameData.ResultTable[i + _PlayerTableOffset].PlayerId);
                     row.Rounds.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumPlayed.ToString();
                     row.Won.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
                     row.SingPoints.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].NumGamePoints.ToString();
+
+                    var position = _PartyMode.GameData.ResultTable[i + _PlayerTableOffset].Position;
+                    row.Avatar.Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ResultTable[i + _PlayerTableOffset].PlayerId);
+                    row.Avatar.Visible = true;
+                    row.Highlight.Visible = position == 1;
+
+                    SColorF rankColor;
+                    var color = _Texts[_TextPlayerName].Color;
+                    if (position <= _RankColors.Length && CBase.Themes.GetColor(_RankColors[position - 1], PartyModeId, out rankColor))
+                    {
+                        color = rankColor;
+                    }
+
+                    row.Pos.Color = color;
+                    row.Name.Color = color;
                 }
                 else
                 {
@@ -570,25 +792,37 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.Won.Visible = false;
                     row.SingPoints.Visible = false;
                     row.GamePoints.Visible = false;
+                    row.Avatar.Visible = false;
+                    row.Highlight.Visible = false;
                 }
             }
 
             _Buttons[_ButtonPlayerScrollUp].Visible = _PlayerTableOffset > 0;
-            _Buttons[_ButtonPlayerScrollDown].Visible = _PartyMode.GameData.ProfileIDs.Count - _NumPlayerVisible - _PlayerTableOffset > 0;
+            _Buttons[_ButtonPlayerScrollDown].Visible = _PartyMode.GameData.ProfileIds.Count - _NumPlayerVisible - _PlayerTableOffset > 0;
         }
 
         private void _ScrollPlayerTable(int offset)
         {
-            if (_PartyMode.GameData.ProfileIDs.Count <= _NumPlayerVisible)
+            if (_PartyMode.GameData.ProfileIds.Count <= _NumPlayerVisible)
+            {
                 _PlayerTableOffset = 0;
+            }
             else if (offset < 0 && _PlayerTableOffset + offset >= 0)
+            {
                 _PlayerTableOffset += offset;
+            }
             else if (offset < 0 && _PlayerTableOffset + offset < 0)
+            {
                 _PlayerTableOffset = 0;
-            else if (offset > 0 && _PlayerTableOffset + offset <= _PartyMode.GameData.ProfileIDs.Count - _NumPlayerVisible)
+            }
+            else if (offset > 0 && _PlayerTableOffset + offset <= _PartyMode.GameData.ProfileIds.Count - _NumPlayerVisible)
+            {
                 _PlayerTableOffset += offset;
-            else if (offset > 0 && _PlayerTableOffset + offset > _PartyMode.GameData.ProfileIDs.Count - _NumPlayerVisible)
-                _PlayerTableOffset = _PartyMode.GameData.ProfileIDs.Count - _NumPlayerVisible;
+            }
+            else if (offset > 0 && _PlayerTableOffset + offset > _PartyMode.GameData.ProfileIds.Count - _NumPlayerVisible)
+            {
+                _PlayerTableOffset = _PartyMode.GameData.ProfileIds.Count - _NumPlayerVisible;
+            }
 
             _UpdatePlayerTable();
         }
@@ -596,33 +830,48 @@ namespace VocaluxeLib.PartyModes.Challenge
         private void _ScrollRoundsTable(int offset)
         {
             if (_PartyMode.GameData.Rounds.Count <= _NumRoundsVisible)
+            {
                 _RoundsTableOffset = 0;
+            }
             else if (offset < 0 && _RoundsTableOffset + offset >= 0)
+            {
                 _RoundsTableOffset += offset;
+            }
             else if (offset < 0 && _RoundsTableOffset + offset < 0)
+            {
                 _RoundsTableOffset = 0;
+            }
             else if (offset > 0 && _RoundsTableOffset + offset <= _PartyMode.GameData.Rounds.Count - _NumRoundsVisible)
+            {
                 _RoundsTableOffset += offset;
+            }
             else if (offset > 0 && _RoundsTableOffset + offset > _PartyMode.GameData.Rounds.Count - _NumRoundsVisible)
+            {
                 _RoundsTableOffset = _PartyMode.GameData.Rounds.Count - _NumRoundsVisible;
+            }
 
             _UpdateRoundsTable();
         }
 
         private string _GetPlayerWinString()
         {
-            string s = "";
+            var s = "";
 
-            for (int i = 0; i < _PartyMode.GameData.ResultTable.Count; i++)
+            for (var i = 0; i < _PartyMode.GameData.ResultTable.Count; i++)
             {
                 if (_PartyMode.GameData.ResultTable[i].Position == 1)
                 {
                     if (i > 0)
+                    {
                         s += ", ";
-                    s += CBase.Profiles.GetPlayerName(_PartyMode.GameData.ResultTable[i].PlayerID);
+                    }
+
+                    s += CBase.Profiles.GetPlayerName(_PartyMode.GameData.ResultTable[i].PlayerId);
                 }
                 else
+                {
                     break;
+                }
             }
 
             return s;

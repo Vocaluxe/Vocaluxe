@@ -1,6 +1,22 @@
 ScreenHighscore
 
 ++++++++++
+Version 4:
+(2026 Oct 15)
+
+Add:
+<StaticPodium[1..3]> (podium for places 1-3)
+<StaticAvatar[1..3]> (avatar of the profile on the podium, skin <NoAvatar> as placeholder)
+<StaticCrown>
+<ProgressBarScore[4..10]>
+
+Remove:
+<StaticTop1Bar>, <StaticTop2Bar>, <StaticTop3Bar>
+
+Change:
+Places 1-3 are shown on the podium, places 4-10 in the list below (no scrolling).
+New entries are shown in the color <Top1Color> with a slight pulse.
+++++++++++
 Version 3:
 
 Add: Color bars (Gold, Silver, Bronze) for Top 3 Scores

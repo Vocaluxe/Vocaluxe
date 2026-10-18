@@ -71,7 +71,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
     public class CSingNotes : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeSingBar _Theme;
 
         public readonly List<CNoteBars> PlayerNotes = new List<CNoteBars>();
@@ -95,16 +95,16 @@ namespace VocaluxeLib.Menu.SingNotes
         /// </remarks>
         private SRectF[,,] _BarPos { get; set; }
 
-        public CSingNotes(int partyModeID)
+        public CSingNotes(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeSingBar { BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer() * CBase.Settings.GetMaxNumScreens())] };
             ThemeLoaded = false;
         }
 
-        public CSingNotes(SThemeSingBar theme, int partyModeID)
+        public CSingNotes(SThemeSingBar theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
             _BarPos = new SRectF[CBase.Settings.GetMaxNumScreens(), CBase.Settings.GetMaxNumPlayer(), CBase.Settings.GetMaxNumPlayer()];
@@ -121,45 +121,46 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void Init(int numPlayers, int numScreens = 0)
         {
-
             PlayerNotes.Clear();
             if (numPlayers > 0 && numScreens > 0)
             {
-                int[] screenAssignment = new int[numPlayers];
-                int screenPlayers = numPlayers / numScreens;
-                int remainingPlayers = numPlayers - (screenPlayers * numScreens);
-                int player = 0;
+                var screenAssignment = new int[numPlayers];
+                var screenPlayers = numPlayers / numScreens;
+                var remainingPlayers = numPlayers - screenPlayers * numScreens;
+                var player = 0;
 
-                for (int s = 0; s < numScreens; s++)
+                for (var s = 0; s < numScreens; s++)
                 {
-                    for (int p = 0; p < screenPlayers; p++)
+                    for (var p = 0; p < screenPlayers; p++)
                     {
                         if (remainingPlayers > 0)
                         {
-                            PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p, screenPlayers], _Theme));
+                            PlayerNotes.Add(new CNoteBars(_PartyModeId, player++, _BarPos[s, p, screenPlayers], _Theme));
                             if (p == screenPlayers - 1)
                             {
-                                PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p + 1, screenPlayers], _Theme));
+                                PlayerNotes.Add(new CNoteBars(_PartyModeId, player++, _BarPos[s, p + 1, screenPlayers], _Theme));
                                 remainingPlayers--;
                             }
                         }
                         else
                         {
-                            PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p, screenPlayers - 1], _Theme));
+                            PlayerNotes.Add(new CNoteBars(_PartyModeId, player++, _BarPos[s, p, screenPlayers - 1], _Theme));
                         }
-
                     }
+
                     //Handle when players < screens
                     if (screenPlayers == 0 && remainingPlayers > 0)
                     {
-                        PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, 0, 0], _Theme));
+                        PlayerNotes.Add(new CNoteBars(_PartyModeId, player++, _BarPos[s, 0, 0], _Theme));
                         remainingPlayers--;
                     }
                 }
             }
 
             if (numPlayers == 0)
+            {
                 _Rect = new SRectF(0, 0, 0, 0, Rect.Z);
+            }
             else
             {
                 _Rect.X = PlayerNotes.Select(bp => bp.Rect.X).Min();
@@ -172,8 +173,10 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void Draw()
         {
-            foreach (CNoteBars noteBars in PlayerNotes)
+            foreach (var noteBars in PlayerNotes)
+            {
                 noteBars.Draw();
+            }
         }
 
         public void UnloadSkin() { }
@@ -186,11 +189,11 @@ namespace VocaluxeLib.Menu.SingNotes
             W = X - _Theme.BarPos.Select(bp => bp.Rect.Right).Max();
             H = Y - _Theme.BarPos.Select(bp => bp.Rect.Bottom).Max();
             Z = _Theme.BarPos.Select(bp => bp.Rect.Z).Average();
-            foreach (SBarPosition bp in _Theme.BarPos)
+            foreach (var bp in _Theme.BarPos)
             {
-                int n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
-                int p = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
-                for (int s = 0; s < CBase.Settings.GetMaxNumScreens(); s++)
+                var n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
+                var p = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
+                for (var s = 0; s < CBase.Settings.GetMaxNumScreens(); s++)
                 {
                     _BarPos[s, p, n] = bp.Rect;
                     _BarPos[s, p, n].X += s * CBase.Settings.GetRenderW();

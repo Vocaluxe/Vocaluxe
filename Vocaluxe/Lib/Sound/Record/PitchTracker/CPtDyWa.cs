@@ -59,7 +59,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         public override int GetNote(out float maxVolume, float[] weights)
         {
-            int note = (int)Math.Round(PtDyWa_FindNote(_Instance, out maxVolume));
+            var note = (int)Math.Round(PtDyWa_FindNote(_Instance, out maxVolume));
             _SetWeights(note, weights);
             return note;
         }
@@ -78,7 +78,10 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
+            {
                 throw new ObjectDisposedException(GetType().Name);
+            }
+
             PtDyWa_Free(_Instance);
             _Instance = IntPtr.Zero;
         }

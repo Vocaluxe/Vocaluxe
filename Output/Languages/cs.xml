@@ -20,6 +20,11 @@
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Směska</string>
   <string name="TR_GAMEMODE_SHORTSONG">Krátká verze</string>
+  <string name="TR_AUDIOMODE_NORMAL">Normální</string>
+  <string name="TR_AUDIOMODE_INSTRUMENTAL">Nástrojový</string>
+  <string name="TR_AUDIOMODE_VOCALS">Nástrojový/Zpěv</string>
+  <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
+  <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Zpěvák hrdina</string>
   <string name="TR_RATING_SUPERSTAR">Superhvězda</string>
   <string name="TR_RATING_LEAD_SINGER">Pan zpěvák/Paní zpěvačka</string>
@@ -65,6 +70,7 @@
   <string name="TR_CONFIG_ARTIST_LETTER">Písmeno umělce</string>
   <string name="TR_CONFIG_TITLE_LETTER">Písmeno názvu</string>
   <string name="TR_CONFIG_EDITION">Vydání</string>
+  <string name="TR_CONFIG_TAGS">Značky</string>
   <string name="TR_CONFIG_GENRE">Žánr</string>
   <string name="TR_CONFIG_YEAR">Rok</string>
   <string name="TR_CONFIG_DECADE">Desetiletí</string>
@@ -143,16 +149,24 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Zpívat písně směsky</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Nový seznam skladeb</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Nastavení písně</string>
-  <string name="TR_SCREENSONG_SEARCH">Hledat:</string>
+  <string name="TR_SCREENSONG_LENGTH">Délka písně</string>
+  <string name="TR_SCREENSONG_AUDIOMODE">Zvukový režim</string>
+  <string name="TR_SCREENSONG_PLAYLIST">Seznam skladeb</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT">Výběr hráče</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_ON">Ukázat výběr hráče</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Přeskočit výběr hráče</string>  
+  <string name="TR_SCREENSONG_SEARCH">Hledat píseň</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Žádný jazyk</string>
   <string name="TR_SCREENSONG_NOYEAR">Žádný rok</string>
   <string name="TR_SCREENSONG_NOGENRE">Žádný žánr</string>
   <string name="TR_SCREENSONG_NOEDITION">Žádné vydání</string>
+  <string name="TR_SCREENSONG_NOTAGS">Žádné značky</string>
   <string name="TR_SCREENSONG_ALLSONGS">Všechny písně</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v písní)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v píseň)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Skok na písmeno • F3 = Vyhledávat • CTRL+R = Náhodný výběr - CTRL+S = Spustit směsku • CTRL+# = Změnit řazení skladeb • CTRL+T = Zapnout/Vypnout zobrazení kategorií • Mezerník = Otevřít volby skladby • ESC = Zpět do hlavní nabídky</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Vyhledávání umělce a názvu, předpony pro vyhledávání → a: = umělec • t: = název • c: = tvůrce • e: = edice • g: = žánr • y: = rok (např. 1999 nebo 1980-1989) • l: = jazyk • al: = album • fi: = název souboru • fo: = název složky • #: = značky</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = stisknutím čísla týmu použijete náhodný žolík.</string>
   <string name="TR_SCREENSONG_SORTING">Řazení: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Žádnou směsku pro tuto píseň!</string>
@@ -162,9 +176,18 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Přeskočit tuto píseň</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Začít kolo znovu</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Začít hru znovu</string>
+  <string name="TR_SCREENSING_VOCALSVOLUME">Hlasitost zpěvní stopy</string>
   <string name="TR_SCREENSING_NOMORESONGS">Žádné další písně v seznamu skladeb!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Webová kamera není dostupná!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Poměr stran: %a</string>
+  <string name="TR_SCREENSING_RATING_1">dokonalé!</string>
+  <string name="TR_SCREENSING_RATING_2">úžasné!</string>
+  <string name="TR_SCREENSING_RATING_3">skvělé!</string>
+  <string name="TR_SCREENSING_RATING_4">dobré!</string>
+  <string name="TR_SCREENSING_RATING_5">není to špatné!</string>
+  <string name="TR_SCREENSING_RATING_6">špatné!</string>
+  <string name="TR_SCREENSING_RATING_7">nedostatečné!</string>
+  <string name="TR_SCREENSING_RATING_8">hrozné!</string>
   <string name="TR_SCREENSING_SKIPPEDSECONDS">Přeskočeno %s sekund</string>
   <string name="TR_SCREENSCORE_SCORES">Výsledky</string>
   <string name="TR_SCREENSCORE_RATING">Hodnocení</string>
@@ -189,8 +212,14 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Zvuk</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Nahrávání</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Obraz</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Text písně</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Zpěvní text</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Grafika</string>
   <string name="TR_SCREENO_BUTTON_THEME">Téma</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Příspěvky</string>
+  <string name="TR_SCREENO_BUTTON_SERVER">Server</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER">Složka písně</string>
+  <string name="TR_SCREENO_SONGFOLDER">Vyberte složku s písněmi, kterou chcete přidat</string>
+  <string name="TR_SCREENO_WARNINGRESTART">Aby se změny projevily, spusťe hru, prosím, znovu.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Adresa serveru</string>
   <string name="TR_SCREENOGAME_OPTIONS">Nastavení hry</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Jazyk</string>
@@ -220,6 +249,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Zdroj hudby na pozadí</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Hlasitost ukázky</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Hlasitost hry</string>
+  <string name="TR_SCREENOSOUND_SOUNDEFFECTVOLUME">Hlasitost zvukových efektů</string>
   <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Efekt Karaoke</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Nastavení tématu</string>
   <string name="TR_SCREENOTHEME_THEME">Téma</string>
@@ -233,6 +263,15 @@
   <string name="TR_SCREENOLYRICS_OPTIONS">Nastavení textu písně</string>
   <string name="TR_SCREENOLYRICS_STYLE">Styl animace</string>
   <string name="TR_SCREENOLYRICS_POSITION">Poloha textu písně</string>
+  <string name="TR_SCREENOGRAPHICS_OPTIONS">Volby pro grafiku</string>
+  <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Kvalita textury</string>
+  <string name="TR_SCREENOGRAPHICS_COVERSIZE">Velikost obalu (pixely)</string>
+  <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Celá obrazovka</string>
+  <string name="TR_SCREENOGRAPHICS_STRETCH">Roztaženo</string>
+  <string name="TR_SCREENOSERVER_OPTIONS">Volby pro server</string>
+  <string name="TR_SCREENOSERVER_ACTIVE">Server v činnosti</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION">Šifrování serveru</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER">Adresa serveru</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Nastavení obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Náhled obrazu</string>
@@ -249,7 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Dole vpravo</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Hlasitost</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresa serveru</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Prověřte, prosím, config.xml!</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Zapněte jej, prosím, a hru spusťte znovu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Promiňte</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe postihla chyba a spadl.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">, že jste zažili chybu.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>

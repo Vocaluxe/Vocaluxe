@@ -34,7 +34,7 @@ namespace VocaluxeLib.Utils
         //Number of samples (per channel)
         public int NumSamples
         {
-            get { return (DataSize / (BitsPerSample / 8 * NumChannels)); }
+            get { return DataSize / (BitsPerSample / 8 * NumChannels); }
         }
         //Number of samples left to be read (per channel)
         public int NumSamplesLeft { get; private set; }
@@ -57,7 +57,10 @@ namespace VocaluxeLib.Utils
         public void Create(string fileName, short numChannels, int sampleRate, short bitsPerSample)
         {
             if (IsOpen)
+            {
                 Close();
+            }
+
             _File = new FileStream(fileName, FileMode.Create);
             FileName = fileName;
             NumChannels = numChannels;
@@ -73,15 +76,19 @@ namespace VocaluxeLib.Utils
         public void Close()
         {
             if (!IsOpen)
+            {
                 return;
+            }
+
             if (_IsWritable)
             {
-                BinaryWriter writer = new BinaryWriter(_File);
+                var writer = new BinaryWriter(_File);
                 writer.Seek(4, SeekOrigin.Begin);
                 writer.Write((int)_File.Length - 8);
                 writer.Seek(_DataPos - 4, SeekOrigin.Begin);
                 writer.Write(DataSize);
             }
+
             _File.Dispose();
             _File = null;
             IsOpen = false;
@@ -90,40 +97,70 @@ namespace VocaluxeLib.Utils
         public bool Open(string fileName)
         {
             if (IsOpen)
+            {
                 Close();
+            }
+
             if (!File.Exists(fileName))
+            {
                 return false;
+            }
+
             FileName = fileName;
             _File = new FileStream(FileName, FileMode.Open);
             try
             {
-                BinaryReader reader = new BinaryReader(_File);
+                var reader = new BinaryReader(_File);
                 if (Encoding.ASCII.GetString(reader.ReadBytes(4)) != "RIFF")
+                {
                     return false;
+                }
+
                 reader.ReadInt32(); //Chunksize (file)
                 if (Encoding.ASCII.GetString(reader.ReadBytes(4)) != "WAVE")
+                {
                     return false;
-                long curPos = _File.Position;
+                }
+
+                var curPos = _File.Position;
                 if (_SeekTo(reader, "fmt ") < 0)
+                {
                     return false;
-                short audioFormat = reader.ReadInt16();
+                }
+
+                var audioFormat = reader.ReadInt16();
                 if (audioFormat != 1) //PCM
+                {
                     return false;
+                }
+
                 NumChannels = reader.ReadInt16();
                 SampleRate = reader.ReadInt32();
-                int bytesPerSec = reader.ReadInt32();
-                short blockAlign = reader.ReadInt16();
+                var bytesPerSec = reader.ReadInt32();
+                var blockAlign = reader.ReadInt16();
                 BitsPerSample = reader.ReadInt16();
                 if (BitsPerSample != 8 && BitsPerSample != 16)
+                {
                     return false;
+                }
+
                 if (blockAlign != NumChannels * (BitsPerSample / 8))
+                {
                     return false;
+                }
+
                 if (bytesPerSec != blockAlign * SampleRate)
+                {
                     return false;
+                }
+
                 _File.Position = curPos;
                 DataSize = _SeekTo(reader, "data");
                 if (DataSize <= 0)
+                {
                     return false;
+                }
+
                 _DataPos = (int)_File.Position;
                 DataSize = Math.Min(DataSize, (int)_File.Length - _DataPos);
                 NumSamplesLeft = NumSamples;
@@ -133,6 +170,7 @@ namespace VocaluxeLib.Utils
                 _File.Dispose();
                 throw;
             }
+
             IsOpen = true;
             return true;
         }
@@ -146,23 +184,32 @@ namespace VocaluxeLib.Utils
         public byte[] GetNextSamples8Bit(int numSamples, int channel = 0)
         {
             if (channel < 0 || channel > NumChannels || BitsPerSample != 8)
+            {
                 return null;
+            }
+
             if (numSamples > NumSamplesLeft)
+            {
                 return null;
+            }
+
             byte[] result;
-            BinaryReader reader = new BinaryReader(_File);
+            var reader = new BinaryReader(_File);
             if (channel == 0 || NumChannels == 1)
+            {
                 result = reader.ReadBytes(numSamples * NumChannels);
+            }
             else
             {
                 result = new byte[numSamples];
-                for (int i = 0; i < numSamples; i++)
+                for (var i = 0; i < numSamples; i++)
                 {
                     _File.Seek(channel - 1, SeekOrigin.Current);
                     result[i] = reader.ReadByte();
                     _File.Seek(NumChannels - channel, SeekOrigin.Current);
                 }
             }
+
             NumSamplesLeft -= numSamples;
             return result;
         }
@@ -176,29 +223,38 @@ namespace VocaluxeLib.Utils
         public short[] GetNextSamples16Bit(int numSamples, int channel = 0)
         {
             if (channel < 0 || channel > NumChannels || BitsPerSample != 16)
+            {
                 return null;
+            }
+
             if (numSamples > NumSamplesLeft)
+            {
                 return null;
+            }
+
             short[] result;
-            BinaryReader reader = new BinaryReader(_File);
+            var reader = new BinaryReader(_File);
             try
             {
                 if (channel == 0 || NumChannels == 1)
                 {
                     result = new short[numSamples * NumChannels];
-                    for (int i = 0; i < numSamples * NumChannels; i++)
+                    for (var i = 0; i < numSamples * NumChannels; i++)
+                    {
                         result[i] = reader.ReadInt16();
+                    }
                 }
                 else
                 {
                     result = new short[numSamples];
-                    for (int i = 0; i < numSamples; i++)
+                    for (var i = 0; i < numSamples; i++)
                     {
                         _File.Seek((channel - 1) * 2, SeekOrigin.Current);
                         result[i] = reader.ReadInt16();
                         _File.Seek((NumChannels - channel) * 2, SeekOrigin.Current);
                     }
                 }
+
                 NumSamplesLeft -= numSamples;
             }
             catch (EndOfStreamException e)
@@ -206,15 +262,19 @@ namespace VocaluxeLib.Utils
                 Console.WriteLine("Error: " + e);
                 return null;
             }
+
             return result;
         }
 
         public byte[] GetNextSamples16BitAsBytes(int numSamples, int channel = 0)
         {
-            short[] samples = GetNextSamples16Bit(numSamples, channel);
+            var samples = GetNextSamples16Bit(numSamples, channel);
             if (samples == null)
+            {
                 return null;
-            byte[] samplesByte = new byte[samples.Length * 2];
+            }
+
+            var samplesByte = new byte[samples.Length * 2];
             Buffer.BlockCopy(samples, 0, samplesByte, 0, samplesByte.Length);
             return samplesByte;
         }
@@ -222,19 +282,25 @@ namespace VocaluxeLib.Utils
         public bool WriteSamples(byte[] samples, int channel = 0)
         {
             if (!_IsWritable || channel < 0 || channel > NumChannels || BitsPerSample != 8)
+            {
                 return false;
-            BinaryWriter writer = new BinaryWriter(_File);
+            }
+
+            var writer = new BinaryWriter(_File);
             if (channel == 0 || NumChannels == 1)
+            {
                 writer.Write(samples);
+            }
             else
             {
-                foreach (byte sample in samples)
+                foreach (var sample in samples)
                 {
                     _File.Seek(channel - 1, SeekOrigin.Current);
                     writer.Write(sample);
                     _File.Seek(NumChannels - channel, SeekOrigin.Current);
                 }
             }
+
             DataSize += samples.Length;
             return true;
         }
@@ -242,22 +308,28 @@ namespace VocaluxeLib.Utils
         public bool Write16BitSamples(short[] samples, int channel = 0)
         {
             if (!_IsWritable || channel < 0 || channel > NumChannels || BitsPerSample != 16)
+            {
                 return false;
-            BinaryWriter writer = new BinaryWriter(_File);
+            }
+
+            var writer = new BinaryWriter(_File);
             if (channel == 0 || NumChannels == 1)
             {
-                foreach (short sample in samples)
+                foreach (var sample in samples)
+                {
                     writer.Write(sample);
+                }
             }
             else
             {
-                foreach (short sample in samples)
+                foreach (var sample in samples)
                 {
                     _File.Seek((channel - 1) * 2, SeekOrigin.Current);
                     writer.Write(sample);
                     _File.Seek((NumChannels - channel) * 2, SeekOrigin.Current);
                 }
             }
+
             DataSize += samples.Length * 2;
             return true;
         }
@@ -265,8 +337,11 @@ namespace VocaluxeLib.Utils
         public bool Write16BitSamples(byte[] samples, int channel = 0)
         {
             if (samples.Length == 0)
+            {
                 return true;
-            short[] samplesShort = new short[samples.Length / 2];
+            }
+
+            var samplesShort = new short[samples.Length / 2];
             Buffer.BlockCopy(samples, 0, samplesShort, 0, samples.Length);
             return Write16BitSamples(samplesShort, channel);
         }
@@ -274,8 +349,11 @@ namespace VocaluxeLib.Utils
         private void _WriteHeader()
         {
             if (!IsOpen || !_IsWritable)
+            {
                 return;
-            BinaryWriter writer = new BinaryWriter(_File);
+            }
+
+            var writer = new BinaryWriter(_File);
             writer.Write(Encoding.ASCII.GetBytes("RIFF"));
             writer.Write(0);
             writer.Write(Encoding.ASCII.GetBytes("WAVE"));
@@ -285,7 +363,7 @@ namespace VocaluxeLib.Utils
             writer.Write(NumChannels); // Channels
             writer.Write(SampleRate); // Sample rate
             writer.Write(SampleRate * NumChannels * (BitsPerSample / 8)); // Average bytes per second
-            writer.Write((short)((BitsPerSample / 8) * NumChannels)); // block align
+            writer.Write((short)(BitsPerSample / 8 * NumChannels)); // block align
             writer.Write(BitsPerSample); // bits per sample
             writer.Write(Encoding.ASCII.GetBytes("data"));
             writer.Write(DataSize);
@@ -299,12 +377,16 @@ namespace VocaluxeLib.Utils
         {
             do
             {
-                string curChunkId = Encoding.ASCII.GetString(reader.ReadBytes(4));
-                int chunkSize = reader.ReadInt32();
+                var curChunkId = Encoding.ASCII.GetString(reader.ReadBytes(4));
+                var chunkSize = reader.ReadInt32();
                 if (curChunkId == chunkId)
+                {
                     return chunkSize;
+                }
+
                 reader.BaseStream.Seek(chunkSize, SeekOrigin.Current);
             } while (reader.BaseStream.Position < reader.BaseStream.Length);
+
             return -1;
         }
     }

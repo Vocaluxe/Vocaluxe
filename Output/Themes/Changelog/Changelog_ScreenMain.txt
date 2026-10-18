@@ -1,6 +1,25 @@
 ScreenMain
 
 ++++++++++
+Version 5:
+(2026 Oct 17)
+
+Change:
+ButtonSing and ButtonParty are larger, without reflection and placed side by side above the row of the other buttons
+Positions of ButtonStatistics, ButtonProfiles, ButtonOptions and ButtonExit
+StaticWarningProfiles and TextWarningProfiles look like the other warnings and take the place of ButtonSing and ButtonParty, because they are locked without a profile
+
+++++++++++
+Version 4:
+(2026 Oct 16)
+
+Add:
+<ButtonStatistics>
+
+Change:
+Positions of all buttons to make room for the new button
+
+++++++++++
 Version 3:
 (2023 Dec 31)
 

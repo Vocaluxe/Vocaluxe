@@ -34,7 +34,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
         }
 
-        public CBaseTheme(string filePath) : base(filePath, -1) {}
+        public CBaseTheme(string filePath) : base(filePath, -1) { }
 
         protected override CSkin _GetNewSkin(string path, string file)
         {
@@ -50,7 +50,9 @@ namespace Vocaluxe.Base.ThemeSystem
         protected override bool _Load()
         {
             if (!_Data.Cursor.HasValue)
+            {
                 return false;
+            }
 
             return CFonts.LoadThemeFonts(_Data.Fonts, Path.Combine(_Folder, Name, CSettings.FolderNameThemeFonts), Name, -1);
         }
@@ -59,18 +61,28 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             CSkin skin;
             if (!_Skins.TryGetValue(CConfig.Config.Theme.Skin, out skin))
+            {
                 skin = _Skins.Values.FirstOrDefault();
+            }
+
             while (skin != null)
             {
                 if (skin.Load())
+                {
                     break;
+                }
+
                 skin.Unload();
                 CLog.Error("Failed to load skin " + skin + "! Removing...", true);
                 _Skins.Remove(skin.Name);
                 skin = _Skins.Values.FirstOrDefault();
             }
+
             if (skin == null)
+            {
                 return false;
+            }
+
             CurrentSkin = skin;
             return true;
         }

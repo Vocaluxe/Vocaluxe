@@ -19,7 +19,6 @@ using System;
 using GLib;
 using Gst;
 using Vocaluxe.Base;
-using VocaluxeLib;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
@@ -62,7 +61,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 //TODO: Is it ok, to remove this? Gst should post a message if duration was changed so this should not be required
                 // Removing would not work in some cases where length is not know at startup
                 if (base.Length < 0 && _Element != null)
+                {
                     _UpdateDuration();
+                }
+
                 return base.Length >= 0f ? base.Length : 0f;
             }
         }
@@ -71,26 +73,31 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             get
             {
-                
                 if (_Element == null || (_Element.CurrentState == State.Paused && _Element.PendingState != State.VoidPending))
                 {
                     return _Position;
                 }
-                    
-                    
+
+
                 long position;
                 if (!_Element.QueryPosition(Format.Time, out position))
+                {
                     CLog.Error("Could not query position");
+                }
                 else
-                    _Position = ((float)position / Constants.SECOND);
-                    
-                    
+                {
+                    _Position = (float)position / Constants.SECOND;
+                }
+
+
                 return _Position;
             }
             set
             {
                 if (_Element != null)
+                {
                     _Element.SeekSimple(Format.Time, SeekFlags.Accurate | SeekFlags.Flush, (long)(value * Constants.SECOND));
+                }
             }
         }
 
@@ -105,28 +112,39 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             set
             {
                 if (_Element != null)
+                {
                     _Element.SetState(value ? State.Paused : State.Playing);
+                }
             }
         }
 
-        public CGstreamerSharpAudioStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) {}
+        public CGstreamerSharpAudioStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) { }
 
         public override bool Open(bool prescan)
         {
             System.Diagnostics.Debug.Assert(!_FileOpened);
             if (_FileOpened)
+            {
                 return false;
+            }
+
             Length = -1;
-            Element convert = ElementFactory.Make("audioconvert", "convert");
-            Element audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
+            var convert = ElementFactory.Make("audioconvert", "convert");
+            var audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
 
             if (convert == null || audiosink == null)
             {
                 CLog.Error("Could not create pipeline");
                 if (convert != null)
+                {
                     convert.Dispose();
+                }
+
                 if (audiosink != null)
+                {
                     audiosink.Dispose();
+                }
+
                 return false;
             }
 
@@ -136,13 +154,13 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             {
                 audiokaraoke = ElementFactory.Make("audiokaraoke", "karaoke");
                 audioSinkBin.Add(audiokaraoke);
-                audioSinkBin.Add(convert); 
-                audioSinkBin.Add(audiosink); 
-                
+                audioSinkBin.Add(convert);
+                audioSinkBin.Add(audiosink);
+
                 audiokaraoke.Link(audiosink);
                 audiokaraoke["level"] = CConfig.Config.Sound.KaraokeEffectLevel;
                 audiokaraoke["mono-level"] = CConfig.Config.Sound.KaraokeEffectLevel;
-               
+
                 convert.Link(audiokaraoke);
             }
             else
@@ -152,10 +170,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 convert.Link(audiosink);
             }
 
-            
-            
-            Pad pad = convert.GetStaticPad("sink");
-            GhostPad ghostpad = new GhostPad("sink", pad);
+
+            var pad = convert.GetStaticPad("sink");
+            var ghostpad = new GhostPad("sink", pad);
 
             if (pad == null)
             {
@@ -167,6 +184,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 {
                     audiokaraoke.Dispose();
                 }
+
                 return false;
             }
 
@@ -181,8 +199,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 {
                     audiokaraoke.Dispose();
                 }
+
                 return false;
             }
+
             if (!audioSinkBin.AddPad(ghostpad))
             {
                 CLog.Error("Could not add pad");
@@ -194,6 +214,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 {
                     audiokaraoke.Dispose();
                 }
+
                 return false;
             }
 
@@ -209,8 +230,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 {
                     audiokaraoke.Dispose();
                 }
+
                 return false;
             }
+
             _Element["audio-sink"] = audioSinkBin;
             _Element["flags"] = 1 << 1;
             _Element["uri"] = new Uri(_Medium).AbsoluteUri;
@@ -219,12 +242,13 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
             // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
             // if it takes more than 500ms, duration queries will be performed asynchronously
-            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone | MessageType.Error);
+            var msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone | MessageType.Error);
             if (!_OnMessage(msg))
             {
                 _Dispose(true);
                 return false;
             }
+
             _FileOpened = true;
             return true;
         }
@@ -232,34 +256,51 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         protected override void _Dispose(bool disposing)
         {
             if (_Element == null)
+            {
                 return;
+            }
+
             Element element;
             lock (_ElementLock)
             {
                 //Atomic get and set
                 if (_Element == null)
+                {
                     return;
+                }
+
                 element = _Element;
                 _Element = null; //Now everything "seems" closed
             }
 
             // Should not be needed but we had an error report (#226) - so we double check here to prevent a crash
             if (element == null)
+            {
                 return;
-            
+            }
+
             if (element.TargetState == State.Playing)
+            {
                 element.SetState(State.Paused); //Stop output
+            }
+
             if (_CloseStreamListener != null)
+            {
                 _CloseStreamListener.OnCloseStream(this);
+            }
+
             //Now really close it in the background
-            var t = new System.Threading.Thread(() => _TerminateStream(element)) {Name = "GSt Terminate"};
+            var t = new System.Threading.Thread(() => _TerminateStream(element)) { Name = "GSt Terminate" };
             t.Start();
         }
 
         private static void _TerminateStream(Element element)
         {
             if (element == null)
+            {
                 return;
+            }
+
             //One of these might take a bit, so better do this in the background to avoid lags
             element.SetState(State.Null);
             element.Dispose();
@@ -268,33 +309,48 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         public override void Play()
         {
             if (_Element != null)
+            {
                 _Element.SetState(State.Playing);
+            }
         }
 
         public override void Stop()
         {
             if (_Element != null)
+            {
                 _Element.SetState(State.Ready);
+            }
+
             Position = 0;
         }
 
         private void _SetElementVolume()
         {
             if (_Element != null)
+            {
                 _Element["volume"] = Volume * VolumeMax;
+            }
         }
 
         private bool _OnMessage(Message msg)
         {
             if (msg == null || msg.Handle == IntPtr.Zero)
+            {
                 return true;
+            }
+
             switch (msg.Type)
             {
                 case MessageType.Eos:
                     if (_Loop)
+                    {
                         Position = 0;
+                    }
                     else
+                    {
                         _IsFinished = true;
+                    }
+
                     break;
                 case MessageType.Error:
                     GException error;
@@ -306,6 +362,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     _UpdateDuration();
                     break;
             }
+
             msg.Dispose();
             return true;
         }
@@ -314,7 +371,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             base.Update();
             while (_Element != null && _Element.Bus != null && _Element.Bus.HavePending())
+            {
                 _OnMessage(_Element.Bus.Pop());
+            }
         }
 
         private void _UpdateDuration()
@@ -322,10 +381,15 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             lock (_ElementLock)
             {
                 if (_Element == null)
+                {
                     return;
+                }
+
                 long duration;
                 if (_Element.QueryDuration(Format.Time, out duration))
+                {
                     Length = duration / (float)Constants.SECOND;
+                }
             }
         }
     }

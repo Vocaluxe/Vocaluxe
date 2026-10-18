@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
@@ -36,7 +35,8 @@ namespace Vocaluxe.Base
 
     struct SThemeCursor
     {
-        [XmlElement("Skin")] public string SkinName;
+        [XmlElement("Skin")]
+        public string SkinName;
 
         public float W;
         public float H;
@@ -48,13 +48,15 @@ namespace Vocaluxe.Base
     {
         public int ThemeSystemVersion;
         public SInfo Info;
-        [XmlArray, DefaultValue(null)] public SFontFamily[] Fonts;
+        [XmlArray, DefaultValue(null)]
+        public SFontFamily[] Fonts;
         public SThemeCursor? Cursor;
     }
 
     struct SDefaultFonts
     {
-        [XmlArray] public SFontFamily[] Fonts;
+        [XmlArray]
+        public SFontFamily[] Fonts;
     }
 
     /// <summary>
@@ -64,10 +66,13 @@ namespace Vocaluxe.Base
     struct SFontFamily
     {
         public string Name;
-        [XmlIgnore] public int PartyModeID;
-        [XmlIgnore] public string ThemeName;
+        [XmlIgnore]
+        public int PartyModeId;
+        [XmlIgnore]
+        public string ThemeName;
 
-        [XmlNormalized] public float Outline; //0..1, 0=not outline 1=100% outline
+        [XmlNormalized]
+        public float Outline; //0..1, 0=not outline 1=100% outline
         public SColorF OutlineColor;
 
         public string Folder;
@@ -77,10 +82,14 @@ namespace Vocaluxe.Base
         public string FileItalic;
         public string FileBoldItalic;
 
-        [XmlIgnore] public CFontStyle Normal;
-        [XmlIgnore] public CFontStyle Italic;
-        [XmlIgnore] public CFontStyle Bold;
-        [XmlIgnore] public CFontStyle BoldItalic;
+        [XmlIgnore]
+        public CFontStyle Normal;
+        [XmlIgnore]
+        public CFontStyle Italic;
+        [XmlIgnore]
+        public CFontStyle Bold;
+        [XmlIgnore]
+        public CFontStyle BoldItalic;
 
         public void Dispose()
         {
@@ -102,13 +111,15 @@ namespace Vocaluxe.Base
 
     struct SPlaylistInfo
     {
-        [XmlElement("PlaylistName")] public string Name;
+        [XmlElement("PlaylistName")]
+        public string Name;
     }
 
     struct SPlaylist
     {
         public SPlaylistInfo Info;
-        [XmlArray] public SPlaylistSong[] Songs;
+        [XmlArray]
+        public SPlaylistSong[] Songs;
     }
 
     #region Partymode
@@ -119,17 +130,22 @@ namespace Vocaluxe.Base
         public string Author;
         public string Folder;
         public string PartyModeFile;
-        [XmlAltName("PartyModeVersionMajor")] public int VersionMajor;
-        [XmlAltName("PartyModeVersionMinor")] public int VersionMinor;
+        [XmlAltName("PartyModeVersionMajor")]
+        public int VersionMajor;
+        [XmlAltName("PartyModeVersionMinor")]
+        public int VersionMinor;
         public string TargetAudience;
-        [XmlIgnore] public IPartyModeInfo ExtInfo;
+        [XmlIgnore]
+        public IPartyModeInfo ExtInfo;
     }
 
     struct SPartyMode
     {
         public int PartyModeSystemVersion;
-        [XmlArray("PartyScreens"), XmlArrayItem("ScreenFile")] public List<string> ScreenFiles;
-        [XmlIgnore] public IPartyMode PartyMode;
+        [XmlArray("PartyScreens"), XmlArrayItem("ScreenFile")]
+        public List<string> ScreenFiles;
+        [XmlIgnore]
+        public IPartyMode PartyMode;
         public SPartyModeInfos Info;
     }
     #endregion Partymode

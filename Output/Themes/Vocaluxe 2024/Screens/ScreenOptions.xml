@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptions</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -25,27 +25,53 @@
 	<Z>0</Z>
       </Rect>
 	</Static>
+	<Static Name="StaticWarningRestart">
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>695</X>
+        <Y>700</Y>
+        <W>1140</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
   </Statics>
-  <Texts />
+  <Texts>
+    <Text Name="TextWarningRestart">
+      <X>1265</X>
+      <Y>720</Y>
+      <Z>-1.1</Z>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_WARNINGRESTART</Text>
+    </Text>
+  </Texts>
   <Buttons>
      <Button Name="ButtonOptionsBack">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>82.5</X>
+        <X>81.43</X>
         <Y>900</Y>
-        <W>200</W>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -67,20 +93,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>342.5</X>
+        <X>387.85</X>
         <Y>900</Y>
-        <W>200</W>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -102,20 +128,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>602.5</X>
+        <X>694.27</X>
         <Y>900</Y>
-        <W>200</W>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -137,20 +163,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>862.5</X>
+        <X>1000.69</X>
         <Y>900</Y>
-        <W>200</W>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -172,20 +198,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1122.5</X>
-        <Y>900</Y>
-        <W>200</W>
+        <X>387.85</X>
+        <Y>800</Y>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -194,33 +220,25 @@
         <Font>Outline</Font>
         <Text>TR_SCREENO_BUTTON_VIDEO</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
     </Button>
     <Button Name="ButtonOptionsLyrics">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1382.5</X>
+        <X>1307.11</X>
         <Y>900</Y>
-        <W>200</W>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -242,20 +260,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1642.5</X>
-        <Y>900</Y>
-        <W>200</W>
+        <X>1000.69</X>
+        <Y>800</Y>
+        <W>225</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>100</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>200</MaxW>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -263,6 +281,114 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENO_BUTTON_THEME</Text>
+      </Text>
+    </Button>
+	    <Button Name="ButtonOptionsCredits">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1613.53</X>
+        <Y>800</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_CREDITS</Text>
+      </Text>
+    </Button>
+	  <Button Name="ButtonOptionsGraphics">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>694.27</X>
+        <Y>800</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_GRAPHICS</Text>
+      </Text>
+    </Button>
+	<Button Name="ButtonOptionsServer">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1307.11</X>
+        <Y>800</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_SERVER</Text>
+      </Text>
+    </Button>
+	<Button Name="ButtonSongFolder">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1613.53</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_SONGFOLDER</Text>
       </Text>
       <Reflection>
         <Height>39</Height>
@@ -272,33 +398,6 @@
         <Height>39</Height>
         <Space>15</Space>
       </SelReflection>
-    </Button>
-	    <Button Name="ButtonOptionsCredits">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
-      <Rect>
-        <X>1668</X>
-        <Y>820</Y>
-        <W>150</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-      <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
-      <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
-        <Z>0</Z>
-        <H>30</H>
-        <MaxW>140</MaxW>
-        <Color Name="ButtonTextColor" />
-        <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
-        <ResizeAlign>Center</ResizeAlign>
-        <Style>Bold</Style>
-        <Font>Outline</Font>
-        <Text>TR_SCREENO_BUTTON_CREDITS</Text>
-      </Text>
     </Button>
   </Buttons>
   <SongMenus />

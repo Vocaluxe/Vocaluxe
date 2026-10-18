@@ -36,28 +36,28 @@ namespace Vocaluxe.Lib.Sound.Playback
         void CloseAll();
 
         #region stream Handling
-        int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effekt= EAudioEffect.None);
-        void Close(int streamID);
+        int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None);
+        void Close(int streamId);
 
-        void Play(int streamID);
-        void Pause(int streamID);
-        void Stop(int streamID);
-        void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Play(int streamId);
+        void Pause(int streamId);
+        void Stop(int streamId);
+        void Fade(int streamId, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
 
         /// <summary>
         ///     Set the stream's current volume. Cancels fading
         /// </summary>
-        /// <param name="streamID">Id of the stream (obtained by Load)</param>
+        /// <param name="streamId">Id of the stream (obtained by Load)</param>
         /// <param name="volume">Volume in percent</param>
-        void SetStreamVolume(int streamID, int volume);
+        void SetStreamVolume(int streamId, int volume);
 
-        float GetLength(int streamID);
-        float GetPosition(int streamID);
-        void SetPosition(int streamID, float position);
+        float GetLength(int streamId);
+        float GetPosition(int streamId);
+        void SetPosition(int streamId, float position);
 
-        bool IsPlaying(int streamID);
-        bool IsPaused(int streamID);
-        bool IsFinished(int streamID);
+        bool IsPlaying(int streamId);
+        bool IsPaused(int streamId);
+        bool IsFinished(int streamId);
 
         void Update();
         #endregion stream Handling

@@ -16,46 +16,64 @@
 #endregion
 
 using System;
-using System.Threading;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using OpenTK.Input;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using ButtonState = OpenTK.Input.ButtonState;
 
 namespace Vocaluxe.Lib.Input
 {
     class CGamePad : CControllerFramework
     {
-        private int _GamePadIndex;
-        private const float _LimitFactor = 1.0f;
-        private const int _KeyRepeatDelay = 100; // Delay in milliseconds for key repeat
+        private const int MaxGamePads = 4;
+        private const int PollIntervalMs = 5;
+        private const int ReconnectWaitMs = 1000;
+        private const int ErrorBackoffMs = 2000;
+        private const int ThreadJoinTimeoutMs = 2000;
 
-        private GamePadState _OldButtonStates;
+        private const int InitialRepeatDelayMs = 400;
+        private const int KeyRepeatDelayMs = 100;
 
-        // Variables to track key repeat timing
-        private readonly Stopwatch _DownKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _UpKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _RightKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftStickDownKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftStickUpKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftStickLeftKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftStickRightKeyPressTimer = new Stopwatch();
-        private readonly Stopwatch _LeftTriggerPressTimer = new Stopwatch();
-        private readonly Stopwatch _RightTriggerPressTimer = new Stopwatch();
-        
-        private bool _Connected
+        private const float StickPressThreshold = 0.8f;
+        private const float StickReleaseThreshold = 0.6f;
+        private const float TriggerPressThreshold = 0.8f;
+        private const float TriggerReleaseThreshold = 0.6f;
+
+        private const float RightStickDeadZone = 0.15f;
+        private const float MouseSpeedPxPerSecond = 1500.0f;
+        private const float MaxMouseStepSeconds = 0.1f;
+
+        private const int ConnectRumblePulses = 3;
+        private const int ConnectRumblePulseMs = 125;
+
+        private readonly object _Sync = new object();
+
+        private readonly List<Keys> _PendingKeys = new List<Keys>();
+        private readonly Stopwatch _MouseTimer = new Stopwatch();
+        private readonly CRepeatingInput[] _RepeatingInputs =
         {
-            get { return _GamePadIndex != -1; }
-        }
+            new CRepeatingInput(Keys.Up, (s, was) => s.DPad.IsUp || _IsAxisPressed(s.ThumbSticks.Left.Y, was)),
+            new CRepeatingInput(Keys.Down, (s, was) => s.DPad.IsDown || _IsAxisPressed(-s.ThumbSticks.Left.Y, was)),
+            new CRepeatingInput(Keys.Left, (s, was) => s.DPad.IsLeft || _IsAxisPressed(-s.ThumbSticks.Left.X, was)),
+            new CRepeatingInput(Keys.Right, (s, was) => s.DPad.IsRight || _IsAxisPressed(s.ThumbSticks.Left.X, was)),
+            new CRepeatingInput(Keys.PageUp, (s, was) => _IsTriggerPressed(s.Triggers.Left, was)),
+            new CRepeatingInput(Keys.PageDown, (s, was) => _IsTriggerPressed(s.Triggers.Right, was))
+        };
 
+        private volatile int _GamePadIndex = -1;
+        private volatile bool _Active;
+        private int _LastConnectedIndex = -1;
+        private GamePadState _OldState;
         private Thread _HandlerThread;
-        private AutoResetEvent _EvTerminate;
-        private Object _Sync;
-        private bool _Active;
+        private ManualResetEvent _EvTerminate;
         private CRumbleTimer _RumbleTimer;
+
+        private float _MouseX;
+        private float _MouseY;
 
         public override string GetName()
         {
@@ -64,296 +82,468 @@ namespace Vocaluxe.Lib.Input
 
         public override bool Init()
         {
+            _StopThread();
+
             if (!base.Init())
-                return false;
-
-            _Sync = new Object();
-            _RumbleTimer = new CRumbleTimer();
-
-            _HandlerThread = new Thread(_MainLoop) {Name = "GamePad", Priority = ThreadPriority.BelowNormal};
-            _EvTerminate = new AutoResetEvent(false);
-
-            _OldButtonStates = new GamePadState();
-            return true;
-        }
-
-        public override void Close()
-        {
-            _Active = false;
-            if (_HandlerThread != null)
             {
-                //Join before freeing stuff
-                //This also ensures, that no other thread is created till the current one is terminated
-                _EvTerminate.Set();
-                _HandlerThread.Join();
-                _HandlerThread = null;
-                _EvTerminate.Dispose();
-                _EvTerminate = null;
+                return false;
             }
-            base.Close();
+
+            lock (_Sync)
+            {
+                _RumbleTimer = new CRumbleTimer();
+            }
+
+            _GamePadIndex = -1;
+            _LastConnectedIndex = -1;
+            _ResetInputState();
+
+            _MouseX = CSettings.RenderW / 2.0f;
+            _MouseY = CSettings.RenderH / 2.0f;
+
+            return true;
         }
 
         public override void Connect()
         {
-            if (_Active || _HandlerThread == null)
+            if (_Active)
+            {
                 return;
+            }
+
+            if (_HandlerThread != null)
+            {
+                if (_HandlerThread.IsAlive)
+                {
+                    Debug.WriteLine("CGamePad: Previous handler thread is still running, cannot connect.");
+                    return;
+                }
+
+                _HandlerThread = null;
+            }
+
+            if (_EvTerminate == null)
+            {
+                _EvTerminate = new ManualResetEvent(false);
+            }
+            else
+            {
+                _EvTerminate.Reset();
+            }
+
+            var evTerminate = _EvTerminate;
             _Active = true;
+            _HandlerThread = new Thread(() => _MainLoop(evTerminate))
+            {
+                Name = "GamePad",
+                Priority = ThreadPriority.BelowNormal,
+                IsBackground = true
+            };
             _HandlerThread.Start();
         }
 
         public override void Disconnect()
         {
-            Close();
+            _StopThread();
+        }
+
+        public override void Close()
+        {
+            _StopThread();
+            base.Close();
         }
 
         public override bool IsConnected()
         {
-            return _Connected;
+            return _GamePadIndex != -1;
         }
 
         public override void SetRumble(float duration)
         {
             lock (_Sync)
             {
-                _RumbleTimer.Set(duration);
+                if (_RumbleTimer != null)
+                {
+                    _RumbleTimer.Set(duration);
+                }
             }
         }
 
-        private void _MainLoop()
+        private void _StopThread()
         {
-            
-            while (_Active)
-            {
-                Thread.Sleep(5);
+            _Active = false;
 
-                if (!_Connected)
+            if (_EvTerminate != null)
+            {
+                _EvTerminate.Set();
+            }
+
+            if (_HandlerThread != null)
+            {
+                if (!_HandlerThread.Join(ThreadJoinTimeoutMs))
                 {
-                    if (!_DoConnect())
-                        _EvTerminate.WaitOne(1000);
+                    Debug.WriteLine("CGamePad: Handler thread did not terminate within timeout.");
+                    return;
                 }
-                else
+
+                _HandlerThread = null;
+            }
+
+            if (_EvTerminate != null)
+            {
+                _EvTerminate.Dispose();
+                _EvTerminate = null;
+            }
+        }
+
+        private void _MainLoop(WaitHandle evTerminate)
+        {
+            try
+            {
+                while (_Active && !evTerminate.WaitOne(PollIntervalMs))
                 {
-                    bool startRumble;
-                    bool stopRumble;
-                    lock (_Sync)
+                    if (!_EnsureConnected(evTerminate))
                     {
-                        startRumble = _RumbleTimer.ShouldStart;
-                        stopRumble = _RumbleTimer.ShouldStop;
+                        continue;
                     }
 
-                    if (startRumble)
-                        GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
-                    else if (stopRumble)
-                        GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
-
-                    _HandleButtons(GamePad.GetState(_GamePadIndex));
+                    try
+                    {
+                        _ProcessCurrentGamePad();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine("CGamePad: Exception in input loop: " + ex);
+                        _HandleDisconnect(false);
+                        evTerminate.WaitOne(ErrorBackoffMs);
+                    }
                 }
             }
-
-            GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
-
-            _GamePadIndex = -1;
+            finally
+            {
+                _StopVibration(_GamePadIndex);
+                _GamePadIndex = -1;
+            }
         }
 
-        private void _HandleButtons(GamePadState buttonStates)
+        private bool _EnsureConnected(WaitHandle evTerminate)
         {
-            bool lb = (buttonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Released);
-            bool rb = (buttonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Released);
-            lb |= (buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released);
-
-
-            var keys = new List<Keys>();
-
-            // Handle DPad
-            if (buttonStates.DPad.IsDown)
+            if (_GamePadIndex != -1)
             {
-                if (!_OldButtonStates.DPad.IsDown || _DownKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                return true;
+            }
+
+            if (_DoConnect(evTerminate))
+            {
+                return true;
+            }
+
+            evTerminate.WaitOne(ReconnectWaitMs);
+            return false;
+        }
+
+        private bool _DoConnect(WaitHandle evTerminate)
+        {
+            var index = _FindConnectedPad();
+            if (index == -1)
+            {
+                return false;
+            }
+
+            _ResetInputState();
+            _GamePadIndex = index;
+
+            var isNewPad = index != _LastConnectedIndex;
+            _LastConnectedIndex = index;
+            if (isNewPad)
+            {
+                _PlayConnectRumble(index, evTerminate);
+            }
+
+            return true;
+        }
+
+        private static int _FindConnectedPad()
+        {
+            for (var i = 0; i < MaxGamePads; i++)
+            {
+                try
                 {
-                    keys.Add(Keys.Down);
-                    _DownKeyPressTimer.Restart();
+                    if (GamePad.GetCapabilities(i).IsConnected)
+                    {
+                        return i;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("CGamePad: Failed to query capabilities for pad " + i + ": " + ex);
                 }
             }
-            else
-            {
-                _DownKeyPressTimer.Reset(); // Reset timer when button is released
-            }
 
-            if (buttonStates.DPad.IsUp)
+            return -1;
+        }
+
+        private static void _PlayConnectRumble(int index, WaitHandle evTerminate)
+        {
+            try
             {
-                if (!_OldButtonStates.DPad.IsUp || _UpKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                for (var i = 0; i < ConnectRumblePulses; i++)
                 {
-                    keys.Add(Keys.Up);
-                    _UpKeyPressTimer.Restart();
+                    GamePad.SetVibration(index, 1.0f, 1.0f);
+                    if (evTerminate.WaitOne(ConnectRumblePulseMs))
+                    {
+                        break;
+                    }
+
+                    GamePad.SetVibration(index, 0.0f, 0.0f);
+                    if (evTerminate.WaitOne(ConnectRumblePulseMs))
+                    {
+                        break;
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                _UpKeyPressTimer.Reset();
+                Debug.WriteLine("CGamePad: Failed during connect rumble sequence: " + ex);
+            }
+            finally
+            {
+                _StopVibration(index);
+            }
+        }
+
+        private void _ProcessCurrentGamePad()
+        {
+            var index = _GamePadIndex;
+            if (index == -1)
+            {
+                return;
             }
 
-            if (buttonStates.DPad.IsLeft)
+            var state = GamePad.GetState(index);
+            if (!state.IsConnected)
             {
-                if (!_OldButtonStates.DPad.IsLeft || _LeftKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Left);
-                    _LeftKeyPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _LeftKeyPressTimer.Reset();
+                _HandleDisconnect(true);
+                return;
             }
 
-            if (buttonStates.DPad.IsRight)
+            _UpdateRumble(index);
+            _HandleInput(state);
+        }
+
+        private void _UpdateRumble(int index)
+        {
+            bool startRumble;
+            bool stopRumble;
+
+            lock (_Sync)
             {
-                if (!_OldButtonStates.DPad.IsRight || _RightKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Right);
-                    _RightKeyPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _RightKeyPressTimer.Reset();
+                startRumble = _RumbleTimer != null && _RumbleTimer.ShouldStart;
+                stopRumble = _RumbleTimer != null && _RumbleTimer.ShouldStop;
             }
 
-            // Handle Left Stick
-            float deadZone = 0.8f; // Adjust dead zone as needed
+            if (startRumble)
+            {
+                GamePad.SetVibration(index, 1.0f, 1.0f);
+            }
+            else if (stopRumble)
+            {
+                GamePad.SetVibration(index, 0.0f, 0.0f);
+            }
+        }
 
-            if (buttonStates.ThumbSticks.Left.Y > deadZone)
-            {
-                if (_OldButtonStates.ThumbSticks.Left.Y <= deadZone || _LeftStickUpKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Up);
-                    _LeftStickUpKeyPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _LeftStickUpKeyPressTimer.Reset();
-            }
+        private void _HandleDisconnect(bool padRemoved)
+        {
+            _StopVibration(_GamePadIndex);
+            _GamePadIndex = -1;
 
-            if (buttonStates.ThumbSticks.Left.Y < -deadZone)
+            if (padRemoved)
             {
-                if (_OldButtonStates.ThumbSticks.Left.Y >= -deadZone || _LeftStickDownKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Down);
-                    _LeftStickDownKeyPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _LeftStickDownKeyPressTimer.Reset();
+                _LastConnectedIndex = -1;
             }
 
-            if (buttonStates.ThumbSticks.Left.X < -deadZone)
+            _ResetInputState();
+        }
+
+        private static void _StopVibration(int gamePadIndex)
+        {
+            if (gamePadIndex == -1)
             {
-                if (_OldButtonStates.ThumbSticks.Left.X >= -deadZone || _LeftStickLeftKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Left);
-                    _LeftStickLeftKeyPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _LeftStickLeftKeyPressTimer.Reset();
+                return;
             }
 
-            if (buttonStates.ThumbSticks.Left.X > deadZone)
+            try
             {
-                if (_OldButtonStates.ThumbSticks.Left.X <= deadZone || _LeftStickRightKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.Right);
-                    _LeftStickRightKeyPressTimer.Restart();
-                }
+                GamePad.SetVibration(gamePadIndex, 0.0f, 0.0f);
             }
-            else
+            catch (Exception ex)
             {
-                _LeftStickRightKeyPressTimer.Reset();
+                Debug.WriteLine("CGamePad: Failed to stop vibration: " + ex);
+            }
+        }
+
+        private void _ResetInputState()
+        {
+            _OldState = new GamePadState();
+            foreach (var input in _RepeatingInputs)
+            {
+                input.Reset();
             }
 
-            // Handle Triggers
-            if (buttonStates.Triggers.Left >= 0.8f)
+            _MouseTimer.Reset();
+        }
+
+        private void _HandleInput(GamePadState state)
+        {
+            _PendingKeys.Clear();
+
+            foreach (var input in _RepeatingInputs)
             {
-                if (_OldButtonStates.Triggers.Left < 0.8f || _LeftTriggerPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.PageUp);
-                    _LeftTriggerPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _LeftTriggerPressTimer.Reset();
+                input.Update(state, _PendingKeys);
             }
 
-            if (buttonStates.Triggers.Right >= 0.8f)
+            if (_IsNewlyPressed(state.Buttons.Start, _OldState.Buttons.Start))
             {
-                if (_OldButtonStates.Triggers.Right < 0.8f || _RightTriggerPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
-                {
-                    keys.Add(Keys.PageDown);
-                    _RightTriggerPressTimer.Restart();
-                }
-            }
-            else
-            {
-                _RightTriggerPressTimer.Reset();
+                _PendingKeys.Add(Keys.Space);
             }
 
-            // Handle other buttons
-            if (buttonStates.Buttons.Start == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Start == OpenTK.Input.ButtonState.Released)
-                keys.Add(Keys.Space);
-            else if (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released)
-                keys.Add(Keys.Enter);
-            else if (buttonStates.Buttons.B == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.B == OpenTK.Input.ButtonState.Released)
-                keys.Add(Keys.Escape);
-            else if (buttonStates.Buttons.Back == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Back == OpenTK.Input.ButtonState.Released)
-                keys.Add(Keys.Back);
+            if (_IsNewlyPressed(state.Buttons.A, _OldState.Buttons.A))
+            {
+                _PendingKeys.Add(Keys.Enter);
+            }
 
-            foreach (var key in keys)
+            if (_IsNewlyPressed(state.Buttons.B, _OldState.Buttons.B))
+            {
+                _PendingKeys.Add(Keys.Escape);
+            }
+
+            if (_IsNewlyPressed(state.Buttons.Back, _OldState.Buttons.Back))
+            {
+                _PendingKeys.Add(Keys.Back);
+            }
+
+            foreach (var key in _PendingKeys)
+            {
                 AddKeyEvent(new SKeyEvent(ESender.Gamepad, false, false, false, false, char.MinValue, key));
-
-            if (Math.Abs(buttonStates.ThumbSticks.Right.X - _OldButtonStates.ThumbSticks.Right.X) > 0.01
-                || Math.Abs(buttonStates.ThumbSticks.Right.Y - _OldButtonStates.ThumbSticks.Right.Y) > 0.01
-                || lb || rb)
-            {
-                var x = Math.Min(CSettings.RenderW, Math.Max(0, (int)(CSettings.RenderW  * (buttonStates.ThumbSticks.Right.X / 2.0 * _LimitFactor + 0.5f))));
-                var y = Math.Min(CSettings.RenderH, Math.Max(0, (int)(CSettings.RenderH  * (buttonStates.ThumbSticks.Right.Y / 2.0 * _LimitFactor * (-1) + 0.5f))));
-
-                AddMouseEvent(new SMouseEvent(ESender.Gamepad, EModifier.None, x, y, lb, false, rb, 0, false, false, false, false));
             }
-           
-            _OldButtonStates = buttonStates;
+
+            _HandleMouse(state);
+
+            _OldState = state;
         }
 
-        private bool _DoConnect()
+        private void _HandleMouse(GamePadState state)
         {
-            _GamePadIndex = -1;
-            for (int i = 0; i < 4; i++)
+            var leftClick =
+                _IsNewlyPressed(state.Buttons.LeftShoulder, _OldState.Buttons.LeftShoulder) ||
+                _IsNewlyPressed(state.Buttons.RightStick, _OldState.Buttons.RightStick);
+            var rightClick = _IsNewlyPressed(state.Buttons.RightShoulder, _OldState.Buttons.RightShoulder);
+
+            var elapsedSeconds = _MouseTimer.IsRunning ? Math.Min((float)_MouseTimer.Elapsed.TotalSeconds, MaxMouseStepSeconds) : 0.0f;
+            _MouseTimer.Restart();
+
+            var x = state.ThumbSticks.Right.X;
+            var y = state.ThumbSticks.Right.Y;
+            _ApplyRadialDeadZone(ref x, ref y);
+
+            var oldX = (int)_MouseX;
+            var oldY = (int)_MouseY;
+
+            var step = MouseSpeedPxPerSecond * elapsedSeconds;
+            _MouseX = _Clamp(_MouseX + x * step, 0.0f, CSettings.RenderW - 1);
+            _MouseY = _Clamp(_MouseY - y * step, 0.0f, CSettings.RenderH - 1);
+
+            var moved = (int)_MouseX != oldX || (int)_MouseY != oldY;
+            if (!moved && !leftClick && !rightClick)
             {
-                if (GamePad.GetCapabilities(i).IsConnected)
+                return;
+            }
+
+            AddMouseEvent(new SMouseEvent(ESender.Gamepad, EModifier.None, (int)_MouseX, (int)_MouseY, leftClick, false, rightClick, 0, false, false, false, false));
+        }
+
+        private static void _ApplyRadialDeadZone(ref float x, ref float y)
+        {
+            var length = (float)Math.Sqrt(x * x + y * y);
+            if (length < RightStickDeadZone)
+            {
+                x = 0.0f;
+                y = 0.0f;
+                return;
+            }
+
+            var scaledLength = (Math.Min(length, 1.0f) - RightStickDeadZone) / (1.0f - RightStickDeadZone);
+            var factor = scaledLength / length;
+            x *= factor;
+            y *= factor;
+        }
+
+        private static float _Clamp(float value, float min, float max)
+        {
+            return Math.Max(min, Math.Min(max, value));
+        }
+
+        private static bool _IsNewlyPressed(ButtonState now, ButtonState old)
+        {
+            return now == ButtonState.Pressed && old == ButtonState.Released;
+        }
+
+        private static bool _IsAxisPressed(float value, bool wasPressed)
+        {
+            return value > (wasPressed ? StickReleaseThreshold : StickPressThreshold);
+        }
+
+        private static bool _IsTriggerPressed(float value, bool wasPressed)
+        {
+            return value >= (wasPressed ? TriggerReleaseThreshold : TriggerPressThreshold);
+        }
+
+        private sealed class CRepeatingInput
+        {
+            private readonly Keys _Key;
+            private readonly Func<GamePadState, bool, bool> _IsPressed;
+            private readonly Stopwatch _Timer = new Stopwatch();
+            private bool _Pressed;
+            private bool _Repeating;
+
+            public CRepeatingInput(Keys key, Func<GamePadState, bool, bool> isPressed)
+            {
+                _Key = key;
+                _IsPressed = isPressed;
+            }
+
+            public void Update(GamePadState state, ICollection<Keys> keys)
+            {
+                if (!_IsPressed(state, _Pressed))
                 {
-                    _GamePadIndex = i;
-                    break;
+                    Reset();
+                    return;
+                }
+
+                if (!_Pressed)
+                {
+                    keys.Add(_Key);
+                    _Pressed = true;
+                    _Repeating = false;
+                    _Timer.Restart();
+                    return;
+                }
+
+                var delay = _Repeating ? KeyRepeatDelayMs : InitialRepeatDelayMs;
+                if (_Timer.ElapsedMilliseconds >= delay)
+                {
+                    keys.Add(_Key);
+                    _Repeating = true;
+                    _Timer.Restart();
                 }
             }
 
-
-            GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
-            Thread.Sleep(125);
-            GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
-            Thread.Sleep(125);
-            GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
-            Thread.Sleep(125);
-            GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
-            Thread.Sleep(125);
-            GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
-            Thread.Sleep(125);
-            GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
-          
-
-            return _GamePadIndex != -1;
+            public void Reset()
+            {
+                _Pressed = false;
+                _Repeating = false;
+                _Timer.Reset();
+            }
         }
-
-        
     }
 }

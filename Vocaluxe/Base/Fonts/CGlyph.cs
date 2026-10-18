@@ -39,21 +39,21 @@ namespace Vocaluxe.Base.Fonts
         public CGlyph(char chr, CFontStyle fontStyle, float maxHeight)
         {
             MaxHeight = maxHeight;
-            float outlineSize = fontStyle.Outline * maxHeight;
-            string chrString = chr.ToString();
+            var outlineSize = fontStyle.Outline * maxHeight;
+            var chrString = chr.ToString();
 
-            Font fo = fontStyle.GetSystemFont(maxHeight);
+            var fo = fontStyle.GetSystemFont(maxHeight);
             SizeF fullSize;
             Size bmpSize;
-            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            using (var g = Graphics.FromHwnd(IntPtr.Zero))
             {
                 fullSize = g.MeasureString(chrString, fo);
                 if (chr != ' ')
                 {
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
                     //See https://stackoverflow.com/questions/11708621/how-to-measure-width-of-a-string-precisely
-                    StringFormat format = StringFormat.GenericTypographic;
-                    RectangleF rect = new RectangleF(0, 0, 2000, 2000);
+                    var format = StringFormat.GenericTypographic;
+                    var rect = new RectangleF(0, 0, 2000, 2000);
                     CharacterRange[] ranges = { new CharacterRange(0, chrString.Length) };
                     format.SetMeasurableCharacterRanges(ranges);
                     _BoundingBox = g.MeasureCharacterRanges(chrString, fo, rect, format)[0].GetBounds(g).Size;
@@ -61,7 +61,10 @@ namespace Vocaluxe.Base.Fonts
                     // ReSharper disable CompareOfFloatsByEqualityOperator
                     if (_BoundingBox.Height == 0)
                         // ReSharper restore CompareOfFloatsByEqualityOperator
+                    {
                         _BoundingBox.Height = fullSize.Height;
+                    }
+
                     _BoundingBox.Width += outlineSize / 2;
                     _BoundingBox.Height += outlineSize;
                     fullSize.Width += outlineSize;
@@ -74,8 +77,9 @@ namespace Vocaluxe.Base.Fonts
                     bmpSize = new Size(1, 1);
                 }
             }
+
             using (var bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
-            using (Graphics g = Graphics.FromImage(bmp))
+            using (var g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.Transparent);
 
@@ -95,7 +99,7 @@ namespace Vocaluxe.Base.Fonts
                     using (var path = new GraphicsPath())
                     {
                         //Have to use size in em not pixels!
-                        float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
+                        var emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
                         path.AddString(chrString, fo.FontFamily, (int)fo.Style, emSize, point, new StringFormat());
 
                         using (var pen = new Pen(fontStyle.OutlineColor.AsColor(), outlineSize))
@@ -105,10 +109,11 @@ namespace Vocaluxe.Base.Fonts
                             g.FillPath(Brushes.White, path);
                         }
                     }
+
                     _DrawBounding = _GetRealBounds(bmp);
-                    using (Bitmap bmpCropped = bmp.Clone(_DrawBounding, PixelFormat.Format32bppArgb))
+                    using (var bmpCropped = bmp.Clone(_DrawBounding, PixelFormat.Format32bppArgb))
                     {
-                        float dx = (fullSize.Width - _BoundingBox.Width - 1) / 2;
+                        var dx = (fullSize.Width - _BoundingBox.Width - 1) / 2;
                         _DrawBounding.X -= dx;
                         _Texture = CDraw.AddTexture(bmpCropped);
                         /*_DrawBounding.X *= _Texture.Width / _DrawBounding.Width;
@@ -152,27 +157,27 @@ namespace Vocaluxe.Base.Fonts
         public void GetTextureAndRect(float fontHeight, float x, float y, float z, out CTextureRef texture, out SRectF rect)
         {
             texture = _Texture;
-            float factor = _GetFactor(fontHeight);
+            var factor = _GetFactor(fontHeight);
             x += _DrawBounding.X * factor;
             y += _DrawBounding.Y * factor;
-            float h = _DrawBounding.Height * factor;
-            float w = _DrawBounding.Width * factor;
+            var h = _DrawBounding.Height * factor;
+            var w = _DrawBounding.Width * factor;
             rect = new SRectF(x, y, w, h, z);
         }
 
         private static Rectangle _GetRealBounds(Bitmap bmp)
         {
             int minX = 0, maxX = bmp.Width - 1, minY = 0;
-            BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            int values = bmpData.Width * bmp.Height;
+            var bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            var values = bmpData.Width * bmp.Height;
             var rgbValues = new Int32[values];
             Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
-            int index = 0;
-            bool found = false;
+            var index = 0;
+            var found = false;
             //find from top
-            for (int y = 0; y < bmp.Height && !found; y++)
+            for (var y = 0; y < bmp.Height && !found; y++)
             {
-                for (int x = 0; x < bmp.Width; x++)
+                for (var x = 0; x < bmp.Width; x++)
                 {
                     if (rgbValues[index] != 0)
                     {
@@ -182,15 +187,17 @@ namespace Vocaluxe.Base.Fonts
                         found = true;
                         break;
                     }
+
                     index++;
                 }
             }
+
             found = false;
             //find left
-            for (int x = 0; x < minX && !found; x++)
+            for (var x = 0; x < minX && !found; x++)
             {
                 index = x + minY * bmp.Width;
-                for (int y = minY; y < bmp.Height; y++)
+                for (var y = minY; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {
@@ -198,15 +205,17 @@ namespace Vocaluxe.Base.Fonts
                         minX = x;
                         break;
                     }
+
                     index += bmp.Width;
                 }
             }
+
             found = false;
             //find right
-            for (int x = bmp.Width - 1; x > maxX && !found; x--)
+            for (var x = bmp.Width - 1; x > maxX && !found; x--)
             {
                 index = x + minY * bmp.Width;
-                for (int y = minY; y < bmp.Height; y++)
+                for (var y = minY; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {
@@ -214,6 +223,7 @@ namespace Vocaluxe.Base.Fonts
                         maxX = x;
                         break;
                     }
+
                     index += bmp.Width;
                 }
             }
@@ -222,13 +232,21 @@ namespace Vocaluxe.Base.Fonts
             const int d = 4;
             minX = minX - d;
             if (minX < 0)
+            {
                 minX = 0;
+            }
+
             minY = minY - d;
             if (minY < 0)
+            {
                 minY = 0;
+            }
+
             maxX = maxX + d;
             if (maxX > bmp.Width)
+            {
                 maxX = bmp.Width;
+            }
 
             return new Rectangle(minX, minY, maxX - minX, bmp.Height - minY);
         }

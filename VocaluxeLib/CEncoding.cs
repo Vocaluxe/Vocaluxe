@@ -42,13 +42,17 @@ namespace VocaluxeLib
 
         public static string GetEncodingName(this Encoding enc)
         {
-            string result = "UTF8";
+            var result = "UTF8";
 
             if (enc.CodePage == 1250)
+            {
                 result = "CP1250";
+            }
 
             if (enc.CodePage == 1252)
+            {
                 result = "CP1252";
+            }
 
             return result;
         }

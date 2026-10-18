@@ -1,0 +1,9 @@
+ScreenOptionsServer
+
+++++++++++
+Version 1:
+
+Add Server Options:
+<SelectSlideServerActive>
+<SelectSlideServerEncryption>
+<ButtonServer>

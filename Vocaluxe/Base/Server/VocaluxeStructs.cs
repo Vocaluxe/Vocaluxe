@@ -83,9 +83,9 @@ namespace Vocaluxe.Base.Server
 
         public CBase64Image(Image img, ImageFormat format)
         {
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             img.Save(ms, format);
-            string formatString = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.FormatID == format.Guid).FilenameExtension.Replace("*.", "").ToLower();
+            var formatString = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.FormatID == format.Guid).FilenameExtension.Replace("*.", "").ToLower();
             base64Data = "data:image/" + formatString + ";base64," + Convert.ToBase64String(ms.ToArray());
         }
 
@@ -96,17 +96,17 @@ namespace Vocaluxe.Base.Server
 
         public Image GetImage()
         {
-            string onlyBase64Data = base64Data.Substring(base64Data.IndexOf(";base64,") + (";base64,").Length);
-            byte[] imageData = Convert.FromBase64String(onlyBase64Data);
-            MemoryStream ms = new MemoryStream(imageData, 0, imageData.Length);
+            var onlyBase64Data = base64Data.Substring(base64Data.IndexOf(";base64,") + ";base64,".Length);
+            var imageData = Convert.FromBase64String(onlyBase64Data);
+            var ms = new MemoryStream(imageData, 0, imageData.Length);
             ms.Write(imageData, 0, imageData.Length);
-            Image image = Image.FromStream(ms, true);
+            var image = Image.FromStream(ms, true);
             return image;
         }
 
         public string GetImageType()
         {
-            Match match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
+            var match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
             return match.Success ? match.Groups[0].Value : "";
         }
     }

@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using PortAudioSharp;
-using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound
@@ -49,8 +48,11 @@ namespace Vocaluxe.Lib.Sound
                 if (_RefCount == 0)
                 {
                     if (CheckError("Initialize", PortAudio.Pa_Initialize()))
+                    {
                         throw new Exception();
+                    }
                 }
+
                 _RefCount++;
             }
         }
@@ -63,22 +65,41 @@ namespace Vocaluxe.Lib.Sound
         private void _Dispose(bool disposing)
         {
             if (_Disposed)
-                return;
-            if (!disposing)
-                CLog.Debug("Did not close CPortAudioHandle");
-            //Make sure we do not leek any streams as we may keep PA open
-            if (_Streams.Count > 0)
             {
-                CLog.Debug("Did not close " + _Streams.Count + "PortAudio-Stream(s)");
-                while (_Streams.Count > 0)
-                    CloseStream(_Streams[0]);
+                return;
             }
+
+            if (!disposing)
+            {
+                CLog.Debug("Did not close CPortAudioHandle");
+            }
+
+            IntPtr[] streamsToClose;
+            lock (_Mutex)
+            {
+                streamsToClose = _Streams.ToArray();
+            }
+
+            if (streamsToClose.Length > 0)
+            {
+                CLog.Debug("Did not close " + streamsToClose.Length + " PortAudio-Stream(s)");
+            }
+
+            foreach (var stream in streamsToClose)
+            {
+                CloseStream(stream);
+            }
+
             lock (_Mutex)
             {
                 if (_Disposed)
+                {
                     return;
+                }
+
                 Debug.Assert(_RefCount > 0);
                 _RefCount--;
+
                 if (_RefCount == 0)
                 {
                     try
@@ -90,6 +111,7 @@ namespace Vocaluxe.Lib.Sound
                         CLog.Error(ex, "Error disposing PortAudio");
                     }
                 }
+
                 _Disposed = true;
             }
         }
@@ -109,18 +131,23 @@ namespace Vocaluxe.Lib.Sound
         }
 
         public PortAudio.PaError OpenStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters, ref PortAudio.PaStreamParameters? outputParameters,
-                                            double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                            PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+            double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+            PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             lock (_Mutex)
             {
                 if (_Disposed)
+                {
                     throw new ObjectDisposedException("PortAudioHandle already disposed");
+                }
 
-                PortAudio.PaError res = PortAudio.Pa_OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback,
-                                                                userData);
+                var res = PortAudio.Pa_OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback,
+                    userData);
                 if (res == PortAudio.PaError.paNoError)
+                {
                     _Streams.Add(stream);
+                }
+
                 return res;
             }
         }
@@ -137,13 +164,13 @@ namespace Vocaluxe.Lib.Sound
         /// <param name="userData"></param>
         /// <returns>True on success</returns>
         public bool OpenInputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters,
-                                    double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                    PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+            double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+            PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             PortAudio.PaStreamParameters? outputParameters = null;
             return
                 !CheckError("OpenInputStream",
-                            OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
+                    OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
         }
 
         /// <summary>
@@ -158,13 +185,13 @@ namespace Vocaluxe.Lib.Sound
         /// <param name="userData"></param>
         /// <returns>True on success</returns>
         public bool OpenOutputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? outputParameters,
-                                     double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                     PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+            double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+            PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             PortAudio.PaStreamParameters? inputParameters = null;
             return
                 !CheckError("OpenOutputStream",
-                            OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
+                    OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
         }
 
         public void CloseStream(IntPtr stream)
@@ -172,22 +199,57 @@ namespace Vocaluxe.Lib.Sound
             lock (_Mutex)
             {
                 if (_Disposed)
-                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+                {
+                    return;
+                }
+
+                if (stream == IntPtr.Zero)
+                {
+                    CLog.Debug("Stream is null, skipping close.");
+                    return;
+                }
+
+                var wasTracked = _Streams.Remove(stream);
+                if (!wasTracked)
+                {
+                    CLog.Debug("Stream was already removed or never tracked, skipping duplicate close.");
+                    return;
+                }
 
                 try
                 {
-                    if (stream == IntPtr.Zero)
+                    try
                     {
-                         CLog.Debug("Stream is null, skipping close.");
-                         return;
+                        var isStoppedResult = PortAudio.Pa_IsStreamStopped(stream);
+                        if (isStoppedResult == PortAudio.PaError.paStreamIsNotStopped)
+                        {
+                            var stopResult = PortAudio.Pa_StopStream(stream);
+                            if (stopResult != PortAudio.PaError.paNoError &&
+                                stopResult != PortAudio.PaError.paStreamIsStopped)
+                            {
+                                CLog.Error("StopStream before close failed: " + PortAudio.Pa_GetErrorText(stopResult));
+                            }
+                        }
                     }
-                    PortAudio.Pa_CloseStream(stream);
+                    catch (Exception ex)
+                    {
+                        CLog.Error(ex, "Error stopping stream before close:");
+                    }
+
+                    var closeResult = PortAudio.Pa_CloseStream(stream);
+                    if (closeResult != PortAudio.PaError.paNoError)
+                    {
+                        CLog.Error("CloseStream error: " + PortAudio.Pa_GetErrorText(closeResult));
+                    }
+                }
+                catch (AccessViolationException ex)
+                {
+                    CLog.Error(ex, "Access violation while closing PortAudio stream.");
                 }
                 catch (Exception ex)
                 {
                     CLog.Error(ex, "Error closing stream:");
                 }
-                _Streams.Remove(stream);
             }
         }
 
@@ -201,18 +263,21 @@ namespace Vocaluxe.Lib.Sound
         public bool CheckError(String action, PortAudio.PaError errorCode)
         {
             if (_Disposed)
+            {
                 throw new ObjectDisposedException("PortAudioHandle already disposed");
+            }
 
             if (errorCode != PortAudio.PaError.paNoError)
             {
                 CLog.Error(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
                 if (errorCode == PortAudio.PaError.paUnanticipatedHostError)
                 {
-                    PortAudio.PaHostErrorInfo errorInfo = PortAudio.Pa_GetLastHostErrorInfo();
+                    var errorInfo = PortAudio.Pa_GetLastHostErrorInfo();
                     CLog.Error("- Host error API type: " + errorInfo.hostApiType);
                     CLog.Error("- Host error code: " + errorInfo.errorCode);
                     CLog.Error("- Host error text: " + errorInfo.errorText);
                 }
+
                 return true;
             }
 
@@ -226,17 +291,22 @@ namespace Vocaluxe.Lib.Sound
         public int GetHostApi()
         {
             if (_Disposed)
-                throw new ObjectDisposedException("PortAudioHandle already disposed");
-
-            int selectedHostApi = PortAudio.Pa_GetDefaultHostApi();
-            int apiCount = PortAudio.Pa_GetHostApiCount();
-            for (int i = 0; i < apiCount; i++)
             {
-                PortAudio.PaHostApiInfo apiInfo = PortAudio.Pa_GetHostApiInfo(i);
-                if ((apiInfo.type == PortAudio.PaHostApiTypeId.paDirectSound)
-                    || (apiInfo.type == PortAudio.PaHostApiTypeId.paALSA))
-                    selectedHostApi = i;
+                throw new ObjectDisposedException("PortAudioHandle already disposed");
             }
+
+            var selectedHostApi = PortAudio.Pa_GetDefaultHostApi();
+            var apiCount = PortAudio.Pa_GetHostApiCount();
+            for (var i = 0; i < apiCount; i++)
+            {
+                var apiInfo = PortAudio.Pa_GetHostApiInfo(i);
+                if (apiInfo.type == PortAudio.PaHostApiTypeId.paDirectSound
+                    || apiInfo.type == PortAudio.PaHostApiTypeId.paALSA)
+                {
+                    selectedHostApi = i;
+                }
+            }
+
             return selectedHostApi;
         }
     }

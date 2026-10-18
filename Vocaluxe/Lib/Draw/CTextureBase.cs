@@ -74,23 +74,35 @@ namespace Vocaluxe.Lib.Draw
         private void _CalcRatios()
         {
             if (_DataSize.Width == Size.Width)
+            {
                 WidthRatio = 1f;
+            }
             else
+            {
                 WidthRatio = (float)_DataSize.Width / Size.Width;
+            }
+
             if (_DataSize.Height == Size.Height)
+            {
                 HeightRatio = 1f;
+            }
             else
+            {
                 HeightRatio = (float)_DataSize.Height / Size.Height;
+            }
         }
 
-        private bool _IsDisposed;
+        protected bool IsDisposed { get; private set; }
 
         public virtual void Dispose()
         {
-            if (_IsDisposed)
-                throw new ObjectDisposedException(GetType().Name);
+            if (IsDisposed)
+            {
+                return;
+            }
+
             RefCount = 0;
-            _IsDisposed = true;
+            IsDisposed = true;
         }
     }
 }

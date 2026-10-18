@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
@@ -24,7 +25,8 @@ namespace VocaluxeLib.Menu
     [XmlType("Button")]
     public struct SThemeButton
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string Skin;
         public string SkinSelected;
@@ -40,7 +42,7 @@ namespace VocaluxeLib.Menu
     public sealed class CButton : CMenuElementBase, IMenuElement, IThemeable
     {
         private SThemeButton _Theme;
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
 
         public CTextureRef Texture;
         public CTextureRef SelTexture;
@@ -67,14 +69,23 @@ namespace VocaluxeLib.Menu
             {
                 Text.EditMode = value;
                 if (_SelText != null)
+                {
                     _SelText.EditMode = value;
+                }
             }
         }
+
+        private readonly Stopwatch _SelectTimer = new Stopwatch();
 
         public override bool Selected
         {
             set
             {
+                if (value && !base.Selected)
+                {
+                    _SelectTimer.Restart();
+                }
+
                 base.Selected = value;
                 Text.Selected = value;
             }
@@ -88,7 +99,9 @@ namespace VocaluxeLib.Menu
             {
                 _Selectable = value;
                 if (!_Selectable)
+                {
                     Selected = false;
+                }
             }
         }
 
@@ -99,22 +112,22 @@ namespace VocaluxeLib.Menu
 
         public bool ThemeLoaded { get; private set; }
 
-        public CButton(int partyModeID)
+        public CButton(int partyModeId)
         {
-            _PartyModeID = partyModeID;
-            Text = new CText(_PartyModeID);
-            _SelText = new CText(_PartyModeID);
+            _PartyModeId = partyModeId;
+            Text = new CText(_PartyModeId);
+            _SelText = new CText(_PartyModeId);
             Selected = false;
             EditMode = false;
         }
 
-        public CButton(SThemeButton theme, int partyModeID, bool buttonText = false)
+        public CButton(SThemeButton theme, int partyModeId, bool buttonText = false)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
-            Text = new CText(_Theme.Text, _PartyModeID, buttonText);
-            _SelText = _Theme.SelText.HasValue ? new CText(_Theme.SelText.Value, _PartyModeID, buttonText) : null;
+            Text = new CText(_Theme.Text, _PartyModeId, buttonText);
+            _SelText = _Theme.SelText.HasValue ? new CText(_Theme.SelText.Value, _PartyModeId, buttonText) : null;
 
             Selected = false;
             EditMode = false;
@@ -124,12 +137,12 @@ namespace VocaluxeLib.Menu
 
         public CButton(CButton button)
         {
-            _PartyModeID = button._PartyModeID;
+            _PartyModeId = button._PartyModeId;
             _Theme = new SThemeButton
-                {
-                    Skin = button._Theme.Skin,
-                    SkinSelected = button._Theme.SkinSelected
-                };
+            {
+                Skin = button._Theme.Skin,
+                SkinSelected = button._Theme.SkinSelected
+            };
 
             MaxRect = button.MaxRect;
             Color = button.Color;
@@ -156,21 +169,59 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Text = (SThemeText)Text.GetTheme();
             if (_SelText == null)
+            {
                 _Theme.SelText = null;
+            }
             else
+            {
                 _Theme.SelText = (SThemeText)_SelText.GetTheme();
+            }
         }
 
         public void Draw()
         {
+            var scale = _GetSelectionScale();
+            if (scale > 1f)
+            {
+                CBase.Drawing.PushTransform(scale, Rect.X + Rect.W / 2f, Rect.Y + Rect.H / 2f, 0f, 1f);
+                _DrawButton();
+                CBase.Drawing.PopTransform();
+            }
+            else
+            {
+                _DrawButton();
+            }
+        }
+
+        private float _GetSelectionScale()
+        {
+            if (!Selected || !_Selectable || !_SelectTimer.IsRunning || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            {
+                return 1f;
+            }
+
+            var progress = _SelectTimer.ElapsedMilliseconds / 450f;
+            if (progress >= 1f)
+            {
+                _SelectTimer.Stop();
+                return 1f;
+            }
+
+            return 1f + 0.025f * (float)Math.Sin(Math.PI * progress);
+        }
+
+        private void _DrawButton()
+        {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
+            {
                 return;
+            }
 
             CTextureRef texture;
 
             if (!Selected && !Pressed || !_Selectable)
             {
-                texture = Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
+                texture = Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId);
 
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
 
@@ -180,11 +231,13 @@ namespace VocaluxeLib.Menu
                     Text.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
+                {
                     Text.DrawRelative(Rect.X, Rect.Y);
+                }
             }
             else if (_SelText == null)
             {
-                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeId);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -194,11 +247,13 @@ namespace VocaluxeLib.Menu
                     Text.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
+                {
                     Text.DrawRelative(Rect.X, Rect.Y);
+                }
             }
             else
             {
-                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeId);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -208,33 +263,41 @@ namespace VocaluxeLib.Menu
                     _SelText.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
+                {
                     _SelText.DrawRelative(Rect.X, Rect.Y);
+                }
             }
         }
 
         public void UnloadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
+            }
+
             Text.UnloadSkin();
         }
 
         public void LoadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
-            Text = new CText(_Theme.Text, _PartyModeID);
+            }
+
+            Text = new CText(_Theme.Text, _PartyModeId);
             Text.LoadSkin();
             Text.Selected = Selected;
 
             if (_Theme.SelText.HasValue)
             {
-                _SelText = new CText(_Theme.SelText.Value, _PartyModeID);
+                _SelText = new CText(_Theme.SelText.Value, _PartyModeId);
                 _SelText.LoadSkin();
             }
 
-            _Theme.Color.Get(_PartyModeID, out Color);
-            _Theme.SelColor.Get(_PartyModeID, out SelColor);
+            _Theme.Color.Get(_PartyModeId, out Color);
+            _Theme.SelColor.Get(_PartyModeId, out SelColor);
 
             MaxRect = _Theme.Rect;
 
@@ -255,7 +318,9 @@ namespace VocaluxeLib.Menu
             }
 
             if (_Theme.Rect.Z < Text.Z)
+            {
                 Text.Z = _Theme.Rect.Z;
+            }
         }
 
         public void ReloadSkin()
@@ -284,11 +349,15 @@ namespace VocaluxeLib.Menu
         {
             W += stepW;
             if (W <= 0)
+            {
                 W = 1;
+            }
 
             H += stepH;
             if (H <= 0)
+            {
                 H = 1;
+            }
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;

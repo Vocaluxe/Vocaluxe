@@ -19,12 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
-using System.Linq;
 using VocaluxeLib.Log;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -40,14 +40,15 @@ namespace Vocaluxe.Base.ThemeSystem
 
         protected struct SRequiredElements
         {
-            [XmlIgnore] public List<string> Textures, Videos, Colors;
+            [XmlIgnore]
+            public List<string> Textures, Videos, Colors;
             [XmlElement("Textures")]
             public string TexturesStr
             {
                 get { return string.Join("\r\n", Textures); }
                 set
                 {
-                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    var entries = value.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     Textures = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
                 }
             }
@@ -57,7 +58,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 get { return string.Join("\r\n", Videos); }
                 set
                 {
-                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    var entries = value.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     Videos = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
                 }
             }
@@ -67,7 +68,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 get { return string.Join("\r\n", Colors); }
                 set
                 {
-                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    var entries = value.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                     Colors = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
                 }
             }
@@ -92,7 +93,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static bool InitRequiredElements()
         {
-            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameRequiredSkinElements);
+            var path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameRequiredSkinElements);
             var xml = new CXmlDeserializer();
             try
             {
@@ -103,19 +104,26 @@ namespace Vocaluxe.Base.ThemeSystem
                 CLog.Error("Error reading required elements: " + e);
                 return false;
             }
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+
+            for (var i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
-                string name = "Player" + i;
+                var name = "Player" + i;
                 if (!_Required.Colors.Contains(name))
+                {
                     _Required.Colors.Add(name);
+                }
             }
+
             return true;
         }
 
         public static void Close()
         {
             if (_Required.Textures == null)
+            {
                 return;
+            }
+
             _Required.Textures.Clear();
             _Required.Videos.Clear();
             _Required.Colors.Clear();
@@ -141,7 +149,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 _Data = xml.Deserialize<SSkin>(Path.Combine(_Folder, _FileName));
                 if (_Data.SkinSystemVersion != _SkinSystemVersion)
                 {
-                    string errorMsg = _Data.SkinSystemVersion < _SkinSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
+                    var errorMsg = _Data.SkinSystemVersion < _SkinSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
                     errorMsg += " Current Version is " + _SkinSystemVersion;
                     throw new Exception(errorMsg);
                 }
@@ -158,30 +166,35 @@ namespace Vocaluxe.Base.ThemeSystem
         public virtual bool Load()
         {
             if (_IsLoaded)
+            {
                 return true;
+            }
+
             Debug.Assert(_Textures.Count == 0 && _Videos.Count == 0);
 
             // load skins/textures
-            foreach (KeyValuePair<string, string> kvp in _Data.Skins)
+            foreach (var kvp in _Data.Skins)
             {
-                CTextureRef texture = CDraw.AddTexture(Path.Combine(_Folder, kvp.Value));
+                var texture = CDraw.AddTexture(Path.Combine(_Folder, kvp.Value));
                 if (texture == null)
                 {
                     CLog.Error("Error on loading texture \"" + kvp.Key + "\": " + kvp.Value, true);
                     return false;
                 }
+
                 _Textures.Add(kvp.Key, texture);
             }
 
             // load videos
-            foreach (KeyValuePair<string, string> kvp in _Data.Videos)
+            foreach (var kvp in _Data.Videos)
             {
-                CVideoSkinElement sk = new CVideoSkinElement {FileName = kvp.Value};
+                var sk = new CVideoSkinElement { FileName = kvp.Value };
                 if (!File.Exists(Path.Combine(_Folder, sk.FileName)))
                 {
                     CLog.Error("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!");
                     continue;
                 }
+
                 _Videos.Add(kvp.Key, sk);
             }
 
@@ -191,11 +204,15 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public void Unload()
         {
-            foreach (CTextureRef tex in _Textures.Values)
+            foreach (var tex in _Textures.Values)
+            {
                 tex.Dispose();
+            }
 
-            foreach (CVideoSkinElement vsk in _Videos.Values)
+            foreach (var vsk in _Videos.Values)
+            {
                 CVideo.Close(ref vsk.VideoStream);
+            }
 
             _Textures.Clear();
             _Videos.Clear();
@@ -218,8 +235,10 @@ namespace Vocaluxe.Base.ThemeSystem
                     sk.VideoStream = CVideo.Load(Path.Combine(_Folder, sk.FileName));
                     CVideo.SetLoop(sk.VideoStream, loop);
                 }
+
                 return sk.VideoStream;
             }
+
             return null;
         }
 

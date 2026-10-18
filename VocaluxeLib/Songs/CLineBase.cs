@@ -27,12 +27,12 @@ namespace VocaluxeLib.Songs
         #region Properties
         public int FirstNoteBeat
         {
-            get { return (NoteCount == 0) ? int.MaxValue : _Notes[0].StartBeat; }
+            get { return NoteCount == 0 ? int.MaxValue : _Notes[0].StartBeat; }
         }
 
         public int LastNoteBeat
         {
-            get { return (NoteCount == 0) ? int.MinValue : _Notes[NoteCount - 1].EndBeat; }
+            get { return NoteCount == 0 ? int.MinValue : _Notes[NoteCount - 1].EndBeat; }
         }
 
         public int NoteCount
@@ -64,9 +64,12 @@ namespace VocaluxeLib.Songs
             get
             {
                 if (_Notes.Count == 0)
+                {
                     return 0;
-                int min = _Notes.Min(note => note.Tone);
-                int max = _Notes.Max(note => note.Tone);
+                }
+
+                var min = _Notes.Min(note => note.Tone);
+                var max = _Notes.Max(note => note.Tone);
 
                 return min - (max - min) / 4;
             }
@@ -83,35 +86,52 @@ namespace VocaluxeLib.Songs
         {
             //If no notes -> No previous note
             if (_Notes.Count == 0)
+            {
                 return -1;
-            int start = 0;
-            int end = _Notes.Count - 1;
+            }
+
+            var start = 0;
+            var end = _Notes.Count - 1;
             //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
             if (_Notes[0].StartBeat > beat)
+            {
                 return -1;
+            }
+
             if (_Notes[end].StartBeat <= beat)
+            {
                 return end;
+            }
+
             //Binary search
             while (end - start > 1)
             {
-                int mid = (start + end) / 2;
+                var mid = (start + end) / 2;
                 if (_Notes[mid].StartBeat <= beat)
+                {
                     start = mid;
+                }
                 else
+                {
                     end = mid;
+                }
             }
+
             return start;
         }
 
         public virtual bool AddNote(T note)
         {
             if (_Notes.Count == 0)
+            {
                 _Notes.Add(note);
+            }
             else
             {
-                int insPos = FindPreviousNote(note.StartBeat);
+                var insPos = FindPreviousNote(note.StartBeat);
                 _Notes.Insert(insPos + 1, note);
             }
+
             return true;
         }
 
@@ -122,6 +142,7 @@ namespace VocaluxeLib.Songs
                 _Notes.RemoveAt(index);
                 return true;
             }
+
             return false;
         }
 
@@ -132,13 +153,16 @@ namespace VocaluxeLib.Songs
                 _Notes.RemoveAt(index);
                 return AddNote(note);
             }
+
             return false;
         }
 
         public void IncLastNoteLength()
         {
             if (_Notes.Count > 0)
+            {
                 _Notes[NoteCount - 1].Duration++;
+            }
         }
 
         public void DeleteAllNotes()

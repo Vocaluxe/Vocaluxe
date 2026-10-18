@@ -34,7 +34,9 @@ namespace VocaluxeLib.Menu
             _HtIndex = new Dictionary<String, int>();
             _ParentName = parent.GetType().Name;
             if (_ParentName[0] == 'C' && Char.IsUpper(_ParentName[1]))
+            {
                 _ParentName = _ParentName.Remove(0, 1);
+            }
         }
 
         public int Count
@@ -70,14 +72,19 @@ namespace VocaluxeLib.Menu
                     _Items.Add(value);
                 }
                 else
+                {
                     _Items[_HtIndex[key]] = value;
+                }
             }
         }
 
         public int Add(T item, String key = null)
         {
             if (key != null)
+            {
                 _HtIndex.Add(key, _Items.Count);
+            }
+
             _Items.Add(item);
             return _Items.Count - 1;
         }

@@ -1,6 +1,15 @@
 ScreenOptions
 
 ++++++++++
+Version 4:
+(2026 Mar 28)
+
+Add:
+Grahpics Button
+Server Button
+Song Folder Button
+
+++++++++++
 Version 3:
 (2025 Jan 13)
 

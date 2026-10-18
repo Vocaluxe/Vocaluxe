@@ -15,8 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using VocaluxeLib.Xml;
-
 namespace VocaluxeLib.Menu
 {
     public interface IThemeable

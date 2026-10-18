@@ -87,11 +87,11 @@ namespace Vocaluxe.Lib.Draw
 
         private void _DrawBuffer()
         {
-            Graphics frontBuffer = Graphics.FromHwnd(Handle);
-            int h = ClientSize.Height;
-            int w = ClientSize.Width;
-            int y = 0;
-            int x = 0;
+            var frontBuffer = Graphics.FromHwnd(Handle);
+            var h = ClientSize.Height;
+            var w = ClientSize.Width;
+            var y = 0;
+            var x = 0;
 
             if (ClientSize.Width / (float)ClientSize.Height > CSettings.GetRenderAspect())
             {
@@ -111,9 +111,13 @@ namespace Vocaluxe.Lib.Draw
         private void _ToggleFullScreen()
         {
             if (!_Fullscreen)
+            {
                 _Maximize(this);
+            }
             else
+            {
                 _Restore(this);
+            }
         }
 
         private void _Maximize(Form targetForm)
@@ -146,7 +150,7 @@ namespace Vocaluxe.Lib.Draw
 
         private void _OnResizeEvent(object sender, EventArgs e)
         {
-            Graphics frontBuffer = Graphics.FromHwnd(Handle);
+            var frontBuffer = Graphics.FromHwnd(Handle);
             frontBuffer.Clear(Color.Black);
         }
 
@@ -172,6 +176,7 @@ namespace Vocaluxe.Lib.Draw
                             base.WndProc(ref m);
                             break;
                     }
+
                     break;
                 default:
                     base.WndProc(ref m);
@@ -220,11 +225,13 @@ namespace Vocaluxe.Lib.Draw
         public void MainLoop()
         {
             _Run = true;
-            int delay = 0;
+            var delay = 0;
             Show();
 
             if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON)
+            {
                 _Maximize(this);
+            }
 
             while (_Run)
             {
@@ -237,19 +244,26 @@ namespace Vocaluxe.Lib.Draw
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     _FlipBuffer();
 
-                    if ((CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
+                    if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON != _Fullscreen)
+                    {
                         _ToggleFullScreen();
+                    }
 
                     if (CTime.IsRunning())
+                    {
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
+                    }
 
                     if (delay >= 1)
+                    {
                         Thread.Sleep(delay);
+                    }
 
                     CTime.CalculateFPS();
                     CTime.Restart();
                 }
             }
+
             Close();
         }
 
@@ -260,6 +274,7 @@ namespace Vocaluxe.Lib.Draw
                 base.Close();
             }
             catch { }
+
             Dispose();
         }
 
@@ -282,10 +297,10 @@ namespace Vocaluxe.Lib.Draw
         {
             var bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
-            CTextureRef texture = _GetNewTexture(bmp.GetSize());
+            var texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
-            _Textures[texture.ID] = texture;
+            _Textures[texture.Id] = texture;
 
             return texture;
         }
@@ -298,12 +313,14 @@ namespace Vocaluxe.Lib.Draw
                 texture = CopyScreen();
             }
             else
-                _Bitmaps[texture.ID] = new Bitmap(_Backbuffer);
+            {
+                _Bitmaps[texture.Id] = new Bitmap(_Backbuffer);
+            }
         }
 
         public void MakeScreenShot()
         {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
+            var file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
 
             _Backbuffer.Save(file, ImageFormat.Png);
         }
@@ -316,10 +333,10 @@ namespace Vocaluxe.Lib.Draw
         {
             var bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            CTextureRef texture = _GetNewTexture(bmp.GetSize());
+            var texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
-            _Textures[texture.ID] = texture;
+            _Textures[texture.Id] = texture;
 
             return texture;
         }
@@ -335,12 +352,16 @@ namespace Vocaluxe.Lib.Draw
             {
                 CTextureRef texture;
                 if (_TextureCache.TryGetValue(texturePath, out texture))
+                {
                     return texture;
+                }
+
                 using (var bmp = new Bitmap(texturePath))
                 {
                     texture = AddTexture(bmp);
                     _TextureCache.Add(texturePath, texture);
                 }
+
                 return texture;
             }
 
@@ -349,13 +370,16 @@ namespace Vocaluxe.Lib.Draw
 
         private bool _TextureExists(CTextureRef texture)
         {
-            return texture != null && _Textures.ContainsKey(texture.ID);
+            return texture != null && _Textures.ContainsKey(texture.Id);
         }
 
         public CTextureRef CopyTexture(CTextureRef textureRef)
         {
             if (_TextureExists(textureRef))
-                return AddTexture(_Bitmaps[textureRef.ID]);
+            {
+                return AddTexture(_Bitmaps[textureRef.Id]);
+            }
+
             return null;
         }
 
@@ -363,10 +387,11 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(texture))
             {
-                _Bitmaps[texture.ID].Dispose();
-                _Textures.Remove(texture.ID);
+                _Bitmaps[texture.Id].Dispose();
+                _Textures.Remove(texture.Id);
                 texture.SetRemoved();
             }
+
             texture = null;
         }
 
@@ -394,7 +419,7 @@ namespace Vocaluxe.Lib.Draw
         {
             using (var bmp = new Bitmap(w, h))
             {
-                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                var bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 bmp.UnlockBits(bmpData);
                 return AddTexture(bmp);
@@ -405,30 +430,37 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(texture))
             {
-                BitmapData bmpData = _Bitmaps[texture.ID].LockBits(new Rectangle(0, 0, _Bitmaps[texture.ID].Width, _Bitmaps[texture.ID].Height),
-                                                                   ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                var bmpData = _Bitmaps[texture.Id].LockBits(new Rectangle(0, 0, _Bitmaps[texture.Id].Width, _Bitmaps[texture.Id].Height),
+                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
-                _Bitmaps[texture.ID].UnlockBits(bmpData);
+                _Bitmaps[texture.Id].UnlockBits(bmpData);
             }
         }
 
         public void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
         {
             if (_TextureExists(textureRef))
-                _Bitmaps[textureRef.ID] = bmp;
+            {
+                _Bitmaps[textureRef.Id] = bmp;
+            }
         }
 
         public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
             if (texture != null)
+            {
                 DrawTexture(texture, rect, color, rect, mirrored);
+            }
         }
 
         public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
             if (!_TextureExists(texture))
+            {
                 return;
-            Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.ID], color);
+            }
+
+            var coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.Id], color);
             _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
             coloredBitmap.Dispose();
         }
@@ -446,7 +478,7 @@ namespace Vocaluxe.Lib.Draw
         {
             var newBitmap = new Bitmap(original.Width, original.Height);
 
-            using (Graphics g = Graphics.FromImage(newBitmap))
+            using (var g = Graphics.FromImage(newBitmap))
             {
                 var cm = new ColorMatrix { Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1 };
 
@@ -455,7 +487,7 @@ namespace Vocaluxe.Lib.Draw
                     ia.SetColorMatrix(cm);
 
                     g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
-                                0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
+                        0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
                 }
             }
 

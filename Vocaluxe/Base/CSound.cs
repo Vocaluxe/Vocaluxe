@@ -16,13 +16,13 @@
 #endregion
 
 using System.IO;
+using System.Threading;
+using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Sound.Playback;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
-using System.Threading;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Base
 {
@@ -45,7 +45,10 @@ namespace Vocaluxe.Base
         public static bool Init()
         {
             if (_Playback != null)
+            {
                 return false;
+            }
+
             switch (CConfig.Config.Sound.PlayBackLib)
             {
                 case EPlaybackLib.PortAudio:
@@ -64,6 +67,7 @@ namespace Vocaluxe.Base
                     _Playback = new CPortAudioPlay();
                     break;
             }
+
             return _Playback.Init();
         }
 
@@ -84,13 +88,18 @@ namespace Vocaluxe.Base
         public static void CloseAllStreams()
         {
             if (_Playback != null)
+            {
                 _Playback.CloseAll();
+            }
         }
 
         public static void Close()
         {
             if (_Playback != null)
+            {
                 _Playback.Close();
+            }
+
             _Playback = null;
         }
 
@@ -180,13 +189,12 @@ namespace Vocaluxe.Base
             _Playback.SetPosition(stream, position);
         }
         #endregion Stream Handling
-
         #endregion Playback
 
         #region Sounds
         public static int PlaySound(ESounds sound, bool fade = true)
         {
-            string file = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSounds);
+            var file = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSounds);
             switch (sound)
             {
                 case ESounds.T440:
@@ -215,28 +223,38 @@ namespace Vocaluxe.Base
             }
 
             if (!File.Exists(file))
+            {
                 return -1;
+            }
 
-            int stream = Load(file, false, fade);
+            var stream = Load(file, false, fade);
             if (stream < 0)
+            {
                 return -1;
+            }
+
             Play(stream);
             if (fade)
             {
-                float length = -1f;
-                for (int i = 0; i < 5; i++)
+                var length = -1f;
+                for (var i = 0; i < 5; i++)
                 {
                     length = GetLength(stream);
                     if (length >= 0f)
+                    {
                         break;
+                    }
+
                     Thread.Sleep(1);
                 }
+
                 if (length > 0f)
                 {
                     SetStreamVolume(stream, 0);
                     Fade(stream, 100, length);
                 }
             }
+
             return stream;
         }
         #endregion Sounds

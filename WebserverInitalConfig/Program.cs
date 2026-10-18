@@ -30,7 +30,7 @@ namespace WebserverInitalConfig
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
         {
-            int result = 0;
+            var result = 0;
             try
             {
                 int port;
@@ -41,35 +41,39 @@ namespace WebserverInitalConfig
                 }
                 else
                 {
-                    String exeName = args[0];
-                    bool isSecure = (args[2].ToLower() == "true");
-                    bool doReserve = (args.Length >= 4 && args[3].ToLower() == "true");
-                    CConfigHttpApi config = new CConfigHttpApi(exeName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, exeName), "0.0.0.0", port, true);
+                    var exeName = args[0];
+                    var isSecure = args[2].ToLower() == "true";
+                    var doReserve = args.Length >= 4 && args[3].ToLower() == "true";
+                    var config = new CConfigHttpApi(exeName, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, exeName), "0.0.0.0", port, true);
                     try
                     {
                         config.AddFirewallRule();
                         if (isSecure)
+                        {
                             config.CreateAndAddCert(Dns.GetHostName());
+                        }
 
                         if (doReserve || CConfigHttpApi.IsAdministrator())
+                        {
                             config.ReserveUrl(isSecure);
+                        }
                     }
                     catch (AuthenticationException)
                     {
-                        ProcessStartInfo proc = new ProcessStartInfo
-                            {
-                                UseShellExecute = true,
-                                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                                FileName = AppDomain.CurrentDomain.FriendlyName,
-                                Arguments = String.Join(" ", args),
-                                Verb = "runas",
-                                CreateNoWindow = true,
-                                WindowStyle = ProcessWindowStyle.Hidden,
-                            };
+                        var proc = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                            FileName = AppDomain.CurrentDomain.FriendlyName,
+                            Arguments = String.Join(" ", args),
+                            Verb = "runas",
+                            CreateNoWindow = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                        };
 
                         try
                         {
-                            using (Process p = Process.Start(proc))
+                            using (var p = Process.Start(proc))
                             {
                                 p.WaitForExit();
                                 result = p.ExitCode;
@@ -90,6 +94,7 @@ namespace WebserverInitalConfig
                 MessageBox.Show("Error while installing server: " + e.Message + "\r\n\r\nIn " + e.TargetSite + "\r\nBacktrace: " + e.StackTrace);
                 result = -4;
             }
+
             Environment.Exit(result);
         }
     }

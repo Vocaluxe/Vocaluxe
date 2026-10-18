@@ -16,11 +16,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
@@ -39,17 +36,19 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             try
             {
                 _PaHandle = new CPortAudioHandle();
 
-                int hostAPI = _PaHandle.GetHostApi();
-                int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
-                for (int i = 0; i < numDevices; i++)
+                var hostAPI = _PaHandle.GetHostApi();
+                var numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
+                for (var i = 0; i < numDevices; i++)
                 {
-                    PortAudioSharp.PortAudio.PaDeviceInfo info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
+                    var info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
                     if (info.hostApi == hostAPI && info.maxInputChannels > 0)
                     {
                         var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
@@ -74,50 +73,96 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         }
 
         /// <summary>
-        ///     Start Voice Capturing
+        ///      Voice Capturing
         /// </summary>
         /// <returns></returns>
         public bool Start()
         {
             if (!_Initialized)
+            {
                 return false;
+            }
 
             Stop();
 
-            foreach (IntPtr handle in _RecHandle)
+            if (_RecHandle != null && _PaHandle != null)
             {
-                int waitcount = 0;
-                while (waitcount < 5 && PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle) == PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
+                for (var i = 0; i < _RecHandle.Length; i++)
                 {
-                    Thread.Sleep(1);
-                    waitcount++;
+                    var handle = _RecHandle[i];
+                    if (handle == IntPtr.Zero)
+                    {
+                        continue;
+                    }
+
+                    var waitcount = 0;
+                    while (waitcount < 5)
+                    {
+                        try
+                        {
+                            if (PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle) !=
+                                PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
+                            {
+                                break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error while waiting for PortAudio stream to stop:");
+                            break;
+                        }
+
+                        Thread.Sleep(1);
+                        waitcount++;
+                    }
+
+                    try
+                    {
+                        _PaHandle.CloseStream(handle);
+                    }
+                    catch (Exception ex)
+                    {
+                        CLog.Error(ex, "Error closing old PortAudio record stream before restart:");
+                    }
+                    finally
+                    {
+                        _RecHandle[i] = IntPtr.Zero;
+                    }
                 }
             }
 
-            foreach (CBuffer buffer in _Buffer)
-                buffer.Reset();
-
-            for (int i = 0; i < _RecHandle.Length; i++)
-                _RecHandle[i] = IntPtr.Zero;
-
-            for (int dev = 0; dev < _Devices.Count; dev++)
+            foreach (var buffer in _Buffer)
             {
-                bool usingDevice = false;
-                for (int ch = 0; ch < _Devices[dev].Channels; ++ch) {
-                    if (_Devices[dev].PlayerChannel[ch] > 0)
-                        usingDevice = true;
-                }
-                if (usingDevice)
+                buffer.Reset();
+            }
+
+            for (var dev = 0; dev < _Devices.Count; dev++)
+            {
+                var usingDevice = false;
+                for (var ch = 0; ch < _Devices[dev].Channels; ++ch)
                 {
-                    PortAudioSharp.PortAudio.PaStreamParameters? inputParams = new PortAudioSharp.PortAudio.PaStreamParameters
+                    if (_Devices[dev].PlayerChannel[ch] > 0)
+                    {
+                        usingDevice = true;
+                    }
+                }
+
+                if (!usingDevice)
+                {
+                    continue;
+                }
+
+                PortAudioSharp.PortAudio.PaStreamParameters? inputParams =
+                    new PortAudioSharp.PortAudio.PaStreamParameters
                     {
                         channelCount = _Devices[dev].Channels,
-                        device = _Devices[dev].ID,
+                        device = _Devices[dev].Id,
                         sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
+                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].Id).defaultLowInputLatency,
                         hostApiSpecificStreamInfo = IntPtr.Zero
                     };
-                    if (!_PaHandle.OpenInputStream(
+
+                if (!_PaHandle.OpenInputStream(
                         out _RecHandle[dev],
                         ref inputParams,
                         44100,
@@ -125,12 +170,58 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
                         _MyRecProc,
                         new IntPtr(dev)))
-                        return false;
+                {
+                    for (var j = 0; j < _RecHandle.Length; j++)
+                    {
+                        if (_RecHandle[j] == IntPtr.Zero)
+                        {
+                            continue;
+                        }
 
-                    if (_PaHandle.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
-                        return false;
+                        try
+                        {
+                            _PaHandle.CloseStream(_RecHandle[j]);
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error rolling back PortAudio stream after open failure:");
+                        }
+                        finally
+                        {
+                            _RecHandle[j] = IntPtr.Zero;
+                        }
+                    }
+
+                    return false;
+                }
+
+                if (_PaHandle.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
+                {
+                    for (var j = 0; j < _RecHandle.Length; j++)
+                    {
+                        if (_RecHandle[j] == IntPtr.Zero)
+                        {
+                            continue;
+                        }
+
+                        try
+                        {
+                            _PaHandle.CloseStream(_RecHandle[j]);
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error rolling back PortAudio stream after start failure:");
+                        }
+                        finally
+                        {
+                            _RecHandle[j] = IntPtr.Zero;
+                        }
+                    }
+
+                    return false;
                 }
             }
+
             return true;
         }
 
@@ -141,17 +232,41 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public bool Stop()
         {
             if (!_Initialized)
-                return false;
-
-            foreach (IntPtr handle in _RecHandle)
             {
-                if (handle != IntPtr.Zero)
+                return false;
+            }
+
+            if (_RecHandle == null)
+            {
+                return true;
+            }
+
+            foreach (var handle in _RecHandle)
+            {
+                if (handle == IntPtr.Zero)
                 {
-                    PortAudioSharp.PortAudio.Pa_StopStream(handle);
-                    PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                    continue;
+                }
+
+                try
+                {
+                    var isStoppedResult = PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle);
+                    if (isStoppedResult == PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
+                    {
+                        var stopResult = PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                        if (stopResult != PortAudioSharp.PortAudio.PaError.paNoError &&
+                            stopResult != PortAudioSharp.PortAudio.PaError.paStreamIsStopped)
+                        {
+                            CLog.Error("StopStream error: " + PortAudioSharp.PortAudio.Pa_GetErrorText(stopResult));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CLog.Error(ex, "Error stopping PortAudio record stream:");
                 }
             }
-            _RecHandle = new IntPtr[_Devices.Count];
+
             return true;
         }
 
@@ -162,16 +277,36 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         {
             if (_RecHandle != null && _RecHandle.Length > 0)
             {
-                foreach (IntPtr handle in _RecHandle)
+                Stop();
+
+                if (_PaHandle != null)
                 {
-                    if (handle != IntPtr.Zero)
+                    for (var i = 0; i < _RecHandle.Length; i++)
                     {
-                        _PaHandle.CloseStream(handle);
+                        var handle = _RecHandle[i];
+                        if (handle == IntPtr.Zero)
+                        {
+                            continue;
+                        }
+
+                        try
+                        {
+                            _PaHandle.CloseStream(handle);
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error closing PortAudio record stream:");
+                        }
+                        finally
+                        {
+                            _RecHandle[i] = IntPtr.Zero;
+                        }
                     }
                 }
 
                 _RecHandle = new IntPtr[_Devices.Count];
             }
+
             if (_PaHandle != null)
             {
                 _PaHandle.Close();
@@ -195,11 +330,11 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 if (frameCount > 0 && input != IntPtr.Zero)
                 {
-                    CRecordDevice dev = _Devices[userData.ToInt32()];
+                    var dev = _Devices[userData.ToInt32()];
                     uint numBytes;
                     numBytes = frameCount * (uint)dev.Channels * 2;
 
-                    byte[] recbuffer = new byte[numBytes];
+                    var recbuffer = new byte[numBytes];
 
                     // copy from managed to unmanaged memory
                     Marshal.Copy(input, recbuffer, 0, (int)numBytes);

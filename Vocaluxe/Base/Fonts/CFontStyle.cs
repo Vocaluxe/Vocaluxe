@@ -79,6 +79,7 @@ namespace Vocaluxe.Base.Fonts
                 case EStyle.BoldItalic:
                     return FontStyle.Bold | FontStyle.Italic;
             }
+
             throw new ArgumentException("Invalid style: " + _Style);
         }
 
@@ -97,6 +98,7 @@ namespace Vocaluxe.Base.Fonts
                     CLog.Error("Error opening font file " + _FilePath + ": " + e.Message);
                 }
             }
+
             return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
         }
 
@@ -139,23 +141,28 @@ namespace Vocaluxe.Base.Fonts
             CGlyph glyph;
             if (!_Glyphs.TryGetValue(chr, out glyph))
             {
-                float maxHeight = (height < 0 || _MaxGlyphHeight + 50 >= height) ? _MaxGlyphHeight : (float)Math.Round(height / 50) * 50;
+                var maxHeight = height < 0 || _MaxGlyphHeight + 50 >= height ? _MaxGlyphHeight : (float)Math.Round(height / 50) * 50;
                 glyph = new CGlyph(chr, this, maxHeight);
                 _Glyphs.Add(chr, glyph);
             }
+
             if (glyph.MaxHeight + 50 < height)
             {
                 glyph.UnloadTexture();
                 glyph = new CGlyph(chr, this, (float)Math.Round(height / 50) * 50);
                 _Glyphs[chr] = glyph;
             }
+
             return glyph;
         }
 
         private void _UnloadGlyphs()
         {
-            foreach (CGlyph glyph in _Glyphs.Values)
+            foreach (var glyph in _Glyphs.Values)
+            {
                 glyph.UnloadTexture();
+            }
+
             _Glyphs.Clear();
         }
 
@@ -170,9 +177,11 @@ namespace Vocaluxe.Base.Fonts
                     _Fonts.Dispose();
                     _Fonts = null;
                 }
+
                 _UnloadGlyphs();
                 _Disposed = true;
             }
+
             GC.SuppressFinalize(this);
         }
     }

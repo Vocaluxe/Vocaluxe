@@ -23,7 +23,6 @@ namespace Vocaluxe.Lib.Sound.Playback
 {
     abstract class CAudioStreamBase : IAudioStream
     {
-        private readonly int _ID;
         protected readonly string _Medium;
         protected readonly bool _Loop;
         protected readonly EAudioEffect _Effect;
@@ -33,10 +32,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         protected EStreamAction _AfterFadeAction = EStreamAction.Nothing;
         protected CFading _Fading;
 
-        public int ID
-        {
-            get { return _ID; }
-        }
+        public int Id { get; }
 
         public bool IsFading
         {
@@ -52,7 +48,7 @@ namespace Vocaluxe.Lib.Sound.Playback
 
         protected CAudioStreamBase(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            _ID = id;
+            Id = id;
             _Medium = medium;
             _Loop = loop;
             _Effect = effect;
@@ -72,7 +68,9 @@ namespace Vocaluxe.Lib.Sound.Playback
         protected virtual void _Dispose(bool disposing)
         {
             if (!disposing)
+            {
                 CLog.Debug("Audio stream " + _Medium + " was not closed.");
+            }
         }
 
         public void Close()
@@ -116,6 +114,7 @@ namespace Vocaluxe.Lib.Sound.Playback
                             IsPaused = true;
                             break;
                     }
+
                     _Fading = null;
                 }
             }

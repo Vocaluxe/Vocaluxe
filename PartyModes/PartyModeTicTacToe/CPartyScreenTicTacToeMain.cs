@@ -17,10 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
@@ -39,7 +38,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _TextPopupReallyExit = "TextPopupReallyExit";
@@ -49,6 +48,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const string _TextNextPlayerT2 = "TextNextPlayerT2";
         private const string _TextNextPlayerNameT1 = "TextNextPlayerNameT1";
         private const string _TextNextPlayerNameT2 = "TextNextPlayerNameT2";
+        private const string _TextJokerRandomT1 = "TextJokerRandomT1";
+        private const string _TextJokerRandomT2 = "TextJokerRandomT2";
+        private const string _TextJokerRetryT1 = "TextJokerRetryT1";
+        private const string _TextJokerRetryT2 = "TextJokerRetryT2";
 
         private const string _ButtonNextRound = "ButtonNextRound";
         private const string _ButtonBack = "ButtonBack";
@@ -71,7 +74,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const string _StaticTeam2 = "StaticTeam2";
 
         private readonly string[] _EqualizerTeam = new string[]
-            {"EqualizerTeam1", "EqualizerTeam2"};
+            { "EqualizerTeam1", "EqualizerTeam2" };
 
         private bool _ExitPopupVisible;
 
@@ -92,17 +95,26 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private int[,] _Possibilities;
         private EStatus _Status;
 
+        private const float _FieldWonDuration = 700f;
+        private readonly Stopwatch _AnimTimer = new Stopwatch();
+        private readonly List<SRectF> _FieldRects = new List<SRectF>();
+        private int _AnimatedField = -1;
+        private int _WinningLine = -1;
+
         public override void Init()
         {
             base.Init();
 
             _ThemeTexts = new string[]
-                {_TextPopupReallyExit, _TextTeamChoosing, _TextFinishMessage, _TextNextPlayerT1, _TextNextPlayerT2, _TextNextPlayerNameT1, _TextNextPlayerNameT2};
-            _ThemeButtons = new string[]
                 {
-                    _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
-                    _ButtonJokerRetryT2, _ButtonSwitchPlayerT1, _ButtonSwitchPlayerT2
+                    _TextPopupReallyExit, _TextTeamChoosing, _TextFinishMessage, _TextNextPlayerT1, _TextNextPlayerT2, _TextNextPlayerNameT1, _TextNextPlayerNameT2,
+                    _TextJokerRandomT1, _TextJokerRandomT2, _TextJokerRetryT1, _TextJokerRetryT2
                 };
+            _ThemeButtons = new string[]
+            {
+                _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
+                _ButtonJokerRetryT2, _ButtonSwitchPlayerT1, _ButtonSwitchPlayerT2
+            };
             _ThemeStatics = new string[] { _StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2, _StaticTeam1, _StaticTeam2 };
 
             var texts = new List<string>();
@@ -135,28 +147,48 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         if (!_ExitPopupVisible)
                         {
                             if (_PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                            {
                                 _Back();
+                            }
                             else if (_Status == EStatus.None)
+                            {
                                 _EndParty();
+                            }
                             else
+                            {
                                 _ShowPopup(true);
+                            }
                         }
                         else
+                        {
                             _ShowPopup(false);
+                        }
+
                         break;
 
                     case Keys.Enter:
                         if (!_ExitPopupVisible)
                         {
                             if (_Buttons[_ButtonNextRound].Selected)
+                            {
                                 _NextRound();
+                            }
+
                             if (_Buttons[_ButtonBack].Selected && _PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                            {
                                 _Back();
+                            }
+
                             if (_Buttons[_ButtonExit].Selected && (_PartyMode.GameData.CurrentRoundNr > 1 || _Status == EStatus.FieldSelected) && _Status != EStatus.None)
+                            {
                                 _ShowPopup(true);
+                            }
                             else if (_Status == EStatus.None)
+                            {
                                 _EndParty();
-                            for (int i = 0; i < _PartyMode.GameData.NumFields; i++)
+                            }
+
+                            for (var i = 0; i < _PartyMode.GameData.NumFields; i++)
                             {
                                 switch (_Status)
                                 {
@@ -166,6 +198,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                             _PartyMode.GameData.FieldNr = i;
                                             _FieldSelected();
                                         }
+
                                         break;
 
                                     case EStatus.JokerRetry:
@@ -174,35 +207,61 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                             _PartyMode.GameData.FieldNr = i;
                                             _FieldSelectedAgain();
                                         }
+
                                         break;
                                 }
                             }
+
                             if (_Status == EStatus.FieldSelected)
                             {
                                 if (_Buttons[_ButtonJokerRandomT1].Selected)
+                                {
                                     _UseJoker(0, 0);
+                                }
+
                                 if (_Buttons[_ButtonJokerRandomT2].Selected)
+                                {
                                     _UseJoker(1, 0);
+                                }
+
                                 if (_Buttons[_ButtonJokerRetryT1].Selected)
+                                {
                                     _UseJoker(0, 1);
+                                }
+
                                 if (_Buttons[_ButtonJokerRetryT2].Selected)
+                                {
                                     _UseJoker(1, 1);
+                                }
+
                                 if (_Buttons[_ButtonSwitchPlayerT1].Selected)
+                                {
                                     _ChangePlayer(0, true);
+                                }
+
                                 if (_Buttons[_ButtonSwitchPlayerT2].Selected)
+                                {
                                     _ChangePlayer(1, true);
+                                }
                             }
                         }
                         else
                         {
                             if (_Buttons[_ButtonPopupYes].Selected)
+                            {
                                 _EndParty();
+                            }
+
                             if (_Buttons[_ButtonPopupNo].Selected)
+                            {
                                 _ShowPopup(false);
+                            }
                         }
+
                         break;
                 }
             }
+
             return true;
         }
 
@@ -215,17 +274,28 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (!_ExitPopupVisible)
                 {
                     if (_Buttons[_ButtonNextRound].Selected)
+                    {
                         _NextRound();
+                    }
+
                     if (_Buttons[_ButtonBack].Selected)
+                    {
                         _Back();
+                    }
+
                     if (_Buttons[_ButtonExit].Selected)
                     {
                         if (_Status == EStatus.None)
+                        {
                             _EndParty();
+                        }
                         else
+                        {
                             _ShowPopup(true);
+                        }
                     }
-                    for (int i = 0; i < _PartyMode.GameData.NumFields; i++)
+
+                    for (var i = 0; i < _PartyMode.GameData.NumFields; i++)
                     {
                         switch (_Status)
                         {
@@ -235,6 +305,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                     _PartyMode.GameData.FieldNr = i;
                                     _FieldSelected();
                                 }
+
                                 break;
 
                             case EStatus.JokerRetry:
@@ -243,31 +314,55 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                     _PartyMode.GameData.FieldNr = i;
                                     _FieldSelectedAgain();
                                 }
+
                                 break;
                         }
                     }
+
                     if (_Status == EStatus.FieldSelected)
                     {
                         if (_Buttons[_ButtonJokerRandomT1].Selected)
+                        {
                             _UseJoker(0, 0);
+                        }
+
                         if (_Buttons[_ButtonJokerRandomT2].Selected)
+                        {
                             _UseJoker(1, 0);
+                        }
+
                         if (_Buttons[_ButtonJokerRetryT1].Selected)
+                        {
                             _UseJoker(0, 1);
+                        }
+
                         if (_Buttons[_ButtonJokerRetryT2].Selected)
+                        {
                             _UseJoker(1, 1);
+                        }
+
                         if (_Buttons[_ButtonSwitchPlayerT1].Selected)
+                        {
                             _ChangePlayer(0, true);
+                        }
+
                         if (_Buttons[_ButtonSwitchPlayerT2].Selected)
+                        {
                             _ChangePlayer(1, true);
+                        }
                     }
                 }
                 else
                 {
                     if (_Buttons[_ButtonPopupYes].Selected)
+                    {
                         _EndParty();
+                    }
+
                     if (_Buttons[_ButtonPopupNo].Selected)
+                    {
                         _ShowPopup(false);
+                    }
                 }
             }
 
@@ -276,14 +371,22 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (!_ExitPopupVisible)
                 {
                     if (_PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                    {
                         _Back();
+                    }
                     else if (_Status == EStatus.None)
+                    {
                         _EndParty();
+                    }
                     else
+                    {
                         _ShowPopup(true);
+                    }
                 }
                 else
+                {
                     _ShowPopup(false);
+                }
             }
 
             if (mouseEvent.Wheel != 0) { }
@@ -322,7 +425,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _UpdateFields();
             _UpdateFieldContents();
 
-            int winner = _GetWinner();
+            _AnimatedField = _PartyMode.GameData.LastWonField;
+            _PartyMode.GameData.LastWonField = -1;
+            _AnimTimer.Reset();
+            _AnimTimer.Start();
+
+            var winner = _GetWinner();
+            _WinningLine = winner > 0 ? _GetWinningLine() : -1;
+            _SetJokerLabelsVisible(false);
             if (_PartyMode.GameData.CurrentRoundNr <= _PartyMode.GameData.NumFields && winner == 0)
             {
                 _UpdateTeamChoosingMessage();
@@ -353,15 +463,21 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Texts[_TextTeamChoosing].Visible = false;
                 if (winner > 0)
                 {
+                    if (_WinningLine >= 0)
+                    {
+                        _DimFieldsOutsideWinningLine();
+                    }
+
                     _Texts[_TextFinishMessage].Color = CBase.Themes.GetPlayerColor(winner);
-                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", PartyModeID) + " " +
+                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", PartyModeId) + " " + CBase.Language.Translate("TR_TEAM", PartyModeId) + " " +
                                                       winner;
                 }
                 else
                 {
                     _Texts[_TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
-                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", PartyModeID);
+                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", PartyModeId);
                 }
+
                 _SelectElement(_Buttons[_ButtonExit]);
             }
 
@@ -370,10 +486,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override bool UpdateGame()
         {
-            if (!_Equalizers[_EqualizerTeam[0]].Visible)
-                return true;
+            _UpdateFieldAnimations();
 
-            for (int i = 0; i < 2; i++)
+            if (!_Equalizers[_EqualizerTeam[0]].Visible)
+            {
+                return true;
+            }
+
+            for (var i = 0; i < 2; i++)
             {
                 CBase.Record.AnalyzeBuffer(i);
                 _Equalizers["EqualizerTeam" + (i + 1)].Update(CBase.Record.ToneWeigth(i), CBase.Record.GetMaxVolume(i));
@@ -382,11 +502,93 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
+        private static float _EaseOutBack(float t)
+        {
+            const float c1 = 1.70158f;
+            const float c3 = c1 + 1f;
+            return 1f + c3 * (float)Math.Pow(t - 1f, 3) + c1 * (float)Math.Pow(t - 1f, 2);
+        }
+
+        private void _SetFieldScale(int field, float scale)
+        {
+            var rect = _FieldRects[field];
+            var w = rect.W * scale;
+            var h = rect.H * scale;
+            _Fields[field].X = rect.X + (rect.W - w) / 2;
+            _Fields[field].Y = rect.Y + (rect.H - h) / 2;
+            _Fields[field].W = w;
+            _Fields[field].H = h;
+        }
+
+        private void _UpdateFieldAnimations()
+        {
+            var time = _AnimTimer.ElapsedMilliseconds;
+
+            if (_AnimatedField >= 0 && _AnimatedField < _FieldRects.Count)
+            {
+                var progress = Math.Min(1f, time / _FieldWonDuration);
+                _SetFieldScale(_AnimatedField, 1.25f - 0.25f * _EaseOutBack(progress));
+
+                var teamColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[_AnimatedField].Winner);
+                var color = new SColorF(1f + (teamColor.R - 1f) * progress, 1f + (teamColor.G - 1f) * progress, 1f + (teamColor.B - 1f) * progress, teamColor.A);
+                _Fields[_AnimatedField].Color = color;
+                _Fields[_AnimatedField].SelColor = color;
+
+                if (progress >= 1f)
+                {
+                    _SetFieldScale(_AnimatedField, 1f);
+                    _AnimatedField = -1;
+                }
+
+                return;
+            }
+
+            if (_WinningLine < 0)
+            {
+                return;
+            }
+
+            var pulse = 1f + 0.04f * (float)Math.Sin(time / 1000.0 * Math.PI * 1.4);
+            for (var c = 0; c < _Possibilities.GetLength(1); c++)
+            {
+                _SetFieldScale(_Possibilities[_WinningLine, c], pulse);
+            }
+        }
+
+        private void _DimFieldsOutsideWinningLine()
+        {
+            var inLine = new List<int>();
+            for (var c = 0; c < _Possibilities.GetLength(1); c++)
+            {
+                inLine.Add(_Possibilities[_WinningLine, c]);
+            }
+
+            for (var i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
+            {
+                if (inLine.Contains(i))
+                {
+                    continue;
+                }
+
+                var color = _Fields[i].Color;
+                _Fields[i].Color = new SColorF(color.R, color.G, color.B, color.A * 0.35f);
+                _Fields[i].SelColor = _Fields[i].Color;
+            }
+        }
+
+        private void _SetJokerLabelsVisible(bool visible)
+        {
+            _Texts[_TextJokerRandomT1].Visible = visible;
+            _Texts[_TextJokerRandomT2].Visible = visible;
+            _Texts[_TextJokerRetryT1].Visible = visible;
+            _Texts[_TextJokerRetryT2].Visible = visible;
+        }
+
         private void _CreateFields()
         {
-            for (int i = 0; i < 25; i++)
+            for (var i = 0; i < 25; i++)
             {
-                CButton f = GetNewButton(_Buttons[_ButtonField]);
+                var f = GetNewButton(_Buttons[_ButtonField]);
                 f.Visible = false;
                 _AddButton(f);
                 _Fields.Add(f);
@@ -396,16 +598,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateFields()
         {
             var numOneRow = (int)Math.Sqrt(_PartyMode.GameData.NumFields);
-            float fieldSizeY = ((float)CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
-            float fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
+            var fieldSizeY = ((float)CBase.Settings.GetRenderH() - 210 - numOneRow * _FieldSpace) / numOneRow;
+            var fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
             _FieldSize = Math.Min(fieldSizeX, fieldSizeY);
             _FieldFirstX = (float)CBase.Settings.GetRenderW() / 2 - (numOneRow * _FieldSize + (numOneRow - 1) * _FieldSpace) / 2;
-            _FieldFirstY = 140 + (CBase.Settings.GetRenderH() - 140) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
-            int row = 0;
-            int column = 0;
-            float x = _FieldFirstX;
-            float y = _FieldFirstY;
-            for (int i = 0; i < _Fields.Count; i++)
+            _FieldFirstY = 200 + (CBase.Settings.GetRenderH() - 200) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
+            var row = 0;
+            var column = 0;
+            var x = _FieldFirstX;
+            var y = _FieldFirstY;
+            _FieldRects.Clear();
+            for (var i = 0; i < _Fields.Count; i++)
             {
                 if (i < _PartyMode.GameData.NumFields)
                 {
@@ -415,8 +618,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Fields[i].Y = y;
                     _Fields[i].Visible = true;
                     _Fields[i].Selectable = true;
+                    _FieldRects.Add(new SRectF(x, y, _FieldSize, _FieldSize, _Fields[i].Rect.Z));
                     column++;
-                    if ((i + 1) >= numOneRow * (row + 1))
+                    if (i + 1 >= numOneRow * (row + 1))
                     {
                         column = 0;
                         row++;
@@ -424,7 +628,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         x = _FieldFirstX;
                     }
                     else
+                    {
                         x = _FieldFirstX + _FieldSize * column + _FieldSpace * column;
+                    }
                 }
                 else
                 {
@@ -436,7 +642,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateFieldContents()
         {
-            for (int i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
+            for (var i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
             {
                 _Fields[i].Selectable = true;
                 _Fields[i].Texture = _Buttons[_ButtonField].Texture;
@@ -445,26 +651,34 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (_PartyMode.GameData.Rounds[i].Finished)
                 {
                     _Fields[i].Selectable = false;
-                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongIDs[0]).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTextureBig;
                     _Fields[i].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                     _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                 }
+
                 if (_Status == EStatus.FieldSelected && _PartyMode.GameData.FieldNr == i)
                 {
-                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongIDs[0]).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTextureBig;
                     _Fields[i].Color = new SColorF(1, 1, 1, 1);
                     _Fields[i].SelColor = new SColorF(1, 1, 1, 1);
                     _Fields[i].Selectable = false;
                 }
+
                 if (_Status == EStatus.JokerRetry && _PartyMode.GameData.Rounds[i].Finished)
                 {
                     _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
                     _Fields[i].Selectable = true;
                 }
+
                 if (_Status == EStatus.JokerRetry && !_PartyMode.GameData.Rounds[i].Finished)
+                {
                     _Fields[i].Selectable = false;
+                }
+
                 if (_Status == EStatus.FieldSelected)
+                {
                     _Fields[i].Selectable = false;
+                }
             }
         }
 
@@ -474,17 +688,18 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 _ChangePlayer();
             }
+
             _PartyMode.UpdateSongList();
-            int[] songIDs = new int[_PartyMode.GameData.GameMode == EGameMode.TR_GAMEMODE_MEDLEY ? _PartyMode.GameData.NumMedleySongs : 1];
-            for (int i = 0; i < songIDs.Length; i++)
+            var songIds = new int[_PartyMode.GameData.GameMode == EGameMode.TR_GAMEMODE_MEDLEY ? _PartyMode.GameData.NumMedleySongs : 1];
+            for (var i = 0; i < songIds.Length; i++)
             {
-                songIDs[i] = _PartyMode.GameData.Songs[0];
+                songIds[i] = _PartyMode.GameData.Songs[0];
                 _PartyMode.GameData.Songs.RemoveAt(0);
             }
 
-            _StartPreview(songIDs[0]);
+            _StartPreview(songIds[0]);
             _Status = EStatus.FieldSelected;
-            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIDs = songIDs;
+            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIds = songIds;
             _UpdateFieldContents();
             _UpdateJokerButtons();
             _UpdateSwitchPlayerButtons();
@@ -498,10 +713,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FieldSelectedAgain()
         {
-            int[] songIDs = _PartyMode.GameData.Rounds[_OldSelectedField].SongIDs;
-            _StartPreview(songIDs[0]);
+            var songIds = _PartyMode.GameData.Rounds[_OldSelectedField].SongIds;
+            _StartPreview(songIds[0]);
             _Status = EStatus.FieldSelected;
-            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIDs = songIDs;
+            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIds = songIds;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam1;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam2;
             _UpdateFieldContents();
@@ -516,32 +731,31 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectElement(_Buttons[_ButtonNextRound]);
         }
 
-        private void _StartPreview(int songID)
+        private void _StartPreview(int songId)
         {
-            CSong song = CBase.Songs.GetSongByID(songID);
+            var song = CBase.Songs.GetSongById(songId);
             CBase.BackgroundMusic.LoadPreview(song);
         }
 
         private int _GetRamdom(int max)
         {
             lock (syncLock)
-            { 
-                return random.Next(max+1);
+            {
+                return random.Next(max + 1);
             }
         }
 
         private void _ChangePlayer(int teamNr = -1, bool next = false)
         {
-
-            if (_PartyMode.GameData.ProfileIDsTeam1.Count > 0 && (teamNr == 0 || teamNr == -1))
+            if (_PartyMode.GameData.ProfileIdsTeam1.Count > 0 && (teamNr == 0 || teamNr == -1))
             {
-                idPlayer1 = _GetTeamPlayer(idPlayer1, _PartyMode.GameData.ProfileIDsTeam1.Count, next);
+                idPlayer1 = _GetTeamPlayer(idPlayer1, _PartyMode.GameData.ProfileIdsTeam1.Count, next);
                 _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = idPlayer1;
             }
 
-            if (_PartyMode.GameData.ProfileIDsTeam2.Count > 0 && (teamNr == 1 || teamNr == -1))
+            if (_PartyMode.GameData.ProfileIdsTeam2.Count > 0 && (teamNr == 1 || teamNr == -1))
             {
-                idPlayer2 = _GetTeamPlayer(idPlayer2, _PartyMode.GameData.ProfileIDsTeam2.Count, next);
+                idPlayer2 = _GetTeamPlayer(idPlayer2, _PartyMode.GameData.ProfileIdsTeam2.Count, next);
                 _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = idPlayer2;
             }
 
@@ -553,15 +767,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (next)
             {
                 idPlayer++;
-                if (idPlayer >= _PartyMode.GameData.ProfileIDsTeam1.Count)
+                if (idPlayer >= _PartyMode.GameData.ProfileIdsTeam1.Count)
                 {
                     idPlayer = 0;
                 }
             }
             else
             {
-                idPlayer = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam1.Count - 1);
+                idPlayer = _GetRamdom(_PartyMode.GameData.ProfileIdsTeam1.Count - 1);
             }
+
             return idPlayer;
         }
 
@@ -572,13 +787,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Texts[_TextNextPlayerNameT1].Visible = true;
             _Texts[_TextNextPlayerNameT2].Visible = true;
             _Texts[_TextNextPlayerNameT1].Text =
-                CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDsTeam1[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1]);
+                CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIdsTeam1[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1]);
             _Texts[_TextNextPlayerNameT2].Text =
-                CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
+                CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIdsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
             _Statics[_StaticAvatarT1].Visible = true;
             _Statics[_StaticAvatarT2].Visible = true;
-            _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam1[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1]);
-            _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
+            _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIdsTeam1[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1]);
+            _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIdsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
             _Statics[_StaticTeam1].Visible = true;
             _Statics[_StaticTeam2].Visible = true;
             _Equalizers[_EqualizerTeam[0]].Visible = true;
@@ -596,6 +811,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _PartyMode.GameData.NumJokerRandom[teamNr]--;
                         _FieldSelected(true);
                     }
+
                     break;
 
                 //Retry-Joker
@@ -610,20 +826,26 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _UpdateFieldContents();
                         _Buttons[_ButtonNextRound].Visible = false;
                     }
+
                     break;
             }
+
             _UpdateJokerButtons();
         }
 
         private void _UpdateTeamChoosingMessage()
         {
             _Texts[_TextTeamChoosing].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
-            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", PartyModeID) + " " + (_PartyMode.GameData.Team + 1) + "! " +
-                                             CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", PartyModeID);
+            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", PartyModeId) + " " + (_PartyMode.GameData.Team + 1) + "! " +
+                                             CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", PartyModeId);
             if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)
+            {
                 _Texts[_TextTeamChoosing].Visible = true;
+            }
             else
+            {
                 _Texts[_TextTeamChoosing].Visible = false;
+            }
         }
 
         private void _UpdateJokerButtons()
@@ -636,6 +858,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonJokerRandomT2].Selectable = _PartyMode.GameData.NumJokerRandom[1] > 0;
             _Buttons[_ButtonJokerRetryT1].Visible = true;
             _Buttons[_ButtonJokerRetryT2].Visible = true;
+            _SetJokerLabelsVisible(true);
             _Buttons[_ButtonJokerRetryT1].Text.Text = _PartyMode.GameData.NumJokerRetry[0].ToString();
             _Buttons[_ButtonJokerRetryT2].Text.Text = _PartyMode.GameData.NumJokerRetry[1].ToString();
             _Buttons[_ButtonJokerRetryT1].Selectable = _PartyMode.GameData.NumJokerRetry[0] > 0 && _PartyMode.GameData.CurrentRoundNr > 1;
@@ -649,7 +872,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Buttons[_ButtonSwitchPlayerT1].Visible = true;
                 _Buttons[_ButtonSwitchPlayerT2].Visible = true;
             }
-
         }
 
         private void _NextRound()
@@ -672,7 +894,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
             if (_ExitPopupVisible)
+            {
                 _SelectElement(_Buttons[_ButtonPopupNo]);
+            }
         }
 
         private void _Back()
@@ -683,50 +907,94 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _BuildWinnerPossibilities()
         {
             var numOneRow = (int)Math.Sqrt(_PartyMode.GameData.NumFields);
-            _Possibilities = new int[(numOneRow * 2) + 2, numOneRow];
-            for (int i = 0; i < _Possibilities.GetLength(0); i++)
+            _Possibilities = new int[numOneRow * 2 + 2, numOneRow];
+            for (var i = 0; i < _Possibilities.GetLength(0); i++)
             {
                 if (i < numOneRow)
                 {
-                    for (int c = 0; c < numOneRow; c++)
+                    for (var c = 0; c < numOneRow; c++)
+                    {
                         _Possibilities[i, c] = i * numOneRow + c;
+                    }
                 }
                 else if (i < numOneRow * 2)
                 {
-                    for (int c = 0; c < numOneRow; c++)
-                        _Possibilities[i, c] = (i - numOneRow) + (c * numOneRow);
+                    for (var c = 0; c < numOneRow; c++)
+                    {
+                        _Possibilities[i, c] = i - numOneRow + c * numOneRow;
+                    }
                 }
                 else if (i == _Possibilities.GetLength(0) - 2)
                 {
-                    for (int c = 0; c < numOneRow; c++)
+                    for (var c = 0; c < numOneRow; c++)
+                    {
                         _Possibilities[i, c] = (numOneRow + 1) * c;
+                    }
                 }
                 else if (i == _Possibilities.GetLength(0) - 1)
                 {
-                    for (int c = 0; c < numOneRow; c++)
+                    for (var c = 0; c < numOneRow; c++)
+                    {
                         _Possibilities[i, c] = (numOneRow - 1) * c + (numOneRow - 1);
+                    }
                 }
             }
         }
 
+        private int _GetWinningLine()
+        {
+            var winner = _GetWinner();
+            for (var i = 0; i < _Possibilities.GetLength(0); i++)
+            {
+                var complete = true;
+                for (var j = 0; j < _Possibilities.GetLength(1); j++)
+                {
+                    if (_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner != winner)
+                    {
+                        complete = false;
+                        break;
+                    }
+                }
+
+                if (complete)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         private int _GetWinner()
         {
-            for (int i = 0; i < _Possibilities.GetLength(0); i++)
+            for (var i = 0; i < _Possibilities.GetLength(0); i++)
             {
                 var check = new List<int>();
-                for (int j = 0; j < _Possibilities.GetLength(1); j++)
+                for (var j = 0; j < _Possibilities.GetLength(1); j++)
                 {
                     if (_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner > 0)
+                    {
                         check.Add(_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner);
+                    }
                 }
+
                 if (check.Count != _Possibilities.GetLength(1))
+                {
                     continue;
+                }
+
                 //Check for winner
                 if (check.Contains(1) && !check.Contains(2))
+                {
                     return 1;
+                }
+
                 if (check.Contains(2) && !check.Contains(1))
+                {
                     return 2;
+                }
             }
+
             return 0;
         }
     }

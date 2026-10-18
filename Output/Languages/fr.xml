@@ -155,7 +155,7 @@
   <string name="TR_SCREENSONG_PLAYERSELECT">Sélection joueur</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Afficher sélection joueur</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Passer sélection joueur</string>  
-  <string name="TR_SCREENSONG_SEARCH">Rechercher:</string>
+  <string name="TR_SCREENSONG_SEARCH">Rechercher une chanson</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Pas de Langue</string>
   <string name="TR_SCREENSONG_NOYEAR">Pas d\'Année</string>
   <string name="TR_SCREENSONG_NOGENRE">Pas de Genre</string>
@@ -212,12 +212,15 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Son</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Enregistrement</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Vidéo</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Paroles/Graphimes</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Paroles</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphimes</string>
   <string name="TR_SCREENO_BUTTON_THEME">Thème</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Crédits</string>
+  <string name="TR_SCREENO_BUTTON_SERVER"> Serveur</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER"> Dossier de chansons</string>
+  <string name="TR_SCREENO_SONGFOLDER">Sélectionnez le dossier de chansons que vous souhaitez ajouter</string>
   <string name="TR_SCREENO_WARNINGRESTART">Veuillez redémarrer le jeu pour que les changements prennent effet.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Adresse du serveur</string>
-  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Ajouter dossier chansons</string>
   <string name="TR_SCREENOGAME_OPTIONS">Options du Jeu</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Langue</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Niveau de Débogage</string>
@@ -228,7 +231,6 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Difficulté du Jeu</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Mode du Minuteur</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Style meilleur score</string>
-  <string name="TR_SCREENOGAME_SONGFOLDER">Sélectionnez le dossier de chansons que vous souhaitez ajouter</string>
   <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
   <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
   <string name="TR_SCREENORECORD_INPUT">Entrée</string>
@@ -266,6 +268,10 @@
   <string name="TR_SCREENOGRAPHICS_COVERSIZE">Taille couverture (pixels)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Plein écran</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">Étiré</string>
+  <string name="TR_SCREENOSERVER_OPTIONS"> Options du serveur</string>
+  <string name="TR_SCREENOSERVER_ACTIVE"> Serveur actif</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION"> Chiffrement du serveur</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER"> Adresse du serveur</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Options Vidéo</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Vidéo en arrière plan</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Prévisualisation des Vidéos</string>
@@ -282,7 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Bas droit</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Le serveur ne fonctionne pas. Merci de vérifier config.xml !</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING"> Le serveur est hors service. Veuillez l\'activer et redémarrer le jeu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Nous sommes désolés</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe a rencontré une erreur ou un bug.
 Pour nous aider à résoudre le problème, envoyez-nous un rapport.

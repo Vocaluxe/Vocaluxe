@@ -25,12 +25,14 @@ namespace VocaluxeLib.Songs
     {
         private readonly List<CSongLine> _Lines = new List<CSongLine>();
 
-        public CVoice() {}
+        public CVoice() { }
 
         public CVoice(CVoice voice)
         {
-            foreach (CSongLine line in voice._Lines)
+            foreach (var line in voice._Lines)
+            {
                 _Lines.Add(new CSongLine(line));
+            }
         }
 
         public CSongLine[] Lines
@@ -50,9 +52,11 @@ namespace VocaluxeLib.Songs
             get
             {
                 if (_Lines.Count == 0)
+                {
                     return 0;
+                }
 
-                int result = _Lines[_Lines.Count - 1].EndBeat - _Lines[0].StartBeat;
+                var result = _Lines[_Lines.Count - 1].EndBeat - _Lines[0].StartBeat;
                 return result > 0 ? result : 0;
             }
         }
@@ -77,59 +81,91 @@ namespace VocaluxeLib.Songs
         {
             //If no line -> No previous line
             if (_Lines.Count == 0)
+            {
                 return -1;
-            int start = 0;
-            int end = _Lines.Count - 1;
+            }
+
+            var start = 0;
+            var end = _Lines.Count - 1;
             //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
             if (_Lines[0].StartBeat > beat)
+            {
                 return -1;
+            }
+
             if (_Lines[end].StartBeat <= beat)
+            {
                 return end;
+            }
+
             //Binary search
             while (end - start > 1)
             {
-                int mid = (start + end) / 2;
+                var mid = (start + end) / 2;
                 if (_Lines[mid].StartBeat <= beat)
+                {
                     start = mid;
+                }
                 else
+                {
                     end = mid;
+                }
             }
+
             return start;
         }
 
         public bool AddLine(CSongLine line, bool updateTimings = true)
         {
             if (_Lines.Count == 0)
+            {
                 _Lines.Add(line);
+            }
             else
             {
-                int insPos = FindPreviousLine(line.StartBeat);
+                var insPos = FindPreviousLine(line.StartBeat);
                 //Check if previous line ends before this one
                 if (insPos >= 0 && _Lines[insPos].LastNoteBeat > line.StartBeat)
+                {
                     return false;
+                }
+
                 //Check if next line starts before this one ends
                 if (insPos + 1 < _Lines.Count && _Lines[insPos + 1].FirstNoteBeat < line.LastNoteBeat)
+                {
                     return false;
+                }
+
                 _Lines.Insert(insPos + 1, line);
             }
+
             if (updateTimings)
+            {
                 UpdateTimings();
+            }
+
             return true;
         }
 
         public bool AddLine(int startBeat)
         {
-            int insPos = FindPreviousLine(startBeat);
+            var insPos = FindPreviousLine(startBeat);
             //Check for actual notes (startbeat may be lower than first note)
             while (insPos >= 0 && _Lines[insPos].NoteCount > 0 && _Lines[insPos].FirstNoteBeat > startBeat)
+            {
                 insPos--;
-            CSongLine line = new CSongLine {StartBeat = startBeat};
+            }
+
+            var line = new CSongLine { StartBeat = startBeat };
             if (insPos >= 0)
             {
-                CSongLine prevLine = _Lines[insPos];
+                var prevLine = _Lines[insPos];
                 //We already have a line break here
                 if (prevLine.StartBeat == startBeat && (prevLine.NoteCount == 0 || prevLine.FirstNoteBeat == startBeat))
+                {
                     return false;
+                }
+
                 //Maybe we have to split the previous line
                 while (prevLine.NoteCount > 0 && prevLine.LastNote.StartBeat >= startBeat)
                 {
@@ -138,6 +174,7 @@ namespace VocaluxeLib.Songs
                     prevLine.DeleteNote(prevLine.NoteCount - 1);
                 }
             }
+
             _Lines.Insert(insPos + 1, line);
             return true;
         }
@@ -150,6 +187,7 @@ namespace VocaluxeLib.Songs
                 UpdateTimings();
                 return true;
             }
+
             return false;
         }
 
@@ -160,9 +198,12 @@ namespace VocaluxeLib.Songs
 
         public bool AddNote(CSongNote note, bool updateTimings = true)
         {
-            int lineIndex = FindPreviousLine(note.StartBeat);
+            var lineIndex = FindPreviousLine(note.StartBeat);
             if (lineIndex + 1 < _Lines.Count && _Lines[lineIndex + 1].FirstNoteBeat < note.EndBeat) //First note in next line starts before this one ends
+            {
                 return false;
+            }
+
             if (lineIndex < 0)
             {
                 //Note is before ALL lines
@@ -170,7 +211,9 @@ namespace VocaluxeLib.Songs
                 {
                     //Add to first line
                     if (!_Lines[0].AddNote(note))
+                    {
                         return false;
+                    }
                 }
                 else
                 {
@@ -182,10 +225,16 @@ namespace VocaluxeLib.Songs
             else
             {
                 if (!_Lines[lineIndex].AddNote(note))
+                {
                     return false;
+                }
             }
+
             if (updateTimings)
+            {
                 UpdateTimings();
+            }
+
             return true;
         }
 
@@ -206,18 +255,21 @@ namespace VocaluxeLib.Songs
         public void UpdateTimings()
         {
             if (_Lines.Count == 0)
+            {
                 return;
+            }
+
             _Lines[0].StartBeat = -10000;
 
-            for (int i = 1; i < _Lines.Count; i++)
+            for (var i = 1; i < _Lines.Count; i++)
             {
-                CSongNote lastNote = _Lines[i - 1].LastNote;
-                CSongNote firstNote = _Lines[i].FirstNote;
+                var lastNote = _Lines[i - 1].LastNote;
+                var firstNote = _Lines[i].FirstNote;
 
-                if ((lastNote != null) && (firstNote != null))
+                if (lastNote != null && firstNote != null)
                 {
-                    int min = lastNote.EndBeat;
-                    int max = firstNote.StartBeat;
+                    var min = lastNote.EndBeat;
+                    var max = firstNote.StartBeat;
 
                     int s;
                     switch (max - min)
@@ -264,8 +316,10 @@ namespace VocaluxeLib.Songs
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CSongLine line in _Lines)
+            foreach (var line in _Lines)
+            {
                 line.SetMedley(startBeat, endBeat);
+            }
         }
         #endregion Methods
 

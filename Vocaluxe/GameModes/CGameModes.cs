@@ -29,21 +29,27 @@ namespace Vocaluxe.GameModes
         public static void Init()
         {
             _GameModes = new Dictionary<EGameMode, IGameMode>
-                {
-                    {EGameMode.TR_GAMEMODE_NORMAL, new CGameModeNormal()},
-                    {EGameMode.TR_GAMEMODE_DUET, new CGameModeDuet()},
-                    {EGameMode.TR_GAMEMODE_SHORTSONG, new CGameModeShort()},
-                    {EGameMode.TR_GAMEMODE_MEDLEY, new CGameModeMedley()}
-                };
+            {
+                { EGameMode.TR_GAMEMODE_NORMAL, new CGameModeNormal() },
+                { EGameMode.TR_GAMEMODE_DUET, new CGameModeDuet() },
+                { EGameMode.TR_GAMEMODE_SHORTSONG, new CGameModeShort() },
+                { EGameMode.TR_GAMEMODE_MEDLEY, new CGameModeMedley() }
+            };
         }
 
         public static IGameMode Get(EGameMode gameMode)
         {
             if (_GameModes == null)
+            {
                 return null;
+            }
+
             IGameMode result;
             if (!_GameModes.TryGetValue(gameMode, out result))
+            {
                 result = _GameModes[EGameMode.TR_GAMEMODE_NORMAL];
+            }
+
             return result;
         }
     }
@@ -52,7 +58,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            return (song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_NORMAL)) ? song : null;
+            return song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_NORMAL) ? song : null;
         }
     }
 
@@ -60,7 +66,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            return (song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET)) ? song : null;
+            return song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET) ? song : null;
         }
     }
 
@@ -69,8 +75,11 @@ namespace Vocaluxe.GameModes
         protected override CSong _PrepareSong(CSong song)
         {
             if (!song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_SHORTSONG))
+            {
                 return null;
-            var newSong = new CSong(song) {Finish = CGame.GetTimeFromBeats(song.ShortEnd.EndBeat, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap};
+            }
+
+            var newSong = new CSong(song) { End = CGame.GetTimeFromBeats(song.ShortEnd.EndBeat, song.Bpm) + CSettings.DefaultMedleyFadeOutTime + song.Gap };
             // set lines to short mode
             newSong.Notes.SetMedley(0, song.ShortEnd.EndBeat);
 
@@ -83,12 +92,17 @@ namespace Vocaluxe.GameModes
         protected override CSong _PrepareSong(CSong song)
         {
             if (!song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
+            {
                 return null;
-            var newSong = new CSong(song) {Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap};
-            if (newSong.Start < 0f)
-                newSong.Start = 0f;
+            }
 
-            newSong.Finish = CGame.GetTimeFromBeats(song.Medley.EndBeat, song.BPM) + song.Medley.FadeOutTime + song.Gap;
+            var newSong = new CSong(song) { Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.Bpm) - song.Medley.FadeInTime + song.Gap };
+            if (newSong.Start < 0f)
+            {
+                newSong.Start = 0f;
+            }
+
+            newSong.End = CGame.GetTimeFromBeats(song.Medley.EndBeat, song.Bpm) + song.Medley.FadeOutTime + song.Gap;
 
             // set lines to medley mode
             newSong.Notes.SetMedley(song.Medley.StartBeat, song.Medley.EndBeat);

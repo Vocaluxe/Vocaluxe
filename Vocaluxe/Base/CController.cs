@@ -44,15 +44,20 @@ namespace Vocaluxe.Base
         private static void _AddController(IController controller)
         {
             if (controller.Init())
+            {
                 _Controller.Add(controller);
+            }
         }
 
         public static void Close()
         {
             if (_Controller != null)
             {
-                foreach (IController controller in _Controller)
+                foreach (var controller in _Controller)
+                {
                     controller.Close();
+                }
+
                 _Controller = null;
                 _KeysPool = null;
                 _MousePool = null;
@@ -61,14 +66,18 @@ namespace Vocaluxe.Base
 
         public static void Connect()
         {
-            foreach (IController controller in _Controller)
+            foreach (var controller in _Controller)
+            {
                 controller.Connect();
+            }
         }
 
         public static void Disconnect()
         {
-            foreach (IController controller in _Controller)
+            foreach (var controller in _Controller)
+            {
                 controller.Disconnect();
+            }
         }
 
         public static bool IsConnected()
@@ -79,17 +88,21 @@ namespace Vocaluxe.Base
 
         public static void Update()
         {
-            foreach (IController controller in _Controller)
+            foreach (var controller in _Controller)
             {
                 controller.Update();
 
                 var ke = new SKeyEvent();
                 while (controller.PollKeyEvent(ref ke))
+                {
                     _KeysPool.Add(ke);
+                }
 
                 var me = new SMouseEvent();
                 while (controller.PollMouseEvent(ref me))
+                {
                     _MousePool.Add(me);
+                }
             }
         }
 
@@ -101,6 +114,7 @@ namespace Vocaluxe.Base
                 _KeysPool.RemoveAt(0);
                 return true;
             }
+
             return false;
         }
 
@@ -112,13 +126,16 @@ namespace Vocaluxe.Base
                 _MousePool.RemoveAt(0);
                 return true;
             }
+
             return false;
         }
 
         public static void SetRumble(float duration)
         {
-            foreach (IController controller in _Controller)
+            foreach (var controller in _Controller)
+            {
                 controller.SetRumble(duration);
+            }
         }
     }
 }

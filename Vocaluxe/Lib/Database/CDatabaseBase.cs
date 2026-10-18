@@ -41,7 +41,10 @@ namespace Vocaluxe.Lib.Database
             lock (_Mutex)
             {
                 if (_Connection != null)
+                {
                     return false;
+                }
+
                 _Connection = new SqliteConnection("Data Source=" + _FilePath);
                 try
                 {
@@ -62,17 +65,24 @@ namespace Vocaluxe.Lib.Database
                     {
                         reader = command.ExecuteReader();
                     }
-                    catch (Exception) {}
+                    catch (Exception) { }
 
                     if (reader == null || !reader.Read() || reader.FieldCount == 0)
+                    {
                         _Version = -1;
+                    }
                     else
+                    {
                         _Version = reader.GetInt32(0);
+                    }
 
                     if (reader != null)
+                    {
                         reader.Dispose();
+                    }
                 }
             }
+
             return true;
         }
 
@@ -115,6 +125,7 @@ namespace Vocaluxe.Lib.Database
                     stream.Write(buffer, 0, bytesRead);
                     fieldOffset += bytesRead;
                 }
+
                 return stream.ToArray();
             }
         }

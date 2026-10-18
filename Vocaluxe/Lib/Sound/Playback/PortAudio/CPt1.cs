@@ -32,12 +32,14 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         {
             get
             {
-                double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
-                long ticks = _Timer.ElapsedTicks;
-                float dt = _Timer.ElapsedMilliseconds / 1000f;
+                var nanosecPerTick = 1000.0 * 1000.0 * 1000.0 / Stopwatch.Frequency;
+                var ticks = _Timer.ElapsedTicks;
+                var dt = _Timer.ElapsedMilliseconds / 1000f;
 
                 if (Stopwatch.IsHighResolution && ticks != 0)
+                {
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
+                }
 
                 return _CurrentTime + dt;
             }
@@ -45,7 +47,9 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             set
             {
                 if (value < 0f)
+                {
                     return;
+                }
 
                 _CurrentTime = value;
                 _OldTime = value;
@@ -67,16 +71,20 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         {
             _Timer.Stop();
 
-            double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
-            long ticks = _Timer.ElapsedTicks;
-            float dt = _Timer.ElapsedMilliseconds / 1000f;
+            var nanosecPerTick = 1000.0 * 1000.0 * 1000.0 / Stopwatch.Frequency;
+            var ticks = _Timer.ElapsedTicks;
+            var dt = _Timer.ElapsedMilliseconds / 1000f;
 
             if (Stopwatch.IsHighResolution && ticks != 0)
+            {
                 dt = (float)(ticks * nanosecPerTick / 1000000000.0);
+            }
 
-            float ts = 0f;
+            var ts = 0f;
             if (dt > 0)
+            {
                 ts = 1 / (_T / dt + 1);
+            }
 
             _CurrentTime = ts * (_K * newTime - _OldTime) + _OldTime;
             _OldTime = _CurrentTime;

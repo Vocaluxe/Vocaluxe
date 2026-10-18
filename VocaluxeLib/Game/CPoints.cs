@@ -25,13 +25,13 @@ namespace VocaluxeLib.Game
 
         public CPoints(int numRounds, SPlayer[] players)
         {
-            _Rounds = new SPlayer[numRounds,players.Length];
+            _Rounds = new SPlayer[numRounds, players.Length];
 
-            for (int round = 0; round < numRounds; round++)
+            for (var round = 0; round < numRounds; round++)
             {
-                for (int player = 0; player < players.Length; player++)
+                for (var player = 0; player < players.Length; player++)
                 {
-                    _Rounds[round, player].ProfileID = players[player].ProfileID;
+                    _Rounds[round, player].ProfileId = players[player].ProfileId;
                     _Rounds[round, player].Points = 0f;
                     _Rounds[round, player].PointsGoldenNotes = 0f;
                     _Rounds[round, player].PointsLineBonus = 0f;
@@ -41,12 +41,12 @@ namespace VocaluxeLib.Game
             }
         }
 
-        public void SetPoints(int round, int songID, SPlayer[] players, EGameMode gameMode)
+        public void SetPoints(int round, int songId, SPlayer[] players, EGameMode gameMode)
         {
-            long dateTicks = DateTime.Now.Ticks;
-            for (int player = 0; player < players.Length; player++)
+            var dateTicks = DateTime.Now.Ticks;
+            for (var player = 0; player < players.Length; player++)
             {
-                _Rounds[round, player].SongID = songID;
+                _Rounds[round, player].SongId = songId;
                 _Rounds[round, player].VoiceNr = players[player].VoiceNr;
                 _Rounds[round, player].Points = players[player].Points;
                 _Rounds[round, player].PointsGoldenNotes = players[player].PointsGoldenNotes;
@@ -70,24 +70,30 @@ namespace VocaluxeLib.Game
         public SPlayer[] GetPlayer(int round, int numPlayer)
         {
             if (NumPlayer == 0)
+            {
                 return new SPlayer[1];
+            }
+
             if (round >= NumRounds)
+            {
                 return new SPlayer[1];
+            }
 
             var players = new SPlayer[numPlayer];
 
-            for (int p = 0; p < players.Length; p++)
+            for (var p = 0; p < players.Length; p++)
             {
                 players[p].Points = _Rounds[round, p].Points;
                 players[p].PointsGoldenNotes = _Rounds[round, p].PointsGoldenNotes;
                 players[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
-                players[p].SongID = _Rounds[round, p].SongID;
+                players[p].SongId = _Rounds[round, p].SongId;
                 players[p].VoiceNr = _Rounds[round, p].VoiceNr;
                 players[p].GameMode = _Rounds[round, p].GameMode;
                 players[p].DateTicks = _Rounds[round, p].DateTicks;
                 players[p].SongFinished = _Rounds[round, p].SongFinished;
-                players[p].ProfileID = _Rounds[round, p].ProfileID;
+                players[p].ProfileId = _Rounds[round, p].ProfileId;
             }
+
             return players;
         }
     }

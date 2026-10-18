@@ -51,7 +51,8 @@ namespace VocaluxeLib.Log
         /// <param name="currentVersion">The current version tag as it is displayed in the main menu.</param>
         /// <param name="showReporterFunc">Delegate to the function which should be called if the reporter have to been shown.</param>
         /// <param name="logLevel">The log level for log messages.</param>
-        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc, ELogLevel logLevel)
+        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion,
+            ShowReporterDelegate showReporterFunc, ELogLevel logLevel)
         {
             _LogFolder = logFolder;
             _ShowReporterFunc = showReporterFunc;
@@ -61,7 +62,9 @@ namespace VocaluxeLib.Log
 
             // Creates the log directory if it does not exist
             if (!Directory.Exists(_LogFolder))
+            {
                 Directory.CreateDirectory(_LogFolder);
+            }
 
             var mainLogFilePath = Path.Combine(_LogFolder, fileNameMainLog);
             var songLogFilePath = Path.Combine(_LogFolder, fileNameSongInfoLog);
@@ -71,7 +74,7 @@ namespace VocaluxeLib.Log
             {
                 // There was a crash in the last run -> check version tag of the crashed application instance
                 string versionTag;
-                using (StreamReader reader = new StreamReader(_CrashMarkerFilePath, Encoding.UTF8))
+                using (var reader = new StreamReader(_CrashMarkerFilePath, Encoding.UTF8))
                 {
                     versionTag = (reader.ReadLine() ?? "").Trim();
                 }
@@ -91,7 +94,7 @@ namespace VocaluxeLib.Log
                 }
 #endif
             }
-            
+
             // Write new marker
             File.WriteAllText(_CrashMarkerFilePath, _CurrentVersion, Encoding.UTF8);
 
@@ -116,7 +119,7 @@ namespace VocaluxeLib.Log
 
             _SongLog = new LoggerConfiguration()
                 .MinimumLevel.Is(logLevel.ToSerilogLogLevel())
-                .WriteTo.File(songLogFilePath, 
+                .WriteTo.File(songLogFilePath,
                     flushToDiskInterval: TimeSpan.FromSeconds(60),
                     outputTemplate: _SongLogTemplate)
 #if DEBUG
@@ -125,10 +128,10 @@ namespace VocaluxeLib.Log
                 .CreateLogger();
 
             // Adding first line to log with information about this run
-            Information("Starting to log", 
-                Params( new { Version = _CurrentVersion},
-                    new { StartDate = DateTime.Now},
-                    new { Id = Guid.NewGuid() } ) );
+            Information("Starting to log",
+                Params(new { Version = _CurrentVersion },
+                    new { StartDate = DateTime.Now },
+                    new { Id = Guid.NewGuid() }));
         }
 
         /// <summary>
@@ -138,7 +141,7 @@ namespace VocaluxeLib.Log
         {
             if (!(_MainLog is CSilentLogger))
             {
-                ILogger loggerToDispose = _MainLog;
+                var loggerToDispose = _MainLog;
 
                 _MainLog = new CSilentLogger();
                 (loggerToDispose as IDisposable)?.Dispose();
@@ -146,7 +149,7 @@ namespace VocaluxeLib.Log
 
             if (!(_SongLog is CSilentLogger))
             {
-                ILogger loggerToDispose = _SongLog;
+                var loggerToDispose = _SongLog;
 
                 _SongLog = new CSilentLogger();
                 (loggerToDispose as IDisposable)?.Dispose();
@@ -154,7 +157,6 @@ namespace VocaluxeLib.Log
 
             // Delete the crash marker
             File.Delete(_CrashMarkerFilePath);
-
         }
 
         /// <summary>
@@ -169,7 +171,8 @@ namespace VocaluxeLib.Log
             // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
             _MainLogStringWriter.Flush();
             // Show the Reporter
-            _ShowReporterFunc(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(), lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
+            _ShowReporterFunc(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(),
+                lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
 
             // Delete the crash marker (we do not want to show this error again on the next restart)
             if (!showContinue)
@@ -191,16 +194,18 @@ namespace VocaluxeLib.Log
                 return template;
             }
 
-            Regex theRegex = new Regex(@"{[^}]+}");
-            
-            int i = 0;
+            var theRegex = new Regex(@"{[^}]+}");
+
+            var i = 0;
             return theRegex.Replace(template, delegate(Match match)
             {
                 if (i >= propertyValues.Length)
+                {
                     return match.Value;
+                }
+
                 return "\"" + propertyValues[i++] + "\"";
             });
         }
-
     }
 }

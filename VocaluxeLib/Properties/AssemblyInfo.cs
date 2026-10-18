@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
+// Die folgende GUId bestimmt die Id der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
 
 [assembly: Guid("3fb7cd34-186d-4f89-beb5-8830b8e5593b")]
 

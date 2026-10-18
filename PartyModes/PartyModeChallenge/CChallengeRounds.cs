@@ -40,16 +40,20 @@ namespace VocaluxeLib.PartyModes.Challenge
         public CChallengeRounds(int numRounds, int numPlayer, int playersPerRound)
         {
             if (numRounds < 1 || numPlayer < 1 || playersPerRound < 1)
+            {
                 throw new ArgumentException("Invalid paramters for the rounds");
+            }
 
             if (playersPerRound > numPlayer)
+            {
                 playersPerRound = numPlayer;
+            }
 
             _BuildRounds(numRounds, numPlayer, playersPerRound);
             if (Count > numRounds)
             {
                 //Try again and take the better one
-                List<CRound> old = new List<CRound>(_Rounds);
+                var old = new List<CRound>(_Rounds);
                 _Rounds.Clear();
                 _BuildRounds(numRounds, numPlayer, playersPerRound);
                 if (Count > old.Count)
@@ -66,50 +70,60 @@ namespace VocaluxeLib.PartyModes.Challenge
         /// <param name="numSung">List matching the playerIndex to the number of songs sung</param>
         private static List<int> _GetPlayersForRound(IList<int> numSung)
         {
-            List<int> mustSing = new List<int>();
-            int max = numSung.Max();
-            for (int i = 0; i < numSung.Count; i++)
+            var mustSing = new List<int>();
+            var max = numSung.Max();
+            for (var i = 0; i < numSung.Count; i++)
             {
                 if (numSung[i] < max)
+                {
                     mustSing.Add(i);
+                }
             }
+
             return mustSing;
         }
 
         private static void _AddCombinations(int numPlayer, int playersPerRound, List<CRound> combinations)
         {
-            List<int> input = new List<int>(numPlayer);
-            for (int i = 0; i < numPlayer; i++)
+            var input = new List<int>(numPlayer);
+            for (var i = 0; i < numPlayer; i++)
+            {
                 input.Add(i);
-            CCombinations<int> combs = new CCombinations<int>(input, playersPerRound);
+            }
+
+            var combs = new CCombinations<int>(input, playersPerRound);
             combinations.AddRange(combs.Select(combination => new CRound(combination)));
             combinations.Shuffle();
         }
 
         private static CRound _GetMatchingCombination(List<int> playersInRound, List<int> numSung, List<CRound> combinations)
         {
-            foreach (CRound round in combinations)
+            foreach (var round in combinations)
             {
-                int matching = round.Players.Count(playersInRound.Contains);
+                var matching = round.Players.Count(playersInRound.Contains);
                 // A valid round contains only players from playersInRound or all players from playersInRound (and some others)
                 if (matching == round.Players.Count || matching == playersInRound.Count)
+                {
                     return round;
+                }
             }
+
             // It may happen, that there are only players that already sung against each other. So create a 2nd best option with the most number of players that should sing in it
-            int maxMatching = combinations.Max(c => c.Players.Count(playersInRound.Contains));
-            List<CRound> nextOptions = combinations.Where(c => c.Players.Count(playersInRound.Contains) == maxMatching).ToList();
+            var maxMatching = combinations.Max(c => c.Players.Count(playersInRound.Contains));
+            var nextOptions = combinations.Where(c => c.Players.Count(playersInRound.Contains) == maxMatching).ToList();
             // And select the combination that minimizes the sum of the number of songs sung (--> favor rounds with players that sung less than others)
             CRound result = null;
-            int minSung = int.MaxValue;
-            foreach (CRound round in nextOptions)
+            var minSung = int.MaxValue;
+            foreach (var round in nextOptions)
             {
-                int curNumSung = round.Players.Sum(pl => numSung[pl]);
+                var curNumSung = round.Players.Sum(pl => numSung[pl]);
                 if (curNumSung < minSung)
                 {
                     minSung = curNumSung;
                     result = round;
                 }
             }
+
             Debug.Assert(result != null);
             return result;
         }
@@ -118,24 +132,35 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             // What we want is that every player sung the same amount of songs
             // So we keep track how many songs each palyer sung
-            List<int> numSung = new List<int>(numPlayer);
-            for (int i = 0; i < numPlayer; i++)
+            var numSung = new List<int>(numPlayer);
+            for (var i = 0; i < numPlayer; i++)
+            {
                 numSung.Add(0);
-            List<CRound> combinations = new List<CRound>();
+            }
+
+            var combinations = new List<CRound>();
             // Posibly add more rounds than requested if the song count per player is unequal
-            for (int i = 0; i < numRounds * 10; i++)
+            for (var i = 0; i < numRounds * 10; i++)
             {
                 if (combinations.Count == 0)
+                {
                     _AddCombinations(numPlayer, playersPerRound, combinations);
-                List<int> playersInRound = _GetPlayersForRound(numSung);
-                CRound curRound = _GetMatchingCombination(playersInRound, numSung, combinations);
-                foreach (int player in curRound.Players)
+                }
+
+                var playersInRound = _GetPlayersForRound(numSung);
+                var curRound = _GetMatchingCombination(playersInRound, numSung, combinations);
+                foreach (var player in curRound.Players)
+                {
                     numSung[player]++;
+                }
+
                 _Rounds.Add(curRound);
                 combinations.Remove(curRound);
                 //Stop if we have enough rounds and all players sung the same amount of songs
                 if (_Rounds.Count >= numRounds && numSung.All(ct => ct == numSung[0]))
+                {
                     break;
+                }
             }
         }
     }

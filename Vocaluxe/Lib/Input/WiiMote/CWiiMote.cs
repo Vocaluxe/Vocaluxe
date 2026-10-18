@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool[] _ButtonStates;
         private Point _OldPosition;
         private bool _Connected;
-        
+
         private Object _Sync;
         private bool _Active;
         private CRumbleTimer _RumbleTimer;
@@ -46,7 +46,10 @@ namespace Vocaluxe.Lib.Input.WiiMote
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
+
             _Sync = new Object();
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
@@ -74,9 +77,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
         public override void Connect()
         {
             if (_Active)
+            {
                 return;
+            }
+
             _Active = true;
-          
+
 
             _WiiMote.Connect();
         }
@@ -118,7 +124,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _WiiMote.SetRumble(true);
                 Thread.Sleep(250);
                 _WiiMote.SetRumble(false);
-                
+
 
                 bool startRumble;
                 bool stopRumble;
@@ -129,9 +135,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 }
 
                 if (startRumble)
+                {
                     _WiiMote.SetRumble(true);
+                }
                 else if (stopRumble)
+                {
                     _WiiMote.SetRumble(false);
+                }
 
                 _Connected = true;
             }
@@ -140,43 +150,69 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private void _WmWiiMoteChanged(object sender, CWiiMoteChangedEventArgs args)
         {
             if (!_Active)
+            {
                 return;
+            }
 
-            CWiiMoteStatus ws = args.WiiMoteState;
+            var ws = args.WiiMoteState;
 
-            Point p = ws.IRState.Position;
+            var p = ws.IRState.Position;
             p.X = 1023 - p.X;
 
-            EGesture gesture = _Gesture.GetGesture(p);
-            bool lb = false;
-            bool rb = gesture == EGesture.Back;
+            var gesture = _Gesture.GetGesture(p);
+            var lb = false;
+            var rb = gesture == EGesture.Back;
 
             var key = Keys.None;
 
             if (ws.ButtonState.A && !_ButtonStates[0])
+            {
                 lb = true;
+            }
             else if (ws.ButtonState.B && !_ButtonStates[1])
+            {
                 _Gesture.SetLockPosition(p);
+            }
             else if (!ws.ButtonState.B && _ButtonStates[1])
+            {
                 _Gesture.Reset();
+            }
             else if (ws.ButtonState.Down && !_ButtonStates[2])
+            {
                 key = Keys.Right;
+            }
             else if (ws.ButtonState.Up && !_ButtonStates[3])
+            {
                 key = Keys.Left;
+            }
             else if (ws.ButtonState.Left && !_ButtonStates[4])
+            {
                 key = Keys.Down;
+            }
             else if (ws.ButtonState.Right && !_ButtonStates[5])
+            {
                 key = Keys.Up;
+            }
             else if (ws.ButtonState.Home && !_ButtonStates[6])
+            {
                 key = Keys.Space;
+            }
             else if (ws.ButtonState.Minus && !_ButtonStates[7])
+            {
                 key = Keys.Subtract;
+            }
             else if (ws.ButtonState.Plus && !_ButtonStates[8])
+            {
                 key = Keys.Add;
+            }
             else if (ws.ButtonState.One && !_ButtonStates[9])
+            {
                 key = Keys.Enter;
+            }
             else if (ws.ButtonState.Two && !_ButtonStates[10])
+            {
                 key = Keys.Escape;
+            }
 
             _ButtonStates[0] = ws.ButtonState.A;
             _ButtonStates[1] = ws.ButtonState.B;
@@ -192,30 +228,41 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
 
             if (key != Keys.None)
+            {
                 AddKeyEvent(new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key));
+            }
 
             //mouse events
             const float reducing = 0.15f;
             const float factor = 1f / (1f - reducing * 2f);
-            float rx = ((p.X / 1024f) - reducing) * factor;
-            float ry = ((p.Y / 768f) - reducing) * factor;
+            var rx = (p.X / 1024f - reducing) * factor;
+            var ry = (p.Y / 768f - reducing) * factor;
 
             var x = (int)(rx * CSettings.RenderW);
             var y = (int)(ry * CSettings.RenderH);
 
 
-            bool lbh = !lb && ws.ButtonState.A;
+            var lbh = !lb && ws.ButtonState.A;
 
-            int wheel = 0;
+            var wheel = 0;
             if (gesture == EGesture.ScrollUp)
+            {
                 wheel = -1;
+            }
+
             if (gesture == EGesture.ScrollDown)
+            {
                 wheel = 1;
+            }
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
+            {
                 AddMouseEvent(new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, false, false, false, wheel, lbh, false, false, false));
+            }
             else if (lb || rb)
+            {
                 AddMouseEvent(new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, lb, false, rb, wheel, false, false, false, false));
+            }
 
             _OldPosition.X = p.X;
             _OldPosition.Y = p.Y;

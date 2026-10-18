@@ -29,7 +29,6 @@ namespace Tests.VocaluxeLib.Log.Rolling
         private string _TestFolder;
 
         #region Setup methods
-
         [SetUp]
         public void SetUp()
         {
@@ -41,20 +40,18 @@ namespace Tests.VocaluxeLib.Log.Rolling
         {
             Directory.Delete(_TestFolder, true);
         }
-
         #endregion
 
         #region Tests
-
         [Test]
-        public void RollFilesTest([Range(0,4)] int numFilesExisting, [Range(0, 3)] int numOldFilesToKeep)
+        public void RollFilesTest([Range(0, 4)] int numFilesExisting, [Range(0, 3)] int numOldFilesToKeep)
         {
             // Create existing files
             if (numFilesExisting > 0)
             {
                 CreateFile(_TestFolder, _TestFileName, 0);
             }
-            
+
             for (var i = 1; i < numFilesExisting; i++)
             {
                 CreateFile(_TestFolder, GetFileName(i), i);
@@ -63,33 +60,31 @@ namespace Tests.VocaluxeLib.Log.Rolling
 
             // Roll the files
             CLogFileRoller.RollLogs(Path.Combine(_TestFolder, _TestFileName), numOldFilesToKeep);
-            
+
 
             // Check main file
-            Assert.IsFalse(File.Exists(Path.Combine(_TestFolder, _TestFileName)), "Main file was not deleted.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, _TestFileName)), Is.False, "Main file was not deleted.");
             //Check other files
-            for (int i = 1; i <= Math.Max(numOldFilesToKeep, numFilesExisting); i++)
+            for (var i = 1; i <= Math.Max(numOldFilesToKeep, numFilesExisting); i++)
             {
                 var fileToCheck = Path.Combine(_TestFolder, GetFileName(i));
-                if (i <= Math.Min(numFilesExisting,numOldFilesToKeep))
+                if (i <= Math.Min(numFilesExisting, numOldFilesToKeep))
                 {
-                    Assert.IsTrue(File.Exists(fileToCheck), $"File {GetFileName(i)} is missing.");
-                    Assert.AreEqual((i - 1).ToString(), File.ReadAllText(fileToCheck), "Rotation is wrong");
+                    Assert.That(File.Exists(fileToCheck), Is.True, $"File {GetFileName(i)} is missing.");
+                    Assert.That(File.ReadAllText(fileToCheck), Is.EqualTo((i - 1).ToString()), "Rotation is wrong");
                 }
                 else
                 {
-                    Assert.IsFalse(File.Exists(fileToCheck));
+                    Assert.That(File.Exists(fileToCheck), Is.False);
                 }
             }
         }
-
         #endregion
 
         #region Helper methods
-
         private string _GetTemporaryDirectory()
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
@@ -103,8 +98,6 @@ namespace Tests.VocaluxeLib.Log.Rolling
         {
             return _TestFileName.Replace(".", $"_{i}.");
         }
-
         #endregion
-
     }
 }

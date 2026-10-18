@@ -16,11 +16,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Forms;
-using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
@@ -71,10 +68,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _UpdateSlides();
 
                         if (_Buttons[_ButtonBack].Selected)
+                        {
                             _PartyMode.Back();
+                        }
 
                         if (_Buttons[_ButtonNext].Selected)
+                        {
                             _PartyMode.Next();
+                        }
+
                         break;
 
                     case Keys.Left:
@@ -86,6 +88,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         break;
                 }
             }
+
             return true;
         }
 
@@ -97,14 +100,20 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 _UpdateSlides();
                 if (_Buttons[_ButtonBack].Selected)
+                {
                     _PartyMode.Back();
+                }
 
                 if (_Buttons[_ButtonNext].Selected)
+                {
                     _PartyMode.Next();
+                }
             }
 
             if (mouseEvent.RB)
+            {
                 _PartyMode.Back();
+            }
 
             return true;
         }
@@ -135,8 +144,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
 
             _SelectSlides[_SelectSlideNumJockers].Clear();
-            for (int i = 0; i <= 3; i++)
+            for (var i = 0; i <= 3; i++)
+            {
                 _SelectSlides[_SelectSlideNumJockers].AddValue(i);
+            }
 
             _SelectSlides[_SelectSlideNumJockers].SelectedTag = _PartyMode.GameData.NumJockers;
 

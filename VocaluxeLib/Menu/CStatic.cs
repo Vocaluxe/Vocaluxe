@@ -35,7 +35,7 @@ namespace VocaluxeLib.Menu
 
     public sealed class CStatic : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
 
         private SThemeStatic _Theme;
 
@@ -54,7 +54,7 @@ namespace VocaluxeLib.Menu
         private CTextureRef _Texture;
         public CTextureRef Texture
         {
-            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID); }
+            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId); }
 
             set { _Texture = value; }
         }
@@ -80,14 +80,14 @@ namespace VocaluxeLib.Menu
         /// </summary>
         public float ModH = -1f;
 
-        public CStatic(int partyModeID)
+        public CStatic(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
         }
 
         public CStatic(CStatic s)
         {
-            _PartyModeID = s._PartyModeID;
+            _PartyModeId = s._PartyModeId;
 
             _Texture = s.Texture;
             Color = s.Color;
@@ -101,26 +101,26 @@ namespace VocaluxeLib.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(int partyModeID, CTextureRef texture, SColorF color, SRectF rect)
+        public CStatic(int partyModeId, CTextureRef texture, SColorF color, SRectF rect)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
 
             _Texture = texture;
             Color = color;
             MaxRect = rect;
         }
 
-        public CStatic(int partyModeID, string textureSkinName, SColorF color, SRectF rect)
+        public CStatic(int partyModeId, string textureSkinName, SColorF color, SRectF rect)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme.Skin = textureSkinName;
             Color = color;
             MaxRect = rect;
         }
 
-        public CStatic(SThemeStatic theme, int partyModeID)
+        public CStatic(SThemeStatic theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
             ThemeLoaded = true;
         }
@@ -132,38 +132,51 @@ namespace VocaluxeLib.Menu
 
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
-            CTextureRef texture = Texture;
-            SRectF bounds = Rect.Scale(scale);
+            var texture = Texture;
+            var bounds = Rect.Scale(scale);
 
             //Change bounds if rect size should be modified without adjusting texture
             if (ModH != -1)
+            {
                 bounds.H = ModH * scale;
+            }
+
             if (ModW != -1)
+            {
                 bounds.W = ModW * scale;
+            }
 
             bounds.Z += zModify;
 
-            SRectF rect = texture == null ? bounds : CHelper.FitInBounds(bounds, texture.OrigAspect, aspect);
+            var rect = texture == null ? bounds : CHelper.FitInBounds(bounds, texture.OrigAspect, aspect);
 
             //Use original rect
             if (ModH != -1 || ModW != -1)
+            {
                 rect = Rect.Scale(scale);
+            }
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-            if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
+            if (Visible || forceDraw || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (texture != null)
                 {
                     CBase.Drawing.DrawTexture(texture, rect, color, bounds, false, AllMonitors);
                     if (Reflection)
+                    {
                         CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight, AllMonitors);
+                    }
                 }
                 else
+                {
                     CBase.Drawing.DrawRect(color, rect);
+                }
             }
 
-            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
+            if (Selected && CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            {
                 CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), rect);
+            }
         }
 
         public void UnloadSkin() { }
@@ -171,8 +184,11 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
-            _Theme.Color.Get(_PartyModeID, out Color);
+            }
+
+            _Theme.Color.Get(_PartyModeId, out Color);
 
             MaxRect = _Theme.Rect;
             Reflection = _Theme.Reflection.HasValue;
@@ -209,11 +225,15 @@ namespace VocaluxeLib.Menu
         {
             W += stepW;
             if (W <= 0)
+            {
                 W = 1;
+            }
 
             H += stepH;
             if (H <= 0)
+            {
                 H = 1;
+            }
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;

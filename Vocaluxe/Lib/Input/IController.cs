@@ -126,10 +126,12 @@ namespace Vocaluxe.Lib.Input
         public EGesture GetGesture(Point newPosition)
         {
             if (!_Locked)
+            {
                 return EGesture.None;
+            }
 
-            int dx = newPosition.X - _Begin.X;
-            int dy = newPosition.Y - _Begin.Y;
+            var dx = newPosition.X - _Begin.X;
+            var dy = newPosition.Y - _Begin.Y;
 
             //Back/Escape
             if (dx < -150 && Math.Abs(dy) < 150)

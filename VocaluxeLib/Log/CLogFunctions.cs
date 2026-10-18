@@ -34,9 +34,7 @@ namespace VocaluxeLib.Log
             return propertyValues;
         }
 
-
         #region Verbose functions
-
         /// <summary>
         /// Write an event with the Verbose level to the Verbose log.
         /// </summary>
@@ -46,14 +44,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Verbose(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Verbose(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Verbose(messageTemplate);                
+            {
+                _MainLog.Verbose(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -66,11 +68,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Verbose(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Verbose(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -84,8 +87,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Verbose(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues);
+            }
         }
 
         /// <summary>
@@ -98,14 +104,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Verbose(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Verbose(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Verbose( exception, messageTemplate);
+                _MainLog.Verbose(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -119,11 +129,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Verbose(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Verbose(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -137,14 +148,15 @@ namespace VocaluxeLib.Log
                     _MainLog.Verbose(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
-                ShowLogAssistant(messageTemplate, propertyValues);
-        }
 
+            if (show)
+            {
+                ShowLogAssistant(messageTemplate, propertyValues);
+            }
+        }
         #endregion
 
         #region Debug functions
-
         /// <summary>
         /// Write an event with the Debug level to the Debug log.
         /// </summary>
@@ -154,14 +166,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Debug(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Debug(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Debug(messageTemplate);                
+            {
+                _MainLog.Debug(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -174,11 +190,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Debug(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Debug(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -192,8 +209,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Debug(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues);
+            }
         }
 
         /// <summary>
@@ -206,14 +226,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Debug(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Debug(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Debug( exception, messageTemplate);
+                _MainLog.Debug(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -227,11 +251,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Debug(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Debug(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -245,14 +270,15 @@ namespace VocaluxeLib.Log
                     _MainLog.Debug(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
-                ShowLogAssistant(messageTemplate, propertyValues);
-        }
 
+            if (show)
+            {
+                ShowLogAssistant(messageTemplate, propertyValues);
+            }
+        }
         #endregion
 
         #region Information functions
-
         /// <summary>
         /// Write an event with the Information level to the Information log.
         /// </summary>
@@ -262,14 +288,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Information(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Information(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Information(messageTemplate);                
+            {
+                _MainLog.Information(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -282,11 +312,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Information(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Information(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -300,8 +331,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Information(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues);
+            }
         }
 
         /// <summary>
@@ -314,14 +348,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Information(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Information(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Information( exception, messageTemplate);
+                _MainLog.Information(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -335,11 +373,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Information(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Information(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -353,14 +392,15 @@ namespace VocaluxeLib.Log
                     _MainLog.Information(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
-                ShowLogAssistant(messageTemplate, propertyValues);
-        }
 
+            if (show)
+            {
+                ShowLogAssistant(messageTemplate, propertyValues);
+            }
+        }
         #endregion
 
         #region Warning functions
-
         /// <summary>
         /// Write an event with the Warning level to the Warning log.
         /// </summary>
@@ -370,14 +410,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Warning(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Warning(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Warning(messageTemplate);                
+            {
+                _MainLog.Warning(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -390,11 +434,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Warning(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Warning(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -408,8 +453,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Warning(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues);
+            }
         }
 
         /// <summary>
@@ -422,14 +470,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Warning(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Warning(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Warning( exception, messageTemplate);
+                _MainLog.Warning(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -443,11 +495,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Warning(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Warning(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -461,14 +514,15 @@ namespace VocaluxeLib.Log
                     _MainLog.Warning(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
-                ShowLogAssistant(messageTemplate, propertyValues);
-        }
 
+            if (show)
+            {
+                ShowLogAssistant(messageTemplate, propertyValues);
+            }
+        }
         #endregion
 
         #region Error functions
-
         /// <summary>
         /// Write an event with the Error level to the Error log.
         /// </summary>
@@ -478,14 +532,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Error(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Error(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Error(messageTemplate);                
+            {
+                _MainLog.Error(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -498,11 +556,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Error(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Error(string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -516,8 +575,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Error(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues);
+            }
         }
 
         /// <summary>
@@ -530,14 +592,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Error(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Error(Exception exception, string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Error( exception, messageTemplate);
+                _MainLog.Error(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null);
+            }
         }
 
         /// <summary>
@@ -551,11 +617,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Error(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Error(Exception exception, string messageTemplate, object[] propertyValues, bool show = false, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -569,14 +636,15 @@ namespace VocaluxeLib.Log
                     _MainLog.Error(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
-                ShowLogAssistant(messageTemplate, propertyValues);
-        }
 
+            if (show)
+            {
+                ShowLogAssistant(messageTemplate, propertyValues);
+            }
+        }
         #endregion
 
         #region Fatal functions
-
         /// <summary>
         /// Write an event with the Fatal level to the Fatal log and TERMINATES the appication.
         /// </summary>
@@ -586,14 +654,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Fatal(string messageTemplate, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Fatal(string messageTemplate, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+            [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-            {                
-                _MainLog.Fatal(messageTemplate);                
+            {
+                _MainLog.Fatal(messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null, true, false);
+            }
 
             // Close logs and exit
             Close();
@@ -610,11 +682,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Fatal(string messageTemplate, object[] propertyValues, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Fatal(string messageTemplate, object[] propertyValues, bool show = true, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -628,8 +701,11 @@ namespace VocaluxeLib.Log
                     _MainLog.Fatal(messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues, true, false);
+            }
 
             // Close logs and exit
             Close();
@@ -646,14 +722,18 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Fatal(Exception exception, string messageTemplate, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Fatal(Exception exception, string messageTemplate, bool show = true, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                _MainLog.Fatal( exception, messageTemplate);
+                _MainLog.Fatal(exception, messageTemplate);
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, null, true, false);
+            }
 
             // Close logs and exit
             Close();
@@ -671,11 +751,12 @@ namespace VocaluxeLib.Log
         /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
         /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
         [MessageTemplateFormatMethod("messageTemplate")]
-        public static void Fatal(Exception exception, string messageTemplate, object[] propertyValues, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        public static void Fatal(Exception exception, string messageTemplate, object[] propertyValues, bool show = true, [CallerMemberName] string callerMethodeName = "",
+            [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
             {
-                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+                var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
 
                 if (propertyValues.Length > usedPropertiesCount)
                 {
@@ -689,22 +770,22 @@ namespace VocaluxeLib.Log
                     _MainLog.Fatal(exception, messageTemplate, propertyValues);
                 }
             }
-            if(show)
+
+            if (show)
+            {
                 ShowLogAssistant(messageTemplate, propertyValues, true, false);
+            }
 
             // Close logs and exit
             Close();
             Environment.Exit(Environment.ExitCode);
         }
-
         #endregion
-    
+
         [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
-        public static class CSongLog 
+        public static class CSongLog
         {
-
             #region Verbose functions
-
             /// <summary>
             /// Write an event with the Verbose level to the Verbose log.
             /// </summary>
@@ -713,11 +794,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Verbose(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Verbose(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-                {                
-                    _SongLog.Verbose(messageTemplate);                
+                {
+                    _SongLog.Verbose(messageTemplate);
                 }
             }
 
@@ -730,12 +812,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Verbose(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Verbose(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -759,11 +842,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Verbose(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Verbose(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    _SongLog.Verbose( exception, messageTemplate);
+                    _SongLog.Verbose(exception, messageTemplate);
                 }
             }
 
@@ -777,12 +861,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Verbose(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Verbose(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -796,11 +881,9 @@ namespace VocaluxeLib.Log
                     }
                 }
             }
-
             #endregion
 
             #region Debug functions
-
             /// <summary>
             /// Write an event with the Debug level to the Debug log.
             /// </summary>
@@ -809,11 +892,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Debug(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Debug(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-                {                
-                    _SongLog.Debug(messageTemplate);                
+                {
+                    _SongLog.Debug(messageTemplate);
                 }
             }
 
@@ -826,12 +910,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Debug(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Debug(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -855,11 +940,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Debug(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Debug(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    _SongLog.Debug( exception, messageTemplate);
+                    _SongLog.Debug(exception, messageTemplate);
                 }
             }
 
@@ -873,12 +959,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Debug(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Debug(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -892,11 +979,9 @@ namespace VocaluxeLib.Log
                     }
                 }
             }
-
             #endregion
 
             #region Information functions
-
             /// <summary>
             /// Write an event with the Information level to the Information log.
             /// </summary>
@@ -905,11 +990,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Information(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Information(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-                {                
-                    _SongLog.Information(messageTemplate);                
+                {
+                    _SongLog.Information(messageTemplate);
                 }
             }
 
@@ -922,12 +1008,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Information(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Information(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -951,11 +1038,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Information(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Information(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    _SongLog.Information( exception, messageTemplate);
+                    _SongLog.Information(exception, messageTemplate);
                 }
             }
 
@@ -969,12 +1057,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Information(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Information(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -988,11 +1077,9 @@ namespace VocaluxeLib.Log
                     }
                 }
             }
-
             #endregion
 
             #region Warning functions
-
             /// <summary>
             /// Write an event with the Warning level to the Warning log.
             /// </summary>
@@ -1001,11 +1088,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Warning(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Warning(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-                {                
-                    _SongLog.Warning(messageTemplate);                
+                {
+                    _SongLog.Warning(messageTemplate);
                 }
             }
 
@@ -1018,12 +1106,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Warning(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Warning(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -1047,11 +1136,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Warning(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Warning(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    _SongLog.Warning( exception, messageTemplate);
+                    _SongLog.Warning(exception, messageTemplate);
                 }
             }
 
@@ -1065,12 +1155,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Warning(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Warning(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -1084,11 +1175,9 @@ namespace VocaluxeLib.Log
                     }
                 }
             }
-
             #endregion
 
             #region Error functions
-
             /// <summary>
             /// Write an event with the Error level to the Error log.
             /// </summary>
@@ -1097,11 +1186,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Error(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Error(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
-                {                
-                    _SongLog.Error(messageTemplate);                
+                {
+                    _SongLog.Error(messageTemplate);
                 }
             }
 
@@ -1114,12 +1204,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Error(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Error(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -1143,11 +1234,12 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Error(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Error(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "",
+                [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    _SongLog.Error( exception, messageTemplate);
+                    _SongLog.Error(exception, messageTemplate);
                 }
             }
 
@@ -1161,12 +1253,13 @@ namespace VocaluxeLib.Log
             /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
             /// <param name="callerLineNumber">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
             [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Error(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+            public static void Error(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "",
+                [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumber }))
                 {
-                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
-    
+                    var usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
                     if (propertyValues.Length > usedPropertiesCount)
                     {
                         using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
@@ -1180,7 +1273,6 @@ namespace VocaluxeLib.Log
                     }
                 }
             }
-    
             #endregion
         }
     }

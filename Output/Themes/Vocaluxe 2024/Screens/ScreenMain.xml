@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenMain</ScreenName>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -37,13 +37,13 @@
       </Rect>
     </Static>
     <Static Name="StaticWarningProfiles">
-      <Skin>TextBG</Skin>
+      <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>225</X>
-        <Y>915</Y>
-        <W>532.5</W>
-        <H>45</H>
+        <X>390</X>
+        <Y>767.5</Y>
+        <W>1140</W>
+        <H>75</H>
         <Z>-1.9</Z>
       </Rect>
     </Static>
@@ -64,11 +64,11 @@
       <Text>Vocaluxe "Shining Heaven" v0.3 (x64) Beta (0083)</Text>
     </Text>
     <Text Name="TextWarningProfiles">
-      <X>480</X>
-      <Y>918</Y>
+      <X>960</X>
+      <Y>787.5</Y>
       <Z>-2</Z>
-      <H>40.5</H>
-      <MaxW>532.5</MaxW>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>
@@ -83,20 +83,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>217.5</X>
-        <Y>900</Y>
-        <W>225</W>
-        <H>75</H>
+        <X>420</X>
+        <Y>750</Y>
+        <W>510</W>
+        <H>110</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>255</X>
+        <Y>26</Y>
         <Z>0</Z>
-        <H>40.5</H>
-        <MaxW>213</MaxW>
+        <H>58</H>
+        <MaxW>490</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -105,20 +105,39 @@
         <Font>Outline</Font>
         <Text>TR_SCREENMAIN_BUTTON_SING</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
     </Button>
     <Button Name="ButtonParty">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>532.5</X>
+        <X>990</X>
+        <Y>750</Y>
+        <W>510</W>
+        <H>110</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>255</X>
+        <Y>26</Y>
+        <Z>0</Z>
+        <H>58</H>
+        <MaxW>490</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENMAIN_BUTTON_PARTY</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonStatistics">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>420</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -138,7 +157,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>TR_SCREENMAIN_BUTTON_PARTY</Text>
+        <Text>TR_SCREENMAIN_BUTTON_STATISTICS</Text>
       </Text>
       <Reflection>
         <Height>39</Height>
@@ -153,7 +172,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>847.5</X>
+        <X>990</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -188,7 +207,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1162.5</X>
+        <X>705</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -223,7 +242,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1477.5</X>
+        <X>1275</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>

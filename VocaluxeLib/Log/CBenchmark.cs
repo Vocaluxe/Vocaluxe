@@ -29,7 +29,7 @@ namespace VocaluxeLib.Log
     {
         // Pool of stop watches shared between all instances (we can get more than 5 but it only keeps 5)
         private static readonly CObjectPool<Stopwatch> _WatchesPool = new CObjectPool<Stopwatch>(() => new Stopwatch(), 5);
-        private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
+        private static readonly double _NanosecPerTick = 1000.0 * 1000.0 * 1000.0 / Stopwatch.Frequency;
 
         // The stop watch used by this instance
         private Stopwatch _Watch = null;
@@ -51,7 +51,10 @@ namespace VocaluxeLib.Log
         public void Start()
         {
             if (_Watch != null)
+            {
                 throw new InvalidOperationException("Timer is already running.");
+            }
+
             _Watch = _WatchesPool.GetObject();
             _Watch.Restart();
             CLog.Information("Started {StartedOperation}", CLog.Params(_OperationName));
@@ -64,16 +67,23 @@ namespace VocaluxeLib.Log
         public void Stop(bool success = true)
         {
             if (_Watch == null)
+            {
                 return;
+            }
+
             _Watch.Stop();
-            double duration = _GetElapsedTime(_Watch);
+            var duration = _GetElapsedTime(_Watch);
 
             _WatchesPool.PutObject(_Watch);
             _Watch = null;
             if (success)
+            {
                 CLog.Information("Finished {StartedOperation} successfully in {Duration:#,##0.00}ms", CLog.Params(_OperationName, duration));
+            }
             else
+            {
                 CLog.Information("Failed {StartedOperation} in {Duration:#,##0.00}ms", CLog.Params(_OperationName, duration));
+            }
         }
 
         /// <summary>
@@ -84,9 +94,13 @@ namespace VocaluxeLib.Log
         private double _GetElapsedTime(Stopwatch watch)
         {
             if (Stopwatch.IsHighResolution && _NanosecPerTick > 0)
-                return (float)((_NanosecPerTick * watch.ElapsedTicks) / (1000.0 * 1000.0));
+            {
+                return (float)(_NanosecPerTick * watch.ElapsedTicks / (1000.0 * 1000.0));
+            }
             else
+            {
                 return watch.ElapsedMilliseconds;
+            }
         }
 
         /// <summary>
@@ -95,11 +109,12 @@ namespace VocaluxeLib.Log
         public void Dispose()
         {
             if (_Watch != null)
+            {
                 Stop();
+            }
         }
 
         #region Static functions
-
         /// <summary>
         /// Logs the time from now to disposal of the returned object.
         /// </summary>
@@ -114,7 +129,7 @@ namespace VocaluxeLib.Log
         /// </example>
         public static IDisposable Time(string operationName)
         {
-            CBenchmark benchmark = new CBenchmark(operationName);
+            var benchmark = new CBenchmark(operationName);
             benchmark.Start();
             return benchmark;
         }
@@ -134,13 +149,12 @@ namespace VocaluxeLib.Log
         /// </example>
         public static COperation Begin(string operationName)
         {
-            CBenchmark benchmark = new CBenchmark(operationName);
+            var benchmark = new CBenchmark(operationName);
             benchmark.Start();
             return new COperation(benchmark);
         }
 
         #region Helper class for operation
-
         /// <summary>
         /// Helper object to end a benchmark (End() for success and Dispose() for failure).
         /// </summary>
@@ -155,7 +169,6 @@ namespace VocaluxeLib.Log
             internal COperation(CBenchmark benchmark)
             {
                 _Benchmark = benchmark;
-
             }
 
             /// <summary>
@@ -174,9 +187,7 @@ namespace VocaluxeLib.Log
                 _Benchmark.Stop(false);
             }
         }
-
         #endregion
-
         #endregion
     }
 }

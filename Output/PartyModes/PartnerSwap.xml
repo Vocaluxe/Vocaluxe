@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>McSchneidar</Author>
+    <Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>PartnerSwap</Folder>
+    <PartyModeFile>CPartyModePartnerSwap</PartyModeFile>
+    <PartyModeVersionMajor>1</PartyModeVersionMajor>
+    <PartyModeVersionMinor>0</PartyModeVersionMinor>
+    <TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>CPartyScreenPartnerSwapMain</ScreenFile>
+    <ScreenFile>CPartyScreenPartnerSwapConfig</ScreenFile>
+    <ScreenFile>CPartyScreenPartnerSwapNames</ScreenFile>
+    <ScreenFile>CPartyScreenPartnerSwapSongs</ScreenFile>
+  </PartyScreens>
+</root>
