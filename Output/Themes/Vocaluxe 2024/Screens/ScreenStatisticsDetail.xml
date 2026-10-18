@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenStatisticsDetail</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -26,13 +26,8 @@
       </Rect>
     </Static>
     <Static Name="StaticList">
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0.45</A>
-      </Color>
+      <Skin>CoverTextBackground</Skin>
+      <Color Name="StaticColorAlpha" />
       <Rect>
         <X>90</X>
         <Y>185</Y>
@@ -42,13 +37,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe1">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>241</Y>
@@ -58,13 +48,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe3">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>361</Y>
@@ -74,13 +59,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe5">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>481</Y>
@@ -90,13 +70,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe7">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>601</Y>
@@ -106,13 +81,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe9">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>721</Y>
@@ -122,13 +92,8 @@
       </Rect>
     </Static>
     <Static Name="StaticRowStripe11">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>100</X>
         <Y>841</Y>

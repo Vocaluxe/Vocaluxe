@@ -1,6 +1,16 @@
 ScreenStatistics
 
 ++++++++++
+Version 2:
+(2026 Oct 18)
+
+Change (same look as the party mode selection):
+<StaticTile1> to <StaticTile4> use the skin ButtonTile with ButtonMainColor
+<StaticTileSelection> uses the skin ButtonTile with ButtonSelColor and replaces the selected tile (like <StaticTileSelected> in ScreenParty)
+<StaticBestColumn1> to <StaticBestColumn3> use the skin ButtonTile with ButtonMainColor
+Columns of the best list (<StaticBestColumn$N$>, <StaticBestMedal$N$$M$>, <TextDifficulty$N$>, <TextBestName$N$$M$>, <TextBestScore$N$$M$>) moved 20 pixels down
+
+++++++++++
 Version 1:
 (2026 Oct 16)
 

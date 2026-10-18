@@ -28,7 +28,7 @@ namespace Vocaluxe.Screens
     {
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const int _NumTiles = 4;
@@ -191,6 +191,11 @@ namespace Vocaluxe.Screens
             selection.Y = rect.Y;
             selection.W = rect.W;
             selection.H = rect.H;
+
+            for (var i = 0; i < _StaticTile.Length; i++)
+            {
+                _Statics[_StaticTile[i]].Visible = i != tile;
+            }
         }
 
         private void _OpenDetail()

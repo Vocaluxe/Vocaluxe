@@ -1,6 +1,14 @@
 ScreenStatisticsDetail
 
 ++++++++++
+Version 2:
+(2026 Oct 18)
+
+Change (same look as the party mode selection):
+<StaticList> uses the skin CoverTextBackground with StaticColorAlpha
+<StaticRowStripe$N$> use the skin ButtonTile with ButtonMainColor
+
+++++++++++
 Version 1:
 (2026 Oct 16)
 
