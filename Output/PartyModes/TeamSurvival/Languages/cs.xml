@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Anglický</string>
+  <string name="TR_PARTYMODE_NAME">Přežití družstva</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Dvě družstva proti sobě soutěží v pěveckých soubojích, poražený tým přijde o jedno srdce a vítězem se stane tým, který zůstane jako poslední.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pro dvě družstva, z nichž každé má až 8 hráčů, jsou potřeba 2 mikrofony.</string>
+  <string name="TR_BUTTON_NEXT">Další</string>
+  <string name="TR_BUTTON_BACK">Zpět</string>
+  <string name="TR_BUTTON_EXIT">Ukončit</string>
+  <string name="TR_BUTTON_YES">Ano</string>
+  <string name="TR_BUTTON_NO">Ne</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Spustit souboj</string>
+  <string name="TR_SONGS">Písně</string>
+  <string name="TR_TEAM">Družstvo</string>
+  <string name="TR_SCREENCONFIG_TITLE">Přežití družstva: Nastavení</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Srdce</string>
+  <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Platí pro všechny</string>
+  <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Sada na hráče</string>
+  <string name="TR_SCREENCONFIG_NUMHEARTS">Počet srdíček na hráče</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků na hráče</string>
+  <string name="TR_SCREENNAMES_TITLE">Přežití družstva: Zvolte družstva</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Vybraní hráči pro toto družstvo:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Družstvo 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Družstvo 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Přidejte alespoň jednoho hráče do obou družstev! / Přetáhněte zástupné obrázky hráčů a přidejte je do seznamu vybraných hráčů! / Klepnutím pravým tlačítkem myši na jej zastupující obrázek vybraného hráče odeberete!</string>
+  <string name="TR_SCREENHEARTS_TITLE">Přežití družstva: Počet srdíček na hráče</string>
+  <string name="TR_SCREENHEARTS_HINT">Nahoru/Dolů = Výběr hráče · Vlevo/Vpravo nebo klepnutí na srdce = Změna srdcí · Enter = Další · ESC = Zpět</string>
+  <string name="TR_SCREENMAIN_TITLE">Přežití družstva</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu chcete odejít ze hry\?</string>
+  <string name="TR_SCREENMAIN_PASS">Kolo</string>
+  <string name="TR_SCREENMAIN_DUEL">Souboj</string>
+  <string name="TR_SCREENMAIN_VERSUS">proti</string>
+  <string name="TR_SCREENMAIN_REMATCH">Nerozhodná hra! Souboj se opakuje.</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Vítězné družstvo</string>
+</resources>
