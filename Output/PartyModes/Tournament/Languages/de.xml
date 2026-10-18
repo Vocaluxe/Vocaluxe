@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Deutsch</string>
+  <string name="TR_PARTYMODE_NAME">K.O.-Turnier</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Singt Duelle im K.O.-System, bis nur noch ein Sieger übrig ist.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Für 3 bis 16 Spieler, die einen echten Wettkampf mögen.</string>
+  <string name="TR_BUTTON_NEXT">Weiter</string>
+  <string name="TR_BUTTON_BACK">Zurück</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Beenden</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nein</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Duell starten</string>
+  <string name="TR_SONGS">Songs</string>
+  <string name="TR_SCREENCONFIG_TITLE">K.O.-Turnier: Konfiguration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Joker pro Spieler</string>
+  <string name="TR_SCREENNAMES_TITLE">K.O.-Turnier: Spieler auswählen</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig wählen</string>
+  <string name="TR_SCREENMAIN_TITLE">K.O.-Turnier</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Willst du das Turnier wirklich beenden?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Achtelfinale</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Viertelfinale</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Halbfinale</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Finale</string>
+  <string name="TR_SCREENMAIN_BYE">Freilos</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Sieger</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Nächstes Duell:</string>
+  <string name="TR_SCREENMAIN_VERSUS">gegen</string>
+  <string name="TR_SCREENMAIN_REMATCH">Gleichstand! Das Duell wird nachgesungen.</string>
+</resources>
