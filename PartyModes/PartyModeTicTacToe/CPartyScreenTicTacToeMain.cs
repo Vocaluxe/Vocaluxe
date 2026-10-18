@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
@@ -37,7 +38,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _TextPopupReallyExit = "TextPopupReallyExit";
@@ -47,6 +48,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const string _TextNextPlayerT2 = "TextNextPlayerT2";
         private const string _TextNextPlayerNameT1 = "TextNextPlayerNameT1";
         private const string _TextNextPlayerNameT2 = "TextNextPlayerNameT2";
+        private const string _TextJokerRandomT1 = "TextJokerRandomT1";
+        private const string _TextJokerRandomT2 = "TextJokerRandomT2";
+        private const string _TextJokerRetryT1 = "TextJokerRetryT1";
+        private const string _TextJokerRetryT2 = "TextJokerRetryT2";
 
         private const string _ButtonNextRound = "ButtonNextRound";
         private const string _ButtonBack = "ButtonBack";
@@ -90,12 +95,21 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private int[,] _Possibilities;
         private EStatus _Status;
 
+        private const float _FieldWonDuration = 700f;
+        private readonly Stopwatch _AnimTimer = new Stopwatch();
+        private readonly List<SRectF> _FieldRects = new List<SRectF>();
+        private int _AnimatedField = -1;
+        private int _WinningLine = -1;
+
         public override void Init()
         {
             base.Init();
 
             _ThemeTexts = new string[]
-                { _TextPopupReallyExit, _TextTeamChoosing, _TextFinishMessage, _TextNextPlayerT1, _TextNextPlayerT2, _TextNextPlayerNameT1, _TextNextPlayerNameT2 };
+                {
+                    _TextPopupReallyExit, _TextTeamChoosing, _TextFinishMessage, _TextNextPlayerT1, _TextNextPlayerT2, _TextNextPlayerNameT1, _TextNextPlayerNameT2,
+                    _TextJokerRandomT1, _TextJokerRandomT2, _TextJokerRetryT1, _TextJokerRetryT2
+                };
             _ThemeButtons = new string[]
             {
                 _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
@@ -411,7 +425,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _UpdateFields();
             _UpdateFieldContents();
 
+            _AnimatedField = _PartyMode.GameData.LastWonField;
+            _PartyMode.GameData.LastWonField = -1;
+            _AnimTimer.Reset();
+            _AnimTimer.Start();
+
             var winner = _GetWinner();
+            _WinningLine = winner > 0 ? _GetWinningLine() : -1;
+            _SetJokerLabelsVisible(false);
             if (_PartyMode.GameData.CurrentRoundNr <= _PartyMode.GameData.NumFields && winner == 0)
             {
                 _UpdateTeamChoosingMessage();
@@ -442,6 +463,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Texts[_TextTeamChoosing].Visible = false;
                 if (winner > 0)
                 {
+                    if (_WinningLine >= 0)
+                    {
+                        _DimFieldsOutsideWinningLine();
+                    }
+
                     _Texts[_TextFinishMessage].Color = CBase.Themes.GetPlayerColor(winner);
                     _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", PartyModeId) + " " + CBase.Language.Translate("TR_TEAM", PartyModeId) + " " +
                                                       winner;
@@ -460,6 +486,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override bool UpdateGame()
         {
+            _UpdateFieldAnimations();
+
             if (!_Equalizers[_EqualizerTeam[0]].Visible)
             {
                 return true;
@@ -472,6 +500,88 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
 
             return true;
+        }
+
+        private static float _EaseOutBack(float t)
+        {
+            const float c1 = 1.70158f;
+            const float c3 = c1 + 1f;
+            return 1f + c3 * (float)Math.Pow(t - 1f, 3) + c1 * (float)Math.Pow(t - 1f, 2);
+        }
+
+        private void _SetFieldScale(int field, float scale)
+        {
+            var rect = _FieldRects[field];
+            var w = rect.W * scale;
+            var h = rect.H * scale;
+            _Fields[field].X = rect.X + (rect.W - w) / 2;
+            _Fields[field].Y = rect.Y + (rect.H - h) / 2;
+            _Fields[field].W = w;
+            _Fields[field].H = h;
+        }
+
+        private void _UpdateFieldAnimations()
+        {
+            var time = _AnimTimer.ElapsedMilliseconds;
+
+            if (_AnimatedField >= 0 && _AnimatedField < _FieldRects.Count)
+            {
+                var progress = Math.Min(1f, time / _FieldWonDuration);
+                _SetFieldScale(_AnimatedField, 1.25f - 0.25f * _EaseOutBack(progress));
+
+                var teamColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[_AnimatedField].Winner);
+                var color = new SColorF(1f + (teamColor.R - 1f) * progress, 1f + (teamColor.G - 1f) * progress, 1f + (teamColor.B - 1f) * progress, teamColor.A);
+                _Fields[_AnimatedField].Color = color;
+                _Fields[_AnimatedField].SelColor = color;
+
+                if (progress >= 1f)
+                {
+                    _SetFieldScale(_AnimatedField, 1f);
+                    _AnimatedField = -1;
+                }
+
+                return;
+            }
+
+            if (_WinningLine < 0)
+            {
+                return;
+            }
+
+            var pulse = 1f + 0.04f * (float)Math.Sin(time / 1000.0 * Math.PI * 1.4);
+            for (var c = 0; c < _Possibilities.GetLength(1); c++)
+            {
+                _SetFieldScale(_Possibilities[_WinningLine, c], pulse);
+            }
+        }
+
+        private void _DimFieldsOutsideWinningLine()
+        {
+            var inLine = new List<int>();
+            for (var c = 0; c < _Possibilities.GetLength(1); c++)
+            {
+                inLine.Add(_Possibilities[_WinningLine, c]);
+            }
+
+            for (var i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
+            {
+                if (inLine.Contains(i))
+                {
+                    continue;
+                }
+
+                var color = _Fields[i].Color;
+                _Fields[i].Color = new SColorF(color.R, color.G, color.B, color.A * 0.35f);
+                _Fields[i].SelColor = _Fields[i].Color;
+            }
+        }
+
+        private void _SetJokerLabelsVisible(bool visible)
+        {
+            _Texts[_TextJokerRandomT1].Visible = visible;
+            _Texts[_TextJokerRandomT2].Visible = visible;
+            _Texts[_TextJokerRetryT1].Visible = visible;
+            _Texts[_TextJokerRetryT2].Visible = visible;
         }
 
         private void _CreateFields()
@@ -488,15 +598,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateFields()
         {
             var numOneRow = (int)Math.Sqrt(_PartyMode.GameData.NumFields);
-            var fieldSizeY = ((float)CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
+            var fieldSizeY = ((float)CBase.Settings.GetRenderH() - 210 - numOneRow * _FieldSpace) / numOneRow;
             var fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
             _FieldSize = Math.Min(fieldSizeX, fieldSizeY);
             _FieldFirstX = (float)CBase.Settings.GetRenderW() / 2 - (numOneRow * _FieldSize + (numOneRow - 1) * _FieldSpace) / 2;
-            _FieldFirstY = 140 + (CBase.Settings.GetRenderH() - 140) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
+            _FieldFirstY = 200 + (CBase.Settings.GetRenderH() - 200) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
             var row = 0;
             var column = 0;
             var x = _FieldFirstX;
             var y = _FieldFirstY;
+            _FieldRects.Clear();
             for (var i = 0; i < _Fields.Count; i++)
             {
                 if (i < _PartyMode.GameData.NumFields)
@@ -507,6 +618,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Fields[i].Y = y;
                     _Fields[i].Visible = true;
                     _Fields[i].Selectable = true;
+                    _FieldRects.Add(new SRectF(x, y, _FieldSize, _FieldSize, _Fields[i].Rect.Z));
                     column++;
                     if (i + 1 >= numOneRow * (row + 1))
                     {
@@ -746,6 +858,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonJokerRandomT2].Selectable = _PartyMode.GameData.NumJokerRandom[1] > 0;
             _Buttons[_ButtonJokerRetryT1].Visible = true;
             _Buttons[_ButtonJokerRetryT2].Visible = true;
+            _SetJokerLabelsVisible(true);
             _Buttons[_ButtonJokerRetryT1].Text.Text = _PartyMode.GameData.NumJokerRetry[0].ToString();
             _Buttons[_ButtonJokerRetryT2].Text.Text = _PartyMode.GameData.NumJokerRetry[1].ToString();
             _Buttons[_ButtonJokerRetryT1].Selectable = _PartyMode.GameData.NumJokerRetry[0] > 0 && _PartyMode.GameData.CurrentRoundNr > 1;
@@ -826,6 +939,30 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                 }
             }
+        }
+
+        private int _GetWinningLine()
+        {
+            var winner = _GetWinner();
+            for (var i = 0; i < _Possibilities.GetLength(0); i++)
+            {
+                var complete = true;
+                for (var j = 0; j < _Possibilities.GetLength(1); j++)
+                {
+                    if (_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner != winner)
+                    {
+                        complete = false;
+                        break;
+                    }
+                }
+
+                if (complete)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         private int _GetWinner()
