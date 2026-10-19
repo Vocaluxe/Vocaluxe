@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglický</string>
+  <string name="language">Čeština</string>
   <string name="TR_PARTYMODE_NAME">Vyřazovací turnaj</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Zpívejte v soubojích ve vyřazovacím pavouku, dokud nezůstane jen jeden vítěz.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pro 3 až 16 hráčů, kteří mají rádi opravdovou soutěž.</string>
@@ -15,7 +15,7 @@
   <string name="TR_SCREENCONFIG_TITLE">Vyřazovací turnaj: Nastavení</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků na hráče</string>
-  <string name="TR_SCREENNAMES_TITLE">Vyřazovací turnaj: Vyberte hráče</string>
+  <string name="TR_SCREENNAMES_TITLE">Vyřazovací turnaj: Výběr hráče</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
   <string name="TR_SCREENMAIN_TITLE">Vyřazovací turnaj</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu chcete odejít z klání\?</string>
