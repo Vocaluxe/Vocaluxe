@@ -68,7 +68,6 @@ namespace Vocaluxe.Base
                 _Screens.Add(new CScreenLoad());
                 _Screens.Add(new CScreenMain());
                 _Screens.Add(new CScreenSong());
-                _Screens.Add(new CScreenOptions());
                 _Screens.Add(new CScreenSing());
                 _Screens.Add(new CScreenProfiles());
                 _Screens.Add(new CScreenScore());
@@ -82,6 +81,7 @@ namespace Vocaluxe.Base
                 _Screens.Add(new CScreenOptionsTheme());
                 _Screens.Add(new CScreenOptionsGraphics());
                 _Screens.Add(new CScreenOptionsServer());
+                _Screens.Add(new CScreenOptionsSongFolders());
                 _Screens.Add(new CScreenNames());
                 _Screens.Add(new CScreenCredits());
                 _Screens.Add(new CScreenParty());

@@ -3,6 +3,7 @@ Skin System
 ++++++++++
 Version 4:
 All Colors in <Colors> (Playercolors and ColorSchemes)
+Optional textures for the options screens: OptionsIconGame, OptionsIconSound, OptionsIconLyrics, OptionsIconTheme, OptionsIconGraphics, OptionsIconServer, OptionsIconSongFolders, OptionsNavBackground, OptionsSlideSelected, OptionsNavSelected
 
 ++++++++++
 Version 3:

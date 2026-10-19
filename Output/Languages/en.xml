@@ -267,6 +267,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Song-menu style</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Song sorting</string>
   <string name="TR_SCREENOGAME_TABS">Tabs</string>
+  <string name="TR_SCREENOGAME_TILECAPTION">Tile caption</string>
   <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay song previews</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Game difficulty</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timer mode</string>
@@ -282,6 +283,8 @@
   <string name="TR_SCREENORECORD_PLAYER_6">Player 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mic delay</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Warning: At least one player is assigned to two mics.</string>
+  <string name="TR_SCREENORECORD_CHANNEL_WARNING">Warning: Several players are assigned to the same channel, only one of them will be used.</string>
+  <string name="TR_SCREENORECORD_NO_MIC_WARNING">Warning: No microphone found.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Delay test</string>
   <string name="TR_SCREENOSOUND_OPTIONS">Sound Options</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Background music</string>
@@ -309,6 +312,9 @@
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Fullscreen</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">Stretched</string>
   <string name="TR_SCREENOSERVER_OPTIONS">Server Options</string>
+  <string name="TR_SCREENOSONGFOLDERS_TITLE">Song Folders</string>
+  <string name="TR_SCREENOSONGFOLDERS_BUTTON_ADD">Add folder</string>
+  <string name="TR_SCREENOSONGFOLDERS_NOFOLDERS">No song folders configured. The Songs folder of the program is used.</string>
   <string name="TR_SCREENOSERVER_ACTIVE">Server active</string>
   <string name="TR_SCREENOSERVER_ENCRYPTION">Server encryption</string>
   <string name="TR_SCREENOSERVER_BUTTON_SERVER">Server address</string>
