@@ -111,6 +111,45 @@
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Volby</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profily</string>
   <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Nenalezeny žádné profily!</string>
+  <string name="TR_SCREENMAIN_BUTTON_STATISTICS">Statistika</string>
+  <string name="TR_SCREENSTATISTICS_TITLE">Statistika</string>
+  <string name="TR_SCREENSTATISTICS_HINT">Navigace = Výběr dlaždice • Enter = Otevřít podrobnosti • ESC = Zpět do hlavní nabídky</string>
+  <string name="TR_SCREENSTATISTICS_DETAILHINT">Vlevo/Vpravo = Změnit zobrazení • Nahoru/Dolů = Posouvat • ESC = Zpět ke statistikám</string>
+  <string name="TR_SCREENSTATISTICS_OVERVIEW">Přehled</string>
+  <string name="TR_SCREENSTATISTICS_RECENT">Nedávno zpíváno</string>
+  <string name="TR_SCREENSTATISTICS_BEST">Seznam nejlepších</string>
+  <string name="TR_SCREENSTATISTICS_PLAYERS">Hráči</string>
+  <string name="TR_SCREENSTATISTICS_SONGS">Písně</string>
+  <string name="TR_SCREENSTATISTICS_SUNG">zpíváno</string>
+  <string name="TR_SCREENSTATISTICS_PLAYERCOUNT">Hráči</string>
+  <string name="TR_SCREENSTATISTICS_COVERAGE">Zpívaná sbírka: {0} %</string>
+  <string name="TR_SCREENSTATISTICS_MOSTSUNG">Nejčastěji zpíváno</string>
+  <string name="TR_SCREENSTATISTICS_GENRES">Žánry</string>
+  <string name="TR_SCREENSTATISTICS_LANGUAGES">Jazyky</string>
+  <string name="TR_SCREENSTATISTICS_NEVERSUNG">Nikdy nezpíváno</string>
+  <string name="TR_SCREENSTATISTICS_ALLPLAYERS">Všichni hráči</string>
+  <string name="TR_SCREENSTATISTICS_PLAYERSONGS">{0} · {1} písně</string>
+  <string name="TR_SCREENSTATISTICS_AVERAGE">Ø {0}</string>
+  <string name="TR_SCREENSTATISTICS_PLAYERDETAIL">{0} písně · nejlepší {1}</string>
+  <string name="TR_SCREENSTATISTICS_MOSTSONGS">Většina písní</string>
+  <string name="TR_SCREENSTATISTICS_BESTAVERAGE">Nejlepší průměr</string>
+  <string name="TR_SCREENSTATISTICS_PLAYERAVERAGEDETAIL">Ø {0} · nejlepší  {1}</string>
+  <string name="TR_SCREENSTATISTICS_SONGCOUNT">{0} písně</string>
+  <string name="TR_SCREENSTATISTICS_SUMMARY">{0} písně · {1} zpíváno ({2} %) · sung {3} krát celkem</string>
+  <string name="TR_SCREENSTATISTICS_TODAY">Dnes</string>
+  <string name="TR_SCREENSTATISTICS_YESTERDAY">Včera</string>
+  <string name="TR_SCREENSTATISTICS_NODATA">Zatím nejsou dostupné žádné údaje</string>
+  <string name="TR_SCREENSTATISTICS_COL_SONG">Píseň</string>
+  <string name="TR_SCREENSTATISTICS_COL_TIMES">Kolikrát</string>
+  <string name="TR_SCREENSTATISTICS_COL_GENRE">Žánr</string>
+  <string name="TR_SCREENSTATISTICS_COL_LANGUAGE">Jazyk</string>
+  <string name="TR_SCREENSTATISTICS_COL_SUNG">Zpíváno</string>
+  <string name="TR_SCREENSTATISTICS_COL_YEAR">Rok</string>
+  <string name="TR_SCREENSTATISTICS_COL_DATE">Datum</string>
+  <string name="TR_SCREENSTATISTICS_COL_PLAYER">Hráč</string>
+  <string name="TR_SCREENSTATISTICS_COL_SCORE">Výsledky</string>
+  <string name="TR_SCREENSTATISTICS_COL_SONGS">Písně</string>
+  <string name="TR_SCREENSTATISTICS_COL_AVERAGE">Průměr</string>
   <string name="TR_SCREENPARTY_TITLE">Výběr režimu oslavy</string>
   <string name="TR_SCREENPARTY_MODES">Režim oslavy</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Popis</string>
@@ -120,9 +159,10 @@
   <string name="TR_SCREENPARTY_ERROR_MICS">Nejsou nastaveny žádné mikrofony!</string>
   <string name="TR_SCREENPARTY_ERROR_MIC_NUM">Pro tento večírkový režim je potřeba %d mikrofonů!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Cíloví posluchači</string>
-  <string name="TR_SCREENPARTY_NOTEAMS">Žádné týmy</string>
-  <string name="TR_SCREENPARTY_NUMTEAMS">Počet týmů</string>
+  <string name="TR_SCREENPARTY_NOTEAMS">Žádná družstva</string>
+  <string name="TR_SCREENPARTY_NUMTEAMS">Počet družstev</string>
   <string name="TR_SCREENPARTY_NUMPLAYERS">Počet hráčů</string>
+  <string name="TR_SCREENPARTY_NUMMICS">Mikrofony</string>
   <string name="TR_SCREENNAMES_MENU">Výběr hráče</string>
   <string name="TR_SCREENNAMES_PLAYER">Hráč</string>
   <string name="TR_SCREENNAMES_1PLAYER">1 hráč</string>
@@ -167,7 +207,7 @@
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Skok na písmeno • F3 = Vyhledávat • CTRL+R = Náhodný výběr - CTRL+S = Spustit směsku • CTRL+# = Změnit řazení skladeb • CTRL+T = Zapnout/Vypnout zobrazení kategorií • Mezerník = Otevřít volby skladby • ESC = Zpět do hlavní nabídky</string>
   <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Vyhledávání umělce a názvu, předpony pro vyhledávání → a: = umělec • t: = název • c: = tvůrce • e: = edice • g: = žánr • y: = rok (např. 1999 nebo 1980-1989) • l: = jazyk • al: = album • fi: = název souboru • fo: = název složky • #: = značky</string>
-  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = stisknutím čísla týmu použijete náhodný žolík.</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = stisknutím čísla družsta použijete náhodný žolík.</string>
   <string name="TR_SCREENSONG_SORTING">Řazení: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Žádnou směsku pro tuto píseň!</string>
   <string name="TR_SCREENSING_PAUSE">Pozastavit</string>
