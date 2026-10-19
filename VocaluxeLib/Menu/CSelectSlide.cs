@@ -121,6 +121,7 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.X += delta;
                 RectArrowRight.X += delta;
                 base.X = value;
+                _NeedsRevalidate = true;
             }
         }
         public override float Y
@@ -131,6 +132,7 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.Y += delta;
                 RectArrowRight.Y += delta;
                 base.Y = value;
+                _NeedsRevalidate = true;
             }
         }
         public override float Z
