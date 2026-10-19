@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Čeština</string>
+  <string name="TR_PARTYMODE_NAME">Výměna spoluhráčů</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Zpívejte ve dvojicích s neustále se měnícími spoluhráči. Oba zpěváci z každé dvojice získávají výsledek dané dvojice; vyhrává ten, kdo dosáhne lepšího průměru.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pro 3 až 12 hráčů, kteří rádi společně zpívají; jsou potřeba 2 mikrofony.</string>
+  <string name="TR_BUTTON_NEXT">Další</string>
+  <string name="TR_BUTTON_BACK">Zpět</string>
+  <string name="TR_BUTTON_START">Spustit</string>
+  <string name="TR_BUTTON_EXIT">Ukončit</string>
+  <string name="TR_BUTTON_YES">Ano</string>
+  <string name="TR_BUTTON_NO">Ne</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Spustit píseň</string>
+  <string name="TR_SONGS">Písně</string>
+  <string name="TR_SCREENCONFIG_TITLE">Výměna spoluhráčů: Nastavení</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
+  <string name="TR_SCREENCONFIG_NUMPASSES">Kola</string>
+  <string name="TR_SCREENCONFIG_HARMONYBONUS">Odměna za souzvuk</string>
+  <string name="TR_SCREENCONFIG_DUETS">Dvojzpěvové písně</string>
+  <string name="TR_SCREENCONFIG_DUETS_MIXED">Smíšené</string>
+  <string name="TR_SCREENCONFIG_DUETS_ONLY">Pouze dvojzpěvy</string>
+  <string name="TR_SCREENCONFIG_DUETS_NONE">Žádné dvojzpěvy</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků na hráče</string>
+  <string name="TR_SCREENNAMES_TITLE">Výměna spoluhráčů: Výběr hráče</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENMAIN_TITLE">Výměna spoluhráčů</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu chcete odejít ze hry\?</string>
+  <string name="TR_SCREENMAIN_HEADER_POS">Místo</string>
+  <string name="TR_SCREENMAIN_HEADER_NAME">Jméno</string>
+  <string name="TR_SCREENMAIN_HEADER_SONGS">Písně</string>
+  <string name="TR_SCREENMAIN_HEADER_AVERAGE">Ø</string>
+  <string name="TR_SCREENMAIN_PASS">Kolo</string>
+  <string name="TR_SCREENMAIN_SONG">Písně</string>
+  <string name="TR_SCREENMAIN_PAUSE">Chvilka oddechu:</string>
+  <string name="TR_SCREENMAIN_FIRST_TIME">zpívat společně poprvé</string>
+  <string name="TR_SCREENMAIN_TIMES_TOGETHER">zpívat společně po %n krát</string>
+  <string name="TR_SCREENMAIN_LAST_SONG">Poslední píseň:</string>
+  <string name="TR_SCREENMAIN_HARMONY_BONUS">Odměna za souzvuk</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR">Zatím nejlepší dvojice</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR_FINAL">Nejlepší dvojice večera</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Vítěz</string>
+</resources>
