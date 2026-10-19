@@ -2,7 +2,6 @@ ScreenStatistics
 
 ++++++++++
 Version 2:
-(2026 Oct 18)
 
 Change (same look as the party mode selection):
 <StaticTile1> to <StaticTile4> use the skin ButtonTile with ButtonMainColor
@@ -12,7 +11,6 @@ Columns of the best list (<StaticBestColumn$N$>, <StaticBestMedal$N$$M$>, <TextD
 
 ++++++++++
 Version 1:
-(2026 Oct 16)
 
 New screen: statistics dashboard with four tiles (overview, recently sung, best list per difficulty, players)
 Help text <TextHint> at the bottom of the screen
