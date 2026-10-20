@@ -190,6 +190,10 @@
   <string name="TR_SCREENSONG_NEWPLAYLIST">New playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Song Options</string>
   <string name="TR_SCREENSONG_LENGTH">Song length</string>
+  <string name="TR_SCREENSONG_YEAR">Year</string>
+  <string name="TR_SCREENSONG_TIMESPLAYED">Times sung</string>
+  <string name="TR_SCREENSONG_OPTIONSSELECTION">Selection</string>
+  <string name="TR_SCREENSONG_OPTIONSSINGALL">Sing all</string>
   <string name="TR_SCREENSONG_AUDIOMODE">Audio mode</string>
   <string name="TR_SCREENSONG_PLAYLIST">Playlist</string>
   <string name="TR_SCREENSONG_PLAYERSELECT">Player selection</string>

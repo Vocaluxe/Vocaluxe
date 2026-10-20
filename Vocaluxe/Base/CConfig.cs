@@ -192,6 +192,8 @@ namespace Vocaluxe.Base
             public EOffOn Tabs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)]
             public EOffOn AutoplayPreviews;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn TileCaption;
             [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)]
             public int AutoplayPreviewDelay;
             [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)]
@@ -546,6 +548,8 @@ namespace Vocaluxe.Base
                     return "Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading)));
                 case "LyricStyle":
                     return "Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle)));
+                case "TileCaption":
+                    return "Show artist and title on the selected tile of the song selection: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "PlayBackLib":
                     return "PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib)));
                 case "RecordLib":

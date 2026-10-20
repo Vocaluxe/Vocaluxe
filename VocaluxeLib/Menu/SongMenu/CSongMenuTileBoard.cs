@@ -47,6 +47,12 @@ namespace VocaluxeLib.Menu.SongMenu
         private CText _SongLength;
         private CText _SongYear;
 
+        private CStatic _ScrollBar;
+        private CStatic _ScrollBarThumb;
+        private CStatic _TileCaptionBG;
+        private CText _TileArtist;
+        private CText _TileTitle;
+
         private int _NumW;
         private int _NumH;
 
@@ -61,6 +67,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _LastKnownCategory;
 
         private bool _MouseWasInRect;
+
+        private const float _UnfocusedAlpha = 0.85f;
 
         private readonly List<IMenuElement> _SubElements = new List<IMenuElement>();
 
@@ -136,6 +144,31 @@ namespace VocaluxeLib.Menu.SongMenu
             _VocalsIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVocalsIcon, _PartyModeId);
             _SubElements.AddRange(new IMenuElement[]
                 { _Artist, _Title, _SongLength, _SongYear, _DuetIcon, _RapIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon, _InstrumentalIcon, _VocalsIcon });
+
+            if (_Theme.SongMenuTileBoard.StaticScrollBar.HasValue)
+            {
+                _ScrollBar = new CStatic(_Theme.SongMenuTileBoard.StaticScrollBar.Value, _PartyModeId);
+            }
+
+            if (_Theme.SongMenuTileBoard.StaticScrollBarThumb.HasValue)
+            {
+                _ScrollBarThumb = new CStatic(_Theme.SongMenuTileBoard.StaticScrollBarThumb.Value, _PartyModeId);
+            }
+
+            if (_Theme.SongMenuTileBoard.StaticTileCaptionBG.HasValue)
+            {
+                _TileCaptionBG = new CStatic(_Theme.SongMenuTileBoard.StaticTileCaptionBG.Value, _PartyModeId);
+            }
+
+            if (_Theme.SongMenuTileBoard.TextTileArtist.HasValue)
+            {
+                _TileArtist = new CText(_Theme.SongMenuTileBoard.TextTileArtist.Value, _PartyModeId);
+            }
+
+            if (_Theme.SongMenuTileBoard.TextTileTitle.HasValue)
+            {
+                _TileTitle = new CText(_Theme.SongMenuTileBoard.TextTileTitle.Value, _PartyModeId);
+            }
         }
 
         private void _UpdateTileSelection()
@@ -167,6 +200,31 @@ namespace VocaluxeLib.Menu.SongMenu
             _Theme.SongMenuTileBoard.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticInstrumentalIcon = (SThemeStatic)_InstrumentalIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticVocalsIcon = (SThemeStatic)_VocalsIcon.GetTheme();
+
+            if (_ScrollBar != null)
+            {
+                _Theme.SongMenuTileBoard.StaticScrollBar = (SThemeStatic)_ScrollBar.GetTheme();
+            }
+
+            if (_ScrollBarThumb != null)
+            {
+                _Theme.SongMenuTileBoard.StaticScrollBarThumb = (SThemeStatic)_ScrollBarThumb.GetTheme();
+            }
+
+            if (_TileCaptionBG != null)
+            {
+                _Theme.SongMenuTileBoard.StaticTileCaptionBG = (SThemeStatic)_TileCaptionBG.GetTheme();
+            }
+
+            if (_TileArtist != null)
+            {
+                _Theme.SongMenuTileBoard.TextTileArtist = (SThemeText)_TileArtist.GetTheme();
+            }
+
+            if (_TileTitle != null)
+            {
+                _Theme.SongMenuTileBoard.TextTileTitle = (SThemeText)_TileTitle.GetTheme();
+            }
         }
 
         public override object GetTheme()
@@ -271,14 +329,14 @@ namespace VocaluxeLib.Menu.SongMenu
                     }
 
                     _CoverBig.Texture = category.CoverTextureBig;
-                    _Artist.Text = category.Name;
+                    _Title.Text = category.Name;
                     return;
                 }
 
                 _CoverBig.Texture = song.CoverTextureBig;
                 _Artist.Text = song.Artist;
                 _Title.Text = song.Title;
-                _SongYear.Text = song.Year;
+                _SongYear.Text = string.IsNullOrEmpty(song.Year) ? "-" : song.Year;
                 _DuetIcon.Visible = song.IsDuet;
                 _RapIcon.Visible = song.IsRap;
                 _VideoIcon.Visible = song.Video != "";
@@ -299,11 +357,11 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
 
                 _CoverBig.Texture = category.CoverTextureBig;
-                _Artist.Text = category.Name;
+                _Title.Text = category.Name;
 
                 var num = category.GetNumSongsNotSung();
                 var songOrSongs = num == 1 ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS";
-                _Title.Text = CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
+                _Artist.Text = CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
             }
         }
 
@@ -623,17 +681,42 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void Draw()
         {
-            foreach (var tile in _Tiles)
+            if (_IsScrolling())
             {
-                if (tile.Selected)
+                _DrawScrollingTiles();
+            }
+            else
+            {
+                var focusNr = _GetFocusNr();
+                var dimTiles = focusNr >= _Offset && focusNr < _Offset + _Tiles.Count;
+
+                for (var i = 0; i < _Tiles.Count; i++)
                 {
-                    tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
+                    var tile = _Tiles[i];
+                    tile.Alpha = dimTiles && i + _Offset != focusNr ? _UnfocusedAlpha : 1f;
+
+                    if (tile.Selected)
+                    {
+                        var frame = tile.Rect.Scale(SelectedTileZoomFactor);
+                        CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.9f), new SRectF(frame.X - 3f, frame.Y - 3f, frame.W + 6f, frame.H + 6f, frame.Z - 0.05f));
+                        tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
+                    }
+                    else
+                    {
+                        var aspect = tile.Texture != _CoverBGTexture ? EAspect.Crop : EAspect.Stretch;
+                        tile.Draw(aspect);
+                    }
                 }
-                else
-                {
-                    var aspect = tile.Texture != _CoverBGTexture ? EAspect.Crop : EAspect.Stretch;
-                    tile.Draw(aspect);
-                }
+
+                _DrawTileCaption();
+            }
+
+            var itemCount = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            _DrawScrollBar(_ScrollBar, _ScrollBarThumb, _Theme.SongMenuTileBoard.TileRect, _GetScrollPosition(), _NumH, (itemCount + _NumW - 1) / _NumW);
+
+            if (!PreviewVisible)
+            {
+                return;
             }
 
             _TextBG.Draw();
@@ -664,6 +747,114 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 element.Draw();
             }
+        }
+
+        private void _DrawScrollingTiles()
+        {
+            var position = _GetScrollPosition();
+            var firstRow = (int)Math.Floor(position);
+            var isInCategory = CBase.Songs.IsInCategory();
+            var itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            var focusNr = _GetFocusNr();
+
+            for (var row = Math.Max(firstRow, 0); row <= firstRow + _NumH; row++)
+            {
+                var y = Rect.Y + (row - position) * (_TileH + _Theme.SongMenuTileBoard.SpaceH);
+                for (var col = 0; col < _NumW; col++)
+                {
+                    var index = row * _NumW + col;
+                    var rect = new SRectF(Rect.X + col * (_TileW + _Theme.SongMenuTileBoard.SpaceW), y, _TileW, _TileH, Rect.Z);
+                    if (index < itemCount)
+                    {
+                        var alpha = focusNr >= 0 && index != focusNr ? _UnfocusedAlpha : 1f;
+                        _DrawClipped(_GetCoverTexture(index, isInCategory), rect, new SColorF(1f, 1f, 1f, alpha), EAspect.Crop);
+                    }
+                    else
+                    {
+                        _DrawClipped(_CoverBGTexture, rect, _Color, EAspect.Stretch);
+                    }
+                }
+            }
+        }
+
+        private int _GetFocusNr()
+        {
+            return _SelectionNr >= 0 ? _SelectionNr : _PreviewNr;
+        }
+
+        private void _DrawTileCaption()
+        {
+            if ((_TileCaptionBG == null && _TileArtist == null && _TileTitle == null) || CBase.Config.GetTileCaption() == EOffOn.TR_CONFIG_OFF)
+            {
+                return;
+            }
+
+            var tile = GetSelectedSongCover();
+            if (tile == null)
+            {
+                return;
+            }
+
+            string artist;
+            string title;
+            if (CBase.Songs.IsInCategory())
+            {
+                var song = CBase.Songs.GetVisibleSong(_SelectionNr);
+                if (song == null)
+                {
+                    return;
+                }
+
+                artist = song.Artist;
+                title = song.Title;
+            }
+            else
+            {
+                var category = CBase.Songs.GetCategory(_SelectionNr);
+                if (category == null)
+                {
+                    return;
+                }
+
+                var num = category.GetNumSongsNotSung();
+                artist = category.Name;
+                title = CBase.Language.Translate(num == 1 ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
+            }
+
+            var rect = tile.Rect;
+            CBase.Drawing.PushTransform(SelectedTileZoomFactor, rect.X + rect.W / 2f, rect.Y + rect.H / 2f, 0f, 1f);
+
+            if (_TileCaptionBG != null)
+            {
+                var bgRect = ((SThemeStatic)_TileCaptionBG.GetTheme()).Rect;
+                _TileCaptionBG.MaxRect = new SRectF(rect.X + bgRect.X, rect.Y + bgRect.Y, Math.Min(bgRect.W, rect.W - bgRect.X), bgRect.H, rect.Z - 0.2f);
+                _TileCaptionBG.Draw(EAspect.Stretch);
+            }
+
+            _DrawTileCaptionText(_TileArtist, artist, rect);
+            _DrawTileCaptionText(_TileTitle, title, rect);
+
+            CBase.Drawing.PopTransform();
+        }
+
+        private static void _DrawTileCaptionText(CText text, string value, SRectF tileRect)
+        {
+            if (text == null)
+            {
+                return;
+            }
+
+            var theme = (SThemeText)text.GetTheme();
+            text.X = tileRect.X + theme.X;
+            text.Y = tileRect.Y + theme.Y;
+            text.Z = tileRect.Z - 0.3f;
+            text.Text = value;
+            text.Draw();
+        }
+
+        private CTextureRef _GetCoverTexture(int index, bool isInCategory)
+        {
+            return isInCategory ? CBase.Songs.GetVisibleSong(index).CoverTextureSmall : CBase.Songs.GetCategory(index).CoverTextureSmall;
         }
 
         public override CStatic GetSelectedSongCover()
@@ -757,7 +948,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (itemCount > i + offset)
                 {
-                    _Tiles[i].Texture = isInCategory ? CBase.Songs.GetVisibleSong(i + offset).CoverTextureSmall : CBase.Songs.GetCategory(i + offset).CoverTextureSmall;
+                    _Tiles[i].Texture = _GetCoverTexture(i + offset, isInCategory);
                     _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
                 }
                 else
@@ -767,6 +958,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
+            _SetScrollTarget(offset / _NumW, !force && offset != _Offset, _NumH);
             _Offset = offset;
         }
 
@@ -781,6 +973,10 @@ namespace VocaluxeLib.Menu.SongMenu
             // Those are drawn seperately so they are not in the above list
             _CoverBig.LoadSkin();
             _TextBG.LoadSkin();
+            foreach (var themeable in new IThemeable[] { _ScrollBar, _ScrollBarThumb, _TileCaptionBG, _TileArtist, _TileTitle }.Where(t => t != null))
+            {
+                themeable.LoadSkin();
+            }
 
             Init();
         }

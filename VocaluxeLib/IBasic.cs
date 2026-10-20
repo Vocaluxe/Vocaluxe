@@ -50,6 +50,7 @@ namespace VocaluxeLib
 
         EOffOn GetDrawNoteLines();
         EOffOn GetDrawToneHelper();
+        EOffOn GetTileCaption();
 
         int GetCoverSize();
 
