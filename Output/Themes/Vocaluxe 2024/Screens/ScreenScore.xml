@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenScore</ScreenName>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>6</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -25,234 +25,520 @@
         <Z>0</Z>
       </Rect>
     </Static>
+    <Static Name="StaticCover">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>0</X>
+        <Y>63.75</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRoundLeft">
+      <Skin>SelectSlideArrowLeft</Skin>
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>30</X>
+        <Y>71.25</Y>
+        <W>45</W>
+        <H>45</H>
+        <Z>-0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRoundRight">
+      <Skin>SelectSlideArrowRight</Skin>
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>1845</X>
+        <Y>71.25</Y>
+        <W>45</W>
+        <H>45</H>
+        <Z>-0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N1">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>472.5</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>405</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N2">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>370</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>300</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>392.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP2N2">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>575</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>667.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>597.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N3">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>267.5</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>196.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>290.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP2N3">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>472.5</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>483</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP3N3">
+      <Skin>ScoreTile</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>210</X>
+        <Y>677.5</Y>
+        <W>1500</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>562.5</X>
-        <Y>769.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>232.8</X>
+        <Y>700.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N4">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>370</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>300</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>392.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP2N4">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>575</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>667.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>597.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP3N4">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>370</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>300</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>392.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP4N4">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>575</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>667.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>597.8</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N5">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>267.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>196.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>290.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP2N5">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>472.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>483</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP3N5">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>677.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>769.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>700.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP4N5">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>267.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>196.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>290.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP5N5">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>472.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>483</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP1N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>267.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>196.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>290.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP2N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>472.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>483</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP3N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>90</X>
+        <Y>677.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>97.5</X>
-        <Y>769.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>112.8</X>
+        <Y>700.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP4N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>267.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>196.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>290.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP5N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>472.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>483</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>495.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
         <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRowP6N6">
+      <Skin>ScoreTileSmall</Skin>
+      <Color Name="ButtonMainColor" />
+      <Rect>
+        <X>990</X>
+        <Y>677.5</Y>
+        <W>840</W>
+        <H>190</H>
+        <Z>0.8</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarP6N6">
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1012.5</X>
-        <Y>769.5</Y>
-        <W>195</W>
-        <H>195</H>
+        <X>1012.8</X>
+        <Y>700.3</Y>
+        <W>144.4</W>
+        <H>144.4</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticLegendGolden">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>700</X>
+        <Y>1012</Y>
+        <W>24</W>
+        <H>24</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticLegendLineBonus">
+      <Skin />
+      <Color Name="Top2Color" />
+      <Rect>
+        <X>1020</X>
+        <Y>1012</Y>
+        <W>24</W>
+        <H>24</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -287,1194 +573,1213 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N1">
-      <X>780</X>
-      <Y>412.5</Y>
+      <X>407.2</X>
+      <Y>511.45</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N1">
-      <X>1365</X>
-      <Y>555</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N1">
-      <X>780</X>
-      <Y>472.5</Y>
+      <X>407.2</X>
+      <Y>560.85</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N1">
-      <X>780</X>
-      <Y>555</Y>
+      <X>407.2</X>
+      <Y>595.05</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N1">
+      <X>1680</X>
+      <Y>537.1</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N2">
-      <X>780</X>
-      <Y>307.5</Y>
+      <X>407.2</X>
+      <Y>408.95</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N2">
-      <X>1365</X>
-      <Y>450</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N2">
-      <X>780</X>
-      <Y>367.5</Y>
+      <X>407.2</X>
+      <Y>458.35</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N2">
-      <X>780</X>
-      <Y>450</Y>
+      <X>407.2</X>
+      <Y>492.55</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N2">
+      <X>1680</X>
+      <Y>434.6</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N2">
-      <X>780</X>
-      <Y>675</Y>
+      <X>407.2</X>
+      <Y>613.95</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP2N2">
-      <X>1365</X>
-      <Y>817.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N2">
-      <X>780</X>
-      <Y>735</Y>
+      <X>407.2</X>
+      <Y>663.35</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N2">
-      <X>780</X>
-      <Y>817.5</Y>
+      <X>407.2</X>
+      <Y>697.55</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP2N2">
+      <X>1680</X>
+      <Y>639.6</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N3">
-      <X>780</X>
-      <Y>204</Y>
+      <X>407.2</X>
+      <Y>306.45</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N3">
-      <X>1365</X>
-      <Y>346.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N3">
-      <X>780</X>
-      <Y>264</Y>
+      <X>407.2</X>
+      <Y>355.85</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N3">
-      <X>780</X>
-      <Y>346.5</Y>
+      <X>407.2</X>
+      <Y>390.05</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N3">
+      <X>1680</X>
+      <Y>332.1</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N3">
-      <X>780</X>
-      <Y>490.5</Y>
+      <X>407.2</X>
+      <Y>511.45</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP2N3">
-      <X>1365</X>
-      <Y>633</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N3">
-      <X>780</X>
-      <Y>550.5</Y>
+      <X>407.2</X>
+      <Y>560.85</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N3">
-      <X>780</X>
-      <Y>633</Y>
+      <X>407.2</X>
+      <Y>595.05</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP2N3">
+      <X>1680</X>
+      <Y>537.1</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N3">
-      <X>780</X>
-      <Y>777</Y>
+      <X>407.2</X>
+      <Y>716.45</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>49.4</H>
+      <MaxW>400</MaxW>
+      <Color Name="Player3" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP3N3">
-      <X>1365</X>
-      <Y>919.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N3">
-      <X>780</X>
-      <Y>837</Y>
+      <X>407.2</X>
+      <Y>765.85</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>34.2</H>
+      <MaxW>400</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N3">
-      <X>780</X>
-      <Y>919.5</Y>
+      <X>407.2</X>
+      <Y>800.05</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>28.5</H>
+      <MaxW>400</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP3N3">
+      <X>1680</X>
+      <Y>742.1</Y>
+      <Z>0</Z>
+      <H>60.8</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N4">
-      <X>315</X>
-      <Y>307.5</Y>
+      <X>282.2</X>
+      <Y>387.1</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N4">
-      <X>900</X>
-      <Y>450</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N4">
-      <X>315</X>
-      <Y>367.5</Y>
+      <X>282.2</X>
+      <Y>432.7</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N4">
-      <X>315</X>
-      <Y>450</Y>
+      <X>282.2</X>
+      <Y>465</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N4">
+      <X>905</X>
+      <Y>387.1</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N4">
-      <X>315</X>
-      <Y>675</Y>
+      <X>282.2</X>
+      <Y>592.1</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP2N4">
-      <X>900</X>
-      <Y>817.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N4">
-      <X>315</X>
-      <Y>735</Y>
+      <X>282.2</X>
+      <Y>637.7</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N4">
-      <X>315</X>
-      <Y>817.5</Y>
+      <X>282.2</X>
+      <Y>670</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP2N4">
+      <X>905</X>
+      <Y>592.1</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N4">
-      <X>1230</X>
-      <Y>307.5</Y>
+      <X>1182.2</X>
+      <Y>387.1</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player3" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP3N4">
-      <X>1815</X>
-      <Y>450</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N4">
-      <X>1230</X>
-      <Y>367.5</Y>
+      <X>1182.2</X>
+      <Y>432.7</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N4">
-      <X>1230</X>
-      <Y>450</Y>
+      <X>1182.2</X>
+      <Y>465</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP3N4">
+      <X>1805</X>
+      <Y>387.1</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N4">
-      <X>1230</X>
-      <Y>675</Y>
+      <X>1182.2</X>
+      <Y>592.1</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player4" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP4N4">
-      <X>1815</X>
-      <Y>817.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N4">
-      <X>1230</X>
-      <Y>735</Y>
+      <X>1182.2</X>
+      <Y>637.7</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N4">
-      <X>1230</X>
-      <Y>817.5</Y>
+      <X>1182.2</X>
+      <Y>670</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP4N4">
+      <X>1805</X>
+      <Y>592.1</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N5">
-      <X>315</X>
-      <Y>204</Y>
+      <X>282.2</X>
+      <Y>284.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N5">
-      <X>900</X>
-      <Y>346.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N5">
-      <X>315</X>
-      <Y>264</Y>
+      <X>282.2</X>
+      <Y>330.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N5">
-      <X>315</X>
-      <Y>346.5</Y>
+      <X>282.2</X>
+      <Y>362.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N5">
+      <X>905</X>
+      <Y>284.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N5">
-      <X>315</X>
-      <Y>490.5</Y>
+      <X>282.2</X>
+      <Y>489.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP2N5">
-      <X>900</X>
-      <Y>633</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N5">
-      <X>315</X>
-      <Y>550.5</Y>
+      <X>282.2</X>
+      <Y>535.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N5">
-      <X>315</X>
-      <Y>633</Y>
+      <X>282.2</X>
+      <Y>567.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP2N5">
+      <X>905</X>
+      <Y>489.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N5">
-      <X>315</X>
-      <Y>777</Y>
+      <X>282.2</X>
+      <Y>694.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player3" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP3N5">
-      <X>900</X>
-      <Y>919.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N5">
-      <X>315</X>
-      <Y>837</Y>
+      <X>282.2</X>
+      <Y>740.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N5">
-      <X>315</X>
-      <Y>919.5</Y>
+      <X>282.2</X>
+      <Y>772.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP3N5">
+      <X>905</X>
+      <Y>694.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N5">
-      <X>1230</X>
-      <Y>204</Y>
+      <X>1182.2</X>
+      <Y>284.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player4" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP4N5">
-      <X>1815</X>
-      <Y>346.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N5">
-      <X>1230</X>
-      <Y>264</Y>
+      <X>1182.2</X>
+      <Y>330.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N5">
-      <X>1230</X>
-      <Y>346.5</Y>
+      <X>1182.2</X>
+      <Y>362.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP4N5">
+      <X>1805</X>
+      <Y>284.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP5N5">
-      <X>1230</X>
-      <Y>490.5</Y>
+      <X>1182.2</X>
+      <Y>489.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player5" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP5N5">
-      <X>1815</X>
-      <Y>633</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP5N5">
-      <X>1230</X>
-      <Y>550.5</Y>
+      <X>1182.2</X>
+      <Y>535.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N5">
-      <X>1230</X>
-      <Y>633</Y>
+      <X>1182.2</X>
+      <Y>567.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP5N5">
+      <X>1805</X>
+      <Y>489.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N6">
-      <X>315</X>
-      <Y>204</Y>
+      <X>282.2</X>
+      <Y>284.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player1" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP1N6">
-      <X>900</X>
-      <Y>346.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N6">
-      <X>315</X>
-      <Y>264</Y>
+      <X>282.2</X>
+      <Y>330.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N6">
-      <X>315</X>
-      <Y>346.5</Y>
+      <X>282.2</X>
+      <Y>362.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP1N6">
+      <X>905</X>
+      <Y>284.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N6">
-      <X>315</X>
-      <Y>490.5</Y>
+      <X>282.2</X>
+      <Y>489.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player2" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP2N6">
-      <X>900</X>
-      <Y>633</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N6">
-      <X>315</X>
-      <Y>550.5</Y>
+      <X>282.2</X>
+      <Y>535.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N6">
-      <X>315</X>
-      <Y>633</Y>
+      <X>282.2</X>
+      <Y>567.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP2N6">
+      <X>905</X>
+      <Y>489.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N6">
-      <X>315</X>
-      <Y>777</Y>
+      <X>282.2</X>
+      <Y>694.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player3" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP3N6">
-      <X>900</X>
-      <Y>919.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N6">
-      <X>315</X>
-      <Y>837</Y>
+      <X>282.2</X>
+      <Y>740.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N6">
-      <X>315</X>
-      <Y>919.5</Y>
+      <X>282.2</X>
+      <Y>772.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP3N6">
+      <X>905</X>
+      <Y>694.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N6">
-      <X>1230</X>
-      <Y>204</Y>
+      <X>1182.2</X>
+      <Y>284.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player4" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP4N6">
-      <X>1815</X>
-      <Y>346.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N6">
-      <X>1230</X>
-      <Y>264</Y>
+      <X>1182.2</X>
+      <Y>330.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N6">
-      <X>1230</X>
-      <Y>346.5</Y>
+      <X>1182.2</X>
+      <Y>362.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP4N6">
+      <X>1805</X>
+      <Y>284.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP5N6">
-      <X>1230</X>
-      <Y>490.5</Y>
+      <X>1182.2</X>
+      <Y>489.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player5" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP5N6">
-      <X>1815</X>
-      <Y>633</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP5N6">
-      <X>1230</X>
-      <Y>550.5</Y>
+      <X>1182.2</X>
+      <Y>535.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N6">
-      <X>1230</X>
-      <Y>633</Y>
+      <X>1182.2</X>
+      <Y>567.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreP5N6">
+      <X>1805</X>
+      <Y>489.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP6N6">
-      <X>1230</X>
-      <Y>777</Y>
+      <X>1182.2</X>
+      <Y>694.6</Y>
       <Z>0</Z>
-      <H>60</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>45.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="Player6" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text />
-    </Text>
-    <Text Name="TextScoreP6N6">
-      <X>1815</X>
-      <Y>919.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>330</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Right</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP6N6">
-      <X>1230</X>
-      <Y>837</Y>
+      <X>1182.2</X>
+      <Y>740.2</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>255</MaxW>
+      <H>32.3</H>
+      <MaxW>382.8</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP6N6">
-      <X>1230</X>
-      <Y>919.5</Y>
+      <X>1182.2</X>
+      <Y>772.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>585</MaxW>
-      <Color Name="TextColor" />
+      <H>26.6</H>
+      <MaxW>382.8</MaxW>
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <ResizeAlign>Bottom</ResizeAlign>
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
+    <Text Name="TextScoreP6N6">
+      <X>1805</X>
+      <Y>694.6</Y>
+      <Z>0</Z>
+      <H>57</H>
+      <MaxW>220</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextLegendGolden">
+      <X>736</X>
+      <Y>1006</Y>
+      <Z>0</Z>
+      <H>36</H>
+      <MaxW>200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSCORE_GOLDENNOTES</Text>
+    </Text>
+    <Text Name="TextLegendLineBonus">
+      <X>1056</X>
+      <Y>1006</Y>
+      <Z>0</Z>
+      <H>36</H>
+      <MaxW>200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSCORE_LINEBONUS</Text>
+    </Text>
   </Texts>
-  <Buttons />
-  <SongMenus />
-  <Lyrics />
-  <SelectSlides />
-  <SingNotes />
-  <NameSelections />
-  <Equalizers />
-  <Playlists />
-  <ParticleEffects />
   <ScreenSettings>
     <ScreenSetting Name="ScreenSettingShortScore">
-      <Value>7</Value>
+      <Value>1</Value>
       <Type>Int</Type>
     </ScreenSetting>
     <ScreenSetting Name="ScreenSettingShortRating">
@@ -1485,14 +1790,10 @@
       <Value>1</Value>
       <Type>Int</Type>
     </ScreenSetting>
-    <ScreenSetting Name="ScreenSettingAnimationDirection">
-      <Value>Vertical</Value>
-      <Type>String</Type>
-    </ScreenSetting>
   </ScreenSettings>
   <ProgressBars>
     <ProgressBar Name="ProgressBarPointsP1N1">
-	  <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinBackground>PointsBarBG</SkinBackground>
       <SkinForeground />
       <SkinProgressLeft />
       <SkinProgressMid />
@@ -1503,17 +1804,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>540</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N1">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N1">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP1N2">
@@ -1528,21 +1879,71 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>435</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>451.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N2">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>451.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N2">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>451.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
+      </Rect>
+    </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP2N2">
-	  <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinBackground>PointsBarBG</SkinBackground>
       <SkinForeground />
       <SkinProgressLeft />
       <SkinProgressMid />
@@ -1553,17 +1954,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player2" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>802.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>656.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP2N2">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>656.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP2N2">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player2" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>656.7</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP1N3">
@@ -1578,17 +2029,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>331.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>349.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>349.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>349.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP2N3">
@@ -1603,17 +2104,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player2" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>618</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP2N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP2N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player2" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>554.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP3N3">
@@ -1628,17 +2179,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player3" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>780</X>
-        <Y>904.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>827.2</X>
+        <Y>759.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP3N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>759.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP3N3">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player3" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>827.2</X>
+        <Y>759.2</Y>
+        <W>542.8</W>
+        <H>26.6</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP1N4">
@@ -1653,17 +2254,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>435</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP2N4">
@@ -1678,17 +2329,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player2" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>802.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP2N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP2N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player2" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP3N4">
@@ -1703,17 +2404,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player3" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>435</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP3N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP3N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player3" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>514.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP4N4">
@@ -1728,17 +2479,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player4" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>802.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP4N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP4N4">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player4" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>719.4</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP1N5">
@@ -1753,17 +2554,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>331.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP2N5">
@@ -1778,17 +2629,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player2" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>618</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP2N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP2N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player2" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP3N5">
@@ -1803,17 +2704,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player3" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>904.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP3N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP3N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player3" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP4N5">
@@ -1828,17 +2779,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player4" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>331.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP4N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP4N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player4" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP5N5">
@@ -1853,17 +2854,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player5" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>618</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP5N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP5N5">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player5" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP1N6">
@@ -1878,17 +2929,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player1" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>331.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP1N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP1N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player1" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP2N6">
@@ -1903,17 +3004,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player2" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>618</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP2N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP2N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player2" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP3N6">
@@ -1928,17 +3079,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player3" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>315</X>
-        <Y>904.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP3N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP3N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player3" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>282.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP4N6">
@@ -1953,17 +3154,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player4" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>331.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP4N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP4N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player4" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>411.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP5N6">
@@ -1978,17 +3229,67 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player5" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>618</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP5N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP5N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player5" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>616.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
       </Rect>
     </ProgressBar>
     <ProgressBar Name="ProgressBarPointsP6N6">
@@ -2003,18 +3304,68 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <ProgressColors>
-		<ProgressColor>
-			<From>0</From>
-			<Color Name="Player6" />
-		</ProgressColor>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top2Color" />
+        </ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>1230</X>
-        <Y>904.5</Y>
-        <W>585</W>
-        <H>15</H>
+        <X>1182.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
         <Z>0</Z>
       </Rect>
-    </ProgressBar>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarGoldenP6N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Top1Color" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.01</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarNotesP6N6">
+      <SkinBackground />
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="Invisible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+        <ProgressColor>
+          <From>0</From>
+          <Color Name="Player6" />
+        </ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>1182.2</X>
+        <Y>821.9</Y>
+        <W>622.8</W>
+        <H>22.8</H>
+        <Z>-0.02</Z>
+      </Rect>
+    </ProgressBar>
   </ProgressBars>
 </Screen>
