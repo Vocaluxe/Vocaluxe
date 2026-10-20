@@ -1,5 +1,31 @@
 ScreenSing
 +++++++++
+Version 16
+
+Add:
+<StaticPauseIconContinue>, <StaticPauseIconSkip>, <StaticPauseIconRestartRound>, <StaticPauseIconRestartGame>, <StaticPauseIconCancel> Icons of the pause buttons, they move with their button and use the text color of their button
+<StaticPauseCover> Cover of the current song
+<StaticPauseTimeLineProgress> Progress of the current song, the width is scaled by the progress
+<StaticPauseVocalsIcon> Only visible in vocals audio mode, keeps its horizontal distance to the left edge of <TextPauseVocalsVolume>
+<StaticPauseAvatarP1> - <StaticPauseAvatarP6>
+<TextPauseArtist>
+<TextPauseTimeCurrent>
+<TextPauseTimeRemaining>
+<TextPauseNameP1> - <TextPauseNameP6>
+<TextPauseScoreP1> - <TextPauseScoreP6>
+
+Change:
+Visible pause buttons are placed without gaps in the slots of all pause buttons (sorted by Y, then X) in the order Continue, Skip, RestartRound, RestartGame, Cancel
+<TextPauseSongName> Shows only the title of the song
+Statics starting with "StaticPause" that do not cover the whole screen are animated together with the pause buttons
+
++++++++++
+Version 15
+
+Add:
+<StaticPauseDim> Darkens the game behind the pause menu (all statics starting with "StaticPause" are shown in the pause menu)
+
++++++++++
 Version 14
 
 Add:
