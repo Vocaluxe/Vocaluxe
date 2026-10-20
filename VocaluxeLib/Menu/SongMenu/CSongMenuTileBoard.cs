@@ -47,11 +47,11 @@ namespace VocaluxeLib.Menu.SongMenu
         private CText _SongLength;
         private CText _SongYear;
 
-        private CStatic _ScrollBar;
-        private CStatic _ScrollBarThumb;
-        private CStatic _TileCaptionBG;
-        private CText _TileArtist;
-        private CText _TileTitle;
+        private readonly CStatic _ScrollBar;
+        private readonly CStatic _ScrollBarThumb;
+        private readonly CStatic _TileCaptionBG;
+        private readonly CText _TileArtist;
+        private readonly CText _TileTitle;
 
         private int _NumW;
         private int _NumH;
@@ -852,7 +852,7 @@ namespace VocaluxeLib.Menu.SongMenu
             text.Draw();
         }
 
-        private CTextureRef _GetCoverTexture(int index, bool isInCategory)
+        private static CTextureRef _GetCoverTexture(int index, bool isInCategory)
         {
             return isInCategory ? CBase.Songs.GetVisibleSong(index).CoverTextureSmall : CBase.Songs.GetCategory(index).CoverTextureSmall;
         }

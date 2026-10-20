@@ -873,12 +873,12 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private CTextureRef _GetCoverTexture(int index, bool isInCategory)
+        private static CTextureRef _GetCoverTexture(int index, bool isInCategory)
         {
             return isInCategory ? CBase.Songs.GetVisibleSong(index).CoverTextureSmall : CBase.Songs.GetCategory(index).CoverTextureSmall;
         }
 
-        private string _GetItemText(int index, bool isInCategory)
+        private static string _GetItemText(int index, bool isInCategory)
         {
             if (isInCategory)
             {
@@ -902,7 +902,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return CBase.Config.GetSongSorting() == ESongSorting.TR_CONFIG_ARTIST_LETTER;
         }
 
-        private string _GetItemTitle(int index, bool isInCategory)
+        private static string _GetItemTitle(int index, bool isInCategory)
         {
             if (!isInCategory)
             {
@@ -913,7 +913,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return _IsSortedByArtistLetter() ? song.Artist : song.Title;
         }
 
-        private string _GetItemSubTitle(int index, bool isInCategory)
+        private static string _GetItemSubTitle(int index, bool isInCategory)
         {
             if (isInCategory)
             {
