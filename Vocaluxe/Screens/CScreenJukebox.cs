@@ -70,7 +70,6 @@ namespace Vocaluxe.Screens
         private float _TextOffsetY;
         private List<int> _PlaylistIds = new List<int>();
         private ESongSorting[] _Sortings;
-        private int _NumSongs;
 
         public override void Init()
         {
@@ -311,11 +310,11 @@ namespace Vocaluxe.Screens
                 slot++;
             }
 
-            _NumSongs = CJukebox.GetSongIds().Count;
-            _Texts[_TextInfo].Text = _NumSongs > 0
-                                         ? CLanguage.Translate("TR_SCREENJUKEBOX_NUMSONGS").Replace("%d", _NumSongs.ToString())
+            var numSongs = CJukebox.GetSongIds().Count;
+            _Texts[_TextInfo].Text = numSongs > 0
+                                         ? CLanguage.Translate("TR_SCREENJUKEBOX_NUMSONGS").Replace("%d", numSongs.ToString())
                                          : CLanguage.Translate("TR_SCREENJUKEBOX_NOSONGS");
-            _Buttons[_ButtonStart].Visible = _NumSongs > 0;
+            _Buttons[_ButtonStart].Visible = numSongs > 0;
         }
     }
 }

@@ -59,20 +59,20 @@ namespace Vocaluxe.Base
     {
         private static readonly List<CJukeboxEntry> _Queue = new List<CJukeboxEntry>();
 
-        public static ESongSource Source = ESongSource.TR_SONGSOURCE_ALLSONGS;
-        public static int PlaylistId = -1;
-        public static ESongSorting Sorting = ESongSorting.TR_CONFIG_GENRE;
-        public static int Category;
-        public static EJukeboxOrder Order = EJukeboxOrder.TR_JUKEBOX_ORDER_RANDOM;
-        public static EJukeboxSection Section = EJukeboxSection.TR_JUKEBOX_SECTION_FULL;
-        public static bool ShowLyrics = true;
-        public static bool ShowVideo = true;
-        public static EAudioMode AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
+        public static ESongSource Source { get; set; } = ESongSource.TR_SONGSOURCE_ALLSONGS;
+        public static int PlaylistId { get; set; } = -1;
+        public static ESongSorting Sorting { get; set; } = ESongSorting.TR_CONFIG_GENRE;
+        public static int Category { get; set; }
+        public static EJukeboxOrder Order { get; set; } = EJukeboxOrder.TR_JUKEBOX_ORDER_RANDOM;
+        public static EJukeboxSection Section { get; set; } = EJukeboxSection.TR_JUKEBOX_SECTION_FULL;
+        public static bool ShowLyrics { get; set; } = true;
+        public static bool ShowVideo { get; set; } = true;
+        public static EAudioMode AudioMode { get; set; } = EAudioMode.TR_AUDIOMODE_NORMAL;
 
         public static bool Shuffle { get; private set; }
-        public static bool Repeat;
+        public static bool Repeat { get; set; }
         public static int Current { get; private set; }
-        public static bool SingRequested;
+        public static bool SingRequested { get; private set; }
         public static bool ResumeAfterSinging { get; private set; }
 
         public static IList<CJukeboxEntry> Queue
@@ -324,7 +324,7 @@ namespace Vocaluxe.Base
                 case EJukeboxSection.TR_JUKEBOX_SECTION_30:
                 case EJukeboxSection.TR_JUKEBOX_SECTION_60:
                 case EJukeboxSection.TR_JUKEBOX_SECTION_90:
-                    var duration = Section == EJukeboxSection.TR_JUKEBOX_SECTION_30 ? 30f : (Section == EJukeboxSection.TR_JUKEBOX_SECTION_60 ? 60f : 90f);
+                    var duration = _GetSectionDuration();
                     start = song.Preview.Source != EDataSource.None ? song.Preview.StartTime : Math.Max(0f, GetFirstNoteTime(song) - 5f);
                     if (length > 0f && start + duration > length)
                     {
@@ -360,6 +360,19 @@ namespace Vocaluxe.Base
             }
 
             return firstBeat == int.MaxValue ? 0f : CGame.GetTimeFromBeats(firstBeat, song.Bpm) + song.Gap;
+        }
+
+        private static float _GetSectionDuration()
+        {
+            switch (Section)
+            {
+                case EJukeboxSection.TR_JUKEBOX_SECTION_30:
+                    return 30f;
+                case EJukeboxSection.TR_JUKEBOX_SECTION_60:
+                    return 60f;
+                default:
+                    return 90f;
+            }
         }
 
         private static int _GetNextIndex()

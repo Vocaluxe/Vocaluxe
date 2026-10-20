@@ -37,7 +37,7 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private class CTrack
+        private sealed class CTrack
         {
             public CJukeboxEntry Entry;
             public CSongPlayer Player;
@@ -50,7 +50,7 @@ namespace Vocaluxe.Screens
             public readonly Stopwatch ShowTimer = new Stopwatch();
         }
 
-        private class CQueueRow
+        private sealed class CQueueRow
         {
             public CStatic Highlight;
             public CStatic Playing;
