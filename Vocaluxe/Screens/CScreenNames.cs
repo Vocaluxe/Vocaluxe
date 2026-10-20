@@ -266,6 +266,7 @@ namespace Vocaluxe.Screens
                         //Reset all values
                         _SelectingFastPlayerNr = 0;
                         _SelectingKeyboardActive = false;
+                        _SelectingFast = false;
                         _NameSelections[_NameSelection].FastSelection(false, -1);
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
@@ -363,7 +364,7 @@ namespace Vocaluxe.Screens
                         _SelectingFastPlayerNr = 6;
                         break;
                     default:
-                        _UpdatePlayerNumber();
+                        _UpdatePlayerNumberIfChanged();
                         break;
                 }
 
@@ -542,7 +543,7 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    _UpdatePlayerNumber();
+                    _UpdatePlayerNumberIfChanged();
                 }
 
                 //Update Tiles-List
@@ -640,7 +641,7 @@ namespace Vocaluxe.Screens
         {
             if (_ProfilesChanged || _AvatarsChanged)
             {
-                _LoadProfiles();
+                _LoadProfiles(false);
             }
 
             for (var i = 1; i <= CGame.NumPlayers; i++)
@@ -662,9 +663,10 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
             CRecord.Start();
+            _HasPlayedWarningSound = false;
 
             _NameSelections[_NameSelection].Init();
-            _LoadProfiles();
+            _LoadProfiles(true);
             _SelectElement(_Buttons[_ButtonStart]);
         }
 
@@ -689,7 +691,7 @@ namespace Vocaluxe.Screens
             }
         }
 
-        private void _LoadProfiles()
+        private void _LoadProfiles(bool initDuetParts)
         {
             _NameSelections[_NameSelection].UpdateList();
 
@@ -709,6 +711,7 @@ namespace Vocaluxe.Screens
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileId, i + 1);
                 if (CGame.GetNumSongs() == 1 && firstSong.IsDuet)
                 {
+                    var duetPart = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayers;
 
@@ -717,7 +720,7 @@ namespace Vocaluxe.Screens
                         _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(firstSong.Notes.VoiceNames[j]);
                     }
 
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = initDuetParts || duetPart < 0 ? i % 2 : duetPart;
                 }
                 else
                 {
@@ -752,6 +755,14 @@ namespace Vocaluxe.Screens
             }
 
             _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.Config.Game.NumPlayers - 1;
+        }
+
+        private void _UpdatePlayerNumberIfChanged()
+        {
+            if (_SelectSlides[_SelectSlidePlayerNumber].Selection + 1 != CConfig.Config.Game.NumPlayers)
+            {
+                _UpdatePlayerNumber();
+            }
         }
 
         private void _UpdatePlayerNumber()
