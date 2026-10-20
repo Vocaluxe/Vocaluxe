@@ -114,7 +114,7 @@ namespace VocaluxeLib.Menu
             get { return Visible && Enabled; }
         }
 
-        public bool Enabled = true;
+        public bool Enabled { get; set; } = true;
         public override float X
         {
             set

@@ -68,14 +68,16 @@ namespace Vocaluxe.Screens
             _NavColors.Clear();
             foreach (var name in _NavNames)
             {
-                if (_Statics.ContainsKey("StaticNavIcon" + name))
+                var icon = "StaticNavIcon" + name;
+                if (_Statics.ContainsKey(icon))
                 {
-                    _NavColors["StaticNavIcon" + name] = _Statics["StaticNavIcon" + name].Color;
+                    _NavColors[icon] = _Statics[icon].Color;
                 }
 
-                if (_Texts.ContainsKey("TextNav" + name))
+                var text = "TextNav" + name;
+                if (_Texts.ContainsKey(text))
                 {
-                    _NavColors["TextNav" + name] = _Texts["TextNav" + name].Color;
+                    _NavColors[text] = _Texts[text].Color;
                 }
             }
 
