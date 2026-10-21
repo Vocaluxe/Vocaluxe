@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Español</string>
+  <string name="TR_PARTYMODE_NAME">Torneo de eliminación directa</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Realiza duelos de canto en un cuadro de eliminación directa hasta que solo quede un campeón.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Para 3 a 16 jugadores a quienes les gusta la competencia de verdad.</string>
+  <string name="TR_BUTTON_NEXT">Siguiente</string>
+  <string name="TR_BUTTON_BACK">Anterior</string>
+  <string name="TR_BUTTON_START">Inicio</string>
+  <string name="TR_BUTTON_EXIT">Salir</string>
+  <string name="TR_BUTTON_YES">Sí</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Iniciar duelo</string>
+  <string name="TR_SONGS">Canciones</string>
+  <string name="TR_SCREENCONFIG_TITLE">Torneo de eliminación directa: Configuración</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero de jugadores</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
+  <string name="TR_SCREENNAMES_TITLE">Torneo eliminatorio: elige jugadores</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar al azar</string>
+  <string name="TR_SCREENMAIN_TITLE">Torneo de eliminación directa</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿De verdad quieres salir del torneo\?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Octavos de final</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Cuarto de final</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Semifinal</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Final</string>
+  <string name="TR_SCREENMAIN_BYE">Adiós</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Campeón</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Siguiente duelo:</string>
+  <string name="TR_SCREENMAIN_VERSUS">frente a</string>
+  <string name="TR_SCREENMAIN_REMATCH">¡Empate! El duelo se canta de nuevo.</string>
+</resources>
