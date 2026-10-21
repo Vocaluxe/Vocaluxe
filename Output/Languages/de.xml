@@ -7,6 +7,9 @@
   <string name="TR_BUTTON_SAVE">Speichern</string>
   <string name="TR_BUTTON_BACK">Zurück</string>
   <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nein</string>
+  <string name="TR_BUTTON_CANCEL">Abbrechen</string>
   <string name="TR_DEBUG_AUDIO_STREAMS">Audio-Streams</string>
   <string name="TR_DEBUG_VIDEO_STREAMS">Video-Streams</string>
   <string name="TR_DEBUG_TEXTURES">Texturen</string>
@@ -112,6 +115,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profile</string>
   <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Keine Profile gefunden!</string>
   <string name="TR_SCREENMAIN_BUTTON_STATISTICS">Statistik</string>
+  <string name="TR_SCREENMAIN_BUTTON_JUKEBOX">Jukebox</string>
   <string name="TR_SCREENSTATISTICS_TITLE">Statistik</string>
   <string name="TR_SCREENSTATISTICS_HINT">Navigieren = Kachel wählen • Enter = Details öffnen • ESC = Zurück zum Hauptmenü</string>
   <string name="TR_SCREENSTATISTICS_DETAILHINT">Links/Rechts = Ansicht wechseln • Hoch/Runter = Blättern • ESC = Zurück zur Statistik</string>
@@ -150,6 +154,32 @@
   <string name="TR_SCREENSTATISTICS_COL_SCORE">Punkte</string>
   <string name="TR_SCREENSTATISTICS_COL_SONGS">Songs</string>
   <string name="TR_SCREENSTATISTICS_COL_AVERAGE">Durchschnitt</string>
+  <string name="TR_SCREENJUKEBOX_TITLE">Jukebox</string>
+  <string name="TR_SCREENJUKEBOX_SOURCE">Quelle</string>
+  <string name="TR_SCREENJUKEBOX_PLAYLIST">Playlist</string>
+  <string name="TR_SCREENJUKEBOX_SORTING">Sortierung</string>
+  <string name="TR_SCREENJUKEBOX_CATEGORY">Kategorie</string>
+  <string name="TR_SCREENJUKEBOX_ORDER">Reihenfolge</string>
+  <string name="TR_SCREENJUKEBOX_SECTION">Abschnitt</string>
+  <string name="TR_SCREENJUKEBOX_LYRICS">Liedtext</string>
+  <string name="TR_SCREENJUKEBOX_AUDIOMODE">Audiomodus</string>
+  <string name="TR_SCREENJUKEBOX_VIDEO">Video</string>
+  <string name="TR_SCREENJUKEBOX_NUMSONGS">%d Songs</string>
+  <string name="TR_SCREENJUKEBOX_NOSONGS">Keine Songs gefunden</string>
+  <string name="TR_JUKEBOX_ORDER_RANDOM">Zufällig</string>
+  <string name="TR_JUKEBOX_ORDER_SORTED">In Reihenfolge</string>
+  <string name="TR_JUKEBOX_SECTION_FULL">Kompletter Song</string>
+  <string name="TR_JUKEBOX_SECTION_MEDLEY">Medley Teil</string>
+  <string name="TR_JUKEBOX_SECTION_30">30 Sekunden</string>
+  <string name="TR_JUKEBOX_SECTION_60">60 Sekunden</string>
+  <string name="TR_JUKEBOX_SECTION_90">90 Sekunden</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SKIPINTRO">Intro überspringen</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SING">Jetzt singen</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUE">Warteschlange</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SEARCH">Zum Suchen tippen</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUEHELP">Eingabe: Nächsten spielen, erneut Eingabe: Jetzt spielen</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUEHELP2">Entf: Entfernen | Umschalt+Hoch/Runter: Verschieben</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_NUMSONGS">%d Songs</string>
   <string name="TR_SCREENPARTY_TITLE">Party-Modus Auswahl</string>
   <string name="TR_SCREENPARTY_MODES">Party-Modus</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Beschreibung</string>
@@ -190,6 +220,10 @@
   <string name="TR_SCREENSONG_NEWPLAYLIST">Neue Playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Lied-Optionen</string>
   <string name="TR_SCREENSONG_LENGTH">Songlänge</string>
+  <string name="TR_SCREENSONG_YEAR">Jahr</string>
+  <string name="TR_SCREENSONG_TIMESPLAYED">Anzahl gesungen</string>
+  <string name="TR_SCREENSONG_OPTIONSSELECTION">Auswahl</string>
+  <string name="TR_SCREENSONG_OPTIONSSINGALL">Alle singen</string>
   <string name="TR_SCREENSONG_AUDIOMODE">Audiomodus</string>
   <string name="TR_SCREENSONG_PLAYLIST">Playlist</string>
   <string name="TR_SCREENSONG_PLAYERSELECT">Spielerauswahl</string>
@@ -234,6 +268,8 @@
   <string name="TR_SCREENSCORE_POINTS">Punkte</string>
   <string name="TR_SCREENSCORE_GAMEDIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENSCORE_OVERALLSCORE">Gesamtpunktzahl</string>
+  <string name="TR_SCREENSCORE_GOLDENNOTES">Goldene Noten</string>
+  <string name="TR_SCREENSCORE_LINEBONUS">Zeilenbonus</string>
   <string name="TR_SCREENHIGHSCORE_HIGHSCORE">Highscore</string>
   <string name="TR_SCREENPROFILES_PROFILES">Profile</string>
   <string name="TR_SCREENPROFILES_PLAYERNAME">Spielername</string>
@@ -247,6 +283,8 @@
   <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Schnappschuss speichern</string>
   <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Schnappschuss löschen</string>
   <string name="TR_SCREENPROFILES_BUTTON_WEBCAM">Webcam</string>
+  <string name="TR_SCREENPROFILES_POPUP_DELETE">Möchtest du das Profil %s wirklich löschen?</string>
+  <string name="TR_SCREENPROFILES_POPUP_UNSAVED">Möchtest du deine Änderungen speichern?</string>
   <string name="TR_SCREENO_OPTIONS">Einstellungen</string>
   <string name="TR_SCREENO_BUTTON_GAME">Spiel</string>
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
@@ -267,6 +305,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Lied-Menü-Stil</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Sortierung der Lieder</string>
   <string name="TR_SCREENOGAME_TABS">Kategorieren anzeigen</string>
+  <string name="TR_SCREENOGAME_TILECAPTION">Cover-Beschriftung</string>
   <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay für Liedvorschau</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
@@ -282,6 +321,8 @@
   <string name="TR_SCREENORECORD_PLAYER_6">Spieler 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mikrofonverzögerung</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Warnung: Momentan sind einem Spieler zwei Mikrofone zugeordnet!</string>
+  <string name="TR_SCREENORECORD_CHANNEL_WARNING">Warnung: Mehrere Spieler sind demselben Kanal zugewiesen, es wird nur einer verwendet.</string>
+  <string name="TR_SCREENORECORD_NO_MIC_WARNING">Warnung: Kein Mikrofon gefunden.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Verzögerungs-Test</string>
   <string name="TR_SCREENOSOUND_OPTIONS">Sound Einstellungen</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Hintergrundmusik</string>
@@ -309,6 +350,9 @@
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Vollbild</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">gestrecktes Bild</string>
   <string name="TR_SCREENOSERVER_OPTIONS">Server Optionen</string>
+  <string name="TR_SCREENOSONGFOLDERS_TITLE">Song Ordner</string>
+  <string name="TR_SCREENOSONGFOLDERS_BUTTON_ADD">Ordner hinzufügen</string>
+  <string name="TR_SCREENOSONGFOLDERS_NOFOLDERS">Kein Song Ordner konfiguriert. Der Song Ordner des Programms wird verwendet.</string>
   <string name="TR_SCREENOSERVER_ACTIVE">Server aktiv</string>
   <string name="TR_SCREENOSERVER_ENCRYPTION">Server Verschlüsselung</string>
   <string name="TR_SCREENOSERVER_BUTTON_SERVER">Server Adresse</string>
