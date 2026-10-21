@@ -510,7 +510,10 @@ namespace Vocaluxe.Screens
                 _HighscoreStream = -1;
             }
 
-            CParty.LeavingHighscore();
+            if (!CJukebox.ReturnAfterSinging())
+            {
+                CParty.LeavingHighscore();
+            }
         }
     }
 }

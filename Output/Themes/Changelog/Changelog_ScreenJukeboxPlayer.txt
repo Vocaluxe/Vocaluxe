@@ -1,0 +1,7 @@
+ScreenJukeboxPlayer
+
+++++++++++
+Version 1:
+
+New screen: jukebox playback with video, lyrics, song info, control bar and queue
+New texture QueueRow for <StaticQueueRow> and <StaticQueueRowPlaying> (rounded row in the size ratio of the queue rows)

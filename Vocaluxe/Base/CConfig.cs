@@ -511,7 +511,7 @@ namespace Vocaluxe.Base
                 case "TextureQuality":
                     return "TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality)));
                 case "CoverSize":
-                    return "CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 512)";
+                    return "CoverSize (pixels): 128, 256, 512, 1024 (default: 512)";
                 case "NumScreens":
                     return "Number of screens to use. 1 - 6 (default: 1)";
                 case "ScreenW":
@@ -771,8 +771,10 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void NormalizeSongPaths()
         {
+            Config.Game.SongFolder = Config.Game.SongFolder.Where(folder => !string.IsNullOrEmpty(folder)).ToArray();
+
             //Check if there are configured songfolders
-            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
+            if (Config.Game.SongFolder.Length > 0)
             {
                 SongFolders.Clear();
 

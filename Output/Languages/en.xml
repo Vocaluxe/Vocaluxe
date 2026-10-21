@@ -112,6 +112,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profiles</string>
   <string name="TR_SCREENMAIN_TEXT_NOPROFILES">No profiles found!</string>
   <string name="TR_SCREENMAIN_BUTTON_STATISTICS">Statistics</string>
+  <string name="TR_SCREENMAIN_BUTTON_JUKEBOX">Jukebox</string>
   <string name="TR_SCREENSTATISTICS_TITLE">Statistics</string>
   <string name="TR_SCREENSTATISTICS_HINT">Navigate = Select a tile • Enter = Open details • ESC = Back to main menu</string>
   <string name="TR_SCREENSTATISTICS_DETAILHINT">Left/Right = Change view • Up/Down = Scroll • ESC = Back to statistics</string>
@@ -150,6 +151,32 @@
   <string name="TR_SCREENSTATISTICS_COL_SCORE">Score</string>
   <string name="TR_SCREENSTATISTICS_COL_SONGS">Songs</string>
   <string name="TR_SCREENSTATISTICS_COL_AVERAGE">Average</string>
+  <string name="TR_SCREENJUKEBOX_TITLE">Jukebox</string>
+  <string name="TR_SCREENJUKEBOX_SOURCE">Source</string>
+  <string name="TR_SCREENJUKEBOX_PLAYLIST">Playlist</string>
+  <string name="TR_SCREENJUKEBOX_SORTING">Sorting</string>
+  <string name="TR_SCREENJUKEBOX_CATEGORY">Category</string>
+  <string name="TR_SCREENJUKEBOX_ORDER">Order</string>
+  <string name="TR_SCREENJUKEBOX_SECTION">Section</string>
+  <string name="TR_SCREENJUKEBOX_LYRICS">Lyrics</string>
+  <string name="TR_SCREENJUKEBOX_AUDIOMODE">Audio mode</string>
+  <string name="TR_SCREENJUKEBOX_VIDEO">Video</string>
+  <string name="TR_SCREENJUKEBOX_NUMSONGS">%d songs</string>
+  <string name="TR_SCREENJUKEBOX_NOSONGS">No songs found</string>
+  <string name="TR_JUKEBOX_ORDER_RANDOM">Random</string>
+  <string name="TR_JUKEBOX_ORDER_SORTED">In order</string>
+  <string name="TR_JUKEBOX_SECTION_FULL">Full song</string>
+  <string name="TR_JUKEBOX_SECTION_MEDLEY">Medley part</string>
+  <string name="TR_JUKEBOX_SECTION_30">30 seconds</string>
+  <string name="TR_JUKEBOX_SECTION_60">60 seconds</string>
+  <string name="TR_JUKEBOX_SECTION_90">90 seconds</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SKIPINTRO">Skip intro</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SING">Sing now</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUE">Queue</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_SEARCH">Type to search</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUEHELP">Enter: Play next, Enter again: Play now</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_QUEUEHELP2">Del: Remove | Shift+Up/Down: Move</string>
+  <string name="TR_SCREENJUKEBOXPLAYER_NUMSONGS">%d songs</string>
   <string name="TR_SCREENPARTY_TITLE">Party-Mode Selection</string>
   <string name="TR_SCREENPARTY_MODES">Party-mode</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Description</string>
@@ -271,6 +298,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Song-menu style</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Song sorting</string>
   <string name="TR_SCREENOGAME_TABS">Tabs</string>
+  <string name="TR_SCREENOGAME_TILECAPTION">Tile caption</string>
   <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay song previews</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Game difficulty</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timer mode</string>
@@ -286,6 +314,8 @@
   <string name="TR_SCREENORECORD_PLAYER_6">Player 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mic delay</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Warning: At least one player is assigned to two mics.</string>
+  <string name="TR_SCREENORECORD_CHANNEL_WARNING">Warning: Several players are assigned to the same channel, only one of them will be used.</string>
+  <string name="TR_SCREENORECORD_NO_MIC_WARNING">Warning: No microphone found.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Delay test</string>
   <string name="TR_SCREENOSOUND_OPTIONS">Sound Options</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Background music</string>
@@ -313,6 +343,9 @@
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Fullscreen</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">Stretched</string>
   <string name="TR_SCREENOSERVER_OPTIONS">Server Options</string>
+  <string name="TR_SCREENOSONGFOLDERS_TITLE">Song Folders</string>
+  <string name="TR_SCREENOSONGFOLDERS_BUTTON_ADD">Add folder</string>
+  <string name="TR_SCREENOSONGFOLDERS_NOFOLDERS">No song folders configured. The Songs folder of the program is used.</string>
   <string name="TR_SCREENOSERVER_ACTIVE">Server active</string>
   <string name="TR_SCREENOSERVER_ENCRYPTION">Server encryption</string>
   <string name="TR_SCREENOSERVER_BUTTON_SERVER">Server address</string>

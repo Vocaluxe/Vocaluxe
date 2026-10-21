@@ -1,6 +1,20 @@
 ScreenOptionsLyrics
 
 ++++++++++
+Version 5:
+(2026 Oct 18)
+
+Add (optional, the screen works without them):
+<StaticNavPanel> background of the navigation
+<StaticNav$Category$>, <StaticNavIcon$Category$>, <TextNav$Category$> for Game, Sound, Record, Video, Lyrics, Theme, Graphics, Server, SongFolders and Credits (navigation tiles, can be clicked, Tab switches to the next category, Escape moves the focus to the navigation and leaves the screen from there, the navigation is focused when the options are opened from the main menu)
+<StaticNavSelected>, <StaticNavIconSelected>, <TextNavSelected> templates for the tile of the current category (only skin and colors are used, like the tiles in ScreenParty)
+<StaticOptionsPanel> background of the settings
+
+Change:
+Positions and sizes of all texts and select slides
+<SkinSelected> of the select slides is OptionsSlideSelected (selection color instead of dark background)
+
+++++++++++
 Version 4:
 Remove Graphics Options
 (moved to new Graphics Options screen)

@@ -27,11 +27,12 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _ButtonSing = "ButtonSing";
         private const string _ButtonParty = "ButtonParty";
+        private const string _ButtonJukebox = "ButtonJukebox";
         private const string _ButtonStatistics = "ButtonStatistics";
         private const string _ButtonOptions = "ButtonOptions";
         private const string _ButtonProfiles = "ButtonProfiles";
@@ -57,7 +58,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeStatics = new string[] { "StaticMenuBar", _StaticWarningProfiles };
-            _ThemeButtons = new string[] { _ButtonSing, _ButtonParty, _ButtonStatistics, _ButtonOptions, _ButtonProfiles, _ButtonExit };
+            _ThemeButtons = new string[] { _ButtonSing, _ButtonParty, _ButtonJukebox, _ButtonStatistics, _ButtonOptions, _ButtonProfiles, _ButtonExit };
             _ThemeTexts = new string[] { _TextRelease, _TextWarningProfiles };
         }
 
@@ -82,7 +83,7 @@ namespace Vocaluxe.Screens
                 switch (keyEvent.Key)
                 {
                     case Keys.O:
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.OptionsGame);
                         _LeaveScreen();
                         break;
 
@@ -119,6 +120,12 @@ namespace Vocaluxe.Screens
                             _LeaveScreen();
                         }
 
+                        if (_Buttons[_ButtonJukebox].Selected)
+                        {
+                            CGraphics.FadeTo(EScreen.Jukebox);
+                            _LeaveScreen();
+                        }
+
                         if (_Buttons[_ButtonStatistics].Selected)
                         {
                             CGraphics.FadeTo(EScreen.Statistics);
@@ -127,7 +134,7 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonOptions].Selected)
                         {
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.OptionsGame);
                             _LeaveScreen();
                         }
 
@@ -172,6 +179,12 @@ namespace Vocaluxe.Screens
                     _LeaveScreen();
                 }
 
+                if (_Buttons[_ButtonJukebox].Selected)
+                {
+                    CGraphics.FadeTo(EScreen.Jukebox);
+                    _LeaveScreen();
+                }
+
                 if (_Buttons[_ButtonStatistics].Selected)
                 {
                     CGraphics.FadeTo(EScreen.Statistics);
@@ -180,7 +193,7 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptions].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.OptionsGame);
                     _LeaveScreen();
                 }
 
@@ -208,6 +221,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonParty].Selectable = profileOK;
             _Buttons[_ButtonSing].Visible = profileOK;
             _Buttons[_ButtonParty].Visible = profileOK;
+            _Buttons[_ButtonJukebox].Selectable = profileOK;
+            _Buttons[_ButtonJukebox].Visible = profileOK;
 
             if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedWarningSound)
             {

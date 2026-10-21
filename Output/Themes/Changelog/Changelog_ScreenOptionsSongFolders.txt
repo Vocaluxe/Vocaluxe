@@ -1,0 +1,36 @@
+ScreenOptionsSongFolders
+
+++++++++++
+Version 3:
+(2026 Oct 18)
+
+Add:
+<StaticScrollBar> and <StaticScrollBarThumb> (only visible with more than 8 folders, the thumb uses X, W and Z of its rect, Y and H follow the scroll position, click or drag on the bar to scroll)
+
+Remove:
+<ButtonScrollUp>, <ButtonScrollDown>
+
+++++++++++
+Version 2:
+(2026 Oct 18)
+
+Add (optional, the screen works without them):
+<StaticNavPanel> background of the navigation
+<StaticNav$Category$>, <StaticNavIcon$Category$>, <TextNav$Category$> for Game, Sound, Record, Video, Lyrics, Theme, Graphics, Server, SongFolders and Credits (navigation tiles, can be clicked, Tab switches to the next category, Escape moves the focus to the navigation and leaves the screen from there, the navigation is focused when the options are opened from the main menu)
+<StaticNavSelected>, <StaticNavIconSelected>, <TextNavSelected> templates for the tile of the current category (only skin and colors are used, like the tiles in ScreenParty)
+<StaticOptionsPanel> background of the settings
+
+Change:
+Positions and sizes of all folder rows, buttons and texts
+<StaticFolder$N$> without background
+The add button is placed at the bottom right of the settings background
+The warning is centered below the settings background
+
+++++++++++
+Version 1:
+(2026 Oct 18)
+
+New screen to manage the song folders, opened with <ButtonSongFolder> in ScreenOptions:
+<StaticFolder1> to <StaticFolder8>, <TextFolder1> to <TextFolder8>, <ButtonRemoveFolder1> to <ButtonRemoveFolder8> (one row per folder)
+<ButtonScrollUp>, <ButtonScrollDown> (only visible with more than 8 folders)
+<ButtonAddFolder>, <ButtonExit>, <TextNoFolders>, <StaticWarningRestart>, <TextWarningRestart>
