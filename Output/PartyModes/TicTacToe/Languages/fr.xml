@@ -28,6 +28,8 @@
   <string name="TR_SCREENNAMES_HELPMESSAGE">Ajoutez au moins un joueur aux deux équipes ! / Tirez l'avatar d'un joueur vers la liste des joueurs sélectionnés ! / Faites un clic droit sur l'avatar d'un joueur pour le retirer !</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Choisissez une case.</string>
+  <string name="TR_SCREENMAIN_JOKER_RANDOM">Nouvelle chanson</string>
+  <string name="TR_SCREENMAIN_JOKER_RETRY">Rejouer un champ</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Joueur suivant</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter Tic-Tac-Toe?</string>
   <string name="TR_SCREENMAIN_WINNER">Et le gagnant est...</string>
