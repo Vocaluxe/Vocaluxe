@@ -314,7 +314,7 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreen.Song);
+                        _FadeBack();
                         _LeaveScreen();
                         break;
 
@@ -322,7 +322,7 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonBack].Selected)
                         {
-                            CGraphics.FadeTo(EScreen.Song);
+                            _FadeBack();
                             _LeaveScreen();
                         }
                         else if (_Buttons[_ButtonStart].Selected)
@@ -532,7 +532,7 @@ namespace Vocaluxe.Screens
             {
                 if (_Buttons[_ButtonBack].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Song);
+                    _FadeBack();
                     _LeaveScreen();
                 }
                 else if (_Buttons[_ButtonStart].Selected)
@@ -589,7 +589,7 @@ namespace Vocaluxe.Screens
 
                 if (exit)
                 {
-                    CGraphics.FadeTo(EScreen.Song);
+                    _FadeBack();
                     _LeaveScreen();
                 }
             }
@@ -938,6 +938,14 @@ namespace Vocaluxe.Screens
             {
                 _Statics[_StaticWarningProfiles].Visible = false;
                 _Texts[_TextWarningProfiles].Visible = false;
+            }
+        }
+
+        private static void _FadeBack()
+        {
+            if (!CJukebox.ReturnAfterSinging())
+            {
+                CGraphics.FadeTo(EScreen.Song);
             }
         }
 

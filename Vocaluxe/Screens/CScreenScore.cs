@@ -589,7 +589,10 @@ namespace Vocaluxe.Screens
 
             if (_IsKaraokeMode(-1))
             {
-                CGraphics.FadeTo(EScreen.Song);
+                if (!CJukebox.ReturnAfterSinging())
+                {
+                    CGraphics.FadeTo(EScreen.Song);
+                }
             }
             else
             {

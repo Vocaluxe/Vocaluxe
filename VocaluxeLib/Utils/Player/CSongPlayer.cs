@@ -141,11 +141,38 @@ namespace VocaluxeLib.Utils.Player
                 throw new ArgumentNullException("song");
             }
 
+            Load(song, song.GetMP3(), true, position, autoplay);
+        }
+
+        public void Load(CSong song, string audioFile, bool loadVideo, float position = 0f, bool autoplay = false)
+        {
+            if (song == null)
+            {
+                throw new ArgumentNullException("song");
+            }
+
             lock (_lock)
             {
-                Load(song.GetMP3(), position, autoplay);
+                Load(audioFile, position, autoplay);
                 _Song = song;
-                _LoadVideo();
+                if (loadVideo)
+                {
+                    _LoadVideo();
+                }
+            }
+        }
+
+        public void SetPosition(float position)
+        {
+            lock (_lock)
+            {
+                Position = position;
+                var video = _Video;
+                var song = _Song;
+                if (video != null && !video.IsClosed() && song != null)
+                {
+                    CBase.Video?.Skip(video, position, song.VideoGap);
+                }
             }
         }
 
