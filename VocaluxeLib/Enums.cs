@@ -411,7 +411,6 @@ namespace VocaluxeLib
         Load,
         Main,
         Song,
-        Options,
         Sing,
         Profiles,
         Score,
@@ -426,12 +425,15 @@ namespace VocaluxeLib
         OptionsTheme,
         OptionsGraphics,
         OptionsServer,
+        OptionsSongFolders,
 
         Names,
         Credits,
         Party,
         Statistics,
         StatisticsDetail,
+        Jukebox,
+        JukeboxPlayer,
 
         CountEntry //Leave this as last entry and never use it!
     }

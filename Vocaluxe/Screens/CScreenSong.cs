@@ -42,7 +42,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 15; }
+            get { return 16; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -58,6 +58,23 @@ namespace Vocaluxe.Screens
         private const string _TextOptionsPlayerSelect = "TextOptionsPlayerSelect";
         private const string _TextOptionsPlaylist = "TextOptionsPlaylist";
         private const string _TextShortInfoTop = "TextShortInfoTop";
+        private const string _TextOptionsSongTitle = "TextOptionsSongTitle";
+        private const string _TextOptionsSongArtist = "TextOptionsSongArtist";
+        private const string _TextOptionsGeneralSelection = "TextOptionsGeneralSelection";
+        private const string _TextOptionsGeneralPlaylist = "TextOptionsGeneralPlaylist";
+        private const string _TextOptionsGeneralSingAll = "TextOptionsGeneralSingAll";
+        private const string _TextOptionsGeneralMedley = "TextOptionsGeneralMedley";
+
+        private static readonly string[] _TextsOptionsGeneral =
+        {
+            _TextOptionsGeneralSelection, _TextOptionsGeneralPlaylist, _TextOptionsGeneralSingAll, _TextOptionsGeneralMedley
+        };
+        private const string _TextInfoYear = "TextInfoYear";
+        private const string _TextInfoLength = "TextInfoLength";
+        private const string _TextInfoHighscore = "TextInfoHighscore";
+        private const string _TextInfoPlayed = "TextInfoPlayed";
+        private const string _TextInfoHighscoreValue = "TextInfoHighscoreValue";
+        private const string _TextInfoPlayedValue = "TextInfoPlayedValue";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
         private const string _ButtonOptionsSing = "ButtonOptionsSing";
@@ -83,6 +100,42 @@ namespace Vocaluxe.Screens
         private const string _StaticSearchBar = "StaticSearchBar";
         private const string _StaticOptionsBG = "StaticOptionsBG";
         private const string _StaticShortInfoTop = "StaticShortInfoTop";
+        private const string _StaticOptionsCover = "StaticOptionsCover";
+        private const string _StaticInfoYear = "StaticInfoYear";
+        private const string _StaticInfoLength = "StaticInfoLength";
+        private const string _StaticInfoHighscore = "StaticInfoHighscore";
+        private const string _StaticInfoPlayed = "StaticInfoPlayed";
+        private const string _StaticInfoIcons = "StaticInfoIcons";
+        private const string _StaticOptionsGroupGame = "StaticOptionsGroupGame";
+        private const string _StaticOptionsGroupAudio = "StaticOptionsGroupAudio";
+        private const string _StaticOptionsGroupPlayer = "StaticOptionsGroupPlayer";
+        private const string _StaticOptionsGroupPlaylist = "StaticOptionsGroupPlaylist";
+        private const string _StaticOptionsIconSing = "StaticOptionsIconSing";
+        private const string _StaticOptionsIconGame = "StaticOptionsIconGame";
+        private const string _StaticOptionsIconAudio = "StaticOptionsIconAudio";
+        private const string _StaticOptionsIconPlayer = "StaticOptionsIconPlayer";
+        private const string _StaticOptionsIconPlaylist = "StaticOptionsIconPlaylist";
+        private const string _StaticOptionsIconAdd = "StaticOptionsIconAdd";
+        private const string _StaticOptionsIconHighscore = "StaticOptionsIconHighscore";
+        private const string _StaticOptionsIconClose = "StaticOptionsIconClose";
+        private const string _StaticOptionsGroupRandom = "StaticOptionsGroupRandom";
+        private const string _StaticOptionsGroupPlaylistOpen = "StaticOptionsGroupPlaylistOpen";
+        private const string _StaticOptionsGroupSingAll = "StaticOptionsGroupSingAll";
+        private const string _StaticOptionsGroupSingAllSingle = "StaticOptionsGroupSingAllSingle";
+        private const string _StaticOptionsGroupRandomMedley = "StaticOptionsGroupRandomMedley";
+        private const string _StaticOptionsGroupMedley = "StaticOptionsGroupMedley";
+
+        private static readonly string[] _StaticsOptionsGeneral =
+        {
+            _StaticOptionsGroupRandom, _StaticOptionsGroupPlaylistOpen, _StaticOptionsGroupSingAll, _StaticOptionsGroupSingAllSingle, _StaticOptionsGroupRandomMedley,
+            _StaticOptionsGroupMedley
+        };
+
+        private static readonly string[] _StaticsOptionsSong =
+        {
+            _StaticOptionsGroupGame, _StaticOptionsGroupPlayer, _StaticOptionsGroupPlaylist, _StaticOptionsIconSing, _StaticOptionsIconGame, _StaticOptionsIconPlayer,
+            _StaticOptionsIconPlaylist, _StaticOptionsIconAdd, _StaticOptionsIconHighscore
+        };
         private const string _SongMenuName = "SongMenu";
         private const string _PlaylistName = "Playlist";
 
@@ -104,6 +157,7 @@ namespace Vocaluxe.Screens
 
         private int _SelectedSongId;
         private int _SelectedCategoryIndex;
+        private int _InfoSongId = -1;
 
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
@@ -206,8 +260,24 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextOptionsPlaylist);
 
             tlist.Add(_TextShortInfoTop);
+            tlist.Add(_TextOptionsSongTitle);
+            tlist.Add(_TextOptionsSongArtist);
+            tlist.AddRange(_TextsOptionsGeneral);
+            tlist.Add(_TextInfoYear);
+            tlist.Add(_TextInfoLength);
+            tlist.Add(_TextInfoHighscore);
+            tlist.Add(_TextInfoPlayed);
+            tlist.Add(_TextInfoHighscoreValue);
+            tlist.Add(_TextInfoPlayedValue);
 
-            _ThemeStatics = new string[] { _StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop };
+            _ThemeStatics = new string[]
+            {
+                _StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop, _StaticOptionsCover, _StaticInfoYear, _StaticInfoLength, _StaticInfoHighscore, _StaticInfoPlayed,
+                _StaticInfoIcons, _StaticOptionsGroupGame, _StaticOptionsGroupAudio, _StaticOptionsGroupPlayer, _StaticOptionsGroupPlaylist, _StaticOptionsIconSing,
+                _StaticOptionsIconGame, _StaticOptionsIconAudio, _StaticOptionsIconPlayer, _StaticOptionsIconPlaylist, _StaticOptionsIconAdd, _StaticOptionsIconHighscore,
+                _StaticOptionsIconClose, _StaticOptionsGroupRandom, _StaticOptionsGroupPlaylistOpen, _StaticOptionsGroupSingAll, _StaticOptionsGroupSingAllSingle,
+                _StaticOptionsGroupRandomMedley, _StaticOptionsGroupMedley
+            };
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
             _ThemeSelectSlides = new string[]
@@ -897,6 +967,7 @@ namespace Vocaluxe.Screens
 
             _SelectedSongId = -1;
             _SelectedCategoryIndex = -2;
+            _InfoSongId = -1;
 
             _Sso = CParty.GetSongSelectionOptions();
             CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions,
@@ -1044,8 +1115,58 @@ namespace Vocaluxe.Screens
             }
 
             _UpdatePartyModeOptions();
+            _UpdateSongInfo();
 
             return true;
+        }
+
+        private void _UpdateSongInfo()
+        {
+            CSong song = null;
+            var songNr = _SongMenu.GetPreviewSongNr();
+            if (CSongs.IsInCategory && songNr >= 0 && songNr < CSongs.VisibleSongs.Count)
+            {
+                song = CSongs.VisibleSongs[songNr];
+            }
+
+            var visible = song != null && _CurSongOptionsView == ESongOptionsView.None;
+            foreach (var staticName in new[] { _StaticInfoYear, _StaticInfoLength, _StaticInfoHighscore, _StaticInfoPlayed, _StaticInfoIcons })
+            {
+                _Statics[staticName].Visible = visible;
+            }
+
+            foreach (var textName in new[] { _TextInfoYear, _TextInfoLength, _TextInfoHighscore, _TextInfoPlayed, _TextInfoHighscoreValue, _TextInfoPlayedValue })
+            {
+                _Texts[textName].Visible = visible;
+            }
+
+            if (song == null)
+            {
+                return;
+            }
+
+            _Texts[_TextInfoPlayedValue].Text = song.NumPlayed.ToString();
+            if (song.Id == _InfoSongId)
+            {
+                return;
+            }
+
+            if (!CSongs.SongsLoaded)
+            {
+                _Texts[_TextInfoHighscoreValue].Text = "-";
+                return;
+            }
+
+            _InfoSongId = song.Id;
+            var scores = CDataBase.LoadScore(song.Id, EGameMode.TR_GAMEMODE_NORMAL, EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST);
+            if (scores == null || scores.Count == 0)
+            {
+                _Texts[_TextInfoHighscoreValue].Text = "-";
+                return;
+            }
+
+            var best = scores.OrderByDescending(score => score.Score).First();
+            _Texts[_TextInfoHighscoreValue].Text = best.Score + " (" + best.Name + ")";
         }
         private void _PreloadVisibleCovers()
         {
@@ -1753,9 +1874,33 @@ namespace Vocaluxe.Screens
             _Texts[_TextOptionsAudioMode].Visible = false;
             _Texts[_TextOptionsPlayerSelect].Visible = false;
             _Texts[_TextOptionsPlaylist].Visible = false;
+            _Texts[_TextOptionsSongTitle].Visible = false;
+            _Texts[_TextOptionsSongArtist].Visible = false;
+            _Statics[_StaticOptionsCover].Visible = false;
+            foreach (var staticName in _StaticsOptionsSong)
+            {
+                _Statics[staticName].Visible = false;
+            }
+
+            _Statics[_StaticOptionsGroupAudio].Visible = false;
+            _Statics[_StaticOptionsIconAudio].Visible = false;
+            _Statics[_StaticOptionsIconClose].Visible = false;
+            _SetSongOptionsOffsetY(0f);
+            _SetGeneralOptionsOffsetY(0f, 0f);
+            foreach (var staticName in _StaticsOptionsGeneral)
+            {
+                _Statics[staticName].Visible = false;
+            }
+
+            foreach (var textName in _TextsOptionsGeneral)
+            {
+                _Texts[textName].Visible = false;
+            }
+
             _Statics[_StaticOptionsBG].Visible = false;
             _Statics[_StaticSearchBar].Visible = !_Sso.Selection.PartyMode;
             _Buttons[_ButtonOpenOptions].Visible = true;
+            _SongMenu.PreviewVisible = true;
 
             if (view == ESongOptionsView.None)
             {
@@ -1785,6 +1930,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsClose].Visible = true;
             _Statics[_StaticOptionsBG].Visible = true;
             _Buttons[_ButtonOpenOptions].Visible = false;
+            _Statics[_StaticOptionsIconClose].Visible = true;
+            _SongMenu.PreviewVisible = false;
             if (view == ESongOptionsView.Song)
             {
                 _ShowSongOptionsSong();
@@ -1796,6 +1943,54 @@ namespace Vocaluxe.Screens
             else if (view == ESongOptionsView.Medley)
             {
                 _ShowSongOptionsMedley();
+            }
+        }
+
+        private void _SetSongOptionsOffsetY(float offset)
+        {
+            _SetOffsetY(offset,
+                new[]
+                {
+                    _StaticOptionsGroupPlayer, _StaticOptionsGroupPlaylist, _StaticOptionsIconPlayer, _StaticOptionsIconPlaylist, _StaticOptionsIconAdd,
+                    _StaticOptionsIconHighscore, _StaticOptionsIconClose
+                },
+                new[] { _TextOptionsPlayerSelect, _TextOptionsPlaylist },
+                new[] { _SelectSlideOptionsPlayerSelect, _SelectSlideOptionsPlaylistAdd },
+                new[] { _ButtonOptionsPlaylist, _ButtonOptionsHighscore, _ButtonOptionsClose });
+        }
+
+        private void _SetGeneralOptionsOffsetY(float singAllOffset, float medleyOffset)
+        {
+            _SetOffsetY(singAllOffset, new[] { _StaticOptionsGroupSingAll, _StaticOptionsGroupSingAllSingle }, new[] { _TextOptionsGeneralSingAll }, new string[0],
+                new[] { _ButtonOptionsSingAll, _ButtonOptionsSingAllVisible });
+            _SetOffsetY(medleyOffset, new[] { _StaticOptionsGroupRandomMedley }, new[] { _TextOptionsGeneralMedley }, new string[0], new[] { _ButtonOptionsRandomMedley });
+        }
+
+        private static float _GetThemeY(CStatic element)
+        {
+            return ((SThemeStatic)element.GetTheme()).Rect.Y;
+        }
+
+        private void _SetOffsetY(float offset, string[] staticNames, string[] textNames, string[] slideNames, string[] buttonNames)
+        {
+            foreach (var staticName in staticNames)
+            {
+                _Statics[staticName].Y = _GetThemeY(_Statics[staticName]) + offset;
+            }
+
+            foreach (var textName in textNames)
+            {
+                _Texts[textName].Y = ((SThemeText)_Texts[textName].GetTheme()).Y + offset;
+            }
+
+            foreach (var slideName in slideNames)
+            {
+                _SelectSlides[slideName].Y = ((SThemeSelectSlide)_SelectSlides[slideName].GetTheme()).Rect.Y + offset;
+            }
+
+            foreach (var buttonName in buttonNames)
+            {
+                _Buttons[buttonName].Y = ((SThemeButton)_Buttons[buttonName].GetTheme()).Rect.Y + offset;
             }
         }
 
@@ -1866,6 +2061,28 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
             _Buttons[_ButtonOptionsHighscore].Visible = true;
+
+            _Texts[_TextOptionsTitle].Visible = false;
+            _Texts[_TextOptionsSongTitle].Text = currentSong.Title;
+            _Texts[_TextOptionsSongTitle].Visible = true;
+            _Texts[_TextOptionsSongArtist].Text = currentSong.Artist;
+            _Texts[_TextOptionsSongArtist].Visible = true;
+            _Statics[_StaticOptionsCover].Texture = currentSong.CoverTextureSmall;
+            _Statics[_StaticOptionsCover].Aspect = EAspect.Crop;
+            _Statics[_StaticOptionsCover].Visible = true;
+
+            foreach (var staticName in _StaticsOptionsSong)
+            {
+                _Statics[staticName].Visible = true;
+            }
+
+            _Statics[_StaticOptionsGroupAudio].Visible = _SelectSlides[_SelectSlideOptionsAudioMode].Visible;
+            _Statics[_StaticOptionsIconAudio].Visible = _SelectSlides[_SelectSlideOptionsAudioMode].Visible;
+            if (!_SelectSlides[_SelectSlideOptionsAudioMode].Visible)
+            {
+                _SetSongOptionsOffsetY(_GetThemeY(_Statics[_StaticOptionsGroupAudio]) - _GetThemeY(_Statics[_StaticOptionsGroupPlayer]));
+            }
+
             _SelectElement(_Buttons[_ButtonOptionsSing]);
             _SetSelectSlidePlaylistToCurrentPlaylist();
         }
@@ -1895,6 +2112,33 @@ namespace Vocaluxe.Screens
                 _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = true;
             }
 
+            _Statics[_StaticOptionsGroupRandom].Visible = true;
+            _Statics[_StaticOptionsGroupPlaylistOpen].Visible = _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible;
+            _Statics[_StaticOptionsGroupSingAll].Visible = CSongs.IsInCategory;
+            _Statics[_StaticOptionsGroupSingAllSingle].Visible = !CSongs.IsInCategory;
+            _Statics[_StaticOptionsGroupRandomMedley].Visible = true;
+            foreach (var textName in _TextsOptionsGeneral)
+            {
+                _Texts[textName].Visible = true;
+            }
+
+            _Texts[_TextOptionsGeneralPlaylist].Visible = _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible;
+
+            var singAllOffset = 0f;
+            if (!_SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible)
+            {
+                singAllOffset = _GetThemeY(_Statics[_StaticOptionsGroupPlaylistOpen]) - _GetThemeY(_Statics[_StaticOptionsGroupSingAll]);
+            }
+
+            var medleyOffset = singAllOffset;
+            if (!CSongs.IsInCategory)
+            {
+                medleyOffset += ((SThemeStatic)_Statics[_StaticOptionsGroupSingAllSingle].GetTheme()).Rect.H -
+                                ((SThemeStatic)_Statics[_StaticOptionsGroupSingAll].GetTheme()).Rect.H;
+            }
+
+            _SetGeneralOptionsOffsetY(singAllOffset, medleyOffset);
+
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (_Buttons[_ButtonOptionsRandom].Visible)
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
@@ -1914,6 +2158,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextOptionsPlaylist].Visible = false;
             _Buttons[_ButtonOptionsStartMedley].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = true;
+            _Statics[_StaticOptionsGroupMedley].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Clear();
             if (CSongs.IsInCategory)
             {

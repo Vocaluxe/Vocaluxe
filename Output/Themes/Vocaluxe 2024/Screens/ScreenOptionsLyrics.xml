@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsLyrics</ScreenName>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -25,6 +25,270 @@
         <Z>1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticNavPanel">
+      <Skin>OptionsNavBackground</Skin>
+      <Color Name="StaticColorAlpha" />
+      <Rect>
+        <X>45</X>
+        <Y>150</Y>
+        <W>375</W>
+        <H>735</H>
+        <Z>0.3</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavGame">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>162</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconGame">
+      <Skin>OptionsIconGame</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>171</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavSound">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>233.5</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconSound">
+      <Skin>OptionsIconSound</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>242.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavRecord">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>305</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconRecord">
+      <Skin>SingIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>314</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavVideo">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>376.5</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconVideo">
+      <Skin>VideoIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>385.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavLyrics">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>448</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconLyrics">
+      <Skin>OptionsIconLyrics</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>457</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavTheme">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>519.5</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconTheme">
+      <Skin>OptionsIconTheme</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>528.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavGraphics">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>591</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconGraphics">
+      <Skin>OptionsIconGraphics</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>600</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavServer">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>662.5</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconServer">
+      <Skin>OptionsIconServer</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>671.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavSongFolders">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>734</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconSongFolders">
+      <Skin>OptionsIconSongFolders</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>743</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavCredits">
+      <Skin>ButtonTile</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>60</X>
+        <Y>805.5</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconCredits">
+      <Skin>Star</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>75</X>
+        <Y>814.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavSelected">
+      <Skin>OptionsNavSelected</Skin>
+      <Color Name="ButtonSelColor" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>345</W>
+        <H>62</H>
+        <Z>0.15</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNavIconSelected">
+      <Skin />
+      <Color Name="ButtonTextSelColor" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>0.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticOptionsPanel">
+      <Skin>CoverTextBackground</Skin>
+      <Color Name="StaticColorAlpha" />
+      <Rect>
+        <X>435</X>
+        <Y>150</Y>
+        <W>1440</W>
+        <H>735</H>
+        <Z>0.3</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitleLyrics">
@@ -42,11 +306,11 @@
       <Text>TR_SCREENOLYRICS_OPTIONS</Text>
     </Text>
     <Text Name="TextLyricsStyle">
-      <X>112.5</X>
-      <Y>160.5</Y>
+      <X>465</X>
+      <Y>181.75</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>480</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -56,11 +320,11 @@
       <Text>TR_SCREENOLYRICS_STYLE</Text>
     </Text>
     <Text Name="TextLyricsPosition">
-      <X>112.5</X>
-      <Y>250.5</Y>
+      <X>465</X>
+      <Y>261.75</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>0</MaxW>
+      <MaxW>480</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -68,6 +332,160 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_POSITION</Text>
+    </Text>
+    <Text Name="TextNavGame">
+      <X>135</X>
+      <Y>173</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_GAME</Text>
+    </Text>
+    <Text Name="TextNavSound">
+      <X>135</X>
+      <Y>244.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_SOUND</Text>
+    </Text>
+    <Text Name="TextNavRecord">
+      <X>135</X>
+      <Y>316</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_RECORD</Text>
+    </Text>
+    <Text Name="TextNavVideo">
+      <X>135</X>
+      <Y>387.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_VIDEO</Text>
+    </Text>
+    <Text Name="TextNavLyrics">
+      <X>135</X>
+      <Y>459</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_LYRICS</Text>
+    </Text>
+    <Text Name="TextNavTheme">
+      <X>135</X>
+      <Y>530.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_THEME</Text>
+    </Text>
+    <Text Name="TextNavGraphics">
+      <X>135</X>
+      <Y>602</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_GRAPHICS</Text>
+    </Text>
+    <Text Name="TextNavServer">
+      <X>135</X>
+      <Y>673.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_SERVER</Text>
+    </Text>
+    <Text Name="TextNavSongFolders">
+      <X>135</X>
+      <Y>745</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_SONGFOLDER</Text>
+    </Text>
+    <Text Name="TextNavCredits">
+      <X>135</X>
+      <Y>816.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_BUTTON_CREDITS</Text>
+    </Text>
+    <Text Name="TextNavSelected">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
+      <Color Name="ButtonTextSelColor" />
+      <SelColor Name="ButtonTextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
     </Text>
   </Texts>
   <Buttons>
@@ -114,28 +532,28 @@
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinSelected>OptionsSlideSelected</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
-        <Y>150</Y>
-        <W>1072.5</W>
-        <H>75</H>
+        <X>965</X>
+        <Y>172</Y>
+        <W>890</W>
+        <H>60</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
-        <Y>157.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <X>971</X>
+        <Y>178</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
-        <Y>157.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <X>1801</X>
+        <Y>178</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -144,10 +562,10 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextH>36</TextH>
+      <TextRelativeX>60</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
+      <TextMaxW>182.5</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>4</NumVisible>
@@ -156,28 +574,28 @@
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinSelected>OptionsSlideSelected</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
-        <Y>240</Y>
-        <W>1072.5</W>
-        <H>75</H>
+        <X>965</X>
+        <Y>252</Y>
+        <W>890</W>
+        <H>60</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
-        <Y>247.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <X>971</X>
+        <Y>258</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
-        <Y>247.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <X>1801</X>
+        <Y>258</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -186,10 +604,10 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextH>36</TextH>
+      <TextRelativeX>60</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
+      <TextMaxW>375</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>2</NumVisible>

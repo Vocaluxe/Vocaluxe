@@ -26,12 +26,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsVideo : CMenu
+    public class CScreenOptionsVideo : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsVideo; }
         }
 
         private const string _SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
@@ -81,6 +86,11 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
             if (keyEvent.KeyPressed) { }
@@ -91,7 +101,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -104,7 +114,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
                         }
                         else if (_Buttons[_ButtonScreenAdjustments].Selected)
                         {
@@ -149,12 +159,17 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
@@ -172,7 +187,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.Main);
                 }
 
                 if (_Buttons[_ButtonScreenAdjustments].Selected)
@@ -254,7 +269,11 @@ namespace Vocaluxe.Screens
             CConfig.Config.Video.VideosInSongs = (EOffOn)_SelectSlides[_SelectSlideVideosInSongs].Selection;
             CConfig.Config.Video.VideosToBackground = (EOffOn)_SelectSlides[_SelectSlideVideosToBackground].Selection;
 
-            CConfig.Config.Video.WebcamConfig = _Config;
+            if (_DeviceNr >= 0 && _CapabilityNr >= 0)
+            {
+                CConfig.Config.Video.WebcamConfig = _Config;
+            }
+
             CBackgroundMusic.VideoEnabled = CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON;
 
             CConfig.SaveConfig();
@@ -333,6 +352,11 @@ namespace Vocaluxe.Screens
             device = 0;
             capabilities = 0;
             return true;
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
         }
     }
 }

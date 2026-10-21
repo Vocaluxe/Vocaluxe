@@ -1,5 +1,15 @@
 ScreenScore
 ++++++++++
+Version 6:
+Changed layout to one row per player, sorted by player number (two columns from 4 players)
+Added <StaticRowP$N$> (new skins ScoreTile and ScoreTileSmall), <ProgressBarGoldenP$N$>, <ProgressBarNotesP$N$> (points bar split into notes, golden notes and line bonus)
+Added <StaticLegendGolden>, <StaticLegendLineBonus>, <TextLegendGolden>, <TextLegendLineBonus>
+++++++++++
+Version 5:
+Added <StaticCover>, <StaticRoundLeft>, <StaticRoundRight> (round arrows are only shown with more than one round and can be clicked)
+Changed <Color> of <TextNameP$N$> to the player colors
+Removed <ScreenSettingAnimationDirection>
+++++++++++
 Version 4:
 Removed <ScreenSettingAnimationDirection>, <StaticPointsBarBGP$N$>, <StaticPointsBarP$N$>
 Added <ProgressBarPointsP$N$>

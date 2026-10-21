@@ -121,6 +121,11 @@ namespace Vocaluxe.Base
             return CConfig.Config.Theme.DrawToneHelper;
         }
 
+        public EOffOn GetTileCaption()
+        {
+            return CConfig.Config.Game.TileCaption;
+        }
+
         public int GetCoverSize()
         {
             return CConfig.Config.Graphics.CoverSize;

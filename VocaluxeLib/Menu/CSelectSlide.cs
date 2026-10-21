@@ -111,8 +111,10 @@ namespace VocaluxeLib.Menu
 
         public bool Selectable
         {
-            get { return Visible; }
+            get { return Visible && Enabled; }
         }
+
+        public bool Enabled { get; set; } = true;
         public override float X
         {
             set
@@ -121,6 +123,7 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.X += delta;
                 RectArrowRight.X += delta;
                 base.X = value;
+                _NeedsRevalidate = true;
             }
         }
         public override float Y
@@ -131,6 +134,7 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.Y += delta;
                 RectArrowRight.Y += delta;
                 base.Y = value;
+                _NeedsRevalidate = true;
             }
         }
         public override float Z
@@ -627,6 +631,11 @@ namespace VocaluxeLib.Menu
                 return;
             }
 
+            if (!Enabled)
+            {
+                CBase.Drawing.PushTransform(1f, 0f, 0f, 0f, 0.4f);
+            }
+
             if (Selected)
             {
                 CBase.Drawing.DrawTexture(_SelTexture, Rect, _SelColor);
@@ -669,6 +678,11 @@ namespace VocaluxeLib.Menu
             {
                 element.Text.Draw();
                 element.Img.Draw();
+            }
+
+            if (!Enabled)
+            {
+                CBase.Drawing.PopTransform();
             }
         }
 

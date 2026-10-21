@@ -22,12 +22,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsGame : CMenu
+    public class CScreenOptionsGame : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 6; }
+            get { return 7; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsGame; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -38,6 +43,9 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideAutoplayPreviews = "SelectSlideAutoplayPreviews";
         private const string _SelectSlideTimerMode = "SelectSlideTimerMode";
         private const string _SelectSlideHighscoreStyle = "SelectSlideHighscoreStyle";
+        private const string _SelectSlideTileCaption = "SelectSlideTileCaption";
+
+        private const string _TextTileCaption = "TextTileCaption";
 
         private const string _ButtonExit = "ButtonExit";
 
@@ -48,8 +56,10 @@ namespace Vocaluxe.Screens
             _ThemeButtons = new string[] { _ButtonExit };
             _ThemeSelectSlides = new string[]
             {
-                _SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle
+                _SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideAutoplayPreviews, _SelectSlideTimerMode,
+                _SelectSlideHighscoreStyle, _SelectSlideTileCaption
             };
+            _ThemeTexts = new string[] { _TextTileCaption };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -66,10 +76,17 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideAutoplayPreviews].SetValues<EOffOn>((int)CConfig.Config.Game.AutoplayPreviews);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
             _SelectSlides[_SelectSlideHighscoreStyle].SetValues<EHighscoreStyle>((int)CConfig.Config.Game.HighscoreStyle);
+            _SelectSlides[_SelectSlideTileCaption].SetValues<EOffOn>((int)CConfig.Config.Game.TileCaption);
+            _UpdateTileCaptionState();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
             if (!keyEvent.KeyPressed)
@@ -79,7 +96,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -92,7 +109,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
                         }
 
                         break;
@@ -107,31 +124,45 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            _UpdateTileCaptionState();
             return true;
         }
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent) && _Buttons[_ButtonExit].Selected)
             {
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
                 _SaveConfig();
             }
 
+            _UpdateTileCaptionState();
             return true;
         }
 
         public override bool UpdateGame()
         {
             return true;
+        }
+
+        private void _UpdateTileCaptionState()
+        {
+            var enabled = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection == ESongMenu.TR_CONFIG_TILE_BOARD;
+            _SelectSlides[_SelectSlideTileCaption].Enabled = enabled;
+            _Texts[_TextTileCaption].Alpha = enabled ? 1f : 0.4f;
         }
 
         private void _SaveConfig()
@@ -145,11 +176,17 @@ namespace Vocaluxe.Screens
             CConfig.Config.Game.AutoplayPreviews = (EOffOn)_SelectSlides[_SelectSlideAutoplayPreviews].Selection;
             CConfig.Config.Game.TimerMode = (ETimerMode)_SelectSlides[_SelectSlideTimerMode].Selection;
             CConfig.Config.Game.HighscoreStyle = (EHighscoreStyle)_SelectSlides[_SelectSlideHighscoreStyle].Selection;
+            CConfig.Config.Game.TileCaption = (EOffOn)_SelectSlides[_SelectSlideTileCaption].Selection;
 
             CConfig.SaveConfig();
 
             CSongs.Sorter.SongSorting = CConfig.Config.Game.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Config.Game.Tabs;
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
         }
     }
 }
