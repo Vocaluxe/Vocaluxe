@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Deutsch</string>
-  <string name="TR_PARTYMODE_NAME">Rule Roulette</string>
+  <string name="TR_PARTYMODE_NAME">Roulette der Regeln</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Singt Duelle, bei denen ein Rad die Spielregel jeder Runde bestimmt.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Für 2 bis 12 Spieler, die Überraschungen mögen, 2 Mikrofone nötig.</string>
   <string name="TR_BUTTON_NEXT">Weiter</string>
@@ -14,7 +14,7 @@
   <string name="TR_BUTTON_SPIN">Rad drehen</string>
   <string name="TR_BUTTON_START_DUEL">Duell starten</string>
   <string name="TR_SONGS">Songs</string>
-  <string name="TR_SCREENCONFIG_TITLE">Rule Roulette: Konfiguration</string>
+  <string name="TR_SCREENCONFIG_TITLE">Roulette der Regeln: Konfiguration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
   <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Songs pro Spieler</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Joker pro Spieler</string>
@@ -22,12 +22,12 @@
   <string name="TR_SCREENCONFIG_RULES_RANDOM">Zufällig</string>
   <string name="TR_SCREENCONFIG_RULES_MANUAL">Manuell</string>
   <string name="TR_SCREENCONFIG_NUMRULES">Regeln auf dem Rad</string>
-  <string name="TR_SCREENRULES_TITLE">Rule Roulette: Regeln</string>
+  <string name="TR_SCREENRULES_TITLE">Roulette der Regeln: Regeln</string>
   <string name="TR_SCREENRULES_ALWAYS">Immer dabei</string>
   <string name="TR_SCREENRULES_RANDOM">Zufällig</string>
   <string name="TR_SCREENRULES_NEVER">Nie</string>
   <string name="TR_SCREENRULES_HINT">Hoch/Runter = Regel wählen  ·  Links/Rechts oder Klick = Ändern  ·  Enter = Weiter  ·  ESC = Zurück</string>
-  <string name="TR_SCREENNAMES_TITLE">Rule Roulette: Spieler auswählen</string>
+  <string name="TR_SCREENNAMES_TITLE">Roulette der Regeln: Spieler auswählen</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig wählen</string>
   <string name="TR_SCREENMAIN_TITLE">Rule Roulette</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Willst du das Spiel wirklich beenden?</string>
@@ -36,7 +36,7 @@
   <string name="TR_SCREENMAIN_HEADER_POINTS">Punkte</string>
   <string name="TR_SCREENMAIN_DUEL">Duell</string>
   <string name="TR_SCREENMAIN_VERSUS">gegen</string>
-  <string name="TR_SCREENMAIN_TARGET">Zielzahl:</string>
+  <string name="TR_SCREENMAIN_TARGET">Zielpunktzahl:</string>
   <string name="TR_SCREENMAIN_CHOOSER">%s wählt den Song</string>
   <string name="TR_SCREENMAIN_JOKERS">Joker:</string>
   <string name="TR_SCREENMAIN_LAST_DUEL">Letztes Duell:</string>
@@ -57,8 +57,8 @@
   <string name="TR_RULE_GOLDRUSH_DESC">Nur Punkte aus goldenen Noten zählen. Ohne Joker.</string>
   <string name="TR_RULE_PERFECTLINES">Perfekte Zeilen</string>
   <string name="TR_RULE_PERFECTLINES_DESC">Nur der Zeilenbonus zählt.</string>
-  <string name="TR_RULE_TARGETSCORE">Zielpunkte</string>
-  <string name="TR_RULE_TARGETSCORE_DESC">Wer näher an der Zielzahl liegt, gewinnt.</string>
+  <string name="TR_RULE_TARGETSCORE">Zielpunktezahl</string>
+  <string name="TR_RULE_TARGETSCORE_DESC">Wer näher an der Zielpunktzahl liegt, gewinnt.</string>
   <string name="TR_RULE_REVERSE">Verkehrte Welt</string>
   <string name="TR_RULE_REVERSE_DESC">Wer weniger Punkte hat, gewinnt.</string>
   <string name="TR_RULE_TEAMWORK">Teamwork</string>
