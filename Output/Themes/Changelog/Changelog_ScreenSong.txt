@@ -1,8 +1,31 @@
 ScreenSong
 
 ++++++++++
+Version 16:
+
+Add (optional):
+<StaticScrollBar> and <StaticScrollBarThumb> to SongMenu.SongMenuTileBoard and SongMenu.SongMenuList (position relative to TileRect, moved with TileRectSmall)
+<StaticTileCaptionBG>, <TextTileArtist> and <TextTileTitle> to SongMenu.SongMenuTileBoard (caption on the selected tile, coordinates relative to the tile)
+
+Add:
+<StaticOptionsCover>, <TextOptionsSongTitle> and <TextOptionsSongArtist> (song header of the song options)
+<StaticOptionsGroupGame>, <StaticOptionsGroupAudio>, <StaticOptionsGroupPlayer> and <StaticOptionsGroupPlaylist> (groups of the song options, using the new skin <OptionsGroupSmall>)
+<StaticOptionsGroupRandom>, <StaticOptionsGroupPlaylistOpen>, <StaticOptionsGroupSingAll>, <StaticOptionsGroupSingAllSingle>, <StaticOptionsGroupRandomMedley> and <StaticOptionsGroupMedley> (groups of the general and medley options, using the new skins <OptionsGroupSmall> and <OptionsGroupLarge>)
+<TextOptionsGeneralSelection>, <TextOptionsGeneralPlaylist>, <TextOptionsGeneralSingAll> and <TextOptionsGeneralMedley> (headings of the general options)
+<StaticOptionsIconSing>, <StaticOptionsIconGame>, <StaticOptionsIconAudio>, <StaticOptionsIconPlayer>, <StaticOptionsIconPlaylist>, <StaticOptionsIconAdd>, <StaticOptionsIconHighscore> and <StaticOptionsIconClose> (icons of the song options)
+<StaticInfoYear>, <StaticInfoLength>, <StaticInfoHighscore>, <StaticInfoPlayed> and <StaticInfoIcons> (info tiles and icon bar below the cover, using the new skins <InfoTile> and <InfoBar>)
+<TextInfoYear>, <TextInfoLength>, <TextInfoHighscore>, <TextInfoPlayed>, <TextInfoHighscoreValue> and <TextInfoPlayedValue> (labels and values of the info tiles)
+
+Change:
+SongMenu.SongMenuList shows title and artist in two lines (artist first if sorted by artist letter), the selected row is shown larger (ListLength 12, SpaceH 4)
+SongMenu: TextTitle and TextArtist are shown in a bar at the bottom of the cover, TextSongYear and TextSongLength are shown in the info tiles
+StaticOptionsBG covers the whole left column, the preview of the song menu is hidden while the song options are shown
+
+Fix:
+<InstrumentalIcon> skin name in SongMenu
+
+++++++++++
 Version 15:
-(2026 Oct 16)
 
 Add:
 <SelectSlideAudioMode> in <Playlist> (audio mode for each playlist entry, only shown if the song has an instrumental file)

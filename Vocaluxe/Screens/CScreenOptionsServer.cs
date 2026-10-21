@@ -22,12 +22,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsServer : CMenu
+    public class CScreenOptionsServer : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsServer; }
         }
 
         private const string _SelectSlideServerActive = "SelectSlideServerActive";
@@ -70,45 +75,53 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
-            switch (keyEvent.Key)
+            if (!keyEvent.KeyPressed)
             {
-                case Keys.Escape:
-                case Keys.Back:
-                    _SaveConfig();
-                    CGraphics.FadeTo(EScreen.Options);
-                    _LeaveScreen();
-                    break;
-
-                case Keys.S:
-                    CParty.SetNormalGameMode();
-                    _SaveConfig();
-                    CGraphics.FadeTo(EScreen.Song);
-                    _LeaveScreen();
-                    break;
-
-                case Keys.Enter:
-                    if (_Buttons[_ButtonExit].Selected)
-                    {
+                switch (keyEvent.Key)
+                {
+                    case Keys.Escape:
+                    case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         _LeaveScreen();
-                    }
-                    else if (_Buttons[_ButtonServer].Selected)
-                    {
-                        CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
-                    }
+                        break;
 
-                    break;
+                    case Keys.S:
+                        CParty.SetNormalGameMode();
+                        _SaveConfig();
+                        CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
+                        break;
 
-                case Keys.Left:
-                    _SaveConfig();
-                    break;
+                    case Keys.Enter:
+                        if (_Buttons[_ButtonExit].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                            _LeaveScreen();
+                        }
+                        else if (_Buttons[_ButtonServer].Selected)
+                        {
+                            CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
+                        }
 
-                case Keys.Right:
-                    _SaveConfig();
-                    break;
+                        break;
+
+                    case Keys.Left:
+                        _SaveConfig();
+                        break;
+
+                    case Keys.Right:
+                        _SaveConfig();
+                        break;
+                }
             }
 
             return true;
@@ -116,12 +129,17 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
                 _LeaveScreen();
             }
 
@@ -129,7 +147,7 @@ namespace Vocaluxe.Screens
             {
                 if (_Buttons[_ButtonExit].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.Main);
                     _SaveConfig();
                     _LeaveScreen();
                 }
@@ -140,6 +158,12 @@ namespace Vocaluxe.Screens
             }
 
             return true;
+        }
+
+        public override void OnShow()
+        {
+            base.OnShow();
+            _HasPlayedWarningSound = false;
         }
 
         public override bool UpdateGame()
@@ -195,6 +219,12 @@ namespace Vocaluxe.Screens
                 CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
+            _LeaveScreen();
         }
     }
 }

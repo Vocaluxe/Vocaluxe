@@ -89,6 +89,11 @@ namespace VocaluxeLib.Menu
             return _Items.Count - 1;
         }
 
+        public bool ContainsKey(String key)
+        {
+            return _HtIndex.ContainsKey(key);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             return _Items.GetEnumerator();

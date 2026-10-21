@@ -341,6 +341,10 @@
     <CoverTile>CoverTile.png</CoverTile>
     <PlayerTile>PlayerTile.png</PlayerTile>
     <CoverTextBackground>CoverTextBackground.png</CoverTextBackground>
+    <InfoTile>InfoTile.png</InfoTile>
+    <InfoBar>InfoBar.png</InfoBar>
+    <OptionsGroupSmall>OptionsGroupSmall.png</OptionsGroupSmall>
+    <OptionsGroupLarge>OptionsGroupLarge.png</OptionsGroupLarge>
     <Cursor>Cursor.png</Cursor>
     <TimeBar>TimeBar.png</TimeBar>
     <TimeLine>TimeLine.png</TimeLine>
@@ -399,6 +403,8 @@
     <SaveIcon>SaveIcon.png</SaveIcon>
     <SingIcon>SingIcon.png</SingIcon>
     <ListIcon>ListIcon.png</ListIcon>
+    <LyricsIcon>LyricsIcon.png</LyricsIcon>
+    <QueueRow>QueueRow.png</QueueRow>
     <Minus>MinusIcon.png</Minus>
     <Plus>PlusIcon.png</Plus>
     <VolUp>VolUp.png</VolUp>
@@ -419,6 +425,16 @@
     <Warning>Warning.png</Warning>
     <PlayerSelBG>PlayerSelBG.png</PlayerSelBG>
     <CalibrationBG>CalibrationBG.png</CalibrationBG>
+    <OptionsIconGame>OptionsIconGame.png</OptionsIconGame>
+    <OptionsIconSound>OptionsIconSound.png</OptionsIconSound>
+    <OptionsIconLyrics>OptionsIconLyrics.png</OptionsIconLyrics>
+    <OptionsIconTheme>OptionsIconTheme.png</OptionsIconTheme>
+    <OptionsIconGraphics>OptionsIconGraphics.png</OptionsIconGraphics>
+    <OptionsIconServer>OptionsIconServer.png</OptionsIconServer>
+    <OptionsIconSongFolders>OptionsIconSongFolders.png</OptionsIconSongFolders>
+    <OptionsNavBackground>OptionsNavBackground.png</OptionsNavBackground>
+    <OptionsSlideSelected>OptionsSlideSelected.png</OptionsSlideSelected>
+    <OptionsNavSelected>OptionsNavSelected.png</OptionsNavSelected>
   </Skins>
   <Videos>
     <BG_Video>BG_Video.mp4</BG_Video>

@@ -22,12 +22,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsLyrics : CMenu
+    public class CScreenOptionsLyrics : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 4; }
+            get { return 5; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsLyrics; }
         }
 
         private const string _SelectSlideLyricStyle = "SelectSlideLyricStyle";
@@ -51,6 +56,11 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
             if (keyEvent.KeyPressed) { }
@@ -61,7 +71,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -74,7 +84,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
                         }
 
                         break;
@@ -94,12 +104,17 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
@@ -107,7 +122,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.Main);
                 }
             }
 
@@ -124,6 +139,11 @@ namespace Vocaluxe.Screens
             CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
             CConfig.Config.Theme.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
             CConfig.SaveConfig();
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
         }
     }
 }

@@ -192,6 +192,8 @@ namespace Vocaluxe.Base
             public EOffOn Tabs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)]
             public EOffOn AutoplayPreviews;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn TileCaption;
             [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)]
             public int AutoplayPreviewDelay;
             [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)]
@@ -509,7 +511,7 @@ namespace Vocaluxe.Base
                 case "TextureQuality":
                     return "TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality)));
                 case "CoverSize":
-                    return "CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 512)";
+                    return "CoverSize (pixels): 128, 256, 512, 1024 (default: 512)";
                 case "NumScreens":
                     return "Number of screens to use. 1 - 6 (default: 1)";
                 case "ScreenW":
@@ -546,6 +548,8 @@ namespace Vocaluxe.Base
                     return "Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading)));
                 case "LyricStyle":
                     return "Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle)));
+                case "TileCaption":
+                    return "Show artist and title on the selected tile of the song selection: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "PlayBackLib":
                     return "PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib)));
                 case "RecordLib":
@@ -767,8 +771,10 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void NormalizeSongPaths()
         {
+            Config.Game.SongFolder = Config.Game.SongFolder.Where(folder => !string.IsNullOrEmpty(folder)).ToArray();
+
             //Check if there are configured songfolders
-            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
+            if (Config.Game.SongFolder.Length > 0)
             {
                 SongFolders.Clear();
 

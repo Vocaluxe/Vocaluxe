@@ -1,6 +1,18 @@
 ScreenMain
 
 ++++++++++
+Version 6:
+(2026 Oct 22)
+
+Add:
+<ButtonJukebox>
+
+Change:
+ButtonSing, ButtonParty and ButtonJukebox share the upper row
+LogoMain is centered horizontally
+ButtonJukebox is locked without a profile like ButtonSing and ButtonParty, the warning covers the whole upper row
+
+++++++++++
 Version 5:
 (2026 Oct 17)
 

@@ -1,0 +1,6 @@
+ScreenJukebox
+
+++++++++++
+Version 1:
+
+New screen: jukebox settings (source, order, section, lyrics, audio mode and video) before the playback starts

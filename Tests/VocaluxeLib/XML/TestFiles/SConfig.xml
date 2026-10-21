@@ -71,6 +71,7 @@
     <NumPlayers>2</NumPlayers>
     <Tabs>TR_CONFIG_OFF</Tabs>
     <AutoplayPreviews>TR_CONFIG_OFF</AutoplayPreviews>
+    <TileCaption>TR_CONFIG_ON</TileCaption>
     <AutoplayPreviewDelay>500</AutoplayPreviewDelay>
     <LyricsPosition>TR_CONFIG_LYRICSPOSITION_BOTTOM</LyricsPosition>
     <MinLineBreakTime>0.1</MinLineBreakTime>

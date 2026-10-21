@@ -25,12 +25,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsRecord : CMenu
+    public class CScreenOptionsRecord : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsRecord; }
         }
 
         private const string _SelectSlideRecordDevices = "SelectSlideRecordDevices";
@@ -121,6 +126,11 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
             if (keyEvent.KeyPressed) { }
@@ -131,7 +141,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveMicConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         _LeaveScreen();
                         break;
 
@@ -146,7 +156,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveMicConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
                             _LeaveScreen();
                         }
 
@@ -176,12 +186,17 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveMicConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
                 _LeaveScreen();
             }
 
@@ -192,7 +207,7 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonExit].Selected)
                 {
                     _SaveMicConfig();
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.Main);
                     _LeaveScreen();
                 }
 
@@ -250,9 +265,18 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            var showWarning = !_CheckMicConfig();
+            var warning = _GetWarning();
+            var showWarning = warning != null;
             _Statics[_StaticWarning].Visible = showWarning;
             _Texts[_TextWarning].Visible = showWarning;
+            if (showWarning)
+            {
+                _Texts[_TextWarning].Text = warning;
+            }
+            else
+            {
+                _HasPlayedWarningSound = false;
+            }
 
             if (_Texts[_TextWarning].Visible && !_HasPlayedWarningSound)
             {
@@ -299,6 +323,7 @@ namespace Vocaluxe.Screens
 
             _Statics[_StaticWarning].Visible = false;
             _Texts[_TextWarning].Visible = false;
+            _HasPlayedWarningSound = false;
 
             _DelayTest.Reset();
 
@@ -495,6 +520,31 @@ namespace Vocaluxe.Screens
             return true;
         }
 
+        private string _GetWarning()
+        {
+            if (_Devices == null)
+            {
+                return "TR_SCREENORECORD_NO_MIC_WARNING";
+            }
+
+            if (!_CheckMicConfig())
+            {
+                return "TR_SCREENORECORD_MIC_WARNING";
+            }
+
+            var usedChannels = new HashSet<int>();
+            foreach (var selectSlide in _SelectSlideRecordPlayer)
+            {
+                var channel = _SelectSlides[selectSlide].Selection;
+                if (channel > 0 && !usedChannels.Add(channel))
+                {
+                    return "TR_SCREENORECORD_CHANNEL_WARNING";
+                }
+            }
+
+            return null;
+        }
+
         private void _TestDelay()
         {
             _SaveMicConfig();
@@ -536,6 +586,12 @@ namespace Vocaluxe.Screens
                 CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveMicConfig();
+            _LeaveScreen();
         }
     }
 }

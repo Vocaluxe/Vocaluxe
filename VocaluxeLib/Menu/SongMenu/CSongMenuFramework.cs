@@ -15,8 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu.SongMenu
@@ -78,6 +80,9 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
+
+        public SThemeStatic? StaticScrollBar;
+        public SThemeStatic? StaticScrollBarThumb;
     }
 
     public struct SThemeSongMenuTileBoard
@@ -129,6 +134,12 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
+
+        public SThemeStatic? StaticScrollBar;
+        public SThemeStatic? StaticScrollBarThumb;
+        public SThemeStatic? StaticTileCaptionBG;
+        public SThemeText? TextTileArtist;
+        public SThemeText? TextTileTitle;
     }
 
     public abstract class CSongMenuFramework : CMenuElementBase, ISongMenu
@@ -179,6 +190,11 @@ namespace VocaluxeLib.Menu.SongMenu
         protected System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
         protected volatile bool _AutoplayPending = false;
 
+        private const float _ScrollDuration = 150f;
+        private readonly Stopwatch _ScrollTimer = new Stopwatch();
+        private float _ScrollStart;
+        private int _ScrollTarget;
+
         private SColorF _ColorInternal;
         protected SColorF _Color
         {
@@ -191,6 +207,7 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         public virtual bool SmallView { get; set; }
+        public bool PreviewVisible { get; set; } = true;
         public abstract float SelectedTileZoomFactor { get; }
         // This is the nr of the current selection (song or category)
         protected virtual int _SelectionNr { get; set; }
@@ -500,6 +517,107 @@ namespace VocaluxeLib.Menu.SongMenu
             _AutoplayPending = false;
             _AutoplayTimer.Stop();
             _AutoplayTimer.Start();
+        }
+
+        protected void _SetScrollTarget(int target, bool animate, int maxDistance)
+        {
+            if (!animate)
+            {
+                _ScrollTimer.Reset();
+                _ScrollTarget = target;
+                return;
+            }
+
+            if (target == _ScrollTarget)
+            {
+                return;
+            }
+
+            var start = _GetScrollPosition();
+            _ScrollStart = start.Clamp((float)(target - maxDistance), target + maxDistance);
+            _ScrollTarget = target;
+            _ScrollTimer.Restart();
+        }
+
+        protected float _GetScrollPosition()
+        {
+            if (!_ScrollTimer.IsRunning)
+            {
+                return _ScrollTarget;
+            }
+
+            var progress = _ScrollTimer.ElapsedMilliseconds / _ScrollDuration;
+            if (progress >= 1f)
+            {
+                _ScrollTimer.Reset();
+                return _ScrollTarget;
+            }
+
+            var eased = 1f - (1f - progress) * (1f - progress);
+            return _ScrollStart + (_ScrollTarget - _ScrollStart) * eased;
+        }
+
+        protected bool _IsScrolling()
+        {
+            return Math.Abs(_GetScrollPosition() - _ScrollTarget) > 0.001f;
+        }
+
+        protected void _DrawClipped(CTextureRef texture, SRectF rect, SColorF color, EAspect aspect)
+        {
+            var top = Math.Max(rect.Y, Rect.Y);
+            var bottom = Math.Min(rect.Bottom, Rect.Bottom);
+            if (bottom <= top)
+            {
+                return;
+            }
+
+            var bounds = new SRectF(rect.X, top, rect.W, bottom - top, rect.Z);
+            if (texture == null)
+            {
+                CBase.Drawing.DrawRect(color, bounds);
+                return;
+            }
+
+            CBase.Drawing.DrawTexture(texture, CHelper.FitInBounds(rect, texture.OrigAspect, aspect), color, bounds);
+        }
+
+        protected float _GetVisibleFraction(SRectF rect)
+        {
+            if (rect.H <= 0)
+            {
+                return 0f;
+            }
+
+            var visible = Math.Min(rect.Bottom, Rect.Bottom) - Math.Max(rect.Y, Rect.Y);
+            return (visible / rect.H).Clamp(0f, 1f);
+        }
+
+        protected void _DrawScrollBar(CStatic scrollBar, CStatic scrollBarThumb, SRectF normalRect, float position, int numVisible, int numTotal)
+        {
+            if (scrollBar == null || numTotal <= numVisible)
+            {
+                return;
+            }
+
+            var barTheme = (SThemeStatic)scrollBar.GetTheme();
+            var track = barTheme.Rect;
+            track.X += Rect.Right - normalRect.Right;
+            track.Y += Rect.Y - normalRect.Y;
+            track.H += Rect.H - normalRect.H;
+            scrollBar.MaxRect = track;
+            scrollBar.Draw(EAspect.Stretch);
+
+            if (scrollBarThumb == null)
+            {
+                return;
+            }
+
+            var thumbTheme = (SThemeStatic)scrollBarThumb.GetTheme();
+            var thumbH = Math.Min(track.H, Math.Max(track.H * numVisible / numTotal, thumbTheme.Rect.W * 3f));
+            var progress = (position / (numTotal - numVisible)).Clamp(0f, 1f);
+            scrollBarThumb.MaxRect = new SRectF(track.X + thumbTheme.Rect.X - barTheme.Rect.X, track.Y + (track.H - thumbH) * progress, thumbTheme.Rect.W, thumbH,
+                thumbTheme.Rect.Z);
+            scrollBarThumb.Draw(EAspect.Stretch);
         }
 
         #region ThemeEdit

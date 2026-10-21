@@ -342,7 +342,7 @@ namespace Vocaluxe.Screens
 
         private void _LeaveScreen()
         {
-            CGraphics.FadeTo(EScreen.Options);
+            CGraphics.FadeTo(EScreen.OptionsGame);
 
             if (_BackgroundVideo != null)
             {

@@ -24,12 +24,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsTheme : CMenu
+    public class CScreenOptionsTheme : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsTheme; }
         }
 
         private const string _SelectSlideTheme = "SelectSlideTheme";
@@ -78,6 +83,11 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
             if (keyEvent.KeyPressed) { }
@@ -119,6 +129,11 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
@@ -169,7 +184,7 @@ namespace Vocaluxe.Screens
         private void _Close()
         {
             _SaveConfig();
-            CGraphics.FadeTo(EScreen.Options);
+            CGraphics.FadeTo(EScreen.Main);
         }
 
         private void _SaveConfig()
@@ -211,6 +226,11 @@ namespace Vocaluxe.Screens
                 _ResetSlides();
                 _ResumeBG();
             }
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
         }
     }
 }
