@@ -397,6 +397,8 @@
     <SaveIcon>SaveIcon.png</SaveIcon>
     <SingIcon>SingIcon.png</SingIcon>
     <ListIcon>ListIcon.png</ListIcon>
+    <LyricsIcon>LyricsIcon.png</LyricsIcon>
+    <QueueRow>QueueRow.png</QueueRow>
     <Minus>MinusIcon.png</Minus>
     <Plus>PlusIcon.png</Plus>
     <VolUp>VolUp.png</VolUp>

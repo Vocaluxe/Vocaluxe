@@ -87,6 +87,8 @@ namespace Vocaluxe.Base
                 _Screens.Add(new CScreenParty());
                 _Screens.Add(new CScreenStatistics());
                 _Screens.Add(new CScreenStatisticsDetail());
+                _Screens.Add(new CScreenJukebox());
+                _Screens.Add(new CScreenJukeboxPlayer());
 
                 Debug.Assert(_Screens.Count == (int)EScreen.CountEntry, "Screen list and screens enum do not match");
 

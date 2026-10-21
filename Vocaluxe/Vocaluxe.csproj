@@ -245,6 +245,7 @@
     <Compile Include="Base\CCursor.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CStatistics.cs" />
+    <Compile Include="Base\CJukebox.cs" />
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
@@ -346,6 +347,8 @@
     <Compile Include="Screens\CScreenParty.cs" />
     <Compile Include="Screens\CScreenStatistics.cs" />
     <Compile Include="Screens\CScreenStatisticsDetail.cs" />
+    <Compile Include="Screens\CScreenJukebox.cs" />
+    <Compile Include="Screens\CScreenJukeboxPlayer.cs" />
     <Compile Include="Screens\CScreenProfiles.cs" />
     <Compile Include="Screens\CScreenScore.cs" />
     <Compile Include="Screens\CScreenSing.cs" />
