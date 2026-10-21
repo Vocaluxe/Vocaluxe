@@ -24,12 +24,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    public class CScreenOptionsGraphics : CMenu
+    public class CScreenOptionsGraphics : CScreenOptionsBase
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
+        }
+
+        protected override EScreen _OptionsScreen
+        {
+            get { return EScreen.OptionsGraphics; }
         }
 
         private const string _SelectSlideTextureQuality = "SelectSlideTextureQuality";
@@ -39,7 +44,8 @@ namespace Vocaluxe.Screens
         private const string _TextWarningRestart = "TextWarningRestart";
         private const string _StaticWarningRestart = "StaticWarningRestart";
         private const string _ButtonExit = "ButtonExit";
-        private static readonly string[] CoverSizes = { "32", "64", "128", "256", "512", "1024" };
+        private static readonly string[] CoverSizes = { "128", "256", "512", "1024" };
+        private int _LoadedCoverSizeIndex;
 
         private int _WarningStream = -1;
         private bool _HasPlayedWarningSound = false;
@@ -70,7 +76,17 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideCoverSize].AddValues(CoverSizes);
             var currentCoverSize = CConfig.Config.Graphics.CoverSize;
             var index = Array.IndexOf(CoverSizes, currentCoverSize.ToString());
+            if (index < 0)
+            {
+                index = Array.FindIndex(CoverSizes, size => int.Parse(size) >= currentCoverSize);
+                if (index < 0)
+                {
+                    index = CoverSizes.Length - 1;
+                }
+            }
+
             _SelectSlides[_SelectSlideCoverSize].Selection = index;
+            _LoadedCoverSizeIndex = index;
 
             _SelectSlides[_SelectSlideFullScreen].SetValues<EOffOn>((int)CConfig.Config.Graphics.FullScreen);
             _SelectSlides[_SelectSlideFullScreen].Selection = (int)CConfig.Config.Graphics.FullScreen;
@@ -84,41 +100,49 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_HandleNavigationInput(keyEvent))
+            {
+                return true;
+            }
+
             base.HandleInput(keyEvent);
 
-            switch (keyEvent.Key)
+            if (!keyEvent.KeyPressed)
             {
-                case Keys.Escape:
-                case Keys.Back:
-                    _SaveConfig();
-                    CGraphics.FadeTo(EScreen.Options);
-                    _LeaveScreen();
-                    break;
-
-                case Keys.S:
-                    CParty.SetNormalGameMode();
-                    _SaveConfig();
-                    CGraphics.FadeTo(EScreen.Song);
-                    _LeaveScreen();
-                    break;
-
-                case Keys.Enter:
-                    if (_Buttons[_ButtonExit].Selected)
-                    {
+                switch (keyEvent.Key)
+                {
+                    case Keys.Escape:
+                    case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         _LeaveScreen();
-                    }
+                        break;
 
-                    break;
+                    case Keys.S:
+                        CParty.SetNormalGameMode();
+                        _SaveConfig();
+                        CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
+                        break;
 
-                case Keys.Left:
-                    _SaveConfig();
-                    break;
+                    case Keys.Enter:
+                        if (_Buttons[_ButtonExit].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                            _LeaveScreen();
+                        }
 
-                case Keys.Right:
-                    _SaveConfig();
-                    break;
+                        break;
+
+                    case Keys.Left:
+                        _SaveConfig();
+                        break;
+
+                    case Keys.Right:
+                        _SaveConfig();
+                        break;
+                }
             }
 
             return true;
@@ -126,12 +150,17 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
+            if (_HandleNavigationMouse(mouseEvent))
+            {
+                return true;
+            }
+
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
                 _LeaveScreen();
             }
 
@@ -140,12 +169,18 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.Main);
                     _LeaveScreen();
                 }
             }
 
             return true;
+        }
+
+        public override void OnShow()
+        {
+            base.OnShow();
+            _HasPlayedWarningSound = false;
         }
 
         public override bool UpdateGame()
@@ -178,7 +213,7 @@ namespace Vocaluxe.Screens
             // Detect Cover size change
             var selectedValue = CoverSizes[_SelectSlides[_SelectSlideCoverSize].Selection];
             var currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            var newCoverSize = int.Parse(selectedValue);
+            var newCoverSize = _SelectSlides[_SelectSlideCoverSize].Selection == _LoadedCoverSizeIndex ? currentCoverSize : int.Parse(selectedValue);
             if (currentCoverSize != newCoverSize)
             {
                 _Texts[_TextWarningRestart].Visible = true;
@@ -203,6 +238,12 @@ namespace Vocaluxe.Screens
                 CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
+        }
+
+        protected override void _SaveOptions()
+        {
+            _SaveConfig();
+            _LeaveScreen();
         }
     }
 }

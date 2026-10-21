@@ -341,7 +341,7 @@
     <Compile Include="Screens\CScreenLoad.cs" />
     <Compile Include="Screens\CScreenMain.cs" />
     <Compile Include="Screens\CScreenNames.cs" />
-    <Compile Include="Screens\CScreenOptions.cs" />
+    <Compile Include="Screens\CScreenOptionsBase.cs" />
     <Compile Include="Screens\CScreenOptionsGame.cs" />
     <Compile Include="Screens\CScreenOptionsLyrics.cs" />
     <Compile Include="Screens\CScreenParty.cs" />
@@ -360,6 +360,7 @@
     <Compile Include="Screens\CScreenOptionsTheme.cs" />
     <Compile Include="Screens\CScreenOptionsGraphics.cs" />
     <Compile Include="Screens\CScreenOptionsServer.cs" />
+    <Compile Include="Screens\CScreenOptionsSongFolders.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>

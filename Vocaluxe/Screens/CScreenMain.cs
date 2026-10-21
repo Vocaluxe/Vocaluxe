@@ -83,7 +83,7 @@ namespace Vocaluxe.Screens
                 switch (keyEvent.Key)
                 {
                     case Keys.O:
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.OptionsGame);
                         _LeaveScreen();
                         break;
 
@@ -134,7 +134,7 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonOptions].Selected)
                         {
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.OptionsGame);
                             _LeaveScreen();
                         }
 
@@ -193,7 +193,7 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptions].Selected)
                 {
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.OptionsGame);
                     _LeaveScreen();
                 }
 
