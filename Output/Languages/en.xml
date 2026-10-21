@@ -7,6 +7,9 @@
   <string name="TR_BUTTON_SAVE">Save</string>
   <string name="TR_BUTTON_BACK">Back</string>
   <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_YES">Yes</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_CANCEL">Cancel</string>
   <string name="TR_DEBUG_AUDIO_STREAMS">Audio streams</string>
   <string name="TR_DEBUG_VIDEO_STREAMS">Video streams</string>
   <string name="TR_DEBUG_TEXTURES">Textures</string>
@@ -280,6 +283,8 @@
   <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Save snapshot</string>
   <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Delete snapshot</string>
   <string name="TR_SCREENPROFILES_BUTTON_WEBCAM">Webcam</string>
+  <string name="TR_SCREENPROFILES_POPUP_DELETE">Do you really want to delete the profile %s?</string>
+  <string name="TR_SCREENPROFILES_POPUP_UNSAVED">Do you want to save your changes?</string>
   <string name="TR_SCREENO_OPTIONS">Options</string>
   <string name="TR_SCREENO_BUTTON_GAME">Game</string>
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>

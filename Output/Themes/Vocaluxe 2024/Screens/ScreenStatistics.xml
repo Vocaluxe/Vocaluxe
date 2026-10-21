@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenStatistics</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -26,13 +26,8 @@
       </Rect>
     </Static>
     <Static Name="StaticTile1">
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0.45</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>90</X>
         <Y>165</Y>
@@ -42,13 +37,8 @@
       </Rect>
     </Static>
     <Static Name="StaticTile2">
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0.45</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>975</X>
         <Y>165</Y>
@@ -58,13 +48,8 @@
       </Rect>
     </Static>
     <Static Name="StaticTile3">
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0.45</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>90</X>
         <Y>600</Y>
@@ -74,13 +59,8 @@
       </Rect>
     </Static>
     <Static Name="StaticTile4">
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0.45</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>975</X>
         <Y>600</Y>
@@ -90,13 +70,8 @@
       </Rect>
     </Static>
     <Static Name="StaticTileSelection">
-      <Skin />
-      <Color>
-        <R>0.2</R>
-        <G>0.8</G>
-        <B>0.99</B>
-        <A>0.25</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonSelColor" />
       <Rect>
         <X>90</X>
         <Y>165</Y>
@@ -150,16 +125,11 @@
       </Rect>
     </Static>
     <Static Name="StaticBestColumn1">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>119</X>
-        <Y>658</Y>
+        <Y>678</Y>
         <W>257</W>
         <H>300</H>
         <Z>0.8</Z>
@@ -170,7 +140,7 @@
       <Color Name="Top1Color" />
       <Rect>
         <X>131</X>
-        <Y>728</Y>
+        <Y>748</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -181,7 +151,7 @@
       <Color Name="Top2Color" />
       <Rect>
         <X>131</X>
-        <Y>806</Y>
+        <Y>826</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -192,23 +162,18 @@
       <Color Name="Top3Color" />
       <Rect>
         <X>131</X>
-        <Y>884</Y>
+        <Y>904</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
       </Rect>
     </Static>
     <Static Name="StaticBestColumn2">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>389</X>
-        <Y>658</Y>
+        <Y>678</Y>
         <W>257</W>
         <H>300</H>
         <Z>0.8</Z>
@@ -219,7 +184,7 @@
       <Color Name="Top1Color" />
       <Rect>
         <X>401</X>
-        <Y>728</Y>
+        <Y>748</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -230,7 +195,7 @@
       <Color Name="Top2Color" />
       <Rect>
         <X>401</X>
-        <Y>806</Y>
+        <Y>826</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -241,23 +206,18 @@
       <Color Name="Top3Color" />
       <Rect>
         <X>401</X>
-        <Y>884</Y>
+        <Y>904</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
       </Rect>
     </Static>
     <Static Name="StaticBestColumn3">
-      <Skin />
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.07</A>
-      </Color>
+      <Skin>ButtonTile</Skin>
+      <Color Name="ButtonMainColor" />
       <Rect>
         <X>659</X>
-        <Y>658</Y>
+        <Y>678</Y>
         <W>257</W>
         <H>300</H>
         <Z>0.8</Z>
@@ -268,7 +228,7 @@
       <Color Name="Top1Color" />
       <Rect>
         <X>671</X>
-        <Y>728</Y>
+        <Y>748</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -279,7 +239,7 @@
       <Color Name="Top2Color" />
       <Rect>
         <X>671</X>
-        <Y>806</Y>
+        <Y>826</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -290,7 +250,7 @@
       <Color Name="Top3Color" />
       <Rect>
         <X>671</X>
-        <Y>884</Y>
+        <Y>904</Y>
         <W>26</W>
         <H>26</H>
         <Z>0</Z>
@@ -734,7 +694,7 @@
     </Text>
     <Text Name="TextDifficulty1">
       <X>249</X>
-      <Y>668</Y>
+      <Y>688</Y>
       <Z>-1</Z>
       <H>32</H>
       <MaxW>0</MaxW>
@@ -748,7 +708,7 @@
     </Text>
     <Text Name="TextBestName11">
       <X>167</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -762,7 +722,7 @@
     </Text>
     <Text Name="TextBestScore11">
       <X>366</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -776,7 +736,7 @@
     </Text>
     <Text Name="TextBestName12">
       <X>167</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -790,7 +750,7 @@
     </Text>
     <Text Name="TextBestScore12">
       <X>366</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -804,7 +764,7 @@
     </Text>
     <Text Name="TextBestName13">
       <X>167</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -818,7 +778,7 @@
     </Text>
     <Text Name="TextBestScore13">
       <X>366</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -832,7 +792,7 @@
     </Text>
     <Text Name="TextDifficulty2">
       <X>519</X>
-      <Y>668</Y>
+      <Y>688</Y>
       <Z>-1</Z>
       <H>32</H>
       <MaxW>0</MaxW>
@@ -846,7 +806,7 @@
     </Text>
     <Text Name="TextBestName21">
       <X>437</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -860,7 +820,7 @@
     </Text>
     <Text Name="TextBestScore21">
       <X>636</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -874,7 +834,7 @@
     </Text>
     <Text Name="TextBestName22">
       <X>437</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -888,7 +848,7 @@
     </Text>
     <Text Name="TextBestScore22">
       <X>636</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -902,7 +862,7 @@
     </Text>
     <Text Name="TextBestName23">
       <X>437</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -916,7 +876,7 @@
     </Text>
     <Text Name="TextBestScore23">
       <X>636</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -930,7 +890,7 @@
     </Text>
     <Text Name="TextDifficulty3">
       <X>789</X>
-      <Y>668</Y>
+      <Y>688</Y>
       <Z>-1</Z>
       <H>32</H>
       <MaxW>0</MaxW>
@@ -944,7 +904,7 @@
     </Text>
     <Text Name="TextBestName31">
       <X>707</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -958,7 +918,7 @@
     </Text>
     <Text Name="TextBestScore31">
       <X>906</X>
-      <Y>722</Y>
+      <Y>742</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -972,7 +932,7 @@
     </Text>
     <Text Name="TextBestName32">
       <X>707</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -986,7 +946,7 @@
     </Text>
     <Text Name="TextBestScore32">
       <X>906</X>
-      <Y>800</Y>
+      <Y>820</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>
@@ -1000,7 +960,7 @@
     </Text>
     <Text Name="TextBestName33">
       <X>707</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>110</MaxW>
@@ -1014,7 +974,7 @@
     </Text>
     <Text Name="TextBestScore33">
       <X>906</X>
-      <Y>878</Y>
+      <Y>898</Y>
       <Z>-1</Z>
       <H>36</H>
       <MaxW>0</MaxW>

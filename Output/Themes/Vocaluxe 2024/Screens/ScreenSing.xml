@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>14</ScreenVersion>
+    <ScreenVersion>16</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -169,6 +169,22 @@
         <Z>0</Z>
       </Rect>
     </Static>
+    <Static Name="StaticPauseDim">
+      <Skin />
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.55</A>
+      </Color>
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>1920</W>
+        <H>1080</H>
+        <Z>-2.05</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticPauseBG">
       <Skin>PauseBG</Skin>
       <Color Name="Visible" />
@@ -178,6 +194,195 @@
         <W>1920</W>
         <H>1080</H>
         <Z>-2.1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseMenuPanel">
+      <Skin>CoverTextBackground</Skin>
+      <Color Name="StaticColorAlpha" />
+      <Rect>
+        <X>105</X>
+        <Y>240</Y>
+        <W>660</W>
+        <H>720</H>
+        <Z>-2.105</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseInfoPanel">
+      <Skin>CoverTextBackground</Skin>
+      <Color Name="StaticColorAlpha" />
+      <Rect>
+        <X>855</X>
+        <Y>240</Y>
+        <W>960</W>
+        <H>720</H>
+        <Z>-2.105</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseIconContinue">
+      <Skin>PlayIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>157.5</X>
+        <Y>285.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.13</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseIconSkip">
+      <Skin>NextIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>157.5</X>
+        <Y>375.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.13</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseIconRestartRound">
+      <Skin>RepeatIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>157.5</X>
+        <Y>465.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.13</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseIconRestartGame">
+      <Skin>RepeatIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>157.5</X>
+        <Y>555.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.13</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseIconCancel">
+      <Skin>CloseIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>157.5</X>
+        <Y>645.5</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.13</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseCover">
+      <Skin />
+      <Color Name="Visible" />
+      <Rect>
+        <X>900</X>
+        <Y>285</Y>
+        <W>180</W>
+        <H>180</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseTimeLine">
+      <Skin>TimeLine</Skin>
+      <Color Name="TimeBar">
+        <A>0.2</A>
+      </Color>
+      <Rect>
+        <X>900</X>
+        <Y>490</Y>
+        <W>870</W>
+        <H>6</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseTimeLineProgress">
+      <Skin>TimeLine</Skin>
+      <Color Name="TimeBar" />
+      <Rect>
+        <X>900</X>
+        <Y>490</Y>
+        <W>870</W>
+        <H>6</H>
+        <Z>-2.12</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP1">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>900</X>
+        <Y>560</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP2">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>1350</X>
+        <Y>560</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP3">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>900</X>
+        <Y>630</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP4">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>1350</X>
+        <Y>630</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP5">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>900</X>
+        <Y>700</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseAvatarP6">
+      <Skin />
+      <Color Name="StaticAvatarColor" />
+      <Rect>
+        <X>1350</X>
+        <Y>700</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>-2.11</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPauseVocalsIcon">
+      <Skin>VocalsIcon</Skin>
+      <Color Name="ButtonTextColor" />
+      <Rect>
+        <X>1109</X>
+        <Y>784</Y>
+        <W>44</W>
+        <H>44</H>
+        <Z>-2.11</Z>
       </Rect>
     </Static>
     <Static Name="StaticScoreP1N1">
@@ -698,9 +903,9 @@
       <Text /></Text>
     <Text Name="TextPause">
       <X>960</X>
-      <Y>675</Y>
+      <Y>55</Y>
       <Z>-2.11</Z>
-      <H>150</H>
+      <H>130</H>
       <MaxW>0</MaxW>
       <Color Name="TextPauseColor" />
       <SelColor Name="TextSelColor" />
@@ -711,28 +916,238 @@
       <Text>TR_SCREENSING_PAUSE</Text>
     </Text>
     <Text Name="TextPauseSongName">
-      <X>960</X>
-      <Y>15</Y>
+      <X>1110</X>
+      <Y>310</Y>
       <Z>-2.11</Z>
-      <H>60</H>
-      <MaxW>0</MaxW>
-      <Color Name="White" />
-      <SelColor Name="White" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Normal</Font>
-      <Text />
-    </Text>
-    <Text Name="TextPauseVocalsVolume">
-      <X>217.5</X>
-      <Y>818</Y>
-      <Z>-2.11</Z>
-      <H>40.5</H>
-      <MaxW>520</MaxW>
+      <H>48</H>
+      <MaxW>660</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseArtist">
+      <X>1110</X>
+      <Y>370</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>660</MaxW>
+      <Color Name="TextColorAlpha" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseTimeCurrent">
+      <X>900</X>
+      <Y>508</Y>
+      <Z>-2.11</Z>
+      <H>30</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColorAlpha" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseTimeRemaining">
+      <X>1770</X>
+      <Y>508</Y>
+      <Z>-2.11</Z>
+      <H>30</H>
+      <MaxW>300</MaxW>
+      <Color Name="TextColorAlpha" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP1">
+      <X>975</X>
+      <Y>572</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP1">
+      <X>1320</X>
+      <Y>572</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP2">
+      <X>1425</X>
+      <Y>572</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP2">
+      <X>1770</X>
+      <Y>572</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP3">
+      <X>975</X>
+      <Y>642</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP3">
+      <X>1320</X>
+      <Y>642</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP4">
+      <X>1425</X>
+      <Y>642</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP4">
+      <X>1770</X>
+      <Y>642</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP5">
+      <X>975</X>
+      <Y>712</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP5">
+      <X>1320</X>
+      <Y>712</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseNameP6">
+      <X>1425</X>
+      <Y>712</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>240</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseScoreP6">
+      <X>1770</X>
+      <Y>712</Y>
+      <Z>-2.11</Z>
+      <H>36</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6" />
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextPauseVocalsVolume">
+      <X>1335</X>
+      <Y>786</Y>
+      <Z>-2.11</Z>
+      <H>40.5</H>
+      <MaxW>810</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
@@ -1367,180 +1782,140 @@
       <Text /></Text>
   </Texts>
   <Buttons>
-    <Button Name="ButtonCancel">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
-      <Rect>
-        <X>1477.5</X>
-        <Y>900</Y>
-        <W>225</W>
-        <H>75</H>
-        <Z>-2.11</Z>
-      </Rect>
-      <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
-      <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
-        <Z>0</Z>
-        <H>40.5</H>
-        <MaxW>213</MaxW>
-        <Color Name="ButtonTextColor" />
-        <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
-        <ResizeAlign>Center</ResizeAlign>
-        <Style>Bold</Style>
-        <Font>Outline</Font>
-        <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
-      </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
-    </Button>
     <Button Name="ButtonContinue">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <Skin>PauseButton</Skin>
+      <SkinSelected>PauseButton</SkinSelected>
       <Rect>
-        <X>217.5</X>
-        <Y>900</Y>
-        <W>225</W>
+        <X>135</X>
+        <Y>270</Y>
+        <W>600</W>
         <H>75</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>90</X>
+        <Y>17</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>213</MaxW>
+        <MaxW>480</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
+        <Align>Left</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_CONTINUE</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
     </Button>
     <Button Name="ButtonSkip">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <Skin>PauseButton</Skin>
+      <SkinSelected>PauseButton</SkinSelected>
       <Rect>
-        <X>532.5</X>
-        <Y>900</Y>
-        <W>225</W>
+        <X>135</X>
+        <Y>360</Y>
+        <W>600</W>
         <H>75</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>90</X>
+        <Y>17</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>213</MaxW>
+        <MaxW>480</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
+        <Align>Left</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_SKIP</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
     </Button>
     <Button Name="ButtonRestartRound">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <Skin>PauseButton</Skin>
+      <SkinSelected>PauseButton</SkinSelected>
       <Rect>
-        <X>1162.5</X>
-        <Y>900</Y>
-        <W>225</W>
+        <X>135</X>
+        <Y>450</Y>
+        <W>600</W>
         <H>75</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>90</X>
+        <Y>17</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>213</MaxW>
+        <MaxW>480</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
+        <Align>Left</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_RESTART_ROUND</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
     </Button>
     <Button Name="ButtonRestartGame">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <Skin>PauseButton</Skin>
+      <SkinSelected>PauseButton</SkinSelected>
       <Rect>
-        <X>847.5</X>
-        <Y>900</Y>
-        <W>225</W>
+        <X>135</X>
+        <Y>540</Y>
+        <W>600</W>
         <H>75</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>90</X>
+        <Y>17</Y>
         <Z>0</Z>
         <H>40.5</H>
-        <MaxW>213</MaxW>
+        <MaxW>480</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
-        <Align>Center</Align>
+        <Align>Left</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_RESTART_GAME</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
+    </Button>
+    <Button Name="ButtonCancel">
+      <Skin>PauseButton</Skin>
+      <SkinSelected>PauseButton</SkinSelected>
+      <Rect>
+        <X>135</X>
+        <Y>630</Y>
+        <W>600</W>
+        <H>75</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>90</X>
+        <Y>17</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>480</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />
@@ -1614,43 +1989,43 @@
   </Lyrics>
   <SelectSlides>
     <SelectSlide Name="SelectSlidePauseVocalsVolume">
-      <Skin />
+      <Skin>PauseButton</Skin>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinSelected>PauseButton</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>752</X>
-        <Y>820</Y>
-        <W>958</W>
-        <H>40</H>
+        <X>900</X>
+        <Y>855</Y>
+        <W>870</W>
+        <H>75</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
-        <X>757.5</X>
-        <Y>822.5</Y>
-        <W>35</W>
-        <H>35</H>
+        <X>906</X>
+        <Y>868.5</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>-2.11</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1667.5</X>
-        <Y>822.5</Y>
-        <W>35</W>
-        <H>35</H>
+        <X>1716</X>
+        <Y>868.5</Y>
+        <W>48</W>
+        <H>48</H>
         <Z>-2.11</Z>
       </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
+      <TextColor Name="ButtonTextColor" />
+      <TextSelColor Name="ButtonTextSelColor" />
       <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeX>60</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
+      <TextMaxW>140</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>5</NumVisible>

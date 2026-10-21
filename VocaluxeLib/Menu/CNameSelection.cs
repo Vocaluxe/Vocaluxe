@@ -99,6 +99,9 @@ namespace VocaluxeLib.Menu
 
         private readonly List<Guid> _VisibleProfiles;
         private readonly List<Guid> _UsedProfiles;
+        private readonly HashSet<Guid> _InactiveProfiles = new HashSet<Guid>();
+
+        public bool ShowInactive;
 
         private CStatic _PlayerSelector;
 
@@ -378,8 +381,10 @@ namespace VocaluxeLib.Menu
             {
                 if (i + offset * _Theme.Tiles.NumW < _VisibleProfiles.Count)
                 {
+                    var alpha = _InactiveProfiles.Contains(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]) ? 0.4f : 1f;
                     _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
-                    _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
+                    _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, alpha);
+                    _Tiles[i].Name.Alpha = alpha;
                     _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
                     _Tiles[i].ProfileId = _VisibleProfiles.ElementAt(i + offset * _Theme.Tiles.NumW);
                 }
@@ -387,6 +392,7 @@ namespace VocaluxeLib.Menu
                 {
                     _Tiles[i].Avatar.Texture = TextureEmptyTile;
                     _Tiles[i].Avatar.Color = _ColorEmptyTile;
+                    _Tiles[i].Name.Alpha = 1f;
                     _Tiles[i].Name.Text = "";
                     _Tiles[i].ProfileId = Guid.Empty;
                 }
@@ -514,11 +520,18 @@ namespace VocaluxeLib.Menu
         private void _UpdateVisibleProfiles()
         {
             _VisibleProfiles.Clear();
+            _InactiveProfiles.Clear();
             var profiles = CBase.Profiles.GetProfiles();
 
             foreach (var profile in profiles)
             {
                 var visible = profile.Active == EOffOn.TR_CONFIG_ON;
+                if (!visible && ShowInactive)
+                {
+                    visible = true;
+                    _InactiveProfiles.Add(profile.Id);
+                }
+
                 if (visible)
                 {
                     if (_UsedProfiles.Contains(profile.Id) && (int)profile.UserRole >= (int)EUserRole.TR_USERROLE_NORMAL)

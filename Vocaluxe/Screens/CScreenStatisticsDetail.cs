@@ -38,7 +38,7 @@ namespace Vocaluxe.Screens
     {
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private sealed class CRow
@@ -76,6 +76,9 @@ namespace Vocaluxe.Screens
         private float _MainColumnX;
         private float _MainColumnW;
         private float _ListLeft;
+        private float _FirstColumnX;
+        private float _FirstColumnW;
+        private EAlignment _FirstColumnAlign;
 
         private readonly List<CRow> _Rows = new List<CRow>();
         private string[] _Headers = new string[_NumColumns];
@@ -126,6 +129,9 @@ namespace Vocaluxe.Screens
             _MainColumnX = _Texts[_TextCell[0, 1]].X;
             _MainColumnW = _Texts[_TextCell[0, 1]].W;
             _ListLeft = _Statics[_StaticRank[0]].X;
+            _FirstColumnX = _Texts[_TextCell[0, 0]].X;
+            _FirstColumnW = _Texts[_TextCell[0, 0]].W;
+            _FirstColumnAlign = _Texts[_TextCell[0, 0]].Align;
         }
 
         public override void OnShow()
@@ -405,6 +411,15 @@ namespace Vocaluxe.Screens
 
             var mainX = string.IsNullOrEmpty(_Headers[0]) ? _ListLeft : _MainColumnX;
             _Texts[_TextHeader[1]].X = mainX;
+
+            var dateColumn = Page == EStatisticsPage.Recent;
+            foreach (var text in Enumerable.Range(0, _NumRows).Select(r => _Texts[_TextCell[r, 0]]).Concat(new[] { _Texts[_TextHeader[0]] }))
+            {
+                text.Align = dateColumn ? EAlignment.Left : _FirstColumnAlign;
+                text.X = dateColumn ? _ListLeft : _FirstColumnX;
+                text.W = dateColumn ? _AvatarMainX - _ListLeft - 10 : _FirstColumnW;
+            }
+
             for (var r = 0; r < _NumRows; r++)
             {
                 _Texts[_TextCell[r, 1]].X = mainX;

@@ -382,6 +382,7 @@
     <NoAvatar>NoAvatar.png</NoAvatar>
     <SongMenu>SongMenu.png</SongMenu>
     <PauseBG>PauseBG.png</PauseBG>
+    <PauseButton>PauseButton.png</PauseButton>
     <EnergyBeam>EnergyBeam.png</EnergyBeam>
     <SearchBar>SearchBar.png</SearchBar>
     <PlaylistBG>PlaylistBG.png</PlaylistBG>
