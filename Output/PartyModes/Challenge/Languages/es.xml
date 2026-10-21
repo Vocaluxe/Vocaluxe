@@ -18,6 +18,8 @@
   <string name="TR_SCREENCONFIG_NUMROUNDS">Número de rondas</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Número de comodines</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Rellenar comodines cada ronda</string>
+  <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Canciones por jugador</string>
+  <string name="TR_SCREENCONFIG_REMEMBERSONGS">Recordar canciones cantadas</string>
   <string name="TR_SCREENNAMES_TITLE">Modo desafío: Selecciona un jugador</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar aleatoriamente</string>
   <string name="TR_SCREENMAIN_TITLE">Modo desafío: Resumen</string>
