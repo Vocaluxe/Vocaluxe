@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Français</string>
+  <string name="TR_PARTYMODE_NAME">Survie en équipe</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Deux équipes s’affrontent en chantant ; l’équipe perdante perd un cœur, et la dernière équipe en lice l’emporte.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pour deux équipes comptant jusqu’à 8 joueurs chacune, 2 microphones sont nécessaires.</string>
+  <string name="TR_BUTTON_NEXT">Suivant</string>
+  <string name="TR_BUTTON_BACK">Précédent</string>
+  <string name="TR_BUTTON_EXIT">Sortie</string>
+  <string name="TR_BUTTON_YES">Oui</string>
+  <string name="TR_BUTTON_NO">Non</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Lancer le duel</string>
+  <string name="TR_SONGS">Chansons</string>
+  <string name="TR_TEAM">Équipe</string>
+  <string name="TR_SCREENCONFIG_TITLE">Survie en équipe : Configuration</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Cœurs</string>
+  <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Pareil pour tout le monde</string>
+  <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Ensemble pour chaque joueur</string>
+  <string name="TR_SCREENCONFIG_NUMHEARTS">Cœurs par joueur</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokers par joueur</string>
+  <string name="TR_SCREENNAMES_TITLE">Survie en équipe : Choisir les équipes</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joueurs sélectionnés pour cette équipe:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Équipe 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Équipe 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélection aléatoire</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Ajoutez au moins un joueur dans chaque équipe! / Faites glisser les avatars des joueurs pour les ajouter à la liste des joueurs sélectionnés! / Faites un clic droit sur l\'avatar d\'un joueur sélectionné pour le retirer!</string>
+  <string name="TR_SCREENHEARTS_TITLE">Survie en équipe : Cœurs par joueur</string>
+  <string name="TR_SCREENHEARTS_HINT">Haut/Bas = Sélectionner un joueur · Gauche/Droite ou cliquer sur un cœur = Modifier les cœurs · Entrée = Suivant · Échap = Retour</string>
+  <string name="TR_SCREENMAIN_TITLE">Survie en équipe</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter le jeu\?</string>
+  <string name="TR_SCREENMAIN_PASS">Tour</string>
+  <string name="TR_SCREENMAIN_DUEL">Duel</string>
+  <string name="TR_SCREENMAIN_VERSUS">c.</string>
+  <string name="TR_SCREENMAIN_REMATCH">Égalité! Le duel est chanté à nouveau.</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Équipe gagnante</string>
+</resources>
