@@ -339,6 +339,10 @@
     <CoverTile>CoverTile.png</CoverTile>
     <PlayerTile>PlayerTile.png</PlayerTile>
     <CoverTextBackground>CoverTextBackground.png</CoverTextBackground>
+    <InfoTile>InfoTile.png</InfoTile>
+    <InfoBar>InfoBar.png</InfoBar>
+    <OptionsGroupSmall>OptionsGroupSmall.png</OptionsGroupSmall>
+    <OptionsGroupLarge>OptionsGroupLarge.png</OptionsGroupLarge>
     <Cursor>Cursor.png</Cursor>
     <TimeBar>TimeBar.png</TimeBar>
     <TimeLine>TimeLine.png</TimeLine>
