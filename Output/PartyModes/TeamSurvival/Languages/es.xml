@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Español</string>
+  <string name="TR_PARTYMODE_NAME">Supervivencia en equipo</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Dos equipos se enfrentan en duelos de canto; el equipo que pierde pierde un corazón, y el último equipo que queda en pie resulta ganador.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Para dos equipos de hasta 8 jugadores cada uno, se necesitan 2 micrófonos.</string>
+  <string name="TR_BUTTON_NEXT">Siguiente</string>
+  <string name="TR_BUTTON_BACK">Anterior</string>
+  <string name="TR_BUTTON_EXIT">Salida</string>
+  <string name="TR_BUTTON_YES">Sí</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Iniciar duelo</string>
+  <string name="TR_SONGS">Canciones</string>
+  <string name="TR_TEAM">Equipo</string>
+  <string name="TR_SCREENCONFIG_TITLE">Supervivencia en equipo: Configuración</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Copas</string>
+  <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Lo mismo para todos</string>
+  <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Set por jugador</string>
+  <string name="TR_SCREENCONFIG_NUMHEARTS">Corazones por jugador</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
+  <string name="TR_SCREENNAMES_TITLE">Supervivencia en equipo: Elegir equipos</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Jugadores seleccionados para este equipo:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Equipo 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Equipo 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar al azar</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">¡Añade al menos un jugador a ambos equipos! / ¡Arrastra los avatares de los jugadores para incluirlos en la lista de jugadores seleccionados! / ¡Haz clic con el botón derecho en el avatar de un jugador seleccionado para eliminarlo!</string>
+  <string name="TR_SCREENHEARTS_TITLE">Supervivencia en equipo: Corazones por jugador</string>
+  <string name="TR_SCREENHEARTS_HINT">Arriba/Abajo = Seleccionar jugador · Izquierda/Derecha o hacer clic en un corazón = Cambiar corazones · Enter = Siguiente · ESC = Atrás</string>
+  <string name="TR_SCREENMAIN_TITLE">Supervivencia en equipo</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿De verdad quieres salir del juego\?</string>
+  <string name="TR_SCREENMAIN_PASS">Redondo</string>
+  <string name="TR_SCREENMAIN_DUEL">Duelo</string>
+  <string name="TR_SCREENMAIN_VERSUS">frente a</string>
+  <string name="TR_SCREENMAIN_REMATCH">¡Empate! El duelo se canta de nuevo.</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Equipo ganador</string>
+</resources>
