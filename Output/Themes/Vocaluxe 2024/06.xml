@@ -336,6 +336,8 @@
     <Menu>SongMenu.png</Menu>
     <Button>Button.png</Button>
     <ButtonTile>ButtonTile.png</ButtonTile>
+    <ScoreTile>ScoreTile.png</ScoreTile>
+    <ScoreTileSmall>ScoreTileSmall.png</ScoreTileSmall>
     <CoverTile>CoverTile.png</CoverTile>
     <PlayerTile>PlayerTile.png</PlayerTile>
     <CoverTextBackground>CoverTextBackground.png</CoverTextBackground>

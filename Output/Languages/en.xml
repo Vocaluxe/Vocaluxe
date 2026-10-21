@@ -265,6 +265,8 @@
   <string name="TR_SCREENSCORE_POINTS">Points</string>
   <string name="TR_SCREENSCORE_GAMEDIFFICULTY">Difficulty</string>
   <string name="TR_SCREENSCORE_OVERALLSCORE">Overall score</string>
+  <string name="TR_SCREENSCORE_GOLDENNOTES">Golden notes</string>
+  <string name="TR_SCREENSCORE_LINEBONUS">Line bonus</string>
   <string name="TR_SCREENHIGHSCORE_HIGHSCORE">Highscore</string>
   <string name="TR_SCREENPROFILES_PROFILES">Profiles</string>
   <string name="TR_SCREENPROFILES_PLAYERNAME">Player name</string>
