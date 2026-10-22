@@ -198,7 +198,10 @@
     <PackageReference Include="vocaluxe.dependencies.opentk" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.portaudiosharp" Version="1.0.3" />
     <PackageReference Include="vocaluxe.dependencies.qrcoder" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.slimdx" Version="1.0.1" />
+    <PackageReference Include="Vortice.Direct3D9" Version="2.4.2" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <!-- PolySharp is pulled in by SharpGen.Runtime (Vortice) and fails the build with Roslyn < 4.3 (VS 2019); Vocaluxe does not need it -->
+    <PackageReference Include="PolySharp" Version="1.10.0" ExcludeAssets="all" PrivateAssets="all" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -280,8 +283,6 @@
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
     <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
@@ -317,11 +318,11 @@
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
     <Compile Include="Base\CSound.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
     <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
+    <Compile Include="Lib\Sound\Record\NAudio\CNAudioRecord.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
     <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
     <Compile Include="Lib\Sound\Playback\IPlayback.cs" />

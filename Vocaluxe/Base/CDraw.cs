@@ -125,8 +125,7 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception e)
                     {
-                        CLog.Fatal(e, "Error in initializing of Direct3D. Please check if your DirectX redistributables and graphic card drivers are up to date. You can " +
-                                      "download the DirectX runtimes at https://www.microsoft.com/en-us/download/details.aspx?id=8109");
+                        CLog.Fatal(e, "Error in initializing of Direct3D. Please check whether your graphic card drivers are up to date.");
                         return false;
                     }
 

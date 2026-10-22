@@ -20,7 +20,7 @@ using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Sound.Record.PortAudio;
 using VocaluxeLib;
 #if WIN
-using Vocaluxe.Lib.Sound.Record.DirectSound;
+using Vocaluxe.Lib.Sound.Record.NAudio;
 #endif
 
 namespace Vocaluxe.Base
@@ -39,8 +39,8 @@ namespace Vocaluxe.Base
             switch (CConfig.Config.Sound.RecordLib)
             {
 #if WIN
-                case ERecordLib.DirectSound:
-                    _Record = new CDirectSoundRecord();
+                case ERecordLib.NAudio:
+                    _Record = new CNAudioRecord();
                     break;
 #endif
 

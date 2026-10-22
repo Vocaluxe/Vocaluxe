@@ -189,10 +189,10 @@ namespace VocaluxeLib
 
     public enum ERecordLib
     {
+        PortAudio,
 #if WIN
-        DirectSound,
+        NAudio
 #endif
-        PortAudio
     }
 
     public enum EVideoDecoder
