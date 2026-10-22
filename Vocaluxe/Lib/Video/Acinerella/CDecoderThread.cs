@@ -62,6 +62,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private bool _DropSeekEnabled = true; // Used to fallback to frame skipping if seek is failing once on this file
 
         public float Length { get; private set; }
+        public float LoopLength { get; private set; }
         public bool Loop { get; set; }
 
         public CDecoderThread()
@@ -81,6 +82,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
                 var instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
                 Length = instance.Info.Duration / 1000f;
+                LoopLength = Length;
                 var ok = instance.Opened && Length > 0.001f;
                 _DropSeekEnabled = true;
                 if (ok)
@@ -300,7 +302,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     }
 
                     //If we don't the Length might be inaccurate (e.g. last frame ends at 19.98 but Length=20)
-                    if (time >= Length - 2 * _FrameDuration)
+                    if (time >= LoopLength - 2 * _FrameDuration)
                     {
                         return;
                     }
@@ -432,6 +434,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 if (Loop)
                 {
+                    if (!dropFrame && _LastDecodedTime > 0)
+                    {
+                        LoopLength = Math.Min(Length, _LastDecodedTime + _FrameDuration);
+                    }
+
                     RequestTime = _LoopedRequestTime;
                     _Skip();
                 }

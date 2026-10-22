@@ -124,12 +124,13 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (Loop)
             {
                 time = _LoopTime + _LoopTimer.ElapsedMilliseconds / 1000f;
-                if (time >= Length)
+                var loopLength = _Thread.LoopLength;
+                if (time >= loopLength)
                 {
                     do
                     {
-                        time -= Length;
-                    } while (time >= Length);
+                        time -= loopLength;
+                    } while (time >= loopLength);
 
                     _LoopTime = time;
                     _LoopTimer.Restart();
