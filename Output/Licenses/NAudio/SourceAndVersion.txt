@@ -1,0 +1,7 @@
+https://github.com/naudio/NAudio
+
+Version: NAudio.Wasapi 2.2.1, NAudio.Core 2.2.1 (NuGet, netstandard2.0)
+
+Files:
+NAudio.Wasapi.dll
+NAudio.Core.dll

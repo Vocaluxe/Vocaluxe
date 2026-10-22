@@ -26,7 +26,11 @@ Supported Operating Systems / Requirements:
 - Windows 7, Windows 8, Windows 8.1, Windows 10 and Windows 11 with .NET 4.0
 - Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
-- Visual C++ Redistributable Package 2010 (Nightly builds additionally require VC++ 2015–2022)
+- Visual C++ Redistributable Package 2010
+
+  Nightly Builds:
+  - Windows 10 (version 20H2 or later) and Windows 11 with .NET Framework 4.8.1
+  - Visual C++ Redistributable 2015–2022
 
 
 =================================

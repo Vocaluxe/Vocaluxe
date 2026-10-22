@@ -17,7 +17,6 @@
 
 using System.IO;
 using System.Reflection;
-using System.Security;
 using Microsoft.Win32;
 using Vocaluxe.Base;
 using VocaluxeLib.Log;
@@ -29,69 +28,6 @@ namespace Vocaluxe
     /// </summary>
     static class CProgrammHelper
     {
-        private static bool _CheckUninstallKey(string name, string key)
-        {
-            using (var rk = Registry.LocalMachine.OpenSubKey(key))
-            {
-                if (rk == null)
-                {
-                    throw new SecurityException();
-                }
-
-                foreach (var skName in rk.GetSubKeyNames())
-                {
-                    using (var sk = rk.OpenSubKey(skName))
-                    {
-                        if (sk == null || sk.GetValue("DisplayName") == null)
-                        {
-                            continue;
-                        }
-
-                        var displayName = sk.GetValue("DisplayName").ToString().ToLower();
-                        if (displayName.Equals(name) || displayName.StartsWith(name) || name.StartsWith(displayName))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        private static bool _KeyExists(string key)
-        {
-            using (var rk = Registry.LocalMachine.OpenSubKey(key))
-            {
-                if (rk != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        ///     Checks if a given program is installed by checking the Uninstall registry key.
-        /// </summary>
-        /// <param name="name">Name of the programm. Got to equal the displayname in the key or one needs to be the start of the other one. NOT case sensitive.</param>
-        /// <returns></returns>
-        private static bool _IsProgramInstalled(string name)
-        {
-            const string baseKey = @"SOFTWARE\";
-            const string baseKey64 = @"SOFTWARE\WoW6432Node\";
-            const string uninstallKey = @"Microsoft\Windows\CurrentVersion\Uninstall";
-            name = name.ToLower();
-            return _CheckUninstallKey(name, baseKey + uninstallKey) || (_KeyExists(baseKey64) && _CheckUninstallKey(name, baseKey64 + uninstallKey));
-        }
-
-        private static bool _IsVC2010Installed()
-        {
-            //Note: Maybe check for x64 or x86
-            return _IsProgramInstalled("Microsoft Visual C++ 2010");
-        }
-
         private static bool _IsVC2015To2022Installed()
         {
             const string baseKey = @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\";
@@ -154,13 +90,6 @@ namespace Vocaluxe
         public static bool CheckRequirements()
         {
 #if WIN
-            if (!_IsVC2010Installed())
-            {
-                CLog.Fatal(
-                    "VC++ 2010 Redistributables are missing. Please install them first.\r\nDownload: https://www.microsoft.com/download/details.aspx?id=26999");
-                return false;
-            }
-
             if (!_IsVC2015To2022Installed())
             {
                 CLog.Fatal(
