@@ -204,6 +204,8 @@ namespace Vocaluxe
                         }
                     }
 
+                    CSongs.StartLoadSongs();
+
                     Application.DoEvents();
 
                     //Init Webcam

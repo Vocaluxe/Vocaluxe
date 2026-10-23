@@ -57,6 +57,18 @@ namespace Vocaluxe.Lib.Database
             public string Str2;
         }
 
+        private struct SSongInfo
+        {
+            public int Id;
+            public int NumPlayed;
+            public DateTime DateAdded;
+        }
+
+        private readonly object _SongInfoMutex = new object();
+        private Dictionary<(string Title, string Artist), SSongInfo> _SongInfos;
+        private SqliteConnection _SongInfoConnection;
+        private SqliteTransaction _SongInfoTransaction;
+
         public CHighscoreDB(string filePath) : base(filePath) { }
 
         public override bool Init()
@@ -110,8 +122,143 @@ namespace Vocaluxe.Lib.Database
             //Do nothing
         }
 
+        public void BeginSongInfoCache()
+        {
+            lock (_SongInfoMutex)
+            {
+                if (_SongInfos != null)
+                {
+                    return;
+                }
+
+                var connection = new SqliteConnection("Data Source=" + _FilePath);
+                try
+                {
+                    connection.Open();
+
+                    using (var command = new SqliteCommand("CREATE INDEX IF NOT EXISTS IX_Songs_Title_Artist ON Songs (Title, Artist)", connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+
+                    var songInfos = new Dictionary<(string Title, string Artist), SSongInfo>();
+                    using (var command = new SqliteCommand("SELECT id, Title, Artist, NumPlayed, DateAdded FROM Songs ORDER BY id", connection))
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var key = (reader.GetString(1), reader.GetString(2));
+                            if (songInfos.ContainsKey(key))
+                            {
+                                continue;
+                            }
+
+                            songInfos.Add(key, new SSongInfo
+                            {
+                                Id = reader.GetInt32(0),
+                                NumPlayed = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                                DateAdded = reader.IsDBNull(4) ? DateTime.Today : new DateTime(reader.GetInt64(4))
+                            });
+                        }
+                    }
+
+                    _SongInfos = songInfos;
+                    _SongInfoConnection = connection;
+                }
+                catch (Exception e)
+                {
+                    CLog.Error(e, "Error loading song infos from Highscore DB: {ExceptionMessage}", CLog.Params(e.Message));
+                    connection.Dispose();
+                }
+            }
+        }
+
+        public void EndSongInfoCache()
+        {
+            lock (_SongInfoMutex)
+            {
+                if (_SongInfoTransaction != null)
+                {
+                    try
+                    {
+                        _SongInfoTransaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        CLog.Error(e, "Error saving new songs to Highscore DB: {ExceptionMessage}", CLog.Params(e.Message));
+                    }
+
+                    _SongInfoTransaction.Dispose();
+                    _SongInfoTransaction = null;
+                }
+
+                if (_SongInfoConnection != null)
+                {
+                    _SongInfoConnection.Dispose();
+                    _SongInfoConnection = null;
+                }
+
+                _SongInfos = null;
+            }
+        }
+
+        private bool _GetCachedSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)
+        {
+            var key = (title, artist);
+            if (!_SongInfos.TryGetValue(key, out var info))
+            {
+                if (_SongInfoTransaction == null)
+                {
+                    _SongInfoTransaction = _SongInfoConnection.BeginTransaction();
+                }
+
+                info = new SSongInfo { NumPlayed = 0, DateAdded = new DateTime(DateTime.Now.Ticks) };
+                using (var command = new SqliteCommand())
+                {
+                    command.Connection = _SongInfoConnection;
+                    command.Transaction = _SongInfoTransaction;
+                    command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed, DateAdded) VALUES (@title, @artist, @numplayed, @dateadded)";
+                    command.Parameters.AddWithValue("@title", title);
+                    command.Parameters.AddWithValue("@artist", artist);
+                    command.Parameters.AddWithValue("@numplayed", info.NumPlayed);
+                    command.Parameters.AddWithValue("@dateadded", info.DateAdded.Ticks);
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "SELECT last_insert_rowid()";
+                    command.Parameters.Clear();
+                    info.Id = Convert.ToInt32(command.ExecuteScalar());
+                }
+
+                _SongInfos.Add(key, info);
+            }
+
+            numPlayed = info.NumPlayed;
+            dateAdded = info.DateAdded;
+            highscoreId = info.Id;
+            return true;
+        }
+
         public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)
         {
+            lock (_SongInfoMutex)
+            {
+                if (_SongInfos != null)
+                {
+                    try
+                    {
+                        return _GetCachedSongInfos(artist ?? string.Empty, title ?? string.Empty, out numPlayed, out dateAdded, out highscoreId);
+                    }
+                    catch (Exception e)
+                    {
+                        CLog.Error(e, "Error reading song infos from Highscore DB: {ExceptionMessage}", CLog.Params(e.Message));
+                        numPlayed = 0;
+                        dateAdded = DateTime.Today;
+                        highscoreId = -1;
+                        return false;
+                    }
+                }
+            }
+
             string sArtist;
             string sTitle;
             int songId;

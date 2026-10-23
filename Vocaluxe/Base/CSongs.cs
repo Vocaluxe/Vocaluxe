@@ -43,6 +43,8 @@ namespace Vocaluxe.Base
         public static readonly CSongSorter Sorter = new CSongSorter();
         public static readonly CSongCategorizer Categorizer = new CSongCategorizer();
 
+        private static Thread _SongLoaderThread;
+        private static readonly ManualResetEvent _InitFinished = new ManualResetEvent(false);
         private static Thread _CoverLoaderThread;
         public static event CategoryChangedHandler OnCategoryChanged;
 
@@ -390,6 +392,22 @@ namespace Vocaluxe.Base
             Categorizer.Tabs = tabs;
         }
 
+        public static void StartLoadSongs()
+        {
+            if (_SongLoaderThread != null)
+            {
+                return;
+            }
+
+            _SongLoaderThread = new Thread(LoadSongs) { Name = "SongLoader", IsBackground = true };
+            _SongLoaderThread.Start();
+        }
+
+        public static void SetInitFinished()
+        {
+            _InitFinished.Set();
+        }
+
         public static void LoadSongs()
         {
             using (CBenchmark.Time("Load Songs"))
@@ -429,20 +447,28 @@ namespace Vocaluxe.Base
                         MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount)
                     };
 
-                    Parallel.ForEach(fileList, options, file =>
+                    CDataBase.BeginSongInfoCache();
+                    try
                     {
-                        var song = CSong.LoadSong(file);
-                        if (song == null)
+                        Parallel.ForEach(fileList, options, file =>
                         {
-                            return;
-                        }
+                            var song = CSong.LoadSong(file);
+                            if (song == null)
+                            {
+                                return;
+                            }
 
-                        if (song.LoadNotes())
-                        {
-                            bag.Add(song);
-                            Interlocked.Increment(ref _NumSongsLoaded);
-                        }
-                    });
+                            if (song.LoadNotes())
+                            {
+                                bag.Add(song);
+                                Interlocked.Increment(ref _NumSongsLoaded);
+                            }
+                        });
+                    }
+                    finally
+                    {
+                        CDataBase.EndSongInfoCache();
+                    }
 
                     var id = 0;
                     foreach (var song in bag.OrderBy(s => s.Folder).ThenBy(s => s.FileName))
@@ -452,6 +478,8 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+
+            _InitFinished.WaitOne();
 
             using (CBenchmark.Time("Sorted Songs"))
             {
@@ -496,23 +524,36 @@ namespace Vocaluxe.Base
             using (CBenchmark.Time("Loaded Covers"))
             {
                 var songCount = Songs.Count;
-                var ev = new AutoResetEvent(songCount == 0);
+                var nextSong = -1;
 
                 NumSongsWithCoverLoaded = 0;
-                foreach (var song in Songs)
+                var workers = new Thread[Math.Max(1, Math.Min(songCount, Environment.ProcessorCount - 1))];
+                for (var i = 0; i < workers.Length; i++)
                 {
-                    var tmp = song;
-                    Task.Factory.StartNew(() =>
+                    workers[i] = new Thread(() =>
                     {
-                        tmp.LoadSmallCover();
-                        if (Interlocked.Increment(ref _NumSongsWithCoverLoaded) >= songCount)
+                        int index;
+                        while ((index = Interlocked.Increment(ref nextSong)) < songCount)
                         {
-                            ev.Set();
+                            try
+                            {
+                                Songs[index].LoadSmallCover();
+                            }
+                            catch (Exception e)
+                            {
+                                CLog.Error(e, "Error loading cover for {SongFileName}: {ExceptionMessage}", CLog.Params(Songs[index].FileName, e.Message));
+                            }
+
+                            Interlocked.Increment(ref _NumSongsWithCoverLoaded);
                         }
-                    });
+                    }) { Name = "CoverLoader" + i, Priority = ThreadPriority.BelowNormal, IsBackground = true };
+                    workers[i].Start();
                 }
 
-                ev.WaitOne();
+                foreach (var worker in workers)
+                {
+                    worker.Join();
+                }
                 _CoverLoaded = true;
                 CDataBase.CommitCovers();
             }
