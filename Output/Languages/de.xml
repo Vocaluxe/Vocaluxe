@@ -60,17 +60,17 @@
   <string name="TR_CONFIG_LEVEL3">Level 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Maximal</string>
   <string name="TR_CONFIG_LIST">Liste</string>
-  <string name="TR_CONFIG_DREIDEL">Dreidel</string>
+  <string name="TR_CONFIG_DREIDEL">Karussell</string>
   <string name="TR_CONFIG_TILE_BOARD">Kacheln</string>
-  <string name="TR_CONFIG_BOOK">Book</string>
+  <string name="TR_CONFIG_BOOK">Buch</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Auf Abruf</string>
   <string name="TR_CONFIG_COVERLOADING_ATSTART">Beim Start</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dynamisch</string>
   <string name="TR_CONFIG_NONE">Keine</string>
   <string name="TR_CONFIG_RANDOM">Zufällig</string>
   <string name="TR_CONFIG_FOLDER">Ordner</string>
-  <string name="TR_CONFIG_ARTIST">Artist</string>
-  <string name="TR_CONFIG_ARTIST_LETTER">Artist-Buchstabe</string>
+  <string name="TR_CONFIG_ARTIST">Interpret</string>
+  <string name="TR_CONFIG_ARTIST_LETTER">Interpret-Buchstabe</string>
   <string name="TR_CONFIG_TITLE_LETTER">Titel-Buchstabe</string>
   <string name="TR_CONFIG_EDITION">Edition</string>
   <string name="TR_CONFIG_TAGS">Tags</string>
@@ -238,10 +238,10 @@
   <string name="TR_SCREENSONG_ALLSONGS">Alle Lieder</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Lieder)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Lied)</string>
-  <string name="TR_SCREENSONG_ARTIST_TITLE">%a -%t</string>
+  <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Medley starten • STRG+# = Song-Reihenfolge ändern • STRG+T = Kategorieansicht an-/abschalten • Leertaste = Liedoptionen öffnen • ESC = Zurück zum Hauptmenü</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpret und Titel suchen; Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Autor • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername • #: = Tags</string>
-  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer deines Teams, um einen zufälligen Lied-Joker einzusetzen</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpret und Titel suchen; Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Ersteller • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername • #: = Tags</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer deines Teams, um einen Zufalls-Song-Joker einzusetzen</string>
   <string name="TR_SCREENSONG_SORTING">Sortierung: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für dieses Lied!</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
@@ -251,7 +251,7 @@
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Runde neu starten</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Neu starten</string>
   <string name="TR_SCREENSING_VOCALSVOLUME">Lautstärke der Gesangsspur</string>
-  <string name="TR_SCREENSING_NOMORESONGS">Keine weiteres Lied in der Playlist!</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Keine weiteren Lieder in der Playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Keine Webcam verfügbar!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Bildverhältnis: %a</string>
   <string name="TR_SCREENSING_RATING_1">Perfekt!</string>
@@ -304,14 +304,14 @@
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug-Level</string>
   <string name="TR_SCREENOGAME_SONGMENU">Lied-Menü-Stil</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Sortierung der Lieder</string>
-  <string name="TR_SCREENOGAME_TABS">Kategorieren anzeigen</string>
+  <string name="TR_SCREENOGAME_TABS">Kategorien anzeigen</string>
   <string name="TR_SCREENOGAME_TILECAPTION">Cover-Beschriftung</string>
   <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay für Liedvorschau</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore-Stil</string>
   <string name="TR_SCREENORECORD_OPTIONS">Aufnahmeeinstellungen</string>
-  <string name="TR_SCREENORECORD_DEVICE">Soundkarte</string>
+  <string name="TR_SCREENORECORD_DEVICE">Gerät</string>
   <string name="TR_SCREENORECORD_INPUT">Eingang</string>
   <string name="TR_SCREENORECORD_PLAYER_1">Spieler 1</string>
   <string name="TR_SCREENORECORD_PLAYER_2">Spieler 2</string>
@@ -364,7 +364,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam-Auflösung</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Bildschirm anpassen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">STRG + ALT (+ UMSCHALT) + Pfeile drücken, um Bildschirm anzupassen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">STRG + ALT (+ UMSCHALT) + Pfeiltasten drücken, um den Bildschirm anzupassen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">STRG + ALT + 0 um Einstellungen zurückzusetzen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Oben links</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Oben rechts</string>
@@ -375,12 +375,12 @@
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte aktiviere ihn und starte das Spiel neu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Es tut uns leid</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">dass Vocaluxe abgestürzt ist.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
-  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass Du einen Fehler festgestellt hast.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass Du einen Fehler festgestellt hast.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Fehlerbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
   <string name="TR_REPORTER_NO_UPLOAD_TEXT">Nichts hochladen (Du kannst immer noch die Fehlermeldung oben kopieren)</string>
-  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Hochladen und ein Ticket eröffnen (öffentlich sichtbar und benötigt einen github-Account)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Hochladen und ein Ticket eröffnen (öffentlich sichtbar und benötigt ein GitHub-Konto)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Hochladen und einen Link zum Bericht erhalten (öffentlich sichtbar)</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Senden</string>
-  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Lade hoch</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Hochladen</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Beenden</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Fortfahren</string>
   <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Der Link zu Deinem Bericht:</string>
