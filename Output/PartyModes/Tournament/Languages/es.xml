@@ -14,8 +14,8 @@
   <string name="TR_SONGS">Canciones</string>
   <string name="TR_SCREENCONFIG_TITLE">Torneo de eliminación directa: Configuración</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero de jugadores</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
-  <string name="TR_SCREENNAMES_TITLE">Torneo eliminatorio: elige jugadores</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Comodines por jugador</string>
+  <string name="TR_SCREENNAMES_TITLE">Modo desafío: Elegir jugadores</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar al azar</string>
   <string name="TR_SCREENMAIN_TITLE">Torneo de eliminación directa</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿De verdad quieres salir del torneo\?</string>
