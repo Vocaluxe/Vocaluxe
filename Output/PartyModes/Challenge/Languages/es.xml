@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Inglés</string>
+  <string name="language">Español</string>
   <string name="TR_PARTYMODE_NAME">Modo desafío</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Jugar algunas rondas en modo desafío.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Para los que están interesados en batallas duales.</string>
@@ -26,10 +26,10 @@
   <string name="TR_SCREENMAIN_TABLE_POS">Posición</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Nombre</string>
   <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Rondas</string>
-  <string name="TR_SCREENMAIN_TABLE_WON">Gana</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Victorias</string>
   <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Puntos de canto</string>
   <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Puntuación</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿Realmente deseas salir?</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Jugador de la siguiente ronda:</string>
-  <string name="TR_SCREENMAIN_FINISH">¡Todos los jugadores han cantado! El ganador es...</string>
+  <string name="TR_SCREENMAIN_FINISH">¡Todas las rondas se han cantado! Y el ganador es...</string>
 </resources>
