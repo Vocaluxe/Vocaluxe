@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglais</string>
+  <string name="language">Français</string>
   <string name="TR_PARTYMODE_NAME">Roulette des règles</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Chantez des duels lorsqu\'une roue décide de la règle de chaque tour.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pour 2 à 12 joueurs qui aiment les surprises, 2 micros sont nécessaires.</string>
@@ -44,7 +44,7 @@
   <string name="TR_RULE_SHORTSONG">Chanson courte</string>
   <string name="TR_RULE_SHORTSONG_DESC">La version courte est chantée.</string>
   <string name="TR_RULE_MEDLEY">Medley</string>
-  <string name="TR_RULE_MEDLEY_DESC">Un medley de 3 chansons, sans jokers</string>
+  <string name="TR_RULE_MEDLEY_DESC">Un medley de 3 chansons, sans jokers.</string>
   <string name="TR_RULE_DOUBLEPACK">Lot de deux</string>
   <string name="TR_RULE_DOUBLEPACK_DESC">Deux chansons à la suite, le total compte.</string>
   <string name="TR_RULE_DUETONLY">Chanson duo</string>
@@ -54,7 +54,7 @@
   <string name="TR_RULE_UNDERDOGCHOICE">Choix des outsiders</string>
   <string name="TR_RULE_UNDERDOGCHOICE_DESC">Le joueur le dernier choisit la chanson.</string>
   <string name="TR_RULE_GOLDRUSH">Ruée vers l\'or</string>
-  <string name="TR_RULE_GOLDRUSH_DESC">Seuls les points des billets d’or comptent. Pas de jokers.</string>
+  <string name="TR_RULE_GOLDRUSH_DESC">Seuls les points des notes dorées comptent. Pas de jokers.</string>
   <string name="TR_RULE_PERFECTLINES">Lignes parfaites</string>
   <string name="TR_RULE_PERFECTLINES_DESC">Seul le bonus de ligne compte.</string>
   <string name="TR_RULE_TARGETSCORE">Score cible</string>
@@ -73,7 +73,7 @@
   <string name="TR_RULE_ALLORNOTHING_DESC">Le gagnant obtient 3 points, le perdant en perd 1.</string>
   <string name="TR_RULE_POINTSTEAL">Vol de point</string>
   <string name="TR_RULE_POINTSTEAL_DESC">Le gagnant prend 1 point au perdant.</string>
-  <string name="TR_RULE_LEADCOUNTS">Nombre de prospects</string>
+  <string name="TR_RULE_LEADCOUNTS">L’avance compte</string>
   <string name="TR_RULE_LEADCOUNTS_DESC">Plus l’avance est grande, plus il y a de points (1 à 4).</string>
   <string name="TR_RULE_UNDERDOG">Outsider</string>
   <string name="TR_RULE_UNDERDOG_DESC">Si le joueur le plus loin derrière gagne, il obtient 3 points.</string>
