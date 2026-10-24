@@ -17,7 +17,7 @@
   <string name="TR_SCREENCONFIG_TITLE">Ruleta de reglas: Configuración</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero de jugadores</string>
   <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Canciones por jugador</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Comodines por jugador</string>
   <string name="TR_SCREENCONFIG_RULES">Normas</string>
   <string name="TR_SCREENCONFIG_RULES_RANDOM">Aleatorio</string>
   <string name="TR_SCREENCONFIG_RULES_MANUAL">Manual</string>
@@ -33,7 +33,7 @@
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿De verdad quieres salir del juego\?</string>
   <string name="TR_SCREENMAIN_HEADER_POS">Pos</string>
   <string name="TR_SCREENMAIN_HEADER_NAME">Nombre</string>
-  <string name="TR_SCREENMAIN_HEADER_POINTS">Agujas</string>
+  <string name="TR_SCREENMAIN_HEADER_POINTS">Puntos</string>
   <string name="TR_SCREENMAIN_DUEL">Duelo</string>
   <string name="TR_SCREENMAIN_VERSUS">frente a</string>
   <string name="TR_SCREENMAIN_TARGET">Puntuación objetivo:</string>
@@ -51,7 +51,7 @@
   <string name="TR_RULE_DUETONLY_DESC">Una canción a dúo; cada cantante interpreta una voz.</string>
   <string name="TR_RULE_FREECHOICE">Libre elección</string>
   <string name="TR_RULE_FREECHOICE_DESC">Ustedes mismos eligen la canción.</string>
-  <string name="TR_RULE_UNDERDOGCHOICE">Pronósticos sobre el menos favorito</string>
+  <string name="TR_RULE_UNDERDOGCHOICE">Elección del menos favorito</string>
   <string name="TR_RULE_UNDERDOGCHOICE_DESC">El jugador más atrás elige la canción.</string>
   <string name="TR_RULE_GOLDRUSH">Fiebre del oro</string>
   <string name="TR_RULE_GOLDRUSH_DESC">Solo cuentan los puntos de las notas doradas. No hay comodines.</string>
@@ -67,13 +67,13 @@
   <string name="TR_RULE_DOUBLEWIN_DESC">Si ambos anotan más de 7.000, ambos ganan.</string>
   <string name="TR_RULE_DOUBLEPOINTS">Puntos dobles</string>
   <string name="TR_RULE_DOUBLEPOINTS_DESC">El ganador obtiene 4 puntos en lugar de 2.</string>
-  <string name="TR_RULE_BLITZ">Bombardeo aéreo</string>
+  <string name="TR_RULE_BLITZ">Blitz</string>
   <string name="TR_RULE_BLITZ_DESC">Versión corta, y la victoria cuenta el doble.</string>
   <string name="TR_RULE_ALLORNOTHING">Todo o nada</string>
   <string name="TR_RULE_ALLORNOTHING_DESC">El ganador obtiene 3 puntos, el perdedor pierde 1.</string>
   <string name="TR_RULE_POINTSTEAL">Robo de puntos</string>
   <string name="TR_RULE_POINTSTEAL_DESC">El ganador toma 1 punto del perdedor.</string>
-  <string name="TR_RULE_LEADCOUNTS">Recuento de clientes potenciales</string>
+  <string name="TR_RULE_LEADCOUNTS">La ventaja cuenta</string>
   <string name="TR_RULE_LEADCOUNTS_DESC">Cuanto mayor sea la ventaja, más puntos (de 1 a 4).</string>
   <string name="TR_RULE_UNDERDOG">El menos favorito</string>
   <string name="TR_RULE_UNDERDOG_DESC">Si gana el jugador que va más atrás, obtiene 3 puntos.</string>
