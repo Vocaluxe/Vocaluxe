@@ -29,7 +29,7 @@
   <string name="TR_SCREENRULES_HINT">Hoch/Runter = Regel wählen  ·  Links/Rechts oder Klick = Ändern  ·  Enter = Weiter  ·  ESC = Zurück</string>
   <string name="TR_SCREENNAMES_TITLE">Roulette der Regeln: Spieler auswählen</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig wählen</string>
-  <string name="TR_SCREENMAIN_TITLE">Rule Roulette</string>
+  <string name="TR_SCREENMAIN_TITLE">Roulette der Regeln</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Willst du das Spiel wirklich beenden?</string>
   <string name="TR_SCREENMAIN_HEADER_POS">Pos</string>
   <string name="TR_SCREENMAIN_HEADER_NAME">Name</string>
