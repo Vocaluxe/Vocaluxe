@@ -13,11 +13,11 @@
   <string name="TR_SONGS">Canciones</string>
   <string name="TR_TEAM">Equipo</string>
   <string name="TR_SCREENCONFIG_TITLE">Supervivencia en equipo: Configuración</string>
-  <string name="TR_SCREENCONFIG_HEARTSMODE">Copas</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Corazones</string>
   <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Lo mismo para todos</string>
   <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Set por jugador</string>
   <string name="TR_SCREENCONFIG_NUMHEARTS">Corazones por jugador</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Comodines por jugador</string>
   <string name="TR_SCREENNAMES_TITLE">Supervivencia en equipo: Elegir equipos</string>
   <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Jugadores seleccionados para este equipo:</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipo 1</string>
@@ -28,7 +28,7 @@
   <string name="TR_SCREENHEARTS_HINT">Arriba/Abajo = Seleccionar jugador · Izquierda/Derecha o hacer clic en un corazón = Cambiar corazones · Enter = Siguiente · ESC = Atrás</string>
   <string name="TR_SCREENMAIN_TITLE">Supervivencia en equipo</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿De verdad quieres salir del juego\?</string>
-  <string name="TR_SCREENMAIN_PASS">Redondo</string>
+  <string name="TR_SCREENMAIN_PASS">Ronda</string>
   <string name="TR_SCREENMAIN_DUEL">Duelo</string>
   <string name="TR_SCREENMAIN_VERSUS">frente a</string>
   <string name="TR_SCREENMAIN_REMATCH">¡Empate! El duelo se canta de nuevo.</string>
