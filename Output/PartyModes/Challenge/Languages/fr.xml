@@ -31,5 +31,5 @@
   <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Score</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter?</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Joueurs du prochain tour:</string>
-  <string name="TR_SCREENMAIN_FINISH">Tous les tours on été chantés! Et le vainqueur est...</string>
+  <string name="TR_SCREENMAIN_FINISH">Tous les tours ont été chantés ! Et le vainqueur est...</string>
 </resources>
