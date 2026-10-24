@@ -18,6 +18,8 @@
   <string name="TR_SCREENCONFIG_NUMROUNDS">Nombre de tours</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Nombre de jokers</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Remplir de nouveau les jokers à tour</string>
+  <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Chansons par joueur</string>
+  <string name="TR_SCREENCONFIG_REMEMBERSONGS">Se souvenir des chansons chantées</string>
   <string name="TR_SCREENNAMES_TITLE">Mode Challenge: Choix des joueurs</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>
   <string name="TR_SCREENMAIN_TITLE">Mode Challenge: Résumé</string>
@@ -29,5 +31,5 @@
   <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Score</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter?</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Joueurs du prochain tour:</string>
-  <string name="TR_SCREENMAIN_FINISH">Tous les tours on été chantés! Et le vainqueur est...</string>
+  <string name="TR_SCREENMAIN_FINISH">Tous les tours ont été chantés ! Et le vainqueur est...</string>
 </resources>
