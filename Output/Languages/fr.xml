@@ -39,7 +39,7 @@
   <string name="TR_USERROLE_GUEST">Invité</string>
   <string name="TR_USERROLE_NORMAL">Utilisateur normal</string>
   <string name="TR_USERROLE_ADMIN">Administrateur</string>
-  <string name="TR_USERROLE_KEYBOARDUSER">Clavier d'Utilisateur</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Utilisateur clavier</string>
   <string name="TR_SONGSOURCE">Source des chansons</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
   <string name="TR_SONGSOURCE_CATEGORY">Catégorie</string>
@@ -70,15 +70,15 @@
   <string name="TR_CONFIG_RANDOM">Aléatoire</string>
   <string name="TR_CONFIG_FOLDER">Dossier</string>
   <string name="TR_CONFIG_ARTIST">Artiste</string>
-  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artist</string>
-  <string name="TR_CONFIG_TITLE_LETTER">Initiale de Titre</string>
+  <string name="TR_CONFIG_ARTIST_LETTER">Artiste par initiale</string>
+  <string name="TR_CONFIG_TITLE_LETTER">Titre par initiale</string>
   <string name="TR_CONFIG_EDITION">Edition</string>
   <string name="TR_CONFIG_TAGS">Balises</string>
   <string name="TR_CONFIG_GENRE">Genre</string>
   <string name="TR_CONFIG_YEAR">Année</string>
-  <string name="TR_CONFIG_DECADE">Décénie</string>
+  <string name="TR_CONFIG_DECADE">Décennie</string>
   <string name="TR_CONFIG_LANGUAGE">Langue</string>
-  <string name="TR_CONFIG_DATEADDED">Date ajoutée</string>
+  <string name="TR_CONFIG_DATEADDED">Date d’ajout</string>
   <string name="TR_CONFIG_EASY">Facile</string>
   <string name="TR_CONFIG_NORMAL">Moyen</string>
   <string name="TR_CONFIG_HARD">Difficile</string>
@@ -92,7 +92,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Musique personnelle et Musique de fond</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Pas de Musique personnelle</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Seulement la Musique personnelle</string>
-  <string name="TR_CONFIG_ONLY_SONG">Seulement les chansons sélectionnées</string>
+  <string name="TR_CONFIG_ONLY_SONG">Uniquement la chanson sélectionnée</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tout</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Seulement noms et avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Rien</string>
@@ -208,20 +208,20 @@
   <string name="TR_SCREENSONG_MENU">Choix de la chanson</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Chanter</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Ajouter à la playlist</string>
-  <string name="TR_SCREENSONG_BUTTON_CANCEL">Annuler</string>
+  <string name="TR_SCREENSONG_BUTTON_CANCEL">Fermer</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOM">Choisir une chanson aléatoire</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMCAT">Choisir une catégorie aléatoire</string>
   <string name="TR_SCREENSONG_BUTTON_SINGALL">Chanter toutes les chansons</string>
   <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Chanter toutes les chansons visibles</string>
-  <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Ouvrir une playlist</string>
+  <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Ouvrir la playlist</string>
   <string name="TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM">Sélectionner</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">Chanter un medley aléatoire</string>
-  <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Chanter une chanson en medley</string>
+  <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Chanter les chansons de medley</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Nouvelle playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Options de la chanson</string>
-  <string name="TR_SCREENSONG_LENGTH">Longueur chanson</string>
+  <string name="TR_SCREENSONG_LENGTH">Durée de la chanson</string>
   <string name="TR_SCREENSONG_YEAR">Année</string>
-  <string name="TR_SCREENSONG_TIMESPLAYED">Fois chantée</string>
+  <string name="TR_SCREENSONG_TIMESPLAYED">Nombre de fois chantée</string>
   <string name="TR_SCREENSONG_OPTIONSSELECTION">Sélection</string>
   <string name="TR_SCREENSONG_OPTIONSSINGALL">Chanter toutes</string>
   <string name="TR_SCREENSONG_AUDIOMODE">Mode audio</string>
@@ -239,8 +239,8 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v Chansons)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Chanson)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
-  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Sauter à la lettre • F3 = Chercher • CTRL+R = Sélectionner au hasard • CTRL+S = Lancer medley • CTRL+# = Changer le tri des chansons • CTRL+T = Activer/Désactiver la vue par catégorie • Espace = Ouvrir les options de chanson • Échap = Retouner au menu précédent</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Chercher artiste et titre, préfixes pour la recherche → a: = artiste • t: = titre • c: = créateurr • e: = édition • g: = genre • y: = année (ex: 1999 ou 1980-1989) • l: = langage • al: = album • fi: = nom du fichier • fo: = nom du dossier • #: = balise</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Sauter à la lettre • F3 = Chercher • CTRL+R = Sélectionner au hasard • CTRL+S = Lancer medley • CTRL+# = Changer le tri des chansons • CTRL+T = Activer/Désactiver la vue par catégorie • Espace = Ouvrir les options de chanson • Échap = Retourner au menu principal</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Chercher artiste et titre, préfixes pour la recherche → a: = artiste • t: = titre • c: = créateur • e: = édition • g: = genre • y: = année (ex: 1999 ou 1980-1989) • l: = langue • al: = album • fi: = nom du fichier • fo: = nom du dossier • #: = balise</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Pressez votre numéro d'équipe afin d'utiliser une chanson joker au hasard</string>
   <string name="TR_SCREENSONG_SORTING">Classement en cours : %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Aucun Medley pour cette chanson !</string>
@@ -248,21 +248,21 @@
   <string name="TR_SCREENSING_BUTTON_CANCEL">Arrêter de chanter</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuer</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Passer cette chanson</string>
-  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Redémarer le tour</string>
-  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Redémarer le jeu</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Redémarrer le tour</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Redémarrer le jeu</string>
   <string name="TR_SCREENSING_VOCALSVOLUME">Volume pistes vocales</string>
   <string name="TR_SCREENSING_NOMORESONGS">Plus aucune chanson dans la playlist !</string>
   <string name="TR_SCREENSING_NOWEBCAM">Pas de webcam disponible !</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Ratio d'aspect : %a</string>
   <string name="TR_SCREENSING_RATING_1">parfait !</string>
   <string name="TR_SCREENSING_RATING_2">génial !</string>
-  <string name="TR_SCREENSING_RATING_3">géant !:</string>
+  <string name="TR_SCREENSING_RATING_3">génial !</string>
   <string name="TR_SCREENSING_RATING_4">bien !</string>
   <string name="TR_SCREENSING_RATING_5">pas mal !</string>
   <string name="TR_SCREENSING_RATING_6">mauvais !</string>
   <string name="TR_SCREENSING_RATING_7">faible !</string>
   <string name="TR_SCREENSING_RATING_8">affreux !</string>
-  <string name="TR_SCREENSING_SKIPPEDSECONDS">%s secondes passées</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">%s secondes ignorées</string>
   <string name="TR_SCREENSCORE_SCORES">Scores</string>
   <string name="TR_SCREENSCORE_RATING">Note</string>
   <string name="TR_SCREENSCORE_POINTS">Points</string>
@@ -275,7 +275,7 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Nom du Joueur</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Difficulté du jeu</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
-  <string name="TR_SCREENPROFILES_USERROLE">Role de l'utilisateur</string>
+  <string name="TR_SCREENPROFILES_USERROLE">Rôle de l’utilisateur</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Actif</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Nouveau</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Supprimer</string>
@@ -291,11 +291,11 @@
   <string name="TR_SCREENO_BUTTON_RECORD">Enregistrement</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Vidéo</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Paroles</string>
-  <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphimes</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphismes</string>
   <string name="TR_SCREENO_BUTTON_THEME">Thème</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Crédits</string>
-  <string name="TR_SCREENO_BUTTON_SERVER"> Serveur</string>
-  <string name="TR_SCREENO_BUTTON_SONGFOLDER"> Dossier de chansons</string>
+  <string name="TR_SCREENO_BUTTON_SERVER">Serveur</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER">Dossier de chansons</string>
   <string name="TR_SCREENO_SONGFOLDER">Sélectionnez le dossier de chansons que vous souhaitez ajouter</string>
   <string name="TR_SCREENO_WARNINGRESTART">Veuillez redémarrer le jeu pour que les changements prennent effet.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Adresse du serveur</string>
@@ -363,8 +363,8 @@
   <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Afficher la vidéo de la musique de fond</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Résolution de la Webcam</string>
-  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l'écra</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTRL + ALT (+ Maj) + Flèches|"+" pour ajuster l'écran</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajuster l’écran</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyez sur CTRL + ALT (+ Maj) + flèches pour ajuster l’écran</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + 0 pour annuler</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Haut gauche</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Haut droit</string>
@@ -380,14 +380,14 @@ Avant de soumettre le bug, modifiez le journal pour supprimer des informations s
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">Vous avez rencontré une erreur ou un bug.
 Pour nous aider à résoudre le problème, envoyez-nous un rapport.
 Avant de soumettre le bug, modifiez le journal suivant pour supprimer des informations sensibles.</string>
-  <string name="TR_REPORTER_NO_UPLOAD_TEXT">N'envoi rien (vous pouvez toujours copier le message d'erreur ci-dessus)</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT"> Ne rien envoyer (vous pouvez toujours copier le message d\'erreur ci-dessus)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Envoyer et ouvrir un problème (visible publiquement + nécessite un compte github)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Envoyer et obtenir le lien de votre rapport (visible publiquement)</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Soumettre</string>
   <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Envoyer</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Quitter</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continuer</string>
-  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Lien de votre rapport:</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Lien vers votre rapport :</string>
   <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Erreur lors de l'envoi du journal.</string>
   <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Dernière erreur</string>
   <string name="TR_REPORTER_LAST_ERROR_NA">Indisponible</string>
