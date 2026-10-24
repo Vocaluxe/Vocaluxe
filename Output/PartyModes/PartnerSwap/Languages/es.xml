@@ -20,7 +20,7 @@
   <string name="TR_SCREENCONFIG_DUETS_MIXED">Mezclado</string>
   <string name="TR_SCREENCONFIG_DUETS_ONLY">Solo dúos</string>
   <string name="TR_SCREENCONFIG_DUETS_NONE">Sin dúos</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Bromistas por jugador</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Comodines por jugador</string>
   <string name="TR_SCREENNAMES_TITLE">Intercambio de parejas: Elegir jugadores</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar al azar</string>
   <string name="TR_SCREENMAIN_TITLE">Intercambio de parejas</string>
@@ -29,7 +29,7 @@
   <string name="TR_SCREENMAIN_HEADER_NAME">Nombre</string>
   <string name="TR_SCREENMAIN_HEADER_SONGS">Canciones</string>
   <string name="TR_SCREENMAIN_HEADER_AVERAGE">Ø</string>
-  <string name="TR_SCREENMAIN_PASS">Redondo</string>
+  <string name="TR_SCREENMAIN_PASS">Ronda</string>
   <string name="TR_SCREENMAIN_SONG">Canción</string>
   <string name="TR_SCREENMAIN_PAUSE">Tomarse un descanso:</string>
   <string name="TR_SCREENMAIN_FIRST_TIME">cantando juntos por primera vez</string>
