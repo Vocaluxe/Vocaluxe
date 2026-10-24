@@ -30,7 +30,7 @@
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter le jeu\?</string>
   <string name="TR_SCREENMAIN_PASS">Tour</string>
   <string name="TR_SCREENMAIN_DUEL">Duel</string>
-  <string name="TR_SCREENMAIN_VERSUS">c.</string>
+  <string name="TR_SCREENMAIN_VERSUS">contre</string>
   <string name="TR_SCREENMAIN_REMATCH">Égalité! Le duel est chanté à nouveau.</string>
   <string name="TR_SCREENMAIN_CHAMPION">Équipe gagnante</string>
 </resources>
