@@ -23,7 +23,7 @@
   <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Quart de finale</string>
   <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Demi-finale</string>
   <string name="TR_SCREENMAIN_ROUND_FINAL">Finale</string>
-  <string name="TR_SCREENMAIN_BYE">Exempt de tour</string>
+  <string name="TR_SCREENMAIN_BYE">Exempt</string>
   <string name="TR_SCREENMAIN_CHAMPION">Champion</string>
   <string name="TR_SCREENMAIN_NEXT_MATCH">Prochain duel:</string>
   <string name="TR_SCREENMAIN_VERSUS">c.</string>
