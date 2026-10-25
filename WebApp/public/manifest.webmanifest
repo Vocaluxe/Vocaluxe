@@ -1,0 +1,11 @@
+{
+  "name": "Vocaluxe",
+  "short_name": "Vocaluxe",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14121c",
+  "theme_color": "#14121c",
+  "icons": [
+    { "src": "/icon.png", "sizes": "132x132", "type": "image/png" }
+  ]
+}
