@@ -1,0 +1,20 @@
+name: 'Test Report'
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+permissions:
+  contents: read
+  actions: read
+  checks: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dorny/test-reporter@b082adf0eced0765477756c2a610396589b8c637
+      with:
+        artifact: /test-results-windows-(.*)/
+        name: Unit Tests Windows $1               
+        reporter: dotnet-nunit
+        path: TestResult.xml

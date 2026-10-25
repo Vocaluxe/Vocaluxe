@@ -1,0 +1,12 @@
+name: 'Vocaluxe PR Builds'
+
+on:
+  pull_request: 
+
+jobs:
+  call-build:
+    uses: ./.github/workflows/build.yml
+    with:
+      tag_name: Nightly
+      prerelease: false
+      create_release: false
