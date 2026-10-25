@@ -157,7 +157,7 @@ namespace Vocaluxe.Lib.Database
                             {
                                 Id = reader.GetInt32(0),
                                 NumPlayed = reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                                DateAdded = reader.IsDBNull(4) ? DateTime.Today : new DateTime(reader.GetInt64(4))
+                                DateAdded = reader.IsDBNull(4) ? DateTime.Today : new DateTime(reader.GetInt64(4), DateTimeKind.Local)
                             });
                         }
                     }
@@ -212,7 +212,7 @@ namespace Vocaluxe.Lib.Database
                     _SongInfoTransaction = _SongInfoConnection.BeginTransaction();
                 }
 
-                info = new SSongInfo { NumPlayed = 0, DateAdded = new DateTime(DateTime.Now.Ticks) };
+                info = new SSongInfo { NumPlayed = 0, DateAdded = DateTime.Now };
                 using (var command = new SqliteCommand())
                 {
                     command.Connection = _SongInfoConnection;
