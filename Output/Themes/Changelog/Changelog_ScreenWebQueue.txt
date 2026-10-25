@@ -1,0 +1,6 @@
+ScreenWebQueue
+
+++++++++++
+Version 1:
+
+New screen: queue of the WebApp (next song with requester, game mode, audio mode and singers, list of the following songs; sing the next song, change players, server address)

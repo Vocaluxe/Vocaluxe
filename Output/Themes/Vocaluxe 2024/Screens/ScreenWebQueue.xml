@@ -1,0 +1,684 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenWebQueue</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Options</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="StaticMenuBar">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>0</X>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticWarning">
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>390</X>
+        <Y>142.5</Y>
+        <W>1140</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNextPanel">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>82.5</X>
+        <Y>240</Y>
+        <W>600</W>
+        <H>400</H>
+        <Z>1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticNextCover">
+      <Skin>CoverTile</Skin>
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>282.5</X>
+        <Y>300</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextTitle">
+      <X>960</X>
+      <Y>75</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>1500</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_TITLE</Text>
+    </Text>
+    <Text Name="TextInfo">
+      <X>960</X>
+      <Y>161</Y>
+      <Z>0</Z>
+      <H>37.5</H>
+      <MaxW>1500</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_HINT</Text>
+    </Text>
+    <Text Name="TextWarning">
+      <X>960</X>
+      <Y>161</Y>
+      <Z>-1.1</Z>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_SERVEROFF</Text>
+    </Text>
+    <Text Name="TextNextLabel">
+      <X>382.5</X>
+      <Y>250</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_NEXT</Text>
+    </Text>
+    <Text Name="TextNextSong">
+      <X>382.5</X>
+      <Y>512</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text></Text>
+    </Text>
+    <Text Name="TextNextDetails">
+      <X>382.5</X>
+      <Y>560</Y>
+      <Z>0</Z>
+      <H>33</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text></Text>
+    </Text>
+    <Text Name="TextNextPlayers">
+      <X>382.5</X>
+      <Y>598</Y>
+      <Z>0</Z>
+      <H>33</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text></Text>
+    </Text>
+    <Text Name="TextMode">
+      <X>97.5</X>
+      <Y>660</Y>
+      <Z>0</Z>
+      <H>33</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_MODE</Text>
+    </Text>
+    <Text Name="TextAudio">
+      <X>97.5</X>
+      <Y>772</Y>
+      <Z>0</Z>
+      <H>33</H>
+      <MaxW>570</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_AUDIO</Text>
+    </Text>
+    <Text Name="TextEmpty">
+      <X>1293.75</X>
+      <Y>450</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>1000</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_EMPTY</Text>
+    </Text>
+    <Text Name="TextEmpty2">
+      <X>1293.75</X>
+      <Y>502</Y>
+      <Z>0</Z>
+      <H>33</H>
+      <MaxW>1000</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENWEBQUEUE_EMPTY2</Text>
+    </Text>
+    <Text Name="TextMore">
+      <X>1293.75</X>
+      <Y>785</Y>
+      <Z>0</Z>
+      <H>30</H>
+      <MaxW>1000</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text></Text>
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonEntry1">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>240.0</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry2">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>307.5</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry3">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>375.0</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry4">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>442.5</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry5">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>510.0</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry6">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>577.5</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry7">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>645.0</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonEntry8">
+      <Skin>QueueRow</Skin>
+      <SkinSelected>QueueRow</SkinSelected>
+      <Rect>
+        <X>750</X>
+        <Y>712.5</Y>
+        <W>1087.5</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>22.5</X>
+        <Y>13.5</Y>
+        <Z>0</Z>
+        <H>33</H>
+        <MaxW>1040</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Left</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text></Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonBack">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>82.5</X>
+        <Y>915</Y>
+        <W>262.5</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>131.25</X>
+        <Y>17.2</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>250.5</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_BACK</Text>
+      </Text>
+      <Reflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonServer">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1012.5</X>
+        <Y>915</Y>
+        <W>262.5</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>131.25</X>
+        <Y>17.2</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>250.5</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENOSERVER_BUTTON_SERVER</Text>
+      </Text>
+      <Reflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonPlayers">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1297.5</X>
+        <Y>915</Y>
+        <W>262.5</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>131.25</X>
+        <Y>17.2</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>250.5</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENWEBQUEUE_PLAYERS</Text>
+      </Text>
+      <Reflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonStart">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1582.5</X>
+        <Y>915</Y>
+        <W>262.5</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>131.25</X>
+        <Y>17.2</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>250.5</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENWEBQUEUE_SING</Text>
+      </Text>
+      <Reflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </SelReflection>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides>
+    <SelectSlide Name="SelectSlideMode">
+      <Skin />
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>82.5</X>
+        <Y>700</Y>
+        <W>600</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>88.5</X>
+        <Y>703.0</Y>
+        <W>54</W>
+        <H>54</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>622.5</X>
+        <Y>703.0</Y>
+        <W>54</W>
+        <H>54</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>36</TextH>
+      <TextRelativeX>66</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>380</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>1</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideAudio">
+      <Skin />
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>82.5</X>
+        <Y>812</Y>
+        <W>600</W>
+        <H>60</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>88.5</X>
+        <Y>815.0</Y>
+        <W>54</W>
+        <H>54</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>622.5</X>
+        <Y>815.0</Y>
+        <W>54</W>
+        <H>54</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>36</TextH>
+      <TextRelativeX>66</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>380</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>1</NumVisible>
+    </SelectSlide>
+  </SelectSlides>
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

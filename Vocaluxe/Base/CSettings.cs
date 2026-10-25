@@ -135,6 +135,7 @@ namespace Vocaluxe.Base
         public const string FolderNameThemeFonts = "Fonts";
         public const string FolderNameScreens = "Screens";
         public const string FolderNamePhotos = "Photos";
+        public const string FolderNameWebsite = "Website";
         public const string FolderNameSounds = "Sounds";
         public const string FolderNameLanguages = "Languages";
         public const string FolderNameScreenshots = "Screenshots";

@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Server;
+using Vocaluxe.Base.Web;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -205,6 +205,12 @@ namespace Vocaluxe.Screens
             _SetVisibility();
             _UpdateRatings();
             _SlideShowBG.Visible = _UpdateBackground();
+
+            var lastSong = CGame.GetSong(CGame.NumRounds - 1);
+            if (lastSong != null)
+            {
+                CBackgroundMusic.LoadPreview(lastSong);
+            }
         }
 
         public override void OnClose()
@@ -749,7 +755,7 @@ namespace Vocaluxe.Screens
 
         private bool _UpdateBackground()
         {
-            var photos = CVocaluxeServer.GetPhotosOfThisRound();
+            var photos = CWebServer.GetPhotosOfThisRound();
             _SlideShowBG.RemoveSlideShowTextures();
             foreach (var photo in photos)
             {
@@ -765,7 +771,7 @@ namespace Vocaluxe.Screens
 
             if (_IsKaraokeMode(-1))
             {
-                if (!CJukebox.ReturnAfterSinging())
+                if (!CJukebox.ReturnAfterSinging() && !CWebQueue.ReturnAfterSinging())
                 {
                     CGraphics.FadeTo(EScreen.Song);
                 }
