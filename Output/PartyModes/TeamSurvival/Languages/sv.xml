@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Svenska</string>
+  <string name="TR_PARTYMODE_NAME">Lagöverlevnad</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Två lag sjunger dueller. Förloraren förlorar ett hjärta och det sista laget kvar vinner.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">För två lag med upp till 8 spelare vardera. Två mikrofoner behövs.</string>
+  <string name="TR_BUTTON_NEXT">Nästa</string>
+  <string name="TR_BUTTON_BACK">Tillbaka</string>
+  <string name="TR_BUTTON_EXIT">Avsluta</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nej</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Starta duellen</string>
+  <string name="TR_SONGS">Låtar</string>
+  <string name="TR_TEAM">Lag</string>
+  <string name="TR_SCREENCONFIG_TITLE">Lagöverlevnad: Inställningar</string>
+  <string name="TR_SCREENCONFIG_HEARTSMODE">Hjärtan</string>
+  <string name="TR_SCREENCONFIG_HEARTS_EQUAL">Lika för alla</string>
+  <string name="TR_SCREENCONFIG_HEARTS_PERPLAYER">Ange per spelare</string>
+  <string name="TR_SCREENCONFIG_NUMHEARTS">Hjärtan per spelare</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokrar per spelare</string>
+  <string name="TR_SCREENNAMES_TITLE">Lagöverlevnad: Välj lag</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Valda spelare för detta lag:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Lag 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Lag 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässigt</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Lägg till minst en spelare i varje lag! / Dra spelarnas avatarer till listan över valda spelare! / Högerklicka på en vald spelares avatar för att ta bort spelaren!</string>
+  <string name="TR_SCREENHEARTS_TITLE">Lagöverlevnad: Hjärtan per spelare</string>
+  <string name="TR_SCREENHEARTS_HINT">Uppåt/nedåt = Välj spelare · Vänster/höger eller klicka på ett hjärta = Ändra antal hjärtan · Enter = Nästa · Esc = Tillbaka</string>
+  <string name="TR_SCREENMAIN_TITLE">Lagöverlevnad</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vill du verkligen avsluta spelet?</string>
+  <string name="TR_SCREENMAIN_PASS">Omgång</string>
+  <string name="TR_SCREENMAIN_DUEL">Duell</string>
+  <string name="TR_SCREENMAIN_VERSUS">mot</string>
+  <string name="TR_SCREENMAIN_REMATCH">Oavgjort! Duellen sjungs om.</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Vinnande lag</string>
+</resources>
