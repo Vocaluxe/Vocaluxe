@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Web;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
@@ -954,7 +955,7 @@ namespace Vocaluxe.Screens
 
         private static void _FadeBack()
         {
-            if (!CJukebox.ReturnAfterSinging())
+            if (!CJukebox.ReturnAfterSinging() && !CWebQueue.ReturnAfterSinging())
             {
                 CGraphics.FadeTo(EScreen.Song);
             }

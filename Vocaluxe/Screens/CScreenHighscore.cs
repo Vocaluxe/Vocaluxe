@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Web;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
@@ -510,7 +511,7 @@ namespace Vocaluxe.Screens
                 _HighscoreStream = -1;
             }
 
-            if (!CJukebox.ReturnAfterSinging())
+            if (!CJukebox.ReturnAfterSinging() && !CWebQueue.ReturnAfterSinging())
             {
                 CParty.LeavingHighscore();
             }

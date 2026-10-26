@@ -178,8 +178,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -208,13 +206,6 @@
     <Compile Include="Base\CCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
-    <Compile Include="Base\Server\CWebservice.cs" />
-    <Compile Include="Base\Server\ICWebservice.cs" />
-    <Compile Include="Base\Server\Session.cs" />
-    <Compile Include="Base\Server\SessionControl.cs" />
-    <Compile Include="Base\Server\UserRights.cs" />
-    <Compile Include="Base\Server\UserRoleControl.cs" />
-    <Compile Include="Base\Server\UserRoles.cs" />
     <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
     <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
     <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
@@ -272,8 +263,6 @@
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />
     <Compile Include="Base\Fonts\CGlyph.cs" />
-    <Compile Include="Base\Server\CVocaluxeServer.cs" />
-    <Compile Include="Base\Server\VocaluxeStructs.cs" />
     <Compile Include="CProgrammHelper.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
@@ -350,6 +339,7 @@
     <Compile Include="Screens\CScreenStatisticsDetail.cs" />
     <Compile Include="Screens\CScreenJukebox.cs" />
     <Compile Include="Screens\CScreenJukeboxPlayer.cs" />
+    <Compile Include="Screens\CScreenWebQueue.cs" />
     <Compile Include="Screens\CScreenProfiles.cs" />
     <Compile Include="Screens\CScreenScore.cs" />
     <Compile Include="Screens\CScreenSing.cs" />
@@ -361,151 +351,19 @@
     <Compile Include="Screens\CScreenOptionsTheme.cs" />
     <Compile Include="Screens\CScreenOptionsGraphics.cs" />
     <Compile Include="Screens\CScreenOptionsServer.cs" />
+    <Compile Include="Base\Web\CWebServer.cs" />
+    <Compile Include="Base\Web\CRemoteKeyboard.cs" />
+    <Compile Include="Base\Web\CWebQueue.cs" />
+    <Compile Include="Base\Web\CVocaluxeRemote.cs" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <Compile Include="Screens\CScreenOptionsSongFolders.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Doc\SQLite.NET.chm" />
-    <Content Include="Website\locales\cs.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\de.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\en.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\es.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\fr.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\it.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\nl.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\pt.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\sv.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\tr.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
     <Content Include="Vocaluxe.ico" />
-    <Content Include="Website\css\images\ajax-loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\alert.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\images\icons-18-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-18-white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-36-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-36-white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\jquery.mobile-1.3.2.min.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\jquery.mobile.theme-1.3.2.min.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\style.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\addPlaylist.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\logout.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\music.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\noCover.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\playlist.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\playlists.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\spotify.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\wikipedia.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\youtube.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\admin.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\keyboard.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\photo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\profile.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\profiles.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\js\i18next-1.7.1.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery-1.9.1.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>js</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\js\jquery-ui-1.10.3.custom.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery.mobile-1.3.2.min.js">
-      <CustomToolNamespace>js</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery.ui.touch-punch.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\main.js">
-      <CustomToolNamespace>js</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client,KB2468871">
@@ -524,12 +382,10 @@
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Website\html\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <ProjectReference Include="..\VocaluxeWeb\VocaluxeWeb.csproj" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'">
+      <Project>{4E2C9A71-6B3D-4F85-9C1E-8A7D5B2F3C60}</Project>
+      <Name>VocaluxeWeb</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Reporting\Reporter.resx">
@@ -538,10 +394,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
-powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPostBuild.ps1' -ProjectDir '$(ProjectDir)'"</PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"
-$(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPostBuild.ps1' -ProjectDir '$(ProjectDir)'"</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPreBuild.ps1' -ProjectDir '$(ProjectDir)' -Arch '$(Platform)'"</PreBuildEvent>
@@ -568,10 +422,22 @@ $(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
       PostBuildMacros;
     </PostBuildEventDependsOn>
   </PropertyGroup>
+  <Target Name="copyWebAppAfterBuild" BeforeTargets="AfterBuild" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'">
+    <Message Text="copy the WebApp (built by VocaluxeWeb) to the Website folder" Importance="normal" />
+    <ItemGroup>
+      <WebAppFiles Include="$(ProjectDir)..\WebApp\dist\**\*" />
+    </ItemGroup>
+    <RemoveDir Directories="$(TargetDir)Website" />
+    <Copy SourceFiles="@(WebAppFiles)" DestinationFiles="@(WebAppFiles->'$(TargetDir)Website\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
   <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
     <Message Text="move all libs to the managed dependencies folder" Importance="normal" />
     <ItemGroup>
       <RootDLLFilesToMove Include="$(TargetDir)*.dll" />
+    </ItemGroup>
+    <ItemGroup>
+      <RootDLLCompanionFiles Include="@(RootDLLFilesToMove->'%(RootDir)%(Directory)%(Filename).pdb');@(RootDLLFilesToMove->'%(RootDir)%(Directory)%(Filename).xml');@(RootDLLFilesToMove->'%(FullPath).config')" />
+      <OtherFilesToMove Include="@(RootDLLCompanionFiles)" Condition="Exists('%(FullPath)')" />
     </ItemGroup>
     <ItemGroup>
       <x64FolderFilesToMove Include="$(TargetDir)x64\*.*" />

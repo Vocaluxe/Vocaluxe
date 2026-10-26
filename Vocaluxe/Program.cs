@@ -27,7 +27,7 @@ using System.Windows.Forms;
 using SQLitePCL;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
-using Vocaluxe.Base.Server;
+using Vocaluxe.Base.Web;
 using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Reporting;
 using VocaluxeLib.Log;
@@ -284,7 +284,7 @@ namespace Vocaluxe
                     // Init Server
                     using (CBenchmark.Time("Init Server"))
                     {
-                        CVocaluxeServer.Init();
+                        CWebServer.Init();
                     }
 
                     Application.DoEvents();
@@ -360,11 +360,11 @@ namespace Vocaluxe
 
             try
             {
-                CVocaluxeServer.Close();
+                CWebServer.Close();
             }
             catch (Exception e)
             {
-                CLog.Error(e, "Error during shutdown! (CVocaluxeServer)");
+                CLog.Error(e, "Error during shutdown! (CWebServer)");
             }
 
             try

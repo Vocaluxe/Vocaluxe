@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <RootNamespace>VocaluxeWeb</RootNamespace>
+    <AssemblyName>VocaluxeWeb</AssemblyName>
+    <Configurations>DebugWin;ReleaseWin;InstallerWin;DebugLinux;ReleaseLinux</Configurations>
+    <Platforms>AnyCPU</Platforms>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <WebAppDir>$(MSBuildThisFileDirectory)..\WebApp\</WebAppDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(Configuration.StartsWith('Release')) Or $(Configuration.StartsWith('Installer'))">
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.13" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.3.13" />
+    <!-- ASP.NET Core 2.3 pulls Newtonsoft.Json 11.0.2 (known vulnerability); use the version Vocaluxe uses -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+
+  <!-- The WebApp (Vue/TypeScript) is built with Node.js as part of this project.
+       The result lands in WebApp\dist and is copied to Output\Website by Vocaluxe.csproj. -->
+  <ItemGroup>
+    <WebAppSource Include="$(WebAppDir)src\**\*;$(WebAppDir)public\**\*;$(WebAppDir)index.html;$(WebAppDir)package.json;$(WebAppDir)package-lock.json;$(WebAppDir)vite.config.ts;$(WebAppDir)tsconfig.json" />
+  </ItemGroup>
+
+  <Target Name="CheckNode" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Exec Command="node --version" IgnoreExitCode="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="NodeExitCode" />
+    </Exec>
+    <Error Condition="'$(NodeExitCode)' != '0'" Text="Node.js was not found. The WebApp needs Node.js (LTS) to build: install it from https://nodejs.org and restart Visual Studio." />
+  </Target>
+
+  <Target Name="InstallWebAppPackages" Condition="'$(DesignTimeBuild)' != 'true'" Inputs="$(WebAppDir)package.json;$(WebAppDir)package-lock.json" Outputs="$(WebAppDir)node_modules\.package-lock.json">
+    <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(WebAppDir)" Condition="Exists('$(WebAppDir)package-lock.json')" />
+    <Exec Command="npm install --no-audit --no-fund" WorkingDirectory="$(WebAppDir)" Condition="!Exists('$(WebAppDir)package-lock.json')" />
+  </Target>
+
+  <Target Name="BuildWebApp" BeforeTargets="BeforeBuild" Condition="'$(DesignTimeBuild)' != 'true'" DependsOnTargets="CheckNode;InstallWebAppPackages" Inputs="@(WebAppSource)" Outputs="$(WebAppDir)dist\index.html">
+    <Exec Command="npm run build" WorkingDirectory="$(WebAppDir)" />
+  </Target>
+
+</Project>
