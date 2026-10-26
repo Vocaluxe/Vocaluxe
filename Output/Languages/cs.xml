@@ -367,7 +367,7 @@
   <string name="TR_SCREENOSERVER_OPTIONS">Volby pro server</string>
   <string name="TR_SCREENOSONGFOLDERS_TITLE">Složky písní</string>
   <string name="TR_SCREENOSONGFOLDERS_BUTTON_ADD">Přidat složku</string>
-  <string name="TR_SCREENOSONGFOLDERS_NOFOLDERS">Nebyly nastaveny žádné složky s písněmi. Používá se programová složka pro písně.</string>
+  <string name="TR_SCREENOSONGFOLDERS_NOFOLDERS">Nebyly nastaveny žádné složky pro písně. Používá se programová složka písní.</string>
   <string name="TR_SCREENOSERVER_ACTIVE">Server v činnosti</string>
   <string name="TR_SCREENOSERVER_ENCRYPTION">Šifrování serveru</string>
   <string name="TR_SCREENOSERVER_BUTTON_SERVER">Adresa serveru</string>
