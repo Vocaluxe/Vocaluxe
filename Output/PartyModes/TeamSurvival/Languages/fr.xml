@@ -19,18 +19,18 @@
   <string name="TR_SCREENCONFIG_NUMHEARTS">Cœurs par joueur</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Jokers par joueur</string>
   <string name="TR_SCREENNAMES_TITLE">Survie en équipe : Choisir les équipes</string>
-  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joueurs sélectionnés pour cette équipe:</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joueurs sélectionnés pour cette équipe :</string>
   <string name="TR_SCREENNAMES_TEAM1">Équipe 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Équipe 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélection aléatoire</string>
-  <string name="TR_SCREENNAMES_HELPMESSAGE">Ajoutez au moins un joueur dans chaque équipe! / Faites glisser les avatars des joueurs pour les ajouter à la liste des joueurs sélectionnés! / Faites un clic droit sur l\'avatar d\'un joueur sélectionné pour le retirer!</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Ajoutez au moins un joueur dans chaque équipe ! / Faites glisser les avatars des joueurs pour les ajouter à la liste des joueurs sélectionnés ! / Faites un clic droit sur l\'avatar d\'un joueur sélectionné pour le retirer !</string>
   <string name="TR_SCREENHEARTS_TITLE">Survie en équipe : Cœurs par joueur</string>
   <string name="TR_SCREENHEARTS_HINT">Haut/Bas = Sélectionner un joueur · Gauche/Droite ou cliquer sur un cœur = Modifier les cœurs · Entrée = Suivant · Échap = Retour</string>
   <string name="TR_SCREENMAIN_TITLE">Survie en équipe</string>
-  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter le jeu\?</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter le jeu \?</string>
   <string name="TR_SCREENMAIN_PASS">Tour</string>
   <string name="TR_SCREENMAIN_DUEL">Duel</string>
   <string name="TR_SCREENMAIN_VERSUS">contre</string>
-  <string name="TR_SCREENMAIN_REMATCH">Égalité! Le duel est chanté à nouveau.</string>
+  <string name="TR_SCREENMAIN_REMATCH">Égalité ! Le duel est chanté à nouveau.</string>
   <string name="TR_SCREENMAIN_CHAMPION">Équipe gagnante</string>
 </resources>
