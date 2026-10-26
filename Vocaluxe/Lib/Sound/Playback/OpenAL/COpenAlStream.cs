@@ -40,6 +40,8 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         private readonly Stopwatch _Timer = new Stopwatch();
 
         private IAudioDecoder _Decoder;
+        private bool _DataSinceLoop;
+        private bool _Looped;
         private int _ByteCount;
         private float _BytesPerSecond;
         private bool _NoMoreData;
@@ -84,7 +86,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                 var time = _CurrentTime + _Timer.ElapsedMilliseconds / 1000f;
                 if (time > Length)
                 {
-                    _Timer.Stop();
+                    if (!_Loop)
+                    {
+                        _Timer.Stop();
+                    }
+
                     time = Length;
                 }
 
@@ -242,6 +248,27 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
         }
 
+        private void _DoLoop()
+        {
+            if (!_Looped)
+            {
+                CLog.Information("Looping audio file: " + _Medium);
+                _Looped = true;
+            }
+
+            _DataSinceLoop = false;
+
+            _Decoder.Close();
+            if (!_Decoder.Open(_Medium))
+            {
+                CLog.Error("Could not reopen audio file for looping: " + _Medium);
+                lock (_MutexData)
+                {
+                    _NoMoreData = true;
+                }
+            }
+        }
+
         private void _Execute()
         {
             while (!_Terminated)
@@ -292,17 +319,26 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             if (buffer == null)
             {
-                if (_Loop)
+                if (_Loop && _DataSinceLoop)
                 {
-                    _Start = 0f;
-                    _DoSkip();
+                    _DoLoop();
                 }
                 else
                 {
+                    if (_Loop)
+                    {
+                        CLog.Warning("Could not loop audio file, no data decoded since (re)opening: " + _Medium);
+                    }
+
                     _NoMoreData = true;
                 }
 
                 return;
+            }
+
+            if (buffer.Length > 0)
+            {
+                _DataSinceLoop = true;
             }
 
             lock (_MutexData)
@@ -420,10 +456,25 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
                     queuedCount++;
                 }
+
+                if (_Data.BytesNotRead < _BeginRefill && !_NoMoreData)
+                {
+                    _EventDecode.Set();
+                }
+            }
+
+            if (queuedCount > 0 && AL.GetSourceState(_Source) != ALSourceState.Playing)
+            {
+                AL.SourcePlay(_Source);
             }
 
             var latency = CConfig.Config.Sound.AudioLatency / 1000f + queuedCount * _SampleBuf.Length / _BytesPerSecond + 0.1f;
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
+            if (_Loop && _CurrentTime < 0f && Length > 0f)
+            {
+                _CurrentTime += Length;
+            }
+
             _Timer.Restart();
         }
     }

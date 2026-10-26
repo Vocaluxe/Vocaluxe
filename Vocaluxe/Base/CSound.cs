@@ -154,6 +154,11 @@ namespace Vocaluxe.Base
             _Playback.SetStreamVolume(stream, volume);
         }
 
+        public static void SetLoop(int stream, bool loop)
+        {
+            _Playback.SetLoop(stream, loop);
+        }
+
         public static float GetLength(int stream)
         {
             return _Playback.GetLength(stream);

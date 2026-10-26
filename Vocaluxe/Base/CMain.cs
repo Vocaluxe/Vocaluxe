@@ -970,6 +970,11 @@ namespace Vocaluxe.Base
         {
             return CSound.IsPaused(streamId);
         }
+
+        public void SetLoop(int streamId, bool loop)
+        {
+            CSound.SetLoop(streamId, loop);
+        }
     }
 
     class CBcover : ICover

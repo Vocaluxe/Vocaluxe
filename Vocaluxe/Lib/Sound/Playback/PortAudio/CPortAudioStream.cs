@@ -41,6 +41,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _PaStreamCallback;
         private IAudioDecoder _Decoder;
+        private bool _DataSinceLoop;
+        private bool _Looped;
         private float _BytesPerSecond;
         private float _Latency;
         private bool _NoMoreData;
@@ -77,7 +79,11 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                     var time = Math.Max(0f, _SyncTimer.Time);
                     if (time > Length)
                     {
-                        _SyncTimer.Pause();
+                        if (!_Loop)
+                        {
+                            _SyncTimer.Pause();
+                        }
+
                         time = Length;
                     }
 
@@ -285,6 +291,27 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             }
         }
 
+        private void _DoLoop()
+        {
+            if (!_Looped)
+            {
+                CLog.Information("Looping audio file: " + _Medium);
+                _Looped = true;
+            }
+
+            _DataSinceLoop = false;
+
+            _Decoder.Close();
+            if (!_Decoder.Open(_Medium))
+            {
+                CLog.Error("Could not reopen audio file for looping: " + _Medium);
+                lock (_LockData)
+                {
+                    _NoMoreData = true;
+                }
+            }
+        }
+
         private void _Execute()
         {
             while (!_Terminated)
@@ -335,17 +362,26 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
             if (buffer == null)
             {
-                if (_Loop)
+                if (_Loop && _DataSinceLoop)
                 {
-                    _Start = 0f;
-                    _DoSkip();
+                    _DoLoop();
                 }
                 else
                 {
+                    if (_Loop)
+                    {
+                        CLog.Warning("Could not loop audio file, no data decoded since (re)opening: " + _Medium);
+                    }
+
                     _NoMoreData = true;
                 }
 
                 return;
+            }
+
+            if (buffer.Length > 0)
+            {
+                _DataSinceLoop = true;
             }
 
             lock (_LockData)
@@ -445,6 +481,19 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
                     var latency = buf.Length / _BytesPerSecond + _Latency;
                     var time = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
+                    if (_Loop && Length > 0f)
+                    {
+                        if (time < 0f)
+                        {
+                            time += Length;
+                        }
+
+                        if (time < _SyncTimer.Time - Length / 2f)
+                        {
+                            _SyncTimer.Time = time;
+                        }
+                    }
+
                     _SyncTimer.Update(time);
                 }
 

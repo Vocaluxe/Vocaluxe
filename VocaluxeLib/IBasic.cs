@@ -291,6 +291,7 @@ namespace VocaluxeLib
         void SetStreamVolume(int streamId, int volume);
         void SetGlobalVolume(int volume);
         bool IsPaused(int streamId);
+        void SetLoop(int streamId, bool loop);
     }
 
     public interface ICover
