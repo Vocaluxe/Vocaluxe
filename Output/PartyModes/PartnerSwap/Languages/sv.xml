@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Svenska</string>
+  <string name="TR_PARTYMODE_NAME">Partnerbyte</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Sjung i par med nya partner hela tiden. Båda sångarna får parets poäng och högst genomsnitt vinner.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">För 3 till 12 spelare som vill sjunga tillsammans. Två mikrofoner behövs.</string>
+  <string name="TR_BUTTON_NEXT">Nästa</string>
+  <string name="TR_BUTTON_BACK">Tillbaka</string>
+  <string name="TR_BUTTON_START">Starta</string>
+  <string name="TR_BUTTON_EXIT">Avsluta</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nej</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Starta låten</string>
+  <string name="TR_SONGS">Låtar</string>
+  <string name="TR_SCREENCONFIG_TITLE">Partnerbyte: Inställningar</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Antal spelare</string>
+  <string name="TR_SCREENCONFIG_NUMPASSES">Omgångar</string>
+  <string name="TR_SCREENCONFIG_HARMONYBONUS">Harmonibonus</string>
+  <string name="TR_SCREENCONFIG_DUETS">Duettlåtar</string>
+  <string name="TR_SCREENCONFIG_DUETS_MIXED">Blandat</string>
+  <string name="TR_SCREENCONFIG_DUETS_ONLY">Endast duetter</string>
+  <string name="TR_SCREENCONFIG_DUETS_NONE">Inga duetter</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokrar per spelare</string>
+  <string name="TR_SCREENNAMES_TITLE">Partnerbyte: Välj spelare</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässigt</string>
+  <string name="TR_SCREENMAIN_TITLE">Partnerbyte</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vill du verkligen avsluta spelet?</string>
+  <string name="TR_SCREENMAIN_HEADER_POS">Plac.</string>
+  <string name="TR_SCREENMAIN_HEADER_NAME">Namn</string>
+  <string name="TR_SCREENMAIN_HEADER_SONGS">Låtar</string>
+  <string name="TR_SCREENMAIN_HEADER_AVERAGE">Ø</string>
+  <string name="TR_SCREENMAIN_PASS">Omgång</string>
+  <string name="TR_SCREENMAIN_SONG">Låt</string>
+  <string name="TR_SCREENMAIN_PAUSE">Tar en paus:</string>
+  <string name="TR_SCREENMAIN_FIRST_TIME">sjunger tillsammans för första gången</string>
+  <string name="TR_SCREENMAIN_TIMES_TOGETHER">sjunger tillsammans igen (gång %n)</string>
+  <string name="TR_SCREENMAIN_LAST_SONG">Senaste låten:</string>
+  <string name="TR_SCREENMAIN_HARMONY_BONUS">Harmonibonus</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR">Bästa paret hittills</string>
+  <string name="TR_SCREENMAIN_BEST_PAIR_FINAL">Kvällens bästa par</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Vinnare</string>
+</resources>
