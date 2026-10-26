@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -38,7 +37,6 @@ namespace Vocaluxe.Screens
 
         private readonly string[] _IntroVideo = new string[] { "IntroIn", "IntroMid", "IntroOut" };
 
-        private Thread _SongLoaderThread;
         private bool _SkipIntro;
         private int _CurrentIntroVideo;
         private bool _IntroOutPlayed;
@@ -139,8 +137,8 @@ namespace Vocaluxe.Screens
 
             _TimerLoadSongsFull = CBenchmark.Time("Loaded Songs Full");
 
-            _SongLoaderThread = new Thread(CSongs.LoadSongs) { Name = "SongLoader", IsBackground = true };
-            _SongLoaderThread.Start();
+            CSongs.StartLoadSongs();
+            CSongs.SetInitFinished();
             CBackgroundMusic.OwnSongsAvailable = false;
 
             CBackgroundMusic.Play();

@@ -65,6 +65,22 @@ namespace Vocaluxe.Base
             }
         }
 
+        public static void BeginSongInfoCache()
+        {
+            if (_HighscoreDB != null)
+            {
+                _HighscoreDB.BeginSongInfoCache();
+            }
+        }
+
+        public static void EndSongInfoCache()
+        {
+            if (_HighscoreDB != null)
+            {
+                _HighscoreDB.EndSongInfoCache();
+            }
+        }
+
         public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)
         {
             if (_HighscoreDB == null)
