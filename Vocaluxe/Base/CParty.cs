@@ -20,7 +20,10 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Log;
@@ -248,7 +251,7 @@ namespace Vocaluxe.Base
             var filesToCompile = new List<string>();
             filesToCompile.AddRange(CHelper.ListFiles(pathToCode, "*.cs", false, true));
 
-            var output = _CompileFiles(filesToCompile.ToArray());
+            var output = _LoadOrCompileFiles(filesToCompile.ToArray(), pm.Info.Folder);
             if (output == null)
             {
                 return false;
@@ -308,20 +311,97 @@ namespace Vocaluxe.Base
             return true;
         }
 
-        private static Assembly _CompileFiles(string[] files)
+        private static Assembly _LoadOrCompileFiles(string[] files, string partyModeName)
         {
             if (files == null || files.Length == 0)
             {
                 return null;
             }
 
+            var cacheFolder = Path.Combine(CSettings.DataFolder, CSettings.FolderNamePartyModeCache);
+            var cacheFilePrefix = partyModeName + "_";
+            var cachePath = Path.Combine(cacheFolder, cacheFilePrefix + _GetSourceHash(files) + ".dll");
+
+            if (File.Exists(cachePath))
+            {
+                try
+                {
+                    using (CBenchmark.Time("Load cached PartyMode " + partyModeName))
+                    {
+                        return Assembly.LoadFrom(cachePath);
+                    }
+                }
+                catch (Exception e)
+                {
+                    CLog.Error("Error loading cached PartyMode assembly " + cachePath + ": " + e.Message);
+                }
+            }
+
+            using (CBenchmark.Time("Compile PartyMode " + partyModeName))
+            {
+                try
+                {
+                    Directory.CreateDirectory(cacheFolder);
+                    foreach (var oldFile in Directory.GetFiles(cacheFolder, cacheFilePrefix + "*"))
+                    {
+                        File.Delete(oldFile);
+                    }
+                }
+                catch (Exception e)
+                {
+                    CLog.Error("Error preparing PartyMode cache folder " + cacheFolder + ": " + e.Message);
+                    return _CompileFiles(files, null);
+                }
+
+                return _CompileFiles(files, cachePath);
+            }
+        }
+
+        private static string _GetSourceHash(string[] files)
+        {
+            var sortedFiles = files.OrderBy(f => Path.GetFileName(f), StringComparer.OrdinalIgnoreCase).ToArray();
+
+            var key = _PartyModeSystemVersion + "|" + typeof(IPartyMode).Assembly.ManifestModule.ModuleVersionId;
+#if DEBUG
+            key += "|Debug";
+#endif
+
+            using (var sha = SHA256.Create())
+            {
+                var header = Encoding.UTF8.GetBytes(key + "|");
+                sha.TransformBlock(header, 0, header.Length, null, 0);
+
+                foreach (var file in sortedFiles)
+                {
+                    var name = Encoding.UTF8.GetBytes(Path.GetFileName(file) + "|");
+                    sha.TransformBlock(name, 0, name.Length, null, 0);
+
+                    var content = File.ReadAllBytes(file);
+                    sha.TransformBlock(content, 0, content.Length, null, 0);
+                }
+
+                sha.TransformFinalBlock(new byte[0], 0, 0);
+                return BitConverter.ToString(sha.Hash, 0, 16).Replace("-", "");
+            }
+        }
+
+        private static Assembly _CompileFiles(string[] files, string outputPath)
+        {
             var compilerParams = new CompilerParameters();
 
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add(Path.Combine("libs", "managed", "VocaluxeLib.dll"));
-            compilerParams.GenerateInMemory = true;
+            if (outputPath == null)
+            {
+                compilerParams.GenerateInMemory = true;
+            }
+            else
+            {
+                compilerParams.GenerateInMemory = false;
+                compilerParams.OutputAssembly = outputPath;
+            }
 #if DEBUG
             compilerParams.IncludeDebugInformation = true;
 #endif
@@ -350,7 +430,20 @@ namespace Vocaluxe.Base
                     return null;
                 }
 
-                return compileResult.CompiledAssembly;
+                if (outputPath == null)
+                {
+                    return compileResult.CompiledAssembly;
+                }
+
+                try
+                {
+                    return Assembly.LoadFrom(outputPath);
+                }
+                catch (Exception e)
+                {
+                    CLog.Error("Error loading compiled PartyMode assembly " + outputPath + ": " + e.Message);
+                    return null;
+                }
             }
         }
 
