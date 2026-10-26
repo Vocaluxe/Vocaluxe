@@ -216,10 +216,10 @@
   <string name="TR_SCREENNAMES_4PLAYER">4 joueurs</string>
   <string name="TR_SCREENNAMES_5PLAYER">5 joueurs</string>
   <string name="TR_SCREENNAMES_6PLAYER">6 joueurs</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attention: Aucun micro n'est assigné au joueur %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attention: Aucun micro n'est assigné aux joueurs %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attention: Aucun profil n'est assigné au joueur %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attention: Aucun profil n'est assigné aux joueurs %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attention : Aucun micro n\'est assigné au joueur %v !</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attention : Aucun micro n\'est assigné aux joueurs %v !</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attention : Aucun profil n\'est assigné au joueur %v !</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attention : Aucun profil n\'est assigné aux joueurs %v !</string>
   <string name="TR_SCREENSONG_MENU">Choix de la chanson</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Chanter</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Ajouter à la playlist</string>
@@ -335,7 +335,7 @@
   <string name="TR_SCREENORECORD_PLAYER_5">Joueur 5</string>
   <string name="TR_SCREENORECORD_PLAYER_6">Joueur 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Retard du Micro</string>
-  <string name="TR_SCREENORECORD_MIC_WARNING">Attention: Au moins un des joueurs est assigné à 2 micros.</string>
+  <string name="TR_SCREENORECORD_MIC_WARNING">Attention : Au moins un des joueurs est assigné à 2 micros.</string>
   <string name="TR_SCREENORECORD_CHANNEL_WARNING">Attention : Plusieurs joueurs sont affectés au même canal, un seul sera utilisé.</string>
   <string name="TR_SCREENORECORD_NO_MIC_WARNING">Attention : Aucun microphone détecté.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test du Retard</string>
@@ -387,7 +387,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Bas droit</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING"> Le serveur est hors service. Veuillez l\'activer et redémarrer le jeu!</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING"> Le serveur est hors service. Veuillez l\'activer et redémarrer le jeu !</string>
   <string name="TR_REPORTER_TITLE_TEXT">Nous sommes désolés</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe a rencontré une erreur ou un bug.
 Pour nous aider à résoudre le problème, envoyez-nous un rapport.
