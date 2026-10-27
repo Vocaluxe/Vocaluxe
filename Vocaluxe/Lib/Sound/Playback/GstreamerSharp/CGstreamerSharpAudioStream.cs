@@ -237,6 +237,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             _Element["audio-sink"] = audioSinkBin;
             _Element["flags"] = 1 << 1;
             _Element["uri"] = new Uri(_Medium).AbsoluteUri;
+            _Element.Connect("about-to-finish", _OnAboutToFinish);
             _Element.SetState(State.Paused);
 
             // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
@@ -329,6 +330,22 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             if (_Element != null)
             {
                 _Element["volume"] = Volume * VolumeMax;
+            }
+        }
+
+        private void _OnAboutToFinish(object sender, GLib.SignalArgs args)
+        {
+            if (!_Loop)
+            {
+                return;
+            }
+
+            lock (_ElementLock)
+            {
+                if (_Element != null)
+                {
+                    _Element["uri"] = new Uri(_Medium).AbsoluteUri;
+                }
             }
         }
 

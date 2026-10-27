@@ -51,6 +51,8 @@ namespace Vocaluxe.Lib.Sound.Playback
         /// <param name="volume">Volume in percent</param>
         void SetStreamVolume(int streamId, int volume);
 
+        void SetLoop(int streamId, bool loop);
+
         float GetLength(int streamId);
         float GetPosition(int streamId);
         void SetPosition(int streamId, float position);

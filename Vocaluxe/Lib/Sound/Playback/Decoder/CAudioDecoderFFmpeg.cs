@@ -30,6 +30,8 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
         private SACInstance _Instance;
         private SFormatInfo _FormatInfo;
         private float _CurrentTime;
+        private const int _MaxDecodeTries = 10;
+        private bool _ConvertFromFloat;
 
         private string _FileName;
         private bool _FileOpened;
@@ -87,6 +89,12 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             };
 
             _CurrentTime = 0f;
+
+            _ConvertFromFloat = _FormatInfo.BitDepth == 32;
+            if (_ConvertFromFloat)
+            {
+                _FormatInfo.BitDepth = 16;
+            }
 
             if (_FormatInfo.BitDepth != 16)
             {
@@ -150,6 +158,25 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             return _FileOpened ? _CurrentTime : 0f;
         }
 
+        private static byte[] _ConvertFloatToInt16(IntPtr source, int sourceSize)
+        {
+            var samples = new float[sourceSize / sizeof(float)];
+            if (samples.Length > 0)
+            {
+                Marshal.Copy(source, samples, 0, samples.Length);
+            }
+
+            var buffer = new byte[samples.Length * sizeof(Int16)];
+            for (var i = 0; i < samples.Length; i++)
+            {
+                var sample = (Int16)(Math.Max(-1f, Math.Min(1f, samples[i])) * Int16.MaxValue);
+                buffer[2 * i] = (byte)sample;
+                buffer[2 * i + 1] = (byte)(sample >> 8);
+            }
+
+            return buffer;
+        }
+
         public void Decode(out byte[] buffer, out float timeStamp)
         {
             if (!_FileOpened)
@@ -159,7 +186,11 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 return;
             }
 
-            var frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
+            var frameFinished = false;
+            for (var i = 0; i < _MaxDecodeTries && !frameFinished; i++)
+            {
+                frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
+            }
 
             if (frameFinished)
             {
@@ -168,6 +199,12 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 timeStamp = (float)decoder.Timecode;
                 _CurrentTime = timeStamp;
                 //Console.WriteLine(_CurrentTime.ToString("#0.000") + " Buffer size: " + Decoder.buffer_size.ToString());
+                if (_ConvertFromFloat)
+                {
+                    buffer = _ConvertFloatToInt16(decoder.Buffer, decoder.BufferSize);
+                    return;
+                }
+
                 buffer = new byte[decoder.BufferSize];
 
                 if (decoder.BufferSize > 0)

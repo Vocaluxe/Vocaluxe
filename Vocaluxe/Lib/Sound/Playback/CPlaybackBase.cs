@@ -277,6 +277,22 @@ namespace Vocaluxe.Lib.Sound.Playback
             }
         }
 
+        public void SetLoop(int streamId, bool loop)
+        {
+            if (!_Initialized)
+            {
+                return;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Loop = loop;
+                }
+            }
+        }
+
         public float GetLength(int streamId)
         {
             if (!_Initialized)

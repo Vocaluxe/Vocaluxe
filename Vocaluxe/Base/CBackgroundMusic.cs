@@ -32,7 +32,9 @@ namespace Vocaluxe.Base
 
         private static readonly CSongPlayer _BGPlayer = new CSongPlayer();
         private static readonly CSongPlayer _PreviewPlayer = new CSongPlayer(true);
+        private static readonly CSongPlayer _EventPlayer = new CSongPlayer(true);
         private static CSongPlayer _CurPlayer;
+        private static CSongPlayer _PlayerBeforeEvent;
 
         private static bool _OwnSongsAvailable;
         private static EBackgroundMusicSource _MusicSource;
@@ -63,7 +65,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (IsPlayingPreview)
+                if (IsPlayingPreview || IsPlayingEventMusic)
                 {
                     return false;
                 }
@@ -134,6 +136,11 @@ namespace Vocaluxe.Base
             }
         }
 
+        public static bool IsPlayingEventMusic
+        {
+            get { return _CurPlayer == _EventPlayer; }
+        }
+
         public static string ArtistAndTitle
         {
             get { return _CurPlayer.ArtistAndTitle; }
@@ -195,6 +202,7 @@ namespace Vocaluxe.Base
         {
             _BGPlayer.Close();
             _PreviewPlayer.Close();
+            _EventPlayer.Close();
 
             _BGMusicFiles.Clear();
             _NotPlayedFiles.Clear();
@@ -215,7 +223,7 @@ namespace Vocaluxe.Base
                 CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             }
 
-            if (IsPlayingPreview || _BGPlayer.SoundLoaded)
+            if (IsPlayingPreview || IsPlayingEventMusic || _BGPlayer.SoundLoaded)
             {
                 _CurPlayer.Play();
             }
@@ -241,7 +249,7 @@ namespace Vocaluxe.Base
 
         public static void Next()
         {
-            if (IsPlayingPreview)
+            if (IsPlayingPreview || IsPlayingEventMusic)
             {
                 return;
             }
@@ -278,7 +286,7 @@ namespace Vocaluxe.Base
 
         public static void Previous()
         {
-            if (IsPlayingPreview)
+            if (IsPlayingPreview || IsPlayingEventMusic)
             {
                 return;
             }
@@ -321,10 +329,43 @@ namespace Vocaluxe.Base
             }
 
             _CurPlayer.Update();
-            if (!IsPlayingPreview && _BGPlayer.IsFinished)
+            if (_CurPlayer == _BGPlayer && _BGPlayer.IsFinished)
             {
                 Next();
             }
+        }
+
+        public static bool PlayEventMusic(string file)
+        {
+            if (!IsPlayingEventMusic)
+            {
+                Pause();
+                _PlayerBeforeEvent = _CurPlayer;
+            }
+
+            _EventPlayer.Load(file);
+            if (!_EventPlayer.SoundLoaded)
+            {
+                _CurPlayer = _PlayerBeforeEvent;
+                Play();
+                return false;
+            }
+
+            _CurPlayer = _EventPlayer;
+            Play();
+            return true;
+        }
+
+        public static void StopEventMusic()
+        {
+            if (!IsPlayingEventMusic)
+            {
+                return;
+            }
+
+            _EventPlayer.Close();
+            _CurPlayer = _PlayerBeforeEvent;
+            Play();
         }
 
         public static CTextureRef GetVideoTexture()

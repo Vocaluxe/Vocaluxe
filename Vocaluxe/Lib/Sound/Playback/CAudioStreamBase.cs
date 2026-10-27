@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Sound.Playback
     abstract class CAudioStreamBase : IAudioStream
     {
         protected readonly string _Medium;
-        protected readonly bool _Loop;
+        protected volatile bool _Loop;
         protected readonly EAudioEffect _Effect;
 
         protected ICloseStreamListener _CloseStreamListener;
@@ -37,6 +37,12 @@ namespace Vocaluxe.Lib.Sound.Playback
         public bool IsFading
         {
             get { return _Fading != null; }
+        }
+
+        public virtual bool Loop
+        {
+            get { return _Loop; }
+            set { _Loop = value; }
         }
 
         public virtual float Volume { get; set; }

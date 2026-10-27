@@ -25,7 +25,20 @@ namespace VocaluxeLib.Utils.Player
         protected readonly float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
         public string FilePath { get; private set; }
 
-        public bool Loop;
+        private bool _Loop;
+
+        public bool Loop
+        {
+            get { return _Loop; }
+            set
+            {
+                _Loop = value;
+                if (SoundLoaded)
+                {
+                    CBase.Sound.SetLoop(_StreamId, value);
+                }
+            }
+        }
 
         /// <summary>
         ///     Gets the current stream position or sets it
@@ -75,7 +88,7 @@ namespace VocaluxeLib.Utils.Player
         {
             Close();
 
-            _StreamId = CBase.Sound.Load(file, false, true);
+            _StreamId = CBase.Sound.Load(file, Loop, true);
             if (_StreamId < 0)
             {
                 return;
@@ -163,19 +176,12 @@ namespace VocaluxeLib.Utils.Player
                 return;
             }
 
-            var finished = CBase.Sound.IsFinished(_StreamId);
             if (Loop)
             {
-                if (finished)
-                {
-                    // Restart
-                    Stop();
-                    Play();
-                }
-
                 return;
             }
 
+            var finished = CBase.Sound.IsFinished(_StreamId);
             var len = CBase.Sound.GetLength(_StreamId);
             var timeToPlay = len > 0f ? len - CBase.Sound.GetPosition(_StreamId) : _FadeTime + 1f;
 
