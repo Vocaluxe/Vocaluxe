@@ -21,6 +21,7 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Web;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -42,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 16; }
+            get { return 17; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -86,6 +87,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsSingAllVisible = "ButtonOptionsSingAllVisible";
         private const string _ButtonOptionsOpenSelectedItem = "ButtonOptionsOpenSelectedItem";
         private const string _ButtonOptionsRandomMedley = "ButtonOptionsRandomMedley";
+        private const string _ButtonOptionsWebQueue = "ButtonOptionsWebQueue";
         private const string _ButtonOptionsStartMedley = "ButtonOptionsStartMedley";
         private const string _ButtonStart = "ButtonStart";
         private const string _ButtonOptionsHighscore = "ButtonOptionsHighscore";
@@ -161,6 +163,7 @@ namespace Vocaluxe.Screens
 
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
+        private int _PlaylistVersion;
 
         private System.Timers.Timer _TimerShortInfoText;
 
@@ -235,6 +238,7 @@ namespace Vocaluxe.Screens
             blist.Add(_ButtonOpenOptions);
             blist.Add(_ButtonStart);
             blist.Add(_ButtonOptionsRandomMedley);
+            blist.Add(_ButtonOptionsWebQueue);
             blist.Add(_ButtonOptionsStartMedley);
             blist.Add(_ButtonOptionsHighscore);
 
@@ -658,6 +662,11 @@ namespace Vocaluxe.Screens
                         {
                             _ToggleSongOptions(ESongOptionsView.Medley);
                         }
+                        else if (_Buttons[_ButtonOptionsWebQueue].Selected)
+                        {
+                            _ToggleSongOptions(ESongOptionsView.None);
+                            CGraphics.FadeTo(EScreen.WebQueue);
+                        }
                         else if (_Buttons[_ButtonOptionsStartMedley].Selected)
                         {
                             _ToggleSongOptions(ESongOptionsView.None);
@@ -878,6 +887,12 @@ namespace Vocaluxe.Screens
                         _ToggleSongOptions(ESongOptionsView.Medley);
                         return true;
                     }
+                    else if (_Buttons[_ButtonOptionsWebQueue].Selected)
+                    {
+                        _ToggleSongOptions(ESongOptionsView.None);
+                        CGraphics.FadeTo(EScreen.WebQueue);
+                        return true;
+                    }
                     else if (_Buttons[_ButtonOptionsStartMedley].Selected)
                     {
                         _ToggleSongOptions(ESongOptionsView.None);
@@ -1053,6 +1068,15 @@ namespace Vocaluxe.Screens
             CSongs.OnCategoryChanged += _OnCategoryChanged;
         }
 
+        private void _UpdatePlaylistIfChanged()
+        {
+            if (_PlaylistVersion != CWebServer.PlaylistVersion)
+            {
+                _PlaylistVersion = CWebServer.PlaylistVersion;
+                _Playlist.UpdatePlaylist();
+            }
+        }
+
         private static void _OnCategoryChanged()
         {
             CSound.SetGlobalVolume(CSongs.IsInCategory ? CConfig.PreviewMusicVolume : CConfig.BackgroundMusicVolume);
@@ -1068,6 +1092,7 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
+                    _UpdatePlaylistIfChanged();
                     _Playlist.UpdateGame();
                 }
             }
@@ -1867,6 +1892,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsSingAllVisible].Visible = false;
             _Buttons[_ButtonOptionsOpenSelectedItem].Visible = false;
             _Buttons[_ButtonOptionsRandomMedley].Visible = false;
+            _Buttons[_ButtonOptionsWebQueue].Visible = false;
             _Buttons[_ButtonOptionsStartMedley].Visible = false;
             _Buttons[_ButtonOptionsHighscore].Visible = false;
             _Texts[_TextOptionsTitle].Visible = false;
@@ -1956,7 +1982,7 @@ namespace Vocaluxe.Screens
                 },
                 new[] { _TextOptionsPlayerSelect, _TextOptionsPlaylist },
                 new[] { _SelectSlideOptionsPlayerSelect, _SelectSlideOptionsPlaylistAdd },
-                new[] { _ButtonOptionsPlaylist, _ButtonOptionsHighscore, _ButtonOptionsClose });
+                new[] { _ButtonOptionsPlaylist, _ButtonOptionsWebQueue, _ButtonOptionsHighscore, _ButtonOptionsClose });
         }
 
         private void _SetGeneralOptionsOffsetY(float singAllOffset, float medleyOffset)
@@ -2060,6 +2086,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
+            _Buttons[_ButtonOptionsWebQueue].Visible = !_Sso.Selection.PartyMode;
             _Buttons[_ButtonOptionsHighscore].Visible = true;
 
             _Texts[_TextOptionsTitle].Visible = false;

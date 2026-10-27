@@ -136,6 +136,7 @@ namespace Vocaluxe.Base
         public const string FolderNameThemeFonts = "Fonts";
         public const string FolderNameScreens = "Screens";
         public const string FolderNamePhotos = "Photos";
+        public const string FolderNameWebsite = "Website";
         public const string FolderNameSounds = "Sounds";
         public const string FolderNameLanguages = "Languages";
         public const string FolderNameScreenshots = "Screenshots";
@@ -146,6 +147,7 @@ namespace Vocaluxe.Base
         public const string FolderNamePartyModeCode = "Code";
         public const string FolderNamePartyModeLanguages = "Languages";
         public const string FolderNamePartyModeFonts = "Fonts";
+        public const string FolderNamePartyModeCache = "PartyModeCache";
 
         public const string LinkAndroidApp = "https://build.phonegap.com/apps/639714/download/android/?qr_key=uY98ymvTr6K144RyTdhs";
         public const string LinkSymbianApp = "https://build.phonegap.com/apps/639714/download/symbian/?qr_key=uY98ymvTr6K144RyTdhs";

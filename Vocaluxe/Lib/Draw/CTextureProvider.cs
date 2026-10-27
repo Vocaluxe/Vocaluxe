@@ -106,6 +106,8 @@ namespace Vocaluxe.Lib.Draw
         // Maps texturePaths to textures. Texture may have already been disposed (RefCount<=0)
         private readonly Dictionary<string, STextureCacheEntry> _TextureCache = new Dictionary<string, STextureCacheEntry>();
         private readonly Queue<STextureQueue> _TextureQueue = new Queue<STextureQueue>();
+        private const int _MaxQueueTimePerFrameMs = 8;
+        private readonly Stopwatch _QueueTimer = new Stopwatch();
         private readonly Dictionary<string, Task<Size>> _BitmapsLoading = new Dictionary<string, Task<Size>>();
         private int _TextureCount;
 
@@ -492,7 +494,8 @@ namespace Vocaluxe.Lib.Draw
             _EnsureMainThread();
             lock (_TextureQueue)
             {
-                while (_TextureQueue.Count > 0)
+                _QueueTimer.Restart();
+                while (_TextureQueue.Count > 0 && _QueueTimer.ElapsedMilliseconds < _MaxQueueTimePerFrameMs)
                 {
                     var q = _TextureQueue.Dequeue();
 

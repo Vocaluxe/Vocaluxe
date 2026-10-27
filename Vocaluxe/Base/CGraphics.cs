@@ -47,6 +47,14 @@ namespace Vocaluxe.Base
         public static float ZOffset { get; private set; }
 
         public static IMenu CurrentScreen { get; private set; }
+        public static EScreen CurrentScreenType
+        {
+            get
+            {
+                var id = _Screens.IndexOf(CurrentScreen);
+                return (EScreen)id;
+            }
+        }
 
         public static IMenu NextScreen { get; private set; }
         public static EScreen NextScreenType
@@ -89,6 +97,7 @@ namespace Vocaluxe.Base
                 _Screens.Add(new CScreenStatisticsDetail());
                 _Screens.Add(new CScreenJukebox());
                 _Screens.Add(new CScreenJukeboxPlayer());
+                _Screens.Add(new CScreenWebQueue());
 
                 Debug.Assert(_Screens.Count == (int)EScreen.CountEntry, "Screen list and screens enum do not match");
 

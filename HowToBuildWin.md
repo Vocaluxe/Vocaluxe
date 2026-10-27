@@ -11,6 +11,8 @@
 
 * Make sure [Visual Studio 2012/2013(?)](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop) is installed 
 
+* Make sure [Node.js (LTS)](https://nodejs.org) is installed. It is needed to build the WebApp (folder `WebApp`), which is built automatically together with the project `VocaluxeWeb`. Restart Visual Studio after installing it.
+
 * Clone the repository and open it
 
     **Method A: Use Visual Studio (2013+)'s git client:**

@@ -18,7 +18,7 @@
 using System.Windows.Forms;
 using QRCoder;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Server;
+using Vocaluxe.Base.Web;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
@@ -34,6 +34,7 @@ namespace Vocaluxe.Screens
         }
 
         private CTextureRef _QRServerAddress;
+        private string _QRAddress;
         private const string _StaticQRServer = "StaticQRServer";
 
         private const string _TextServerAddress = "TextServerAddress";
@@ -50,16 +51,16 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            if (_QRServerAddress == null)
+            if (_QRServerAddress == null || _QRAddress != CWebServer.GetServerAddress())
             {
                 _GenerateQRs();
                 _Statics[_StaticQRServer].Texture = _QRServerAddress;
-                _Texts[_TextServerAddress].Text = CVocaluxeServer.GetServerAddress();
+                _Texts[_TextServerAddress].Text = CWebServer.GetServerAddress();
             }
 
-            _Texts[_TextServerAddress].Visible = CVocaluxeServer.IsServerRunning();
-            _Statics[_StaticQRServer].Visible = CVocaluxeServer.IsServerRunning();
-            _Texts[_TextServerNotRunning].Visible = !CVocaluxeServer.IsServerRunning();
+            _Texts[_TextServerAddress].Visible = CWebServer.IsServerRunning();
+            _Statics[_StaticQRServer].Visible = CWebServer.IsServerRunning();
+            _Texts[_TextServerNotRunning].Visible = !CWebServer.IsServerRunning();
         }
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
@@ -96,7 +97,9 @@ namespace Vocaluxe.Screens
             var qr = new QRCodeGenerator();
 
             //ServerAddress
-            var qrcode = qr.CreateQrCode(CVocaluxeServer.GetServerAddress(), QRCodeGenerator.ECCLevel.H);
+            CDraw.RemoveTexture(ref _QRServerAddress);
+            _QRAddress = CWebServer.GetServerAddress();
+            var qrcode = qr.CreateQrCode(_QRAddress, QRCodeGenerator.ECCLevel.H);
             _QRServerAddress = CDraw.AddTexture(qrcode.GetGraphic(20));
         }
     }

@@ -42,6 +42,8 @@ Building Vocaluxe is easy:
 Just follow the guide on our wiki to clone the repository and create your own Vocaluxe build:
 [Build Vocaluxe (Windows)](https://github.com/Vocaluxe/Vocaluxe/wiki/HowTo:-Build-Vocaluxe-(Windows))
 
+The WebApp and the webserver (build with Node.js, development, REST API, translations) are described in [VocaluxeWeb/README.md](VocaluxeWeb/README.md).
+
 ### Submit your change
 Upload your changes to your fork and open a new pull request.
 

@@ -1,6 +1,12 @@
 ScreenSong
 
 ++++++++++
+Version 17:
+
+Add:
+<ButtonOptionsWebQueue> (opens the WebApp queue, below the playlist selection in the playlist group of the song options)
+
+++++++++++
 Version 16:
 
 Add (optional):
