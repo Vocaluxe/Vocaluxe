@@ -18,6 +18,8 @@
   <string name="TR_SCREENCONFIG_NUMROUNDS">Antal omgångar</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Antal jokrar</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokrar varje runda</string>
+  <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Låtar per spelare</string>
+  <string name="TR_SCREENCONFIG_REMEMBERSONGS">Kom ihåg sjungna låtar</string>
   <string name="TR_SCREENNAMES_TITLE">Utmanarläge: Välj spelare</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässiga</string>
   <string name="TR_SCREENMAIN_TITLE">Utmanarläge: Översikt</string>

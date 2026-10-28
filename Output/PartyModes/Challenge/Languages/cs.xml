@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglický</string>
+  <string name="language">Čeština</string>
   <string name="TR_PARTYMODE_NAME">Soutěžní režim</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Hrát v režimu soutěže.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pro všechny ty, kdož se zajímají o pěvecké souboje.</string>
@@ -18,6 +18,8 @@
   <string name="TR_SCREENCONFIG_NUMROUNDS">Počet kol</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Doplnit žolíky každé kolo</string>
+  <string name="TR_SCREENCONFIG_SONGSPERPLAYER">Počet písní na hráče</string>
+  <string name="TR_SCREENCONFIG_REMEMBERSONGS">Pamatovat zazpívané písničky</string>
   <string name="TR_SCREENNAMES_TITLE">Soutěžní režim: Výběr hráče</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
   <string name="TR_SCREENMAIN_TITLE">Soutěžní režim: Přehled</string>
