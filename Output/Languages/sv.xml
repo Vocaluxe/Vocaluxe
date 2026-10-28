@@ -78,7 +78,7 @@
   <string name="TR_CONFIG_YEAR">År</string>
   <string name="TR_CONFIG_DECADE">Årtionde</string>
   <string name="TR_CONFIG_LANGUAGE">Språk</string>
-  <string name="TR_CONFIG_DATEADDED">Tillagd datum</string>
+  <string name="TR_CONFIG_DATEADDED">Datum tillagt</string>
   <string name="TR_CONFIG_EASY">Lätt</string>
   <string name="TR_CONFIG_NORMAL">Medel</string>
   <string name="TR_CONFIG_HARD">Svår</string>
@@ -249,13 +249,13 @@
   <string name="TR_SCREENSONG_NOYEAR">Inget år</string>
   <string name="TR_SCREENSONG_NOGENRE">Ingen genre</string>
   <string name="TR_SCREENSONG_NOEDITION">Ingen utgåva</string>
-  <string name="TR_SCREENSONG_NOTAGS">Inga tagger</string>
+  <string name="TR_SCREENSONG_NOTAGS">Inga etiketter</string>
   <string name="TR_SCREENSONG_ALLSONGS">Alla låtar</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v låtar)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v låt)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Hoppa till bokstaven • F3 = Sök • CTRL+R = Slumpa • CTRL+S = Starta medley • CTRL+# = Ändra sångsortering • CTRL+T = Aktivera/Inaktivera kategorivy • Mellanslag = Öppna sångalternativ • ESC = Tillbaka till huvudmenyn</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Sök artist och titel, prefix för sökningen → a: = artist • t: = titel • c: = skapare • e: = utgåva • g: = genre • y: = år (t ex. 1999 eller 1980-1989) • l: = språk • al: = album • fi: = filnamn • fo: = mappnamn • #: = tagger</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Sök artist och titel, prefix för sökningen → a: = artist • t: = titel • c: = skapare • e: = utgåva • g: = genre • y: = år (t.ex. 1999 eller 1980-1989) • l: = språk • al: = album • fi: = filnamn • fo: = mappnamn • #: = etiketter</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Tryck ditt lagnummer för att använda en slumpad sångjoker</string>
   <string name="TR_SCREENSONG_SORTING">Sortering: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Inget medley för denna sång!</string>
@@ -391,16 +391,16 @@
   <string name="TR_REPORTER_TITLE_TEXT">Vi ber om ursäkt</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">så Vocaluxe sätte på ett fel och har kraschat..\r\nFör att hjälpa oss att åtgärda problemet, ber vi er att skicka oss en rapport.\r\nÄndra följande logg innan du skickar in den och ta bort eventuellt känslig information.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">att du har upplevt ett fel.\r\nFör att hjälp oss att åtgärda problemet, så ber vi er skicka in er rapport.\r\nÄndra loggen innan den skickar in för att ta bort eventuellt känslig information.</string>
-  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Ladda inte upp något. (du kan fortfarande kopiera felmeddelandet ovanför)</string>
-  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Ladda upp och felanmäla ett problem (Som kommer synas för alla och kräver ett github konto)</string>
-  <string name="TR_REPORTER_GIST_ONLY_TEXT">Ladda upp så får ni länk till er rapport (som kommer synas för alla) </string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Ladda inte upp något (du kan fortfarande kopiera felmeddelandet ovan)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Ladda upp och skapa ett ärende (ärendet blir offentligt synligt och det krävs ett GitHub-konto)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Ladda upp och få en länk till din rapport (synlig offentligt)</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Skicka in</string>
   <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Laddar upp</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Lämna</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Fortsätt</string>
-  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Länken till er rapport.</string>
-  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Problem uppstod när loggen skulle skickas.</string>
-  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Senaste fel</string>
-  <string name="TR_REPORTER_LAST_ERROR_NA">Inte tillgänglig</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Länken till din rapport:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Det gick inte att ladda upp loggen.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Senaste felet</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Inte tillgängligt</string>
   <string name="TR_REPORTER_ISSUE_TEMPLATE">Beskriv ert problem här.\n\n### Steg att reproducera \ nBerätta för oss hur du reproducerat detta problem.\n\n### Vocaluxe-version och loggfil\n{0}\n{1}</string>
 </resources>
