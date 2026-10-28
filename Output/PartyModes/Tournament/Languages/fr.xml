@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Français</string>
+  <string name="TR_PARTYMODE_NAME">Tournoi à élimination</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Enchaînez les duels dans un tableau à élimination directe jusqu’à ce qu’il ne reste plus qu’un seul champion.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pour 3 à 16 joueurs qui aiment la vraie compétition.</string>
+  <string name="TR_BUTTON_NEXT">Suivant</string>
+  <string name="TR_BUTTON_BACK">Précédent</string>
+  <string name="TR_BUTTON_START">Démarrer</string>
+  <string name="TR_BUTTON_EXIT">Quitter</string>
+  <string name="TR_BUTTON_YES">Oui</string>
+  <string name="TR_BUTTON_NO">Non</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Lancer le duel</string>
+  <string name="TR_SONGS">Chansons</string>
+  <string name="TR_SCREENCONFIG_TITLE">Tournoi à élimination : Configuration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Nombre de joueurs</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokers par joueur</string>
+  <string name="TR_SCREENNAMES_TITLE">Tournoi à élimination : choisir les joueurs</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélection aléatoire</string>
+  <string name="TR_SCREENMAIN_TITLE">Tournoi à élimination</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter le tournoi \?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Huitièmes de finale</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Quart de finale</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Demi-finale</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Finale</string>
+  <string name="TR_SCREENMAIN_BYE">Exempt</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Champion</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Prochain duel :</string>
+  <string name="TR_SCREENMAIN_VERSUS">c.</string>
+  <string name="TR_SCREENMAIN_REMATCH">Égalité ! Le duel est chanté à nouveau.</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Svenska</string>
+  <string name="TR_PARTYMODE_NAME">Utslagningsturnering</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Sjung dueller i en utslagningsturnering tills bara en segrare återstår.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">För 3 till 16 spelare som vill tävla på allvar.</string>
+  <string name="TR_BUTTON_NEXT">Nästa</string>
+  <string name="TR_BUTTON_BACK">Tillbaka</string>
+  <string name="TR_BUTTON_START">Starta</string>
+  <string name="TR_BUTTON_EXIT">Avsluta</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nej</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Starta duellen</string>
+  <string name="TR_SONGS">Låtar</string>
+  <string name="TR_SCREENCONFIG_TITLE">Utslagningsturnering: Inställningar</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Antal spelare</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokrar per spelare</string>
+  <string name="TR_SCREENNAMES_TITLE">Utslagningsturnering: Välj spelare</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässigt</string>
+  <string name="TR_SCREENMAIN_TITLE">Utslagningsturnering</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vill du verkligen avsluta turneringen?</string>
+  <string name="TR_SCREENMAIN_ROUND_EIGHTHFINAL">Åttondelsfinal</string>
+  <string name="TR_SCREENMAIN_ROUND_QUARTERFINAL">Kvartsfinal</string>
+  <string name="TR_SCREENMAIN_ROUND_SEMIFINAL">Semifinal</string>
+  <string name="TR_SCREENMAIN_ROUND_FINAL">Final</string>
+  <string name="TR_SCREENMAIN_BYE">Frilott</string>
+  <string name="TR_SCREENMAIN_CHAMPION">Segrare</string>
+  <string name="TR_SCREENMAIN_NEXT_MATCH">Nästa duell:</string>
+  <string name="TR_SCREENMAIN_VERSUS">mot</string>
+  <string name="TR_SCREENMAIN_REMATCH">Oavgjort! Duellen sjungs om.</string>
+</resources>
