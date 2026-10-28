@@ -50,7 +50,7 @@
   <string name="TR_CONFIG_TEXTURE_LOWEST">Lägsta</string>
   <string name="TR_CONFIG_TEXTURE_LOW">Låg</string>
   <string name="TR_CONFIG_TEXTURE_MEDIUM">Medel</string>
-  <string name="TR_CONFIG_TEXTURE_HIGH">Högt</string>
+  <string name="TR_CONFIG_TEXTURE_HIGH">Hög</string>
   <string name="TR_CONFIG_TEXTURE_HIGHEST">Högsta</string>
   <string name="TR_CONFIG_OFF">Av</string>
   <string name="TR_CONFIG_ON">På</string>
@@ -389,8 +389,8 @@
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradress</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Servern kör inte. Aktivera den och starta om spelet!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Vi ber om ursäkt</string>
-  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">så Vocaluxe sätte på ett fel och har kraschat..\r\nFör att hjälpa oss att åtgärda problemet, ber vi er att skicka oss en rapport.\r\nÄndra följande logg innan du skickar in den och ta bort eventuellt känslig information.</string>
-  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">att du har upplevt ett fel.\r\nFör att hjälp oss att åtgärda problemet, så ber vi er skicka in er rapport.\r\nÄndra loggen innan den skickar in för att ta bort eventuellt känslig information.</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">att Vocaluxe råkade ut för ett fel och kraschade.\r\nFör att hjälpa oss att åtgärda problemet kan du skicka en rapport.\r\nRedigera följande logg innan du skickar den för att ta bort eventuella känsliga uppgifter.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">att du upplevde ett fel.\r\nFör att hjälpa oss att åtgärda problemet kan du skicka en rapport.\r\nRedigera följande logg innan du skickar den för att ta bort eventuella känsliga uppgifter.</string>
   <string name="TR_REPORTER_NO_UPLOAD_TEXT">Ladda inte upp något (du kan fortfarande kopiera felmeddelandet ovan)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Ladda upp och skapa ett ärende (ärendet blir offentligt synligt och det krävs ett GitHub-konto)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Ladda upp och få en länk till din rapport (synlig offentligt)</string>
@@ -402,5 +402,5 @@
   <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Det gick inte att ladda upp loggen.</string>
   <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Senaste felet</string>
   <string name="TR_REPORTER_LAST_ERROR_NA">Inte tillgängligt</string>
-  <string name="TR_REPORTER_ISSUE_TEMPLATE">Beskriv ert problem här.\n\n### Steg att reproducera \ nBerätta för oss hur du reproducerat detta problem.\n\n### Vocaluxe-version och loggfil\n{0}\n{1}</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Beskriv problemet här.\n\n### Steg för att återskapa felet\nBerätta hur vi kan återskapa felet.\n\n### Vocaluxe-version och loggfil\n{0}\n{1}</string>
 </resources>
