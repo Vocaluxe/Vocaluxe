@@ -48,8 +48,8 @@
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
   <string name="TR_CONFIG_TEXTURE_LOWEST">Lägsta</string>
-  <string name="TR_CONFIG_TEXTURE_LOW">Lågt</string>
-  <string name="TR_CONFIG_TEXTURE_MEDIUM">Mellan</string>
+  <string name="TR_CONFIG_TEXTURE_LOW">Låg</string>
+  <string name="TR_CONFIG_TEXTURE_MEDIUM">Medel</string>
   <string name="TR_CONFIG_TEXTURE_HIGH">Högt</string>
   <string name="TR_CONFIG_TEXTURE_HIGHEST">Högsta</string>
   <string name="TR_CONFIG_OFF">Av</string>
@@ -73,7 +73,7 @@
   <string name="TR_CONFIG_ARTIST_LETTER">Artist efter bokstav</string>
   <string name="TR_CONFIG_TITLE_LETTER">Titel efter bokstav</string>
   <string name="TR_CONFIG_EDITION">Utgåva</string>
-  <string name="TR_CONFIG_TAGS">Tagger</string>
+  <string name="TR_CONFIG_TAGS">Etiketter</string>
   <string name="TR_CONFIG_GENRE">Genre</string>
   <string name="TR_CONFIG_YEAR">År</string>
   <string name="TR_CONFIG_DECADE">Årtionde</string>
