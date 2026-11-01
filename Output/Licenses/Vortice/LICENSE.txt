@@ -1,4 +1,4 @@
-Vortice.Direct3D9, Vortice.Mathematics
+Vortice.Direct3D11, Vortice.DXGI, Vortice.D3DCompiler, Vortice.DirectX, Vortice.Mathematics
 MIT License
 
 Copyright (c) Amer Koleci and Contributors

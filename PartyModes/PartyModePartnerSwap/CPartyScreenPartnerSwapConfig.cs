@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
 
 namespace VocaluxeLib.PartyModes.PartnerSwap
 {

@@ -1,7 +1,7 @@
 version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
-image: Visual Studio 2022
+image: Visual Studio 2026
 configuration: ReleaseWin
 platform:
 - x64
@@ -34,7 +34,6 @@ install:
     else{
         $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
     }
-    choco install "opencover.portable" -y
     Install-Product node 24 x64
     node --version
 before_build:
@@ -60,7 +59,7 @@ before_build:
         Write-Warning "Theme-Video download failed"
     }
     
-    nuget restore -DisableParallelProcessing
+    msbuild Vocaluxe.sln /t:Restore /p:Configuration=$Env:CONFIGURATION /p:Platform=$Env:PLATFORM /verbosity:minimal
     
     if($Env:MAIN_REPO -and ($Env:PLATFORM -eq 'x64'))
     {
@@ -95,8 +94,6 @@ build:
   verbosity: normal
 after_build:
 - ps: |
-    ./.appveyor/runGitLink.ps1
-    
     cd Output   
 
     $forkBuildTag = ""
@@ -119,14 +116,20 @@ after_build:
     }
 test_script:
 - ps: |
-    if (($Env:MAIN_REPO) -and ($Env:PLATFORM -eq 'x64') -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
-        OpenCover.Console.exe -register:user -target:"nunit3-console.exe" -targetargs:".\Tests\bin\Release\Tests.dll --result=.\TestResult.xml;format=AppVeyor" -output:".\CoverageResult.xml"
+    if ($Env:PLATFORM -eq 'x64'){
+        $testResult = Join-Path $Env:APPVEYOR_BUILD_FOLDER "TestResult.xml"
+        if (($Env:MAIN_REPO) -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+            dotnet test .\Tests\Tests.csproj --no-build -c $Env:CONFIGURATION -p:Platform=$Env:PLATFORM --logger "nunit;LogFilePath=$testResult" --logger Appveyor --collect:"XPlat Code Coverage;Format=opencover" --results-directory .\TestResults
+            Get-ChildItem .\TestResults -Recurse -Filter "coverage.opencover.xml" | Select-Object -First 1 | Copy-Item -Destination .\CoverageResult.xml
+        }
+        else{
+            dotnet test .\Tests\Tests.csproj --no-build -c $Env:CONFIGURATION -p:Platform=$Env:PLATFORM --logger "nunit;LogFilePath=$testResult" --logger Appveyor
+        }
+        $testExitCode = $LASTEXITCODE
+        if ($testExitCode -ne 0){
+            exit $testExitCode
+        }
     }
-    else{
-        nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
-    }    
-    $wc = New-Object 'System.Net.WebClient'
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResult.xml))
 
 after_test:
 - ps: |

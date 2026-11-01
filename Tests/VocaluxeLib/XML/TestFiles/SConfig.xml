@@ -91,6 +91,10 @@
     <VideoPreview>TR_CONFIG_ON</VideoPreview>
     <VideosInSongs>TR_CONFIG_ON</VideosInSongs>
     <VideosToBackground>TR_CONFIG_OFF</VideosToBackground>
+    <HardwareDecoding>TR_CONFIG_ON</HardwareDecoding>
+    <GpuColorConversion>TR_CONFIG_ON</GpuColorConversion>
+    <DecoderThreads>0</DecoderThreads>
+    <VideoDownscaleResolution>TR_CONFIG_SCALING_DISABLED</VideoDownscaleResolution>
     <WebcamLib>AForgeNet</WebcamLib>
     <WebcamConfig />
   </Video>

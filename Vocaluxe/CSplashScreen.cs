@@ -16,17 +16,19 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
+using SDL;
+using SkiaSharp;
 using Vocaluxe.Base;
+using Vocaluxe.Lib;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
-    class CSplashScreen : Form
+    unsafe class CSplashScreen
     {
-        private readonly Bitmap _Logo;
+        private readonly SKBitmap _Logo;
+        private SDL_Window* _Window;
 
         public CSplashScreen()
         {
@@ -35,8 +37,7 @@ namespace Vocaluxe
             {
                 try
                 {
-                    _Logo = new Bitmap(path);
-                    ClientSize = new Size(_Logo.Width, _Logo.Height);
+                    _Logo = SKBitmap.Decode(path);
                 }
                 catch (Exception e)
                 {
@@ -48,55 +49,57 @@ namespace Vocaluxe
                 CLog.Error("Can't find " + path);
             }
 
-            path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon);
-            if (File.Exists(path))
-            {
-                try
-                {
-                    Icon = new Icon(path);
-                }
-                catch (Exception e)
-                {
-                    CLog.Error("Error loading icon: " + e.Message);
-                }
-            }
-            else
-            {
-                CLog.Error("Can't find " + path);
-            }
-
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            BackColor = Color.Transparent;
-
-            FormBorderStyle = FormBorderStyle.None;
-            Text = CSettings.ProgramName;
-            CenterToScreen();
-            Show();
-        }
-
-        public override sealed string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
-        }
-
-        public override sealed Color BackColor
-        {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
-        }
-
-        protected override void OnPaint(PaintEventArgs e) { }
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
             if (_Logo == null)
             {
                 return;
             }
 
-            var g = e.Graphics;
-            g.DrawImage(_Logo, new Rectangle(0, 0, Width, Height));
+            _Window = SDL3.SDL_CreateWindow(CSettings.ProgramName, _Logo.Width, _Logo.Height, SDL_WindowFlags.SDL_WINDOW_BORDERLESS | SDL_WindowFlags.SDL_WINDOW_HIDDEN);
+            if (_Window == null)
+            {
+                CLog.Error("Error creating the splash screen: " + SDL3.SDL_GetError());
+                return;
+            }
+
+            CSdl.SetWindowIcon(_Window, Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
+            SDL3.SDL_SetWindowPosition(_Window, (int)SDL3.SDL_WINDOWPOS_CENTERED, (int)SDL3.SDL_WINDOWPOS_CENTERED);
+            SDL3.SDL_ShowWindow(_Window);
+            _Paint();
+        }
+
+        private void _Paint()
+        {
+            var surface = SDL3.SDL_GetWindowSurface(_Window);
+            if (surface == null)
+            {
+                return;
+            }
+
+            var colorType = surface->format == SDL_PixelFormat.SDL_PIXELFORMAT_ABGR8888 || surface->format == SDL_PixelFormat.SDL_PIXELFORMAT_XBGR8888
+                                ? SKColorType.Rgba8888 : SKColorType.Bgra8888;
+            using (var target = SKSurface.Create(new SKImageInfo(surface->w, surface->h, colorType, SKAlphaType.Premul), surface->pixels, surface->pitch))
+            using (var image = SKImage.FromBitmap(_Logo))
+            {
+                if (target != null)
+                {
+                    target.Canvas.Clear(SKColors.Black);
+                    target.Canvas.DrawImage(image, SKRect.Create(surface->w, surface->h), new SKSamplingOptions(SKCubicResampler.Mitchell));
+                    target.Canvas.Flush();
+                }
+            }
+
+            SDL3.SDL_UpdateWindowSurface(_Window);
+        }
+
+        public void Close()
+        {
+            if (_Window != null)
+            {
+                SDL3.SDL_DestroyWindow(_Window);
+                _Window = null;
+            }
+
+            _Logo?.Dispose();
         }
     }
 }

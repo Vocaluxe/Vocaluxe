@@ -19,7 +19,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using OpenTK.Audio;
+using OpenTK.Audio.OpenAL;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Playback.Decoder;
 using VocaluxeLib.Log;
@@ -450,7 +450,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                     if (buffer != 0)
                     {
                         var alFormat = _Format.ChannelCount == 2 ? ALFormat.Stereo16 : ALFormat.Mono16;
-                        AL.BufferData(buffer, alFormat, _SampleBuf, _SampleBuf.Length, _Format.SamplesPerSecond);
+                        AL.BufferData(buffer, alFormat, _SampleBuf, _Format.SamplesPerSecond);
                         AL.SourceQueueBuffer(_Source, buffer);
                     }
 
@@ -463,7 +463,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                 }
             }
 
-            if (queuedCount > 0 && AL.GetSourceState(_Source) != ALSourceState.Playing)
+            if (queuedCount > 0 && (ALSourceState)AL.GetSource(_Source, ALGetSourcei.SourceState) != ALSourceState.Playing)
             {
                 AL.SourcePlay(_Source);
             }

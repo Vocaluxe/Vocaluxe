@@ -16,14 +16,17 @@
 #endregion
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Log;
@@ -387,32 +390,36 @@ namespace Vocaluxe.Base
 
         private static Assembly _CompileFiles(string[] files, string outputPath)
         {
-            var compilerParams = new CompilerParameters();
+            SyntaxTree[] syntaxTrees;
 
-            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            compilerParams.ReferencedAssemblies.Add("System.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
-            compilerParams.ReferencedAssemblies.Add(Path.Combine("libs", "managed", "VocaluxeLib.dll"));
-            if (outputPath == null)
+            try
             {
-                compilerParams.GenerateInMemory = true;
+                syntaxTrees = files.Select(f => CSharpSyntaxTree.ParseText(File.ReadAllText(f), path: f, encoding: Encoding.UTF8)).ToArray();
             }
-            else
+            catch (Exception e)
             {
-                compilerParams.GenerateInMemory = false;
-                compilerParams.OutputAssembly = outputPath;
+                CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
+                return null;
             }
+
+            var assemblyName = outputPath == null ? "PartyMode_" + Guid.NewGuid().ToString("N") : Path.GetFileNameWithoutExtension(outputPath);
 #if DEBUG
-            compilerParams.IncludeDebugInformation = true;
+            var optimization = OptimizationLevel.Debug;
+            var emitOptions = new EmitOptions(debugInformationFormat: DebugInformationFormat.Embedded);
+#else
+            var optimization = OptimizationLevel.Release;
+            var emitOptions = new EmitOptions();
 #endif
+            var compilation = CSharpCompilation.Create(assemblyName, syntaxTrees, _GetCompilerReferences(),
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimization));
 
-            using (var cdp = CodeDomProvider.CreateProvider("CSharp"))
+            using (var peStream = new MemoryStream())
             {
-                CompilerResults compileResult;
+                EmitResult compileResult;
 
                 try
                 {
-                    compileResult = cdp.CompileAssemblyFromFile(compilerParams, files);
+                    compileResult = compilation.Emit(peStream, options: emitOptions);
                 }
                 catch (Exception e)
                 {
@@ -420,11 +427,13 @@ namespace Vocaluxe.Base
                     return null;
                 }
 
-                if (compileResult.Errors.Count > 0)
+                if (!compileResult.Success)
                 {
-                    foreach (CompilerError e in compileResult.Errors)
+                    foreach (var e in compileResult.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
                     {
-                        CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
+                        var position = e.Location.GetLineSpan();
+                        CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.GetMessage() + " in '" + position.Path + "' (" +
+                                   (position.StartLinePosition.Line + 1) + ")");
                     }
 
                     return null;
@@ -432,11 +441,12 @@ namespace Vocaluxe.Base
 
                 if (outputPath == null)
                 {
-                    return compileResult.CompiledAssembly;
+                    return Assembly.Load(peStream.ToArray());
                 }
 
                 try
                 {
+                    File.WriteAllBytes(outputPath, peStream.ToArray());
                     return Assembly.LoadFrom(outputPath);
                 }
                 catch (Exception e)
@@ -444,6 +454,44 @@ namespace Vocaluxe.Base
                     CLog.Error("Error loading compiled PartyMode assembly " + outputPath + ": " + e.Message);
                     return null;
                 }
+            }
+        }
+
+        private static IEnumerable<MetadataReference> _GetCompilerReferences()
+        {
+            var paths = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var platformAssemblies = AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") as string;
+            if (platformAssemblies != null)
+            {
+                foreach (var path in platformAssemblies.Split(new[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    paths[Path.GetFileName(path)] = path;
+                }
+            }
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location)))
+            {
+                paths[Path.GetFileName(assembly.Location)] = assembly.Location;
+            }
+
+            paths[Path.GetFileName(typeof(IPartyMode).Assembly.Location)] = typeof(IPartyMode).Assembly.Location;
+
+            return paths.Values.Where(_HasMetadata).Select(p => MetadataReference.CreateFromFile(p));
+        }
+
+        private static bool _HasMetadata(string path)
+        {
+            try
+            {
+                using (var stream = File.OpenRead(path))
+                using (var reader = new PEReader(stream))
+                {
+                    return reader.HasMetadata;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

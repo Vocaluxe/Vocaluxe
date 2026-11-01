@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Sound.Record.NAudio
 
         private bool _Initialized;
         private MMDeviceEnumerator _Enumerator;
-        private readonly List<WasapiCapture> _Captures = new List<WasapiCapture>();
+        private readonly List<WasapiRecorder> _Captures = new List<WasapiRecorder>();
 
         public override bool Init()
         {
@@ -48,7 +48,7 @@ namespace Vocaluxe.Lib.Sound.Record.NAudio
                     try
                     {
                         using (device)
-                        using (var client = device.AudioClient)
+                        using (var client = device.CreateAudioClient())
                         {
                             _Devices.Add(new CRecordDevice(_Devices.Count, device.FriendlyName, device.ID, client.MixFormat.Channels));
                         }
@@ -102,19 +102,22 @@ namespace Vocaluxe.Lib.Sound.Record.NAudio
                     continue;
                 }
 
-                WasapiCapture capture = null;
+                WasapiRecorder capture = null;
                 try
                 {
                     using (var mmDevice = _Enumerator.GetDevice(dev.Driver))
                     {
-                        capture = new WasapiCapture(mmDevice, true, _BufferMilliseconds)
-                        {
-                            WaveFormat = new WaveFormat(_SampleRate, _BitsPerSample, dev.Channels)
-                        };
+                        capture = new WasapiRecorderBuilder()
+                            .WithDevice(mmDevice)
+                            .WithSharedMode()
+                            .WithEventSync()
+                            .WithBufferLength(_BufferMilliseconds)
+                            .WithFormat(new WaveFormat(_SampleRate, _BitsPerSample, dev.Channels))
+                            .Build();
                     }
 
                     var device = dev;
-                    capture.DataAvailable += (sender, e) => _OnDataAvailable(device, e);
+                    capture.DataAvailable += (buffer, flags, devicePosition, qpcPosition) => _OnDataAvailable(device, buffer, flags);
                     capture.RecordingStopped += (sender, e) => _OnRecordingStopped(device, e);
                     capture.StartRecording();
                     _Captures.Add(capture);
@@ -176,17 +179,21 @@ namespace Vocaluxe.Lib.Sound.Record.NAudio
             }
         }
 
-        private void _OnDataAvailable(CRecordDevice device, WaveInEventArgs e)
+        private void _OnDataAvailable(CRecordDevice device, ReadOnlySpan<byte> buffer, AudioClientBufferFlags flags)
         {
-            if (e.BytesRecorded <= 0)
+            if (buffer.Length <= 0)
             {
                 return;
             }
 
             try
             {
-                var recbuffer = new byte[e.BytesRecorded];
-                Array.Copy(e.Buffer, recbuffer, e.BytesRecorded);
+                var recbuffer = new byte[buffer.Length];
+                if ((flags & AudioClientBufferFlags.Silent) == 0)
+                {
+                    buffer.CopyTo(recbuffer);
+                }
+
                 _HandleData(device, recbuffer);
             }
             catch (Exception ex)

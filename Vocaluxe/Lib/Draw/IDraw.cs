@@ -16,6 +16,7 @@
 #endregion
 
 using System.Drawing;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -37,15 +38,17 @@ namespace Vocaluxe.Lib.Draw
         void MakeScreenShot();
 
         CTextureRef AddTexture(string texturePath);
-        CTextureRef AddTexture(Bitmap bitmap);
+        CTextureRef AddTexture(SKBitmap bitmap);
         CTextureRef AddTexture(int w, int h, byte[] data);
-        void UpdateTexture(CTextureRef texture, Bitmap bmp);
+        void UpdateTexture(CTextureRef texture, SKBitmap bmp);
         void UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
         CTextureRef EnqueueTexture(string texturePath);
-        CTextureRef EnqueueTexture(Bitmap bmp);
+        CTextureRef EnqueueTexture(SKBitmap bmp);
         CTextureRef EnqueueTexture(int w, int h, byte[] data);
-        void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp);
+        void EnqueueTextureUpdate(CTextureRef textureRef, SKBitmap bmp);
         CTextureRef CopyTexture(CTextureRef textureRef);
+        bool SupportsYuvVideo { get; }
+        void UpdateYuvTexture(ref CTextureRef textureRef, int w, int h, byte[] data, float[] yuvToRgbRows);
         void RemoveTexture(ref CTextureRef texture);
 
         // Basic Draw Methods

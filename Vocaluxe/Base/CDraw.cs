@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using SkiaSharp;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -101,7 +102,7 @@ namespace Vocaluxe.Base
             switch (CConfig.Config.Graphics.Renderer)
             {
                 case ERenderer.TR_CONFIG_SOFTWARE:
-                    _Draw = new CDrawWinForm();
+                    _Draw = new CDrawSoftware();
                     break;
 
                 case ERenderer.TR_CONFIG_OPENGL:
@@ -133,7 +134,7 @@ namespace Vocaluxe.Base
 #endif
 
                 default:
-                    _Draw = new CDrawWinForm();
+                    _Draw = new CDrawSoftware();
                     break;
             }
 
@@ -213,7 +214,7 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns>Reference to texture</returns>
-        public static CTextureRef AddTexture(Bitmap bitmap)
+        public static CTextureRef AddTexture(SKBitmap bitmap)
         {
             return _Draw.AddTexture(bitmap);
         }
@@ -261,7 +262,7 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="bmp">Bitmap to add, gets disposed after adding!</param>
         /// <returns>Reference to texture</returns>
-        public static CTextureRef EnqueueTexture(Bitmap bmp)
+        public static CTextureRef EnqueueTexture(SKBitmap bmp)
         {
             return _Draw.EnqueueTexture(bmp);
         }
@@ -284,7 +285,7 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="textureRef">Reference to the texture to update</param>
         /// <param name="bmp"></param>
-        public static void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
+        public static void EnqueueTextureUpdate(CTextureRef textureRef, SKBitmap bmp)
         {
             _Draw.EnqueueTextureUpdate(textureRef, bmp);
         }
@@ -312,12 +313,22 @@ namespace Vocaluxe.Base
             _Draw.UpdateTexture(textureRef, w, h, data);
         }
 
+        public static bool SupportsYuvVideo
+        {
+            get { return _Draw != null && _Draw.SupportsYuvVideo; }
+        }
+
+        public static void UpdateYuvTexture(ref CTextureRef textureRef, int w, int h, byte[] data, float[] yuvToRgbRows)
+        {
+            _Draw.UpdateYuvTexture(ref textureRef, w, h, data, yuvToRgbRows);
+        }
+
         /// <summary>
         ///     Updates a texture, filling it with the new data from the bitmap
         /// </summary>
         /// <param name="textureRef"></param>
         /// <param name="bmp"></param>
-        public static void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
+        public static void UpdateTexture(CTextureRef textureRef, SKBitmap bmp)
         {
             _Draw.UpdateTexture(textureRef, bmp);
         }

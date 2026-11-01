@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Web;
 using VocaluxeLib;
@@ -1425,9 +1424,15 @@ namespace Vocaluxe.Screens
 
         private void _ShowHighscore()
         {
+            var songNr = _SongMenu.GetPreviewSongNr();
+            if (songNr < 0 || songNr >= CSongs.VisibleSongs.Count)
+            {
+                return;
+            }
+
             CGame.ClearSongs();
-            CScreenSong.setStaticSelectedSongId(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].Id);
-            _SongMenu.SetSelectedSong(_SongMenu.GetPreviewSongNr());
+            CScreenSong.setStaticSelectedSongId(CSongs.VisibleSongs[songNr].Id);
+            _SongMenu.SetSelectedSong(songNr);
             CBase.Graphics.FadeTo(EScreen.Highscore);
         }
 

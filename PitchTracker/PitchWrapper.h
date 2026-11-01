@@ -4,7 +4,7 @@
 #include "ptAKF.h"
 #include "dywapitchtrack/ptDyWa.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 	#define DllExport extern "C"
 #else
 	#define DllExport extern "C" __declspec(dllexport)

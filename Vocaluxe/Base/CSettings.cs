@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 
@@ -205,12 +204,12 @@ namespace Vocaluxe.Base
 
         public static string Version
         {
-            get { return Application.ProductVersion.Split('-').First(); }
+            get { return FullVersion.Split('-').First(); }
         }
 
         public static string FullVersion
         {
-            get { return Application.ProductVersion; }
+            get { return Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion; }
         }
 
         public static string GetFullVersionText()

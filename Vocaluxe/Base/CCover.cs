@@ -19,13 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -391,7 +391,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static void _TrySaveCachedCover(string text, ECoverGeneratorType type, CSong firstSong, Bitmap bmp)
+        private static void _TrySaveCachedCover(string text, ECoverGeneratorType type, CSong firstSong, SKBitmap bmp)
         {
             try
             {
@@ -404,7 +404,10 @@ namespace Vocaluxe.Base
                 Directory.CreateDirectory(cacheFolder);
 
                 var tmpPath = cachePath + ".tmp";
-                bmp.Save(tmpPath, ImageFormat.Png);
+                using (var stream = File.Create(tmpPath))
+                {
+                    bmp.Encode(stream, SKEncodedImageFormat.Png, 100);
+                }
 
                 if (File.Exists(cachePath))
                     File.Delete(cachePath);

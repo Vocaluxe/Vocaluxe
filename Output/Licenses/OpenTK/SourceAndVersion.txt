@@ -1,0 +1,9 @@
+https://github.com/opentk/opentk
+
+Version: OpenTK.Graphics 4.9.4, OpenTK.Audio.OpenAL 4.9.4, OpenTK.Core 4.9.4, OpenTK.Mathematics 4.9.4 (NuGet, netstandard2.1)
+
+Files:
+OpenTK.Graphics.dll
+OpenTK.Audio.OpenAL.dll
+OpenTK.Core.dll
+OpenTK.Mathematics.dll

@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;

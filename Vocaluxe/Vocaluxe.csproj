@@ -1,428 +1,102 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Platforms>x86;x64</Platforms>
     <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN;ARCH_X86</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
+    <SelfContained>false</SelfContained>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64</RuntimeIdentifiers>
+    <IsWindowsConfig>$(Configuration.EndsWith('Win'))</IsWindowsConfig>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWin|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X86</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
+
+  <PropertyGroup Condition="'$(IsWindowsConfig)' == 'true'">
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN;ARCH_X64</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
+  <PropertyGroup Condition="'$(IsWindowsConfig)' != 'true' And '$(Platform)' == 'x64'">
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X64</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugLinux|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LINUX;ARCH_X86</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLinux|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>LINUX;ARCH_X86</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LINUX;ARCH_X64</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>LINUX;ARCH_X64</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X86;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-    <LangVersion>9.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
+    <Compile Remove="Animations\**" />
+    <Compile Remove="Base\Font\**" />
+    <None Remove="Animations\**;Base\Font\**" />
+    <Compile Remove="Lib\Draw\CDirect3D.cs;Lib\Sound\Record\NAudio\CNAudioRecord.cs;Lib\Webcam\CAForgeNet.cs" Condition="'$(IsWindowsConfig)' != 'true'" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
+    <PackageReference Include="FFmpeg.AutoGen.Abstractions" Version="8.1.0" />
+    <PackageReference Include="FFmpeg.AutoGen.Bindings.DynamicallyLoaded" Version="8.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.14" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
-    <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
+    <PackageReference Include="OpenTK.Audio.OpenAL" Version="4.9.4" />
+    <PackageReference Include="OpenTK.Graphics" Version="4.9.4" />
+    <PackageReference Include="ppy.SDL3-CS" Version="2026.1002.1" />
+    <PackageReference Include="QRCoder" Version="1.8.1" />
+    <PackageReference Include="SkiaSharp" Version="4.154.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="4.154.0" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.5" />
+    <PackageReference Include="System.Management" Version="10.0.14" />
     <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.0.3" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.gstreamersharp" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.opentk" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.portaudiosharp" Version="1.0.3" />
-    <PackageReference Include="vocaluxe.dependencies.qrcoder" Version="1.0.1" />
-    <PackageReference Include="Vortice.Direct3D9" Version="2.4.2" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <!-- PolySharp is pulled in by SharpGen.Runtime (Vortice) and fails the build with Roslyn < 4.3 (VS 2019); Vocaluxe does not need it -->
-    <PackageReference Include="PolySharp" Version="1.10.0" ExcludeAssets="all" PrivateAssets="all" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="NAudio.Wasapi" Version="3.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.14" />
+    <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
+    <PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
+    <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
+    <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Base\CBackgroundMusic.cs" />
-    <Compile Include="Base\CCoverGenerator.cs" />
-    <Compile Include="Base\CPlaylistElement.cs" />
-    <Compile Include="Base\CRecord.cs" />
-    <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
-    <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
-    <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
-    <Compile Include="Base\ThemeSystem\CPartyTheme.cs" />
-    <Compile Include="Base\ThemeSystem\CTheme.cs" />
-    <Compile Include="Base\CVideoPlayer.cs" />
-    <Compile Include="Base\ThemeSystem\CSkin.cs" />
-    <Compile Include="Base\XmlStructs.cs" />
-    <Compile Include="COSFunctions.cs" />
-    <Compile Include="Lib\Database\CCoverDB.cs" />
-    <Compile Include="Lib\Database\CDatabaseBase.cs" />
-    <Compile Include="Lib\Database\CHighscoreDB.cs" />
-    <Compile Include="Lib\Draw\CDrawBase.cs" />
-    <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
-    <Compile Include="Lib\Draw\CTextureBase.cs" />
-    <Compile Include="Lib\Draw\CTextureProvider.cs" />
-    <Compile Include="Lib\Input\CGamePad.cs" />
-    <Compile Include="Lib\Sound\EAudioEffect.cs" />
-    <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
-    <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
-    <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
-    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
-    <Compile Include="Lib\Sound\Playback\IAudioStream.cs" />
-    <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
-    <Compile Include="Lib\Sound\CPortAudioHandle.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CAnalyzer.cs" />
-    <Compile Include="Lib\Sound\Record\CBuffer.cs" />
-    <Compile Include="Base\CConfig.cs" />
-    <Compile Include="Base\CCover.cs" />
-    <Compile Include="Base\CCursor.cs" />
-    <Compile Include="Base\CDataBase.cs" />
-    <Compile Include="Base\CStatistics.cs" />
-    <Compile Include="Base\CJukebox.cs" />
-    <Compile Include="Base\CDraw.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
-    <Compile Include="Base\Fonts\CFontStyle.cs" />
-    <Compile Include="Base\CGame.cs" />
-    <Compile Include="Base\CController.cs" />
-    <Compile Include="Base\CLanguage.cs" />
-    <Compile Include="Base\CMain.cs" />
-    <Compile Include="Base\CObservable.cs" />
-    <Compile Include="Base\CParty.cs" />
-    <Compile Include="Base\CPlaylists.cs" />
-    <Compile Include="Base\CProfiles.cs" />
-    <Compile Include="Base\CSongCategorizer.cs" />
-    <Compile Include="Base\CSongFilter.cs" />
-    <Compile Include="Base\CSongSorter.cs" />
-    <Compile Include="Base\CUtility.cs" />
-    <Compile Include="Base\CSettings.cs" />
-    <Compile Include="Base\CSongs.cs" />
-    <Compile Include="Base\ThemeSystem\CThemes.cs" />
-    <Compile Include="Base\CVideo.cs" />
-    <Compile Include="Base\CWebcam.cs" />
-    <Compile Include="Base\Fonts\CFonts.cs" />
-    <Compile Include="Base\Fonts\CGlyph.cs" />
-    <Compile Include="CProgrammHelper.cs" />
-    <Compile Include="CSplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModes.cs" />
-    <Compile Include="Lib\Input\CControllerFramework.cs" />
-    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
-    <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
-    <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
-    <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
-    <Compile Include="Reporting\Reporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Reporting\Reporter.Designer.cs">
-      <DependentUpon>Reporter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Screens\CPopupScreenServerQR.cs" />
-    <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
-    <Compile Include="SongQueue\CSongQueue.cs" />
-    <Compile Include="GameModes\IGameMode.cs" />
-    <Compile Include="SongQueue\ISongQueue.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\CDrawWinForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\COpenGL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\IDraw.cs" />
-    <Compile Include="Lib\Input\CHIDApi.cs" />
-    <Compile Include="Lib\Input\IController.cs" />
-    <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
-    <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
-    <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
-    <Compile Include="Base\CSound.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
-    <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
-    <Compile Include="Lib\Sound\Record\NAudio\CNAudioRecord.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
-    <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
-    <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
-    <Compile Include="Lib\Sound\Record\IRecord.cs" />
-    <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
-    <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Video\IVideoDecoder.cs" />
-    <Compile Include="Lib\Webcam\CAForgeNet.cs" />
-    <Compile Include="Lib\Webcam\IWebcam.cs" />
-    <Compile Include="Base\CGraphics.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\CPopupScreenPlayerControl.cs" />
-    <Compile Include="Screens\CPopupScreenVolumeControl.cs" />
-    <Compile Include="Screens\CScreenCredits.cs" />
-    <Compile Include="Screens\CScreenHighscore.cs" />
-    <Compile Include="Screens\CScreenLoad.cs" />
-    <Compile Include="Screens\CScreenMain.cs" />
-    <Compile Include="Screens\CScreenNames.cs" />
-    <Compile Include="Screens\CScreenOptionsBase.cs" />
-    <Compile Include="Screens\CScreenOptionsGame.cs" />
-    <Compile Include="Screens\CScreenOptionsLyrics.cs" />
-    <Compile Include="Screens\CScreenParty.cs" />
-    <Compile Include="Screens\CScreenStatistics.cs" />
-    <Compile Include="Screens\CScreenStatisticsDetail.cs" />
-    <Compile Include="Screens\CScreenJukebox.cs" />
-    <Compile Include="Screens\CScreenJukeboxPlayer.cs" />
-    <Compile Include="Screens\CScreenWebQueue.cs" />
-    <Compile Include="Screens\CScreenProfiles.cs" />
-    <Compile Include="Screens\CScreenScore.cs" />
-    <Compile Include="Screens\CScreenSing.cs" />
-    <Compile Include="Screens\CScreenSong.cs" />
-    <Compile Include="Screens\CScreenTest.cs" />
-    <Compile Include="Screens\CScreenOptionsSound.cs" />
-    <Compile Include="Screens\CScreenOptionsVideo.cs" />
-    <Compile Include="Screens\CScreenOptionsRecord.cs" />
-    <Compile Include="Screens\CScreenOptionsTheme.cs" />
-    <Compile Include="Screens\CScreenOptionsGraphics.cs" />
-    <Compile Include="Screens\CScreenOptionsServer.cs" />
-    <Compile Include="Base\Web\CWebServer.cs" />
-    <Compile Include="Base\Web\CRemoteKeyboard.cs" />
-    <Compile Include="Base\Web\CWebQueue.cs" />
-    <Compile Include="Base\Web\CVocaluxeRemote.cs" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <Compile Include="Screens\CScreenOptionsSongFolders.cs" />
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Doc\SQLite.NET.chm" />
+    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj" SetPlatform="Platform=AnyCPU" />
+    <ProjectReference Include="..\VocaluxeWeb\VocaluxeWeb.csproj" SetPlatform="Platform=AnyCPU" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Doc\Roadmap.txt" />
-    <Content Include="Vocaluxe.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client,KB2468871">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 und x64%29 und Update für .NET Framework 4 %28KB2468871%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
-      <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
-      <Name>VocaluxeLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VocaluxeWeb\VocaluxeWeb.csproj" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'">
-      <Project>{4E2C9A71-6B3D-4F85-9C1E-8A7D5B2F3C60}</Project>
-      <Name>VocaluxeWeb</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reporting\Reporter.resx">
-      <DependentUpon>Reporter.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
   <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPostBuild.ps1' -ProjectDir '$(ProjectDir)'"</PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(MSBuildProjectDirectory)\..\.build\winPreBuild.ps1' -ProjectDir '$(MSBuildProjectDirectory)\' -Arch '$(Platform)'"</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(MSBuildProjectDirectory)/../.build/linuxPreBuildEvent.sh $(MSBuildProjectDirectory)/ $(Platform)</PreBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(MSBuildProjectDirectory)\..\.build\winPostBuild.ps1' -ProjectDir '$(MSBuildProjectDirectory)\'"</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(MSBuildProjectDirectory)/../.build/linuxPostBuildEvent.sh $(MSBuildProjectDirectory)/</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPreBuild.ps1' -ProjectDir '$(ProjectDir)' -Arch '$(Platform)'"</PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPreBuildEvent.sh $(ProjectDir) $(Platform)</PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+  <Target Name="gstreamerBeforeBuild" BeforeTargets="BeforeBuild" Condition="'$(IsWindowsConfig)' == 'true'">
+    <PropertyGroup>
+      <GstreamerZipAddress Condition="'$(Platform)' == 'x64'">https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/dependencies/gstreamer_x64.zip</GstreamerZipAddress>
+      <GstreamerZipAddress Condition="'$(Platform)' == 'x86'">https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/dependencies/gstreamer_x86.zip</GstreamerZipAddress>
+      <GstreamerTargetFolder Condition="'$(Platform)' == 'x64'">$(TargetDir)libs\unmanaged\gstreamer64\</GstreamerTargetFolder>
+      <GstreamerTargetFolder Condition="'$(Platform)' == 'x86'">$(TargetDir)libs\unmanaged\gstreamer86\</GstreamerTargetFolder>
+      <GstreamerGlobalPath Condition="'$(Platform)' == 'x64'">$(GSTREAMER_1_0_ROOT_X86_64)</GstreamerGlobalPath>
+      <GstreamerGlobalPath Condition="'$(Platform)' == 'x86'">$(GSTREAMER_1_0_ROOT_X86)</GstreamerGlobalPath>
+      <GstreamerDownload Condition="!Exists('$(GstreamerTargetFolder)') And ('$(GstreamerGlobalPath)' == '' Or !Exists('$(GstreamerGlobalPath)'))">true</GstreamerDownload>
+      <GstreamerZipFolder>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)</GstreamerZipFolder>
+    </PropertyGroup>
+    <Message Text="gstreamer is missing - download started: $(GstreamerZipAddress)" Importance="normal" Condition="'$(GstreamerDownload)' == 'true'" />
+    <DownloadFile SourceUrl="$(GstreamerZipAddress)" DestinationFolder="$(GstreamerZipFolder)" DestinationFileName="gstreamer_$(Platform).zip" Condition="'$(GstreamerDownload)' == 'true'" />
+    <Unzip SourceFiles="$(GstreamerZipFolder)gstreamer_$(Platform).zip" DestinationFolder="$(GstreamerTargetFolder)" Condition="'$(GstreamerDownload)' == 'true'" />
   </Target>
-  <Target Name="AfterBuild">
+
+  <Target Name="ffmpegBeforeBuild" BeforeTargets="BeforeBuild" Condition="'$(IsWindowsConfig)' == 'true'">
+    <PropertyGroup>
+      <FFmpegZipAddress Condition="'$(Platform)' == 'x64'">https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/dependencies/ffmpeg_x64.zip</FFmpegZipAddress>
+      <FFmpegZipAddress Condition="'$(Platform)' == 'x86'">https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/dependencies/ffmpeg_x86.zip</FFmpegZipAddress>
+      <FFmpegTargetFolder Condition="'$(Platform)' == 'x64'">$(TargetDir)libs\unmanaged\ffmpeg64\</FFmpegTargetFolder>
+      <FFmpegTargetFolder Condition="'$(Platform)' == 'x86'">$(TargetDir)libs\unmanaged\ffmpeg86\</FFmpegTargetFolder>
+      <FFmpegZipFolder>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)</FFmpegZipFolder>
+      <FFmpegDownload Condition="!Exists('$(FFmpegTargetFolder)avcodec-62.dll')">true</FFmpegDownload>
+    </PropertyGroup>
+    <Message Text="FFmpeg is missing - download started: $(FFmpegZipAddress)" Importance="normal" Condition="'$(FFmpegDownload)' == 'true'" />
+    <DownloadFile SourceUrl="$(FFmpegZipAddress)" DestinationFolder="$(FFmpegZipFolder)" DestinationFileName="ffmpeg_$(Platform).zip" Condition="'$(FFmpegDownload)' == 'true'" />
+    <Unzip SourceFiles="$(FFmpegZipFolder)ffmpeg_$(Platform).zip" DestinationFolder="$(TargetDir)libs\unmanaged\" Condition="'$(FFmpegDownload)' == 'true'" />
   </Target>
-  -->
-  <Target Name="PostBuildMacros">
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="Targets" />
-    </GetAssemblyIdentity>
-    <ItemGroup>
-      <VersionNumber Include="@(Targets->'%(Version)')" />
-    </ItemGroup>
-  </Target>
-  <PropertyGroup>
-    <PostBuildEventDependsOn>
-      $(PostBuildEventDependsOn);
-      PostBuildMacros;
-    </PostBuildEventDependsOn>
-  </PropertyGroup>
-  <Target Name="copyWebAppAfterBuild" BeforeTargets="AfterBuild" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'">
+
+  <Target Name="copyWebAppAfterBuild" AfterTargets="Build">
     <Message Text="copy the WebApp (built by VocaluxeWeb) to the Website folder" Importance="normal" />
     <ItemGroup>
       <WebAppFiles Include="$(ProjectDir)..\WebApp\dist\**\*" />
@@ -430,10 +104,11 @@
     <RemoveDir Directories="$(TargetDir)Website" />
     <Copy SourceFiles="@(WebAppFiles)" DestinationFiles="@(WebAppFiles->'$(TargetDir)Website\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
-  <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
+
+  <Target Name="managedDepCopyAfterBuild" AfterTargets="Build">
     <Message Text="move all libs to the managed dependencies folder" Importance="normal" />
     <ItemGroup>
-      <RootDLLFilesToMove Include="$(TargetDir)*.dll" />
+      <RootDLLFilesToMove Include="$(TargetDir)*.dll" Exclude="$(TargetDir)$(TargetFileName)" />
     </ItemGroup>
     <ItemGroup>
       <RootDLLCompanionFiles Include="@(RootDLLFilesToMove->'%(RootDir)%(Directory)%(Filename).pdb');@(RootDLLFilesToMove->'%(RootDir)%(Directory)%(Filename).xml');@(RootDLLFilesToMove->'%(FullPath).config')" />

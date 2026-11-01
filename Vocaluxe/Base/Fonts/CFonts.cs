@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
@@ -173,9 +174,9 @@ namespace Vocaluxe.Base.Fonts
             return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.CalculatedFont), GetTextHeight(text.TranslatedText, text.CalculatedFont));
         }
 
-        public static Font GetSystemFont(CFont font)
+        public static SKTypeface GetTypeface(CFont font)
         {
-            return _GetFontStyle(font).GetSystemFont(font.Height);
+            return _GetFontStyle(font).GetTypeface();
         }
 
         public static float GetOutlineSize(CFont font)
@@ -343,10 +344,10 @@ namespace Vocaluxe.Base.Fonts
         {
             fontFamily.ThemeName = themeName;
             fontFamily.PartyModeId = partyModeId;
-            fontFamily.Normal = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileNormal), EStyle.Normal, fontFamily.Outline, fontFamily.OutlineColor);
-            fontFamily.Italic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileItalic), EStyle.Italic, fontFamily.Outline, fontFamily.OutlineColor);
-            fontFamily.Bold = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBold), EStyle.Bold, fontFamily.Outline, fontFamily.OutlineColor);
-            fontFamily.BoldItalic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBoldItalic), EStyle.BoldItalic, fontFamily.Outline,
+            fontFamily.Normal = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileNormal), fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.Italic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileItalic), fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.Bold = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBold), fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.BoldItalic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBoldItalic), fontFamily.Outline,
                 fontFamily.OutlineColor);
             _FontFamilies.Add(fontFamily);
             return true;

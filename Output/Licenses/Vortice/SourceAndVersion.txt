@@ -2,11 +2,14 @@ https://github.com/amerkoleci/Vortice.Windows
 https://github.com/amerkoleci/Vortice.Mathematics
 https://github.com/SharpGenTools/SharpGenTools
 
-Version: Vortice.Direct3D9 2.4.2 (NuGet, netstandard2.0), Vortice.Mathematics 1.4.25,
-SharpGen.Runtime 2.0.0-beta.13, SharpGen.Runtime.COM 2.0.0-beta.13
+Version: Vortice.Direct3D11 3.8.3, Vortice.DXGI 3.8.3, Vortice.D3DCompiler 3.8.3, Vortice.DirectX 3.8.3 (NuGet, net10.0),
+Vortice.Mathematics 2.1.0, SharpGen.Runtime 2.4.2-beta, SharpGen.Runtime.COM 2.4.2-beta
 
 Files:
-Vortice.Direct3D9.dll
+Vortice.Direct3D11.dll
+Vortice.DXGI.dll
+Vortice.D3DCompiler.dll
+Vortice.DirectX.dll
 Vortice.Mathematics.dll
 SharpGen.Runtime.dll
 SharpGen.Runtime.COM.dll

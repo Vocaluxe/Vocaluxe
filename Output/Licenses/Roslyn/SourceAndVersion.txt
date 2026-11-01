@@ -1,0 +1,7 @@
+https://github.com/dotnet/roslyn
+
+Version: Microsoft.CodeAnalysis.CSharp 5.9.0 (NuGet, net10.0)
+
+Files:
+Microsoft.CodeAnalysis.dll
+Microsoft.CodeAnalysis.CSharp.dll

@@ -19,17 +19,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Windows.Forms;
-using OpenTK.Input;
+using SDL;
 using Vocaluxe.Base;
 using VocaluxeLib;
-using ButtonState = OpenTK.Input.ButtonState;
 
 namespace Vocaluxe.Lib.Input
 {
-    class CGamePad : CControllerFramework
+    unsafe class CGamePad : CControllerFramework
     {
-        private const int MaxGamePads = 4;
         private const int PollIntervalMs = 5;
         private const int ReconnectWaitMs = 1000;
         private const int ErrorBackoffMs = 2000;
@@ -67,7 +64,8 @@ namespace Vocaluxe.Lib.Input
         private volatile int _GamePadIndex = -1;
         private volatile bool _Active;
         private int _LastConnectedIndex = -1;
-        private GamePadState _OldState;
+        private SDL_Gamepad* _GamePad;
+        private SGamePadState _OldState;
         private Thread _HandlerThread;
         private ManualResetEvent _EvTerminate;
         private CRumbleTimer _RumbleTimer;
@@ -221,8 +219,8 @@ namespace Vocaluxe.Lib.Input
             }
             finally
             {
-                _StopVibration(_GamePadIndex);
-                _GamePadIndex = -1;
+                _StopVibration(_GamePad);
+                _CloseGamePad();
             }
         }
 
@@ -250,14 +248,21 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
+            var gamePad = SDL3.SDL_OpenGamepad((SDL_JoystickID)index);
+            if (gamePad == null)
+            {
+                return false;
+            }
+
             _ResetInputState();
+            _GamePad = gamePad;
             _GamePadIndex = index;
 
             var isNewPad = index != _LastConnectedIndex;
             _LastConnectedIndex = index;
             if (isNewPad)
             {
-                _PlayConnectRumble(index, evTerminate);
+                _PlayConnectRumble(gamePad, evTerminate);
             }
 
             return true;
@@ -265,37 +270,37 @@ namespace Vocaluxe.Lib.Input
 
         private static int _FindConnectedPad()
         {
-            for (var i = 0; i < MaxGamePads; i++)
+            try
             {
-                try
+                using (var gamePads = SDL3.SDL_GetGamepads())
                 {
-                    if (GamePad.GetCapabilities(i).IsConnected)
+                    if (gamePads != null && gamePads.Count > 0)
                     {
-                        return i;
+                        return (int)gamePads[0];
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("CGamePad: Failed to query capabilities for pad " + i + ": " + ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("CGamePad: Failed to query the connected pads: " + ex);
             }
 
             return -1;
         }
 
-        private static void _PlayConnectRumble(int index, WaitHandle evTerminate)
+        private static void _PlayConnectRumble(SDL_Gamepad* gamePad, WaitHandle evTerminate)
         {
             try
             {
                 for (var i = 0; i < ConnectRumblePulses; i++)
                 {
-                    GamePad.SetVibration(index, 1.0f, 1.0f);
+                    _SetVibration(gamePad, true);
                     if (evTerminate.WaitOne(ConnectRumblePulseMs))
                     {
                         break;
                     }
 
-                    GamePad.SetVibration(index, 0.0f, 0.0f);
+                    _SetVibration(gamePad, false);
                     if (evTerminate.WaitOne(ConnectRumblePulseMs))
                     {
                         break;
@@ -308,30 +313,34 @@ namespace Vocaluxe.Lib.Input
             }
             finally
             {
-                _StopVibration(index);
+                _StopVibration(gamePad);
             }
+        }
+
+        private static void _SetVibration(SDL_Gamepad* gamePad, bool on)
+        {
+            SDL3.SDL_RumbleGamepad(gamePad, on ? ushort.MaxValue : (ushort)0, on ? ushort.MaxValue : (ushort)0, on ? 10000u : 0u);
         }
 
         private void _ProcessCurrentGamePad()
         {
-            var index = _GamePadIndex;
-            if (index == -1)
+            var gamePad = _GamePad;
+            if (_GamePadIndex == -1 || gamePad == null)
             {
                 return;
             }
 
-            var state = GamePad.GetState(index);
-            if (!state.IsConnected)
+            if (!SDL3.SDL_GamepadConnected(gamePad))
             {
                 _HandleDisconnect(true);
                 return;
             }
 
-            _UpdateRumble(index);
-            _HandleInput(state);
+            _UpdateRumble(gamePad);
+            _HandleInput(SGamePadState.Get(gamePad));
         }
 
-        private void _UpdateRumble(int index)
+        private void _UpdateRumble(SDL_Gamepad* gamePad)
         {
             bool startRumble;
             bool stopRumble;
@@ -344,18 +353,18 @@ namespace Vocaluxe.Lib.Input
 
             if (startRumble)
             {
-                GamePad.SetVibration(index, 1.0f, 1.0f);
+                _SetVibration(gamePad, true);
             }
             else if (stopRumble)
             {
-                GamePad.SetVibration(index, 0.0f, 0.0f);
+                _SetVibration(gamePad, false);
             }
         }
 
         private void _HandleDisconnect(bool padRemoved)
         {
-            _StopVibration(_GamePadIndex);
-            _GamePadIndex = -1;
+            _StopVibration(_GamePad);
+            _CloseGamePad();
 
             if (padRemoved)
             {
@@ -365,16 +374,27 @@ namespace Vocaluxe.Lib.Input
             _ResetInputState();
         }
 
-        private static void _StopVibration(int gamePadIndex)
+        private void _CloseGamePad()
         {
-            if (gamePadIndex == -1)
+            var gamePad = _GamePad;
+            _GamePadIndex = -1;
+            _GamePad = null;
+            if (gamePad != null)
+            {
+                SDL3.SDL_CloseGamepad(gamePad);
+            }
+        }
+
+        private static void _StopVibration(SDL_Gamepad* gamePad)
+        {
+            if (gamePad == null)
             {
                 return;
             }
 
             try
             {
-                GamePad.SetVibration(gamePadIndex, 0.0f, 0.0f);
+                _SetVibration(gamePad, false);
             }
             catch (Exception ex)
             {
@@ -384,7 +404,7 @@ namespace Vocaluxe.Lib.Input
 
         private void _ResetInputState()
         {
-            _OldState = new GamePadState();
+            _OldState = new SGamePadState();
             foreach (var input in _RepeatingInputs)
             {
                 input.Reset();
@@ -393,7 +413,7 @@ namespace Vocaluxe.Lib.Input
             _MouseTimer.Reset();
         }
 
-        private void _HandleInput(GamePadState state)
+        private void _HandleInput(SGamePadState state)
         {
             _PendingKeys.Clear();
 
@@ -432,7 +452,7 @@ namespace Vocaluxe.Lib.Input
             _OldState = state;
         }
 
-        private void _HandleMouse(GamePadState state)
+        private void _HandleMouse(SGamePadState state)
         {
             var leftClick =
                 _IsNewlyPressed(state.Buttons.LeftShoulder, _OldState.Buttons.LeftShoulder) ||
@@ -483,9 +503,9 @@ namespace Vocaluxe.Lib.Input
             return Math.Max(min, Math.Min(max, value));
         }
 
-        private static bool _IsNewlyPressed(ButtonState now, ButtonState old)
+        private static bool _IsNewlyPressed(bool now, bool old)
         {
-            return now == ButtonState.Pressed && old == ButtonState.Released;
+            return now && !old;
         }
 
         private static bool _IsAxisPressed(float value, bool wasPressed)
@@ -498,21 +518,82 @@ namespace Vocaluxe.Lib.Input
             return value >= (wasPressed ? TriggerReleaseThreshold : TriggerPressThreshold);
         }
 
+        private struct SGamePadState
+        {
+            public struct SButtons
+            {
+                public bool A, B, Back, Start, LeftShoulder, RightShoulder, RightStick;
+            }
+
+            public struct SDPad
+            {
+                public bool IsUp, IsDown, IsLeft, IsRight;
+            }
+
+            public struct SStick
+            {
+                public float X, Y;
+            }
+
+            public struct SThumbSticks
+            {
+                public SStick Left, Right;
+            }
+
+            public struct STriggers
+            {
+                public float Left, Right;
+            }
+
+            public SButtons Buttons;
+            public SDPad DPad;
+            public SThumbSticks ThumbSticks;
+            public STriggers Triggers;
+
+            public static SGamePadState Get(SDL_Gamepad* gamePad)
+            {
+                var state = new SGamePadState();
+                state.Buttons.A = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_SOUTH);
+                state.Buttons.B = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_EAST);
+                state.Buttons.Back = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_BACK);
+                state.Buttons.Start = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_START);
+                state.Buttons.LeftShoulder = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
+                state.Buttons.RightShoulder = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
+                state.Buttons.RightStick = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_RIGHT_STICK);
+                state.DPad.IsUp = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_UP);
+                state.DPad.IsDown = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_DOWN);
+                state.DPad.IsLeft = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_LEFT);
+                state.DPad.IsRight = SDL3.SDL_GetGamepadButton(gamePad, SDL_GamepadButton.SDL_GAMEPAD_BUTTON_DPAD_RIGHT);
+                state.ThumbSticks.Left.X = _GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTX);
+                state.ThumbSticks.Left.Y = -_GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFTY);
+                state.ThumbSticks.Right.X = _GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTX);
+                state.ThumbSticks.Right.Y = -_GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHTY);
+                state.Triggers.Left = _GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_LEFT_TRIGGER);
+                state.Triggers.Right = _GetAxis(gamePad, SDL_GamepadAxis.SDL_GAMEPAD_AXIS_RIGHT_TRIGGER);
+                return state;
+            }
+
+            private static float _GetAxis(SDL_Gamepad* gamePad, SDL_GamepadAxis axis)
+            {
+                return Math.Max(-1f, SDL3.SDL_GetGamepadAxis(gamePad, axis) / 32767f);
+            }
+        }
+
         private sealed class CRepeatingInput
         {
             private readonly Keys _Key;
-            private readonly Func<GamePadState, bool, bool> _IsPressed;
+            private readonly Func<SGamePadState, bool, bool> _IsPressed;
             private readonly Stopwatch _Timer = new Stopwatch();
             private bool _Pressed;
             private bool _Repeating;
 
-            public CRepeatingInput(Keys key, Func<GamePadState, bool, bool> isPressed)
+            public CRepeatingInput(Keys key, Func<SGamePadState, bool, bool> isPressed)
             {
                 _Key = key;
                 _IsPressed = isPressed;
             }
 
-            public void Update(GamePadState state, ICollection<Keys> keys)
+            public void Update(SGamePadState state, ICollection<Keys> keys)
             {
                 if (!_IsPressed(state, _Pressed))
                 {

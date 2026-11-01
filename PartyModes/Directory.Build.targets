@@ -1,0 +1,15 @@
+<Project>
+  <Target Name="CopyPartyModeCode" AfterTargets="Build">
+    <ReadLinesFromFile File="$(MSBuildThisFileDirectory)Excludes.txt">
+      <Output TaskParameter="Lines" ItemName="PartyModeCodeExclude" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <PartyModeCodeDir>$(MSBuildThisFileDirectory)..\Output\PartyModes\$(TargetName)\Code\</PartyModeCodeDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <PartyModeCode Include="$(ProjectDir)*.cs" Exclude="@(PartyModeCodeExclude->'$(ProjectDir)%(Identity)')" />
+    </ItemGroup>
+    <RemoveDir Directories="$(PartyModeCodeDir)" />
+    <Copy SourceFiles="@(PartyModeCode)" DestinationFolder="$(PartyModeCodeDir)" />
+  </Target>
+</Project>

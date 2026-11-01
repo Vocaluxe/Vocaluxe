@@ -19,11 +19,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using SkiaSharp;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 
@@ -75,8 +73,7 @@ namespace Vocaluxe.Base
         {
             public readonly string Text;
             public float Width, Height;
-            private readonly Graphics _Graphics;
-            private readonly Font _Font;
+            private readonly SKFont _Font;
             private float _WidthTrimmed = -1;
             public float WidthTrimmed
             {
@@ -85,7 +82,7 @@ namespace Vocaluxe.Base
                     if (_WidthTrimmed < 0f)
                     {
                         var text = Text.TrimEnd(null);
-                        _WidthTrimmed = text.Length == Text.Length ? Width : _Graphics.MeasureString(text, _Font).Width;
+                        _WidthTrimmed = text.Length == Text.Length ? Width : _MeasureString(text, _Font).Width;
                     }
 
                     return _WidthTrimmed;
@@ -93,13 +90,12 @@ namespace Vocaluxe.Base
             }
             public int Line;
 
-            public CTextElement(string text, Graphics g, Font font)
+            public CTextElement(string text, SKFont font)
             {
                 Text = text;
-                var dimensions = g.MeasureString(text, font);
+                var dimensions = _MeasureString(text, font);
                 Width = dimensions.Width;
-                Height = (dimensions.Height + font.Height) / 2;
-                _Graphics = g;
+                Height = (dimensions.Height + (float)Math.Ceiling(font.Spacing)) / 2;
                 _Font = font;
             }
 
@@ -111,44 +107,67 @@ namespace Vocaluxe.Base
             }
         }
 
-        private void _DrawBackground(Graphics g, Bitmap bmpBackground, String firstCoverPath)
+        private static SizeF _MeasureString(string text, SKFont font)
         {
-            g.Clear(_BGColor.AsColor());
-
-            ImageAttributes ia = null;
-            if (_Theme.ShowFirstCover && !string.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
-            {
-                using (var bmp2 = new Bitmap(firstCoverPath))
-                {
-                    g.DrawImage(bmp2, bmpBackground.GetRect(), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
-                }
-
-                var cm = new ColorMatrix { Matrix33 = _Theme.ImageAlpha };
-                ia = new ImageAttributes();
-                ia.SetColorMatrix(cm);
-            }
-
-            g.DrawImage(bmpBackground, bmpBackground.GetRect(), 0, 0, bmpBackground.Width, bmpBackground.Height, GraphicsUnit.Pixel, ia);
+            return new SizeF(font.MeasureText(text.TrimEnd(' ')) + font.Size / 3, font.Spacing);
         }
 
-        private void _DrawText(Graphics g, Size bmpSize, CFont font, List<CTextElement> elements)
+        private static SKColor _ToSKColor(SColorF color)
         {
-            var fo = CFonts.GetSystemFont(font);
+            var c = color.AsColor();
+            return new SKColor(c.R, c.G, c.B, c.A);
+        }
+
+        private void _DrawBackground(SKCanvas g, SKBitmap bmpBackground, String firstCoverPath)
+        {
+            g.Clear(_ToSKColor(_BGColor));
+
+            var rect = new SKRect(0, 0, bmpBackground.Width, bmpBackground.Height);
+            var alpha = 1f;
+            if (_Theme.ShowFirstCover && !string.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+            {
+                using (var bmp2 = SKBitmap.Decode(firstCoverPath))
+                using (var image2 = bmp2 == null ? null : SKImage.FromBitmap(bmp2))
+                {
+                    if (image2 != null)
+                    {
+                        g.DrawImage(image2, rect, new SKSamplingOptions(SKCubicResampler.Mitchell));
+                    }
+                }
+
+                alpha = _Theme.ImageAlpha;
+            }
+
+            using (var image = SKImage.FromBitmap(bmpBackground))
+            using (var paint = new SKPaint { Color = SKColors.White.WithAlpha((byte)Math.Round(alpha.Clamp(0f, 1f) * 255)) })
+            {
+                g.DrawImage(image, rect, new SKSamplingOptions(SKCubicResampler.Mitchell), paint);
+            }
+        }
+
+        private void _DrawText(SKCanvas g, Size bmpSize, CFont font, List<CTextElement> elements)
+        {
+            var typeface = CFonts.GetTypeface(font);
 
             var maxHeight = elements.Select(el => el.Height).Max();
             var lineCount = elements.Last().Line + 1;
 
-            //Have to use size in em not pixels!
-            var emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
+            float emSize;
+            using (var fo = new SKFont(typeface, font.Height))
+            {
+                //Have to use size in em not pixels!
+                emSize = -fo.Metrics.Ascent;
+            }
+
             var outlineSize = CFonts.GetOutlineSize(font) * font.Height;
             var outlineColorF = CFonts.GetOutlineColor(font);
             outlineColorF.A = outlineColorF.A * _TextColor.A;
 
-            using (var path = new GraphicsPath())
-            using (var pen = new Pen(outlineColorF.AsColor(), outlineSize / 2))
+            var paths = new List<SKPath>();
+            using (var fo = new SKFont(typeface, emSize) { Edging = SKFontEdging.Antialias, Subpixel = true })
+            using (var pen = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = outlineSize / 2, StrokeJoin = SKStrokeJoin.Round, IsAntialias = true, Color = _ToSKColor(outlineColorF) })
+            using (var brush = new SKPaint { Style = SKPaintStyle.Fill, IsAntialias = true, Color = _ToSKColor(_TextColor) })
             {
-                pen.LineJoin = LineJoin.Round;
-                pen.Alignment = PenAlignment.Outset;
                 var top = (bmpSize.Height - _MarginBottom - _MarginTop - maxHeight * lineCount) / 2 + _MarginTop;
                 var nextLineEl = 0;
                 for (var i = 0; i < lineCount; i++)
@@ -181,17 +200,25 @@ namespace Vocaluxe.Base
                         left = _MarginLeft;
                     }
 
-                    //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
-                    path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
+                    paths.Add(fo.GetTextPath(line, new SKPoint(left, top - fo.Metrics.Ascent)));
+
                     top += maxHeight + _LineSpace;
                 }
 
-                g.DrawPath(pen, path);
-                g.FillPath(new SolidBrush(_TextColor.AsColor()), path);
+                foreach (var path in paths)
+                {
+                    g.DrawPath(path, pen);
+                }
+
+                foreach (var path in paths)
+                {
+                    g.DrawPath(path, brush);
+                    path.Dispose();
+                }
             }
         }
 
-        public Bitmap GetCover(string text, string firstCoverPath)
+        public SKBitmap GetCover(string text, string firstCoverPath)
         {
             if (!_Valid)
             {
@@ -199,33 +226,36 @@ namespace Vocaluxe.Base
             }
 
             text = CLanguage.Translate(_Theme.Text.Text.Replace("%TEXT%", text));
-            using (var bmpImage = new Bitmap(_Image))
+            using (var bmpImage = SKBitmap.Decode(_Image))
             {
-                var bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb);
+                if (bmpImage == null)
+                {
+                    return null;
+                }
+
+                var bmp = new SKBitmap(bmpImage.Width, bmpImage.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
                 try
                 {
-                    using (var g = Graphics.FromImage(bmp))
+                    using (var g = new SKCanvas(bmp))
                     {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.TextRenderingHint = TextRenderingHint.AntiAlias;
-
                         _DrawBackground(g, bmpImage, firstCoverPath);
 
                         if (text != "")
                         {
                             var font = new CFont(_Theme.Text.Font);
-                            var fo = CFonts.GetSystemFont(font);
-                            var textParts = _SplitText(text);
-                            var elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
-                            var factor = _DistributeText(elements, bmp.Width, bmp.Height);
-                            foreach (var element in elements)
+                            using (var fo = new SKFont(CFonts.GetTypeface(font), font.Height))
                             {
-                                element.AdjustSize(factor);
-                            }
+                                var textParts = _SplitText(text);
+                                var elements = textParts.Select(line => new CTextElement(line, fo)).ToList();
+                                var factor = _DistributeText(elements, bmp.Width, bmp.Height);
+                                foreach (var element in elements)
+                                {
+                                    element.AdjustSize(factor);
+                                }
 
-                            font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
-                            _DrawText(g, bmp.GetSize(), font, elements);
+                                font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
+                                _DrawText(g, bmp.GetSize(), font, elements);
+                            }
                         }
                     }
 

@@ -1,4 +1,5 @@
 obj
+bin
 PitchTracker.dll
 Thumbs.db
 .transifexrc
@@ -43,6 +44,13 @@ tx.exe
 /Output/Vocaluxe_x64.exe*
 /Output/Vocaluxe.vshost.exe*
 /Output/VocaluxeLib.dll
+/Output/Vocaluxe
+/Output/Vocaluxe.dll
+/Output/Vocaluxe.runtimeconfig.json
+/Output/*.so
+/Output/*.dylib
+/Output/runtimes
+/Output/PartyModes/*/*.dll
 /Output/Photos
 /Output/Screenshots
 /Output/Website

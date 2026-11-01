@@ -20,12 +20,11 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using VocaluxeWeb.Api;
 using VocaluxeWeb.Dispatching;
@@ -58,13 +57,12 @@ namespace VocaluxeWeb.Hosting
                 compression.Providers.Add<GzipCompressionProvider>();
             });
 
-            // The entry assembly is Vocaluxe.exe, so MVC would not find our controllers on its own
+            // The entry assembly is Vocaluxe, so MVC would not find our controllers on its own
             services.AddMvcCore(mvc => mvc.Filters.Add(new CExceptionFilter(options.OnError)))
                 .AddApplicationPart(typeof(CStartup).Assembly)
                 .AddApiExplorer()
                 .AddDataAnnotations()
-                .AddJsonFormatters(json => json.Converters.Add(new StringEnumConverter()))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .AddNewtonsoftJson(json => json.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
             services.AddSwaggerGen(swagger =>
             {
@@ -89,7 +87,8 @@ namespace VocaluxeWeb.Hosting
             app.UseSwagger();
             app.UseSwaggerUI(ui => ui.SwaggerEndpoint("/swagger/v1/swagger.json", "Vocaluxe API v1"));
 
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             if (!string.IsNullOrEmpty(options.WebRoot) && Directory.Exists(options.WebRoot))
             {
