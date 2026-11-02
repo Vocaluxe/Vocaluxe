@@ -389,9 +389,16 @@
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradresse</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte aktiviere ihn und starte das Spiel neu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Es tut uns leid</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">dass Vocaluxe auf einen Fehler gestoßen ist und abgestürzt ist.\r\nHilf uns, das Problem zu beheben, indem du uns einen Bericht sendest.\r\nÖffne das Protokoll, um es zu prüfen und möglicherweise sensible Informationen vor dem Senden zu entfernen.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass du auf einen Fehler gestoßen bist.\r\nHilf uns, das Problem zu beheben, indem du uns einen Bericht sendest.\r\nÖffne das Protokoll, um es zu prüfen und möglicherweise sensible Informationen vor dem Senden zu entfernen.</string>
   <string name="TR_REPORTER_NO_UPLOAD_TEXT">Nichts hochladen (Du kannst immer noch die Fehlermeldung oben kopieren)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Hochladen und ein Ticket eröffnen (öffentlich sichtbar und benötigt ein GitHub-Konto)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Hochladen und einen Link zum Bericht erhalten (öffentlich sichtbar)</string>
+  <string name="TR_REPORTER_OPEN_LOG_TEXT">Protokoll öffnen, um es anzuzeigen oder zu bearbeiten</string>
+  <string name="TR_REPORTER_NO_UPLOAD_BUTTON">Nicht hochladen</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_BUTTON">Hochladen + Fehlerbericht</string>
+  <string name="TR_REPORTER_GIST_ONLY_BUTTON">Hochladen</string>
+  <string name="TR_REPORTER_OPEN_LOG_BUTTON">Protokoll öffnen</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Senden</string>
   <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Hochladen</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Beenden</string>
