@@ -19,10 +19,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SkiaSharp;
 
 namespace VocaluxeLib
 {
@@ -217,14 +217,14 @@ namespace VocaluxeLib
             return list;
         }
 
-        public static Size GetSize(this Bitmap bmp)
+        public static Size GetSize(this SKBitmap bmp)
         {
             return new Size(bmp.Width, bmp.Height);
         }
 
-        public static Rectangle GetRect(this Bitmap bmp)
+        public static Rectangle GetRect(this SKBitmap bmp)
         {
-            return Rectangle.Round(new Rectangle(0, 0, bmp.Width, bmp.Height));
+            return new Rectangle(0, 0, bmp.Width, bmp.Height);
         }
 
         /// <summary>
@@ -233,19 +233,19 @@ namespace VocaluxeLib
         /// <param name="bmp"></param>
         /// <param name="newSize"></param>
         /// <returns>Resized bitmap or null on error</returns>
-        public static Bitmap Resize(this Bitmap bmp, Size newSize)
+        public static SKBitmap Resize(this SKBitmap bmp, Size newSize)
         {
-            Bitmap result = null;
+            SKBitmap result = null;
             try
             {
                 //Create a new Bitmap with the new sizes
-                result = new Bitmap(newSize.Width, newSize.Height);
+                result = new SKBitmap(newSize.Width, newSize.Height, SKColorType.Bgra8888, SKAlphaType.Premul);
                 //Scale the texture
-                using (var g = Graphics.FromImage(result))
+                using (var canvas = new SKCanvas(result))
+                using (var image = SKImage.FromBitmap(bmp))
                 {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.DrawImage(bmp, result.GetRect());
+                    canvas.Clear(SKColors.Transparent);
+                    canvas.DrawImage(image, new SKRect(0, 0, newSize.Width, newSize.Height), new SKSamplingOptions(SKCubicResampler.Mitchell));
                 }
             }
             catch (Exception)
@@ -258,6 +258,28 @@ namespace VocaluxeLib
             }
 
             return result;
+        }
+
+        public static SKBitmap ToBgra(this SKBitmap bmp)
+        {
+            if (bmp.ColorType == SKColorType.Bgra8888 && bmp.AlphaType != SKAlphaType.Premul && bmp.RowBytes == bmp.Width * 4)
+            {
+                return bmp;
+            }
+
+            var result = new SKBitmap(new SKImageInfo(bmp.Width, bmp.Height, SKColorType.Bgra8888, SKAlphaType.Unpremul));
+            bmp.CopyPixelsTo(result);
+            return result;
+        }
+
+        public static void CopyPixelsTo(this SKBitmap bmp, SKBitmap target)
+        {
+            using (var pixmap = bmp.PeekPixels())
+            {
+                pixmap.ReadPixels(target.Info.WithSize(bmp.Width, bmp.Height), target.GetPixels(), target.RowBytes, 0, 0);
+            }
+
+            target.NotifyPixelsChanged();
         }
     }
 }

@@ -21,8 +21,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Xml.Serialization;
+using Vocaluxe.Lib;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
@@ -218,6 +218,14 @@ namespace Vocaluxe.Base
             public EOffOn VideosInSongs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)]
             public EOffOn VideosToBackground;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn HardwareDecoding;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn GpuColorConversion;
+            [XmlRanged(0, 64), DefaultValue(0)]
+            public int DecoderThreads;
+            [DefaultValue(EVideoDownscaleResolution.TR_CONFIG_SCALING_DISABLED)]
+            public EVideoDownscaleResolution VideoDownscaleResolution;
             [DefaultValue(EWebcamLib.AForgeNet)]
             public EWebcamLib WebcamLib;
             public SWebcamConfig? WebcamConfig;
@@ -268,7 +276,7 @@ namespace Vocaluxe.Base
         {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
-            Path.Combine(CSettings.ProgramFolder, FolderNameSongs)
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif WIN
             Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif LINUX
@@ -483,8 +491,8 @@ namespace Vocaluxe.Base
                 Platform = Environment.OSVersion.Platform.ToString(),
                 OSVersion = Environment.OSVersion.ToString(),
                 ProcessorCount = Environment.ProcessorCount,
-                Screens = Screen.AllScreens.Length,
-                PrimaryScreenResolution = Screen.PrimaryScreen.Bounds.Size.ToString(),
+                Screens = CSdl.GetDisplayCount(),
+                PrimaryScreenResolution = CSdl.GetPrimaryDisplaySize().ToString(),
                 Directory = CSettings.ProgramFolder
             };
         }
@@ -614,6 +622,14 @@ namespace Vocaluxe.Base
                     return "Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "VideosToBackground":
                     return "Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "HardwareDecoding":
+                    return "Decode videos on the graphics card if supported, falls back to software decoding: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "GpuColorConversion":
+                    return "Upload videos as YUV and convert them to RGB on the graphics card (Direct3D/OpenGL): " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "DecoderThreads":
+                    return "Number of threads used for decoding a video, 0 = automatic (all cores) [0..64]";
+                case "VideoDownscaleResolution":
+                    return "The resolution to which you want to downscale videos: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDownscaleResolution)));
                 case "WebcamLib":
                     return "WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib)));
                 case "MicDelay":

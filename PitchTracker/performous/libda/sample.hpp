@@ -22,7 +22,7 @@ namespace da {
 
 	constexpr sample_t max_s16(32767), min_s16 = -max_s16 - sample_t(1);
 	constexpr sample_t max_s24(8388607), min_s24 = -max_s24 - sample_t(1);
-	constexpr sample_t max_s32(2147483647), min_s32= -max_s32 - sample_t(1);
+	constexpr sample_t max_s32(2147483647.0f), min_s32= -max_s32 - sample_t(1);
 	constexpr double tau(6.2831853071795864769252867665590057683943387987502116);  ///< One full circle
 	constexpr double pi = tau / sample_t(2);  ///< Half circle
 	constexpr double eps(1e-10);  ///< Tiny positive value

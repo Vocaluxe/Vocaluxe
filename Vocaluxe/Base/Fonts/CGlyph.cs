@@ -20,10 +20,8 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -42,21 +40,18 @@ namespace Vocaluxe.Base.Fonts
             var outlineSize = fontStyle.Outline * maxHeight;
             var chrString = chr.ToString();
 
-            var fo = fontStyle.GetSystemFont(maxHeight);
+            var typeface = fontStyle.GetTypeface();
             SizeF fullSize;
             Size bmpSize;
-            using (var g = Graphics.FromHwnd(IntPtr.Zero))
+            float ascent;
+            using (var fo = new SKFont(typeface, maxHeight))
             {
-                fullSize = g.MeasureString(chrString, fo);
+                ascent = -fo.Metrics.Ascent;
+                var lineSpacing = fo.Spacing;
+                fullSize = new SizeF(fo.MeasureText(chrString) + maxHeight / 3, lineSpacing);
                 if (chr != ' ')
                 {
-                    //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
-                    //See https://stackoverflow.com/questions/11708621/how-to-measure-width-of-a-string-precisely
-                    var format = StringFormat.GenericTypographic;
-                    var rect = new RectangleF(0, 0, 2000, 2000);
-                    CharacterRange[] ranges = { new CharacterRange(0, chrString.Length) };
-                    format.SetMeasurableCharacterRanges(ranges);
-                    _BoundingBox = g.MeasureCharacterRanges(chrString, fo, rect, format)[0].GetBounds(g).Size;
+                    _BoundingBox = new SizeF(fo.MeasureText(chrString), lineSpacing);
 
                     // ReSharper disable CompareOfFloatsByEqualityOperator
                     if (_BoundingBox.Height == 0)
@@ -72,16 +67,17 @@ namespace Vocaluxe.Base.Fonts
                 }
                 else
                 {
+                    fullSize.Width = maxHeight / 3;
                     _BoundingBox = fullSize;
                     _BoundingBox.Height += outlineSize;
                     bmpSize = new Size(1, 1);
                 }
             }
 
-            using (var bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
-            using (var g = Graphics.FromImage(bmp))
+            using (var bmp = new SKBitmap(bmpSize.Width, bmpSize.Height, SKColorType.Bgra8888, SKAlphaType.Premul))
+            using (var g = new SKCanvas(bmp))
             {
-                g.Clear(Color.Transparent);
+                g.Clear(SKColors.Transparent);
 
                 if (chr == ' ')
                 {
@@ -90,29 +86,26 @@ namespace Vocaluxe.Base.Fonts
                 }
                 else
                 {
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-                    var point = new PointF(outlineSize / 2, outlineSize / 4);
-
-                    using (var path = new GraphicsPath())
+                    //Have to use size in em not pixels!
+                    using (var drawFont = new SKFont(typeface, ascent) { Edging = SKFontEdging.Antialias, Subpixel = true })
                     {
-                        //Have to use size in em not pixels!
-                        var emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
-                        path.AddString(chrString, fo.FontFamily, (int)fo.Style, emSize, point, new StringFormat());
+                        var point = new SKPoint(outlineSize / 2 + ascent / 6, outlineSize / 4 - drawFont.Metrics.Ascent);
 
-                        using (var pen = new Pen(fontStyle.OutlineColor.AsColor(), outlineSize))
+                        using (var path = drawFont.GetTextPath(chrString, point))
+                        using (var pen = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = outlineSize, StrokeJoin = SKStrokeJoin.Round, IsAntialias = true, Color = _ToSKColor(fontStyle.OutlineColor) })
+                        using (var brush = new SKPaint { Style = SKPaintStyle.Fill, IsAntialias = true, Color = SKColors.White })
                         {
-                            pen.LineJoin = LineJoin.Round;
-                            g.DrawPath(pen, path);
-                            g.FillPath(Brushes.White, path);
+                            g.DrawPath(path, pen);
+                            g.DrawPath(path, brush);
                         }
                     }
 
+                    g.Flush();
                     _DrawBounding = _GetRealBounds(bmp);
-                    using (var bmpCropped = bmp.Clone(_DrawBounding, PixelFormat.Format32bppArgb))
+                    using (var bmpCropped = new SKBitmap())
                     {
+                        var bounds = Rectangle.Round(_DrawBounding);
+                        bmp.ExtractSubset(bmpCropped, new SKRectI(bounds.Left, bounds.Top, bounds.Right, bounds.Bottom));
                         var dx = (fullSize.Width - _BoundingBox.Width - 1) / 2;
                         _DrawBounding.X -= dx;
                         _Texture = CDraw.AddTexture(bmpCropped);
@@ -132,6 +125,12 @@ namespace Vocaluxe.Base.Fonts
                     }
                 }
             }
+        }
+
+        private static SKColor _ToSKColor(SColorF color)
+        {
+            var c = color.AsColor();
+            return new SKColor(c.R, c.G, c.B, c.A);
         }
 
         public void UnloadTexture()
@@ -165,13 +164,12 @@ namespace Vocaluxe.Base.Fonts
             rect = new SRectF(x, y, w, h, z);
         }
 
-        private static Rectangle _GetRealBounds(Bitmap bmp)
+        private static Rectangle _GetRealBounds(SKBitmap bmp)
         {
             int minX = 0, maxX = bmp.Width - 1, minY = 0;
-            var bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            var values = bmpData.Width * bmp.Height;
+            var values = bmp.Width * bmp.Height;
             var rgbValues = new Int32[values];
-            Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
+            Marshal.Copy(bmp.GetPixels(), rgbValues, 0, values);
             var index = 0;
             var found = false;
             //find from top

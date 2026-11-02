@@ -15,13 +15,14 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using OpenTK.Audio;
+using OpenTK.Audio.OpenAL;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
     class COpenALPlay : CPlaybackBase
     {
-        private AudioContext _Context;
+        private ALDevice _Device;
+        private ALContext _Context;
 
         public override bool Init()
         {
@@ -30,8 +31,14 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                 return false;
             }
 
-            _Context = new AudioContext();
-            _Context.MakeCurrent();
+            _Device = ALC.OpenDevice(null);
+            if (_Device == ALDevice.Null)
+            {
+                return false;
+            }
+
+            _Context = ALC.CreateContext(_Device, (int[])null);
+            ALC.MakeContextCurrent(_Context);
 
             _Initialized = true;
             return true;
@@ -45,8 +52,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
 
             base.Close();
-            _Context.Dispose();
-            _Context = null;
+            ALC.MakeContextCurrent(ALContext.Null);
+            ALC.DestroyContext(_Context);
+            ALC.CloseDevice(_Device);
+            _Context = ALContext.Null;
+            _Device = ALDevice.Null;
         }
 
         protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)

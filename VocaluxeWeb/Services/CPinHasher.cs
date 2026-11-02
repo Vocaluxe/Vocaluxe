@@ -58,10 +58,7 @@ namespace VocaluxeWeb.Services
 
         private static byte[] _Pbkdf2(string pin, byte[] salt)
         {
-            using (var kdf = new Rfc2898DeriveBytes(pin, salt, _Iterations, HashAlgorithmName.SHA256))
-            {
-                return kdf.GetBytes(_HashSize);
-            }
+            return Rfc2898DeriveBytes.Pbkdf2(pin, salt, _Iterations, HashAlgorithmName.SHA256, _HashSize);
         }
 
         private static byte[] _LegacySha256(string pin, byte[] salt)

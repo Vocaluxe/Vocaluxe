@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
 using VocaluxeLib.Menu;

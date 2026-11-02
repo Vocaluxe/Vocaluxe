@@ -17,8 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Text;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -28,18 +27,16 @@ namespace Vocaluxe.Base.Fonts
     class CFontStyle : IDisposable
     {
         private readonly string _FilePath;
-        private readonly EStyle _Style;
         public readonly float Outline; //0..1, 0=not outline 1=100% outline
         public readonly SColorF OutlineColor;
         private readonly float _MaxGlyphHeight;
         private readonly Dictionary<char, CGlyph> _Glyphs = new Dictionary<char, CGlyph>();
-        private PrivateFontCollection _Fonts;
-        private FontFamily _Family;
+        private SKTypeface _Typeface;
+        private bool _TypefaceLoaded;
 
-        public CFontStyle(string file, EStyle style, float outline, SColorF outlineColor)
+        public CFontStyle(string file, float outline, SColorF outlineColor)
         {
             _FilePath = file;
-            _Style = style;
             Outline = outline;
             OutlineColor = outlineColor;
 
@@ -66,32 +63,18 @@ namespace Vocaluxe.Base.Fonts
             }
         }
 
-        private FontStyle _GetSystemFontStyle()
+        public SKTypeface GetTypeface()
         {
-            switch (_Style)
+            if (!_TypefaceLoaded)
             {
-                case EStyle.Normal:
-                    return FontStyle.Regular;
-                case EStyle.Italic:
-                    return FontStyle.Italic;
-                case EStyle.Bold:
-                    return FontStyle.Bold;
-                case EStyle.BoldItalic:
-                    return FontStyle.Bold | FontStyle.Italic;
-            }
-
-            throw new ArgumentException("Invalid style: " + _Style);
-        }
-
-        public Font GetSystemFont(float height)
-        {
-            if (_Fonts == null)
-            {
-                _Fonts = new PrivateFontCollection();
+                _TypefaceLoaded = true;
                 try
                 {
-                    _Fonts.AddFontFile(_FilePath);
-                    _Family = _Fonts.Families[0];
+                    _Typeface = SKTypeface.FromFile(_FilePath);
+                    if (_Typeface == null)
+                    {
+                        CLog.Error("Error opening font file " + _FilePath);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -99,7 +82,7 @@ namespace Vocaluxe.Base.Fonts
                 }
             }
 
-            return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
+            return _Typeface ?? SKTypeface.Default;
         }
 
         public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, bool allMonitors = true)
@@ -172,10 +155,10 @@ namespace Vocaluxe.Base.Fonts
         {
             if (!_Disposed)
             {
-                if (_Fonts != null)
+                if (_Typeface != null)
                 {
-                    _Fonts.Dispose();
-                    _Fonts = null;
+                    _Typeface.Dispose();
+                    _Typeface = null;
                 }
 
                 _UnloadGlyphs();

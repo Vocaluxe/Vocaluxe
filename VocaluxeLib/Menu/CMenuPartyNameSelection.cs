@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu

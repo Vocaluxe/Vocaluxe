@@ -22,6 +22,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SkiaSharp;
 using VocaluxeLib.Log;
 
 namespace VocaluxeLib
@@ -351,7 +352,7 @@ namespace VocaluxeLib
         /// </summary>
         /// <param name="filePath">Full path to image file</param>
         /// <returns>Bitmap or null on error</returns>
-        public static Bitmap LoadBitmap(string filePath)
+        public static SKBitmap LoadBitmap(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -359,12 +360,17 @@ namespace VocaluxeLib
                 return null;
             }
 
-            Bitmap bmp;
+            SKBitmap bmp;
             try
             {
-                bmp = new Bitmap(filePath);
+                bmp = SKBitmap.Decode(filePath);
             }
             catch (Exception)
+            {
+                bmp = null;
+            }
+
+            if (bmp == null)
             {
                 CLog.Error("Error loading bitmap: " + filePath);
                 return null;

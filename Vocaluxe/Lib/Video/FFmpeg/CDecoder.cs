@@ -19,7 +19,7 @@ using System.Diagnostics;
 using System.IO;
 using VocaluxeLib.Draw;
 
-namespace Vocaluxe.Lib.Video.Acinerella
+namespace Vocaluxe.Lib.Video.FFmpeg
 {
     class CDecoder
     {

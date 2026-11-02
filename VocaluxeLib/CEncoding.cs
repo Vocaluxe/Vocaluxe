@@ -15,28 +15,37 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+using System.Globalization;
 using System.Text;
 
 namespace VocaluxeLib
 {
-    static class CEncoding
+    public static class CEncoding
     {
+        static CEncoding()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
+        public static Encoding Locale => OperatingSystem.IsWindows() ? Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.ANSICodePage) : Encoding.UTF8;
+
         public static Encoding GetEncoding(this string encodingName)
         {
             switch (encodingName)
             {
                 case "AUTO":
-                    return Encoding.Default;
+                    return Locale;
                 case "CP1250":
                     return Encoding.GetEncoding(1250);
                 case "CP1252":
                     return Encoding.GetEncoding(1252);
                 case "LOCALE":
-                    return Encoding.Default;
+                    return Locale;
                 case "UTF8":
                     return Encoding.UTF8;
                 default:
-                    return Encoding.Default;
+                    return Locale;
             }
         }
 

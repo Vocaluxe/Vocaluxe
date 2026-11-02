@@ -22,6 +22,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib.Draw;
 
@@ -241,16 +242,14 @@ namespace Vocaluxe.Lib.Webcam
             }
         }
 
-        public Bitmap GetBitmap()
+        public SKBitmap GetBitmap()
         {
             lock (_MutexData)
             {
                 if (_Data != null && _Data.Length == _Width * _Height * 4)
                 {
-                    var bmp = new Bitmap(_Width, _Height);
-                    var bitmapdata = bmp.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                    Marshal.Copy(_Data, 0, bitmapdata.Scan0, _Data.Length);
-                    bmp.UnlockBits(bitmapdata);
+                    var bmp = new SKBitmap(new SKImageInfo(_Width, _Height, SKColorType.Bgra8888, SKAlphaType.Unpremul));
+                    Marshal.Copy(_Data, 0, bmp.GetPixels(), _Data.Length);
                     return bmp;
                 }
 

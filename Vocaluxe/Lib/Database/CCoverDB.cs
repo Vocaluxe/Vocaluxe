@@ -16,11 +16,11 @@
 #endregion
 
 using System;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -30,8 +30,7 @@ namespace Vocaluxe.Lib.Database
 {
     public class CCoverDB : CDatabaseBase
     {
-        private const long _JpegQuality = 90;
-        private static readonly ImageCodecInfo _JpegCodec = ImageCodecInfo.GetImageEncoders().First(codec => codec.FormatID == ImageFormat.Jpeg.Guid);
+        private const int _JpegQuality = 90;
 
         private SqliteTransaction _TransactionCover;
 
@@ -94,7 +93,7 @@ namespace Vocaluxe.Lib.Database
                 try
                 {
                     using (var stream = new MemoryStream(cachedData))
-                    using (var source = new System.Drawing.Bitmap(stream))
+                    using (var source = SKBitmap.Decode(stream) ?? throw new InvalidDataException("Invalid image data"))
                         tex = CDraw.EnqueueTexture(_FitToMaxSize(source, maxSize));
                 }
                 catch (Exception e)
@@ -126,7 +125,7 @@ namespace Vocaluxe.Lib.Database
                         height = bitmap.Height;
                         data = source.Width <= maxSize && source.Height <= maxSize
                                    ? File.ReadAllBytes(coverPath)
-                                   : _EncodeCover(bitmap, source.PixelFormat);
+                                   : _EncodeCover(bitmap, source.AlphaType != SKAlphaType.Opaque);
                     }
                     catch
                     {
@@ -147,11 +146,11 @@ namespace Vocaluxe.Lib.Database
             return true;
         }
 
-        private static System.Drawing.Bitmap _FitToMaxSize(System.Drawing.Bitmap source, int maxSize)
+        private static SKBitmap _FitToMaxSize(SKBitmap source, int maxSize)
         {
             var sourceSize = source.GetSize();
             if (sourceSize.Width <= maxSize && sourceSize.Height <= maxSize)
-                return new System.Drawing.Bitmap(source);
+                return source.Copy();
 
             var targetSize = CHelper.FitInBounds(
                 new SRectF(0, 0, maxSize, maxSize, 0),
@@ -162,21 +161,17 @@ namespace Vocaluxe.Lib.Database
             return source.Resize(targetSize) ?? throw new InvalidOperationException("Resizing the cover failed");
         }
 
-        private static byte[] _EncodeCover(System.Drawing.Bitmap bitmap, PixelFormat sourceFormat)
+        private static byte[] _EncodeCover(SKBitmap bitmap, bool hasAlpha)
         {
             using (var stream = new MemoryStream())
             {
-                if (System.Drawing.Image.IsAlphaPixelFormat(sourceFormat))
+                if (hasAlpha)
                 {
-                    bitmap.Save(stream, ImageFormat.Png);
+                    bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
                 }
                 else
                 {
-                    using (var parameters = new EncoderParameters(1))
-                    {
-                        parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, _JpegQuality);
-                        bitmap.Save(stream, _JpegCodec, parameters);
-                    }
+                    bitmap.Encode(stream, SKEncodedImageFormat.Jpeg, _JpegQuality);
                 }
 
                 return stream.ToArray();

@@ -1,0 +1,7 @@
+https://github.com/Ruslan-B/FFmpeg.AutoGen
+
+Version: FFmpeg.AutoGen.Abstractions 8.1.0, FFmpeg.AutoGen.Bindings.DynamicallyLoaded 8.1.0 (NuGet)
+
+Files:
+FFmpeg.AutoGen.Abstractions.dll
+FFmpeg.AutoGen.Bindings.DynamicallyLoaded.dll

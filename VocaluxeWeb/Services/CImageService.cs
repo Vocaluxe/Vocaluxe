@@ -16,22 +16,19 @@
 #endregion
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using SkiaSharp;
 
 namespace VocaluxeWeb.Services
 {
     /// Scaled JPEG versions of covers and avatars, cached on disk.
-    /// Uses System.Drawing, which is fine on .NET Framework; replace it (e.g. with SkiaSharp) when moving to .NET 10 / Linux.
     public sealed class CImageService
     {
         private static readonly int[] _Sizes = { 96, 200, 400 };
-        private const long _JpegQuality = 82L;
+        private const int _JpegQuality = 82;
         private const int _MaxAvatarSize = 512;
 
         private readonly string _CacheFolder;
@@ -87,19 +84,16 @@ namespace VocaluxeWeb.Services
         public static byte[] CreateAvatar(byte[] uploaded)
         {
             using (var input = new MemoryStream(uploaded))
-            using (var source = Image.FromStream(input))
+            using (var source = _Decode(input, true))
+            using (var square = _Resize(source, Math.Min(_MaxAvatarSize, Math.Min(source.Width, source.Height)), true))
+            using (var output = new MemoryStream())
             {
-                _ApplyExifOrientation(source);
-                using (var square = _Resize(source, Math.Min(_MaxAvatarSize, Math.Min(source.Width, source.Height)), true))
-                using (var output = new MemoryStream())
-                {
-                    _SaveJpeg(square, output);
-                    return output.ToArray();
-                }
+                _SaveJpeg(square, output);
+                return output.ToArray();
             }
         }
 
-        private static Image _Load(string path)
+        private static SKBitmap _Load(string path)
         {
             //Read into memory so the file is not locked; the game may have it open at the same time
             using (var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
@@ -107,19 +101,38 @@ namespace VocaluxeWeb.Services
                 var buffer = new MemoryStream();
                 file.CopyTo(buffer);
                 buffer.Position = 0;
-                return Image.FromStream(buffer);
+                return _Decode(buffer, false);
+            }
+        }
+
+        private static SKBitmap _Decode(Stream stream, bool applyOrientation)
+        {
+            using (var codec = SKCodec.Create(stream))
+            {
+                if (codec == null)
+                {
+                    throw new ArgumentException("Unsupported image format");
+                }
+
+                var bitmap = SKBitmap.Decode(codec);
+                if (bitmap == null)
+                {
+                    throw new ArgumentException("Invalid image");
+                }
+
+                return applyOrientation ? _ApplyExifOrientation(bitmap, codec.EncodedOrigin) : bitmap;
             }
         }
 
         /// Fits the image into size x size, or crops it to a square of that size.
-        private static Bitmap _Resize(Image source, int size, bool crop)
+        private static SKBitmap _Resize(SKBitmap source, int size, bool crop)
         {
             int width, height;
-            var srcRect = new Rectangle(0, 0, source.Width, source.Height);
+            var srcRect = new SKRect(0, 0, source.Width, source.Height);
             if (crop)
             {
                 var side = Math.Min(source.Width, source.Height);
-                srcRect = new Rectangle((source.Width - side) / 2, (source.Height - side) / 2, side, side);
+                srcRect = SKRect.Create((source.Width - side) / 2, (source.Height - side) / 2, side, side);
                 width = height = size;
             }
             else
@@ -129,20 +142,19 @@ namespace VocaluxeWeb.Services
                 height = Math.Max(1, (int)Math.Round(source.Height * scale));
             }
 
-            var result = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-            using (var g = Graphics.FromImage(result))
+            var result = new SKBitmap(width, height, SKColorType.Rgba8888, SKAlphaType.Opaque);
+            using (var canvas = new SKCanvas(result))
+            using (var image = SKImage.FromBitmap(source))
+            using (var paint = new SKPaint { IsAntialias = true })
             {
-                g.Clear(Color.White);
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                g.CompositingQuality = CompositingQuality.HighQuality;
-                g.DrawImage(source, new Rectangle(0, 0, width, height), srcRect, GraphicsUnit.Pixel);
+                canvas.Clear(SKColors.White);
+                canvas.DrawImage(image, srcRect, new SKRect(0, 0, width, height), new SKSamplingOptions(SKCubicResampler.Mitchell), paint);
             }
 
             return result;
         }
 
-        private static void _SaveJpeg(Image image, string path)
+        private static void _SaveJpeg(SKBitmap image, string path)
         {
             using (var file = File.Create(path))
             {
@@ -150,40 +162,43 @@ namespace VocaluxeWeb.Services
             }
         }
 
-        private static void _SaveJpeg(Image image, Stream stream)
+        private static void _SaveJpeg(SKBitmap image, Stream stream)
         {
-            var codec = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
-            using (var parameters = new EncoderParameters(1))
-            {
-                parameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, _JpegQuality);
-                image.Save(stream, codec, parameters);
-            }
+            image.Encode(stream, SKEncodedImageFormat.Jpeg, _JpegQuality);
         }
 
         /// Photos from phones are often stored rotated with an EXIF hint.
-        private static void _ApplyExifOrientation(Image image)
+        private static SKBitmap _ApplyExifOrientation(SKBitmap image, SKEncodedOrigin origin)
         {
-            const int orientationId = 0x0112;
-            if (!image.PropertyIdList.Contains(orientationId))
+            float degrees;
+            switch (origin)
             {
-                return;
+                case SKEncodedOrigin.BottomRight:
+                    degrees = 180;
+                    break;
+                case SKEncodedOrigin.RightTop:
+                    degrees = 90;
+                    break;
+                case SKEncodedOrigin.LeftBottom:
+                    degrees = 270;
+                    break;
+                default:
+                    return image;
             }
 
-            var rotate = RotateFlipType.RotateNoneFlipNone;
-            switch (image.GetPropertyItem(orientationId).Value[0])
+            var swap = degrees != 180;
+            var rotated = new SKBitmap(swap ? image.Height : image.Width, swap ? image.Width : image.Height, image.ColorType, image.AlphaType);
+            using (var canvas = new SKCanvas(rotated))
+            using (var source = SKImage.FromBitmap(image))
             {
-                case 3:
-                    rotate = RotateFlipType.Rotate180FlipNone;
-                    break;
-                case 6:
-                    rotate = RotateFlipType.Rotate90FlipNone;
-                    break;
-                case 8:
-                    rotate = RotateFlipType.Rotate270FlipNone;
-                    break;
+                canvas.Translate(rotated.Width / 2f, rotated.Height / 2f);
+                canvas.RotateDegrees(degrees);
+                canvas.Translate(-image.Width / 2f, -image.Height / 2f);
+                canvas.DrawImage(source, 0, 0, new SKSamplingOptions(SKFilterMode.Linear));
             }
 
-            image.RotateFlip(rotate);
+            image.Dispose();
+            return rotated;
         }
 
         private static string _Hash(string text)

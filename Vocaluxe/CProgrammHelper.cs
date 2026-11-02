@@ -17,9 +17,7 @@
 
 using System.IO;
 using System.Reflection;
-using Microsoft.Win32;
 using Vocaluxe.Base;
-using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
@@ -28,46 +26,6 @@ namespace Vocaluxe
     /// </summary>
     static class CProgrammHelper
     {
-        private static bool _IsVC2015To2022Installed()
-        {
-            const string baseKey = @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\";
-            const string wow6432BaseKey = @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\";
-
-#if ARCH_X64
-            string[] arches = { "x64" };
-#elif ARCH_X86
-            string[] arches = { "x86" };
-#else
-            string[] arches = { "x86", "x64" };
-#endif
-
-            foreach (var arch in arches)
-            {
-                using (var rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
-                                Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
-                {
-                    if (rk == null)
-                    {
-                        continue;
-                    }
-
-                    var installed = rk.GetValue("Installed");
-                    if (installed == null)
-                    {
-                        continue;
-                    }
-
-                    int installedValue;
-                    if (int.TryParse(installed.ToString(), out installedValue) && installedValue == 1)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         private static void _EnsureDataFolderExists()
         {
             if (!Directory.Exists(CSettings.DataFolder))
@@ -89,17 +47,7 @@ namespace Vocaluxe
 
         public static bool CheckRequirements()
         {
-#if WIN
-            if (!_IsVC2015To2022Installed())
-            {
-                CLog.Fatal(
-                    "VC++ 2015-2022 Redistributables are missing. Please install them first.\r\n" +
-                    "Download x64: https://aka.ms/vc14/vc_redist.x64.exe\r\n" +
-                    "Download x86: https://aka.ms/vc14/vc_redist.x86.exe");
-                return false;
-            }
-
-#endif //TODO: check for dependencies on linux?
+            //TODO: check for dependencies on linux?
             return true;
         }
 

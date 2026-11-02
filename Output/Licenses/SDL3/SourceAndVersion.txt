@@ -1,0 +1,8 @@
+https://github.com/libsdl-org/SDL
+https://github.com/ppy/SDL3-CS
+
+Version: ppy.SDL3-CS 2026.1002.1 (NuGet, net8.0)
+
+Files:
+SDL3-CS.dll
+SDL3.dll / libSDL3.so / libSDL3.dylib

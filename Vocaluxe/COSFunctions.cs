@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Vocaluxe
@@ -39,7 +40,7 @@ namespace Vocaluxe
             var newPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
             if (newPath.Length > 0)
             {
-                newPath += ";";
+                newPath += Path.PathSeparator;
             }
 
             newPath += path;

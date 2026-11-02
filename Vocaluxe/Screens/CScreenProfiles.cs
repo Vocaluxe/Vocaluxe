@@ -18,10 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -84,7 +83,7 @@ namespace Vocaluxe.Screens
         private string _NameBeforeEdit = string.Empty;
 
         private CTextureRef _WebcamTexture;
-        private Bitmap _Snapshot;
+        private SKBitmap _Snapshot;
 
         public override void Init()
         {
@@ -741,7 +740,10 @@ namespace Vocaluxe.Screens
         private void _OnSaveSnapshot()
         {
             var file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.ProfileFolders[0]), "snapshot.png");
-            _Snapshot.Save(file, ImageFormat.Png);
+            using (var stream = File.Create(file))
+            {
+                _Snapshot.Encode(stream, SKEncodedImageFormat.Png, 100);
+            }
 
             _Snapshot = null;
             CDraw.RemoveTexture(ref _WebcamTexture);

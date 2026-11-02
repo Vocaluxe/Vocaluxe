@@ -17,7 +17,6 @@
 
 using System;
 using System.IO;
-using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;

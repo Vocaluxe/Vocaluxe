@@ -9,7 +9,7 @@
   
   ![url](https://cloud.githubusercontent.com/assets/5115160/4995708/bc5af234-69c2-11e4-91d1-112972f35f01.PNG)
 
-* Make sure [Visual Studio 2012/2013(?)](http://www.visualstudio.com/downloads/download-visual-studio-vs#d-express-windows-desktop) is installed 
+* Make sure [Visual Studio 2026](https://visualstudio.microsoft.com/downloads/) with the workloads `.NET desktop development` and `Desktop development with C++` and the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) are installed
 
 * Make sure [Node.js (LTS)](https://nodejs.org) is installed. It is needed to build the WebApp (folder `WebApp`), which is built automatically together with the project `VocaluxeWeb`. Restart Visual Studio after installing it.
 

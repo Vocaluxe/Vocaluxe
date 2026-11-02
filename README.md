@@ -25,8 +25,8 @@ Supported Operating Systems / Requirements:
 - Visual C++ Redistributable Package 2010
 
   Nightly Builds:
-  - Windows 10 (version 20H2 or later) and Windows 11 with .NET Framework 4.8.1
-  - Visual C++ Redistributable 2015–2022
+  - Windows 10 (version 20H2 or later) and Windows 11 with the .NET 10 Runtime and the ASP.NET Core 10 Runtime
+  - Graphics card with OpenGL 3.3 or Direct3D 11 (feature level 10.0) support
 
 
 ## 2. Download

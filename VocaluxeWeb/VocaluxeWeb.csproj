@@ -1,42 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net481</TargetFramework>
-    <LangVersion>9.0</LangVersion>
     <RootNamespace>VocaluxeWeb</RootNamespace>
     <AssemblyName>VocaluxeWeb</AssemblyName>
-    <Configurations>DebugWin;ReleaseWin;InstallerWin;DebugLinux;ReleaseLinux</Configurations>
     <Platforms>AnyCPU</Platforms>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <WebAppDir>$(MSBuildThisFileDirectory)..\WebApp\</WebAppDir>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(Configuration.StartsWith('Release')) Or $(Configuration.StartsWith('Installer'))">
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ApiExplorer" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.13" />
-    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.3.13" />
-    <!-- ASP.NET Core 2.3 pulls Newtonsoft.Json 11.0.2 (known vulnerability); use the version Vocaluxe uses -->
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.9.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.9.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.Drawing" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.14" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SkiaSharp" Version="4.154.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.3.1" />
   </ItemGroup>
 
   <!-- The WebApp (Vue/TypeScript) is built with Node.js as part of this project.

@@ -15,8 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Windows.Forms;
 using QRCoder;
+using SkiaSharp;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Web;
 using VocaluxeLib;
@@ -100,7 +100,10 @@ namespace Vocaluxe.Screens
             CDraw.RemoveTexture(ref _QRServerAddress);
             _QRAddress = CWebServer.GetServerAddress();
             var qrcode = qr.CreateQrCode(_QRAddress, QRCodeGenerator.ECCLevel.H);
-            _QRServerAddress = CDraw.AddTexture(qrcode.GetGraphic(20));
+            using (var bitmap = SKBitmap.Decode(new PngByteQRCode(qrcode).GetGraphic(20)))
+            {
+                _QRServerAddress = CDraw.AddTexture(bitmap);
+            }
         }
     }
 }

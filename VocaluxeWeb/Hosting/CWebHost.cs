@@ -21,6 +21,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Hosting;
 using VocaluxeWeb.Dispatching;
 using VocaluxeWeb.Remote;
 using VocaluxeWeb.Services;
@@ -32,7 +33,7 @@ namespace VocaluxeWeb.Hosting
     {
         private readonly IVocaluxeRemote _Remote;
         private readonly CWebServerOptions _Options;
-        private IWebHost _Host;
+        private IHost _Host;
         private CLiveMonitor _Monitor;
         private CQueueService _Queue;
         private bool _QueuePlaylistReady;
@@ -69,11 +70,12 @@ namespace VocaluxeWeb.Hosting
             var lanAddresses = CNetworkAddress.GetLanAddresses();
             var certificate = _Options.UseHttps ? CCertificateProvider.GetOrCreate(_Options.CertificatePath, hostName, lanAddresses) : null;
 
-            var host = new WebHostBuilder()
-                .UseKestrel(kestrel => _ConfigureKestrel(kestrel, certificate))
+            var host = new HostBuilder()
                 .UseContentRoot(AppDomain.CurrentDomain.BaseDirectory)
-                .ConfigureServices(services => CStartup.ConfigureServices(services, this, _Remote, Dispatcher, Settings, _Options))
-                .Configure(app => CStartup.Configure(app, _Options))
+                .ConfigureWebHost(web => web
+                    .UseKestrel(kestrel => _ConfigureKestrel(kestrel, certificate))
+                    .ConfigureServices(services => CStartup.ConfigureServices(services, this, _Remote, Dispatcher, Settings, _Options))
+                    .Configure(app => CStartup.Configure(app, _Options)))
                 .Build();
 
             try

@@ -1,0 +1,13 @@
+https://ffmpeg.org/
+https://github.com/System233/ffmpeg-msvc-prebuilt (Windows builds)
+
+Version: FFmpeg 8.1.3 (shared, GPL)
+
+Files:
+avcodec-62.dll
+avdevice-62.dll
+avfilter-11.dll
+avformat-62.dll
+avutil-60.dll
+swresample-6.dll
+swscale-9.dll

@@ -37,7 +37,7 @@ namespace VocaluxeWeb.Hosting
             {
                 try
                 {
-                    var existing = new X509Certificate2(File.ReadAllBytes(path), (string)null, X509KeyStorageFlags.UserKeySet);
+                    var existing = X509CertificateLoader.LoadPkcs12(File.ReadAllBytes(path), null, X509KeyStorageFlags.UserKeySet);
                     if (existing.NotAfter > DateTime.Now.AddDays(7) && _Covers(existing, hostName, addresses))
                     {
                         return existing;
@@ -57,7 +57,7 @@ namespace VocaluxeWeb.Hosting
             }
 
             File.WriteAllBytes(path, pfx);
-            return new X509Certificate2(pfx, (string)null, X509KeyStorageFlags.UserKeySet);
+            return X509CertificateLoader.LoadPkcs12(pfx, null, X509KeyStorageFlags.UserKeySet);
         }
 
         private static bool _Covers(X509Certificate2 cert, string hostName, IEnumerable<IPAddress> addresses)

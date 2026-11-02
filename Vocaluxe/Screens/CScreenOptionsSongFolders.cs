@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Lib;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
@@ -358,18 +358,7 @@ namespace Vocaluxe.Screens
 
         private static string _OpenSongFolderDialog()
         {
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = CLanguage.Translate("TR_SCREENO_SONGFOLDER");
-                dialog.ShowNewFolderButton = true;
-                var owner = Application.OpenForms.Cast<Form>().LastOrDefault(form => form.Visible);
-                if (dialog.ShowDialog(owner) == DialogResult.OK)
-                {
-                    return dialog.SelectedPath; // Folder was selected
-                }
-            }
-
-            return null; // Dialog was cancelled
+            return CSdl.ShowFolderDialog(CLanguage.Translate("TR_SCREENO_SONGFOLDER"));
         }
     }
 }

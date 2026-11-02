@@ -316,7 +316,7 @@ namespace Vocaluxe.Base
                     // Recheck the condition as it cloud have change before we got the lock
                     if (_PreviewStartHelperTask != null && (_PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
                     {
-                        _PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
+                        _PreviewStartHelperTask.RunSynchronously();
                         _PreviewStartHelperTask = null;
                         _PreviewStartWaitCounter = 0;
                     }

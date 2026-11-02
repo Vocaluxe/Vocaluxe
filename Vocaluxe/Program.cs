@@ -16,19 +16,24 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Loader;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
+using System.Xml.Linq;
 using SQLitePCL;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Web;
 using Vocaluxe.Base.ThemeSystem;
+using Vocaluxe.Lib;
 using Vocaluxe.Reporting;
 using VocaluxeLib.Log;
 
@@ -46,7 +51,7 @@ namespace Vocaluxe
     {
         private static CSplashScreen _SplashScreen;
 
-        [STAThread, HandleProcessCorruptedStateExceptions]
+        [STAThread]
         // ReSharper disable InconsistentNaming
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
@@ -55,21 +60,18 @@ namespace Vocaluxe
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\"));
-#if ARCH_X86
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x86\\"));
-#endif
-#if ARCH_X64
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x64\\"));
-#endif
+            AssemblyLoadContext.Default.ResolvingUnmanagedDll += _NativeLibraryResolver;
+            _Main(args);
+        }
 
-            // Microsoft.Data.Sqlite (SQLitePCLRaw) native library location
-#if ARCH_X86
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\managed\\runtimes\\win-x86\\native\\"));
-#endif
-#if ARCH_X64
-            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\managed\\runtimes\\win-x64\\native\\"));
-#endif
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void _Main(string[] args)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            foreach (var path in _NativeLibraryPaths)
+            {
+                COSFunctions.AddEnvironmentPath(path);
+            }
 
             // Make sure SQLitePCL is initialized before any DB usage
             Batteries_V2.Init();
@@ -97,7 +99,7 @@ namespace Vocaluxe
 
         private static void _Run(string[] args)
         {
-            Application.DoEvents();
+            CSdl.DoEvents();
 
             try
             {
@@ -118,12 +120,17 @@ namespace Vocaluxe
                     return;
                 }
 
+                if (!CSdl.Init())
+                {
+                    throw new CLoadingException("SDL");
+                }
+
                 CProgrammHelper.Init();
 
                 using (CBenchmark.Time("Init Program"))
                 {
                     CMain.Init();
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Language
                     using (CBenchmark.Time("Init Language"))
@@ -134,7 +141,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // load config
                     using (CBenchmark.Time("Init Config"))
@@ -149,7 +156,7 @@ namespace Vocaluxe
                     CSettings.CreateFolders();
 
                     _SplashScreen = new CSplashScreen();
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Draw
                     using (CBenchmark.Time("Init Draw"))
@@ -160,7 +167,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Playback
                     using (CBenchmark.Time("Init Playback"))
@@ -171,7 +178,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Record
                     using (CBenchmark.Time("Init Record"))
@@ -182,7 +189,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init VideoDecoder
                     using (CBenchmark.Time("Init Videodecoder"))
@@ -193,7 +200,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Database
                     using (CBenchmark.Time("Init Database"))
@@ -206,7 +213,7 @@ namespace Vocaluxe
 
                     CSongs.StartLoadSongs();
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     //Init Webcam
                     using (CBenchmark.Time("Init Webcam"))
@@ -217,7 +224,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Background Music
                     using (CBenchmark.Time("Init Background Music"))
@@ -225,7 +232,7 @@ namespace Vocaluxe
                         CBackgroundMusic.Init();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Profiles
                     using (CBenchmark.Time("Init Profiles"))
@@ -233,7 +240,7 @@ namespace Vocaluxe
                         CProfiles.Init();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Fonts
                     using (CBenchmark.Time("Init Fonts"))
@@ -244,7 +251,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Theme System
                     using (CBenchmark.Time("Init Theme"))
@@ -260,7 +267,7 @@ namespace Vocaluxe
                         CThemes.Load();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Load Cover
                     using (CBenchmark.Time("Init Cover"))
@@ -271,7 +278,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Screens
                     using (CBenchmark.Time("Init Screens"))
@@ -279,7 +286,7 @@ namespace Vocaluxe
                         CGraphics.Init();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Server
                     using (CBenchmark.Time("Init Server"))
@@ -287,7 +294,7 @@ namespace Vocaluxe
                         CWebServer.Init();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Input
                     using (CBenchmark.Time("Init Input"))
@@ -296,7 +303,7 @@ namespace Vocaluxe
                         CController.Connect();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Game
                     using (CBenchmark.Time("Init Game"))
@@ -306,7 +313,7 @@ namespace Vocaluxe
                         CConfig.UsePlayers();
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
 
                     // Init Party Modes
                     using (CBenchmark.Time("Init Party Modes"))
@@ -317,7 +324,7 @@ namespace Vocaluxe
                         }
                     }
 
-                    Application.DoEvents();
+                    CSdl.DoEvents();
                     //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                     //Rely on GC doing its job afterwards and call Dispose methods where appropriate
                     GC.Collect();
@@ -335,7 +342,7 @@ namespace Vocaluxe
                 return;
             }
 
-            Application.DoEvents();
+            CSdl.DoEvents();
 
             // Start Main Loop
             if (_SplashScreen != null)
@@ -466,6 +473,15 @@ namespace Vocaluxe
                 CLog.Error(e, "Error during shutdown! (CDraw)");
             }
 
+            try
+            {
+                CSdl.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error during shutdown! (CSdl)");
+            }
+
             GC.Collect(); // Do a GC run here before we close logs to have finalizers run
             try
             {
@@ -477,7 +493,6 @@ namespace Vocaluxe
         }
 
 #if !DEBUG
-        [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
             var e = (Exception)args.ExceptionObject;
@@ -508,11 +523,11 @@ namespace Vocaluxe
 
                 string[] probePaths =
                 {
-                    Path.Combine(CSettings.ProgramFolder, "libs", "managed", fileName),
-                    Path.Combine(CSettings.ProgramFolder, "libs", "managed", arch, fileName),
-                    Path.Combine(CSettings.ProgramFolder, "libs", fileName),
-                    Path.Combine(CSettings.ProgramFolder, arch, fileName),
-                    Path.Combine(CSettings.ProgramFolder, fileName)
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed", fileName),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed", arch, fileName),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", fileName),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, arch, fileName),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName)
                 };
 
                 var path = probePaths.FirstOrDefault(File.Exists);
@@ -534,7 +549,7 @@ namespace Vocaluxe
                     }
                     catch (Exception e)
                     {
-                        CLog.Error("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
+                        _LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
                     }
                 }
 #if LINUX
@@ -545,7 +560,167 @@ namespace Vocaluxe
             return assembly;
         }
 
-        private static readonly Mutex _Mutex = new Mutex(false, Application.ProductName + "-SingleInstanceMutex");
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void _LogError(string message)
+        {
+            CLog.Error(message);
+        }
+
+        private static string _Arch
+        {
+            get
+            {
+#if ARCH_X86
+                return "x86";
+#else
+                return "x64";
+#endif
+            }
+        }
+
+        private static readonly string[] _NativeLibraryPaths =
+        {
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "unmanaged"),
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "unmanaged", _Arch),
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed"),
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed", _Arch),
+            AppDomain.CurrentDomain.BaseDirectory
+        };
+
+        private static readonly Regex _VersionedLibraryName = new Regex(@"^(?:lib)?(.+?)-(\d+)$");
+
+        private static IntPtr _NativeLibraryResolver(Assembly assembly, string libraryName)
+        {
+            var mapped = _GetMappedLibraryName(assembly, libraryName);
+            var names = mapped != null ? new[] { mapped }.Concat(_GetNativeLibraryNames(libraryName)) : _GetNativeLibraryNames(libraryName);
+            var folders = OperatingSystem.IsMacOS() ? _NativeLibraryPaths.Concat(new[] { "/opt/homebrew/lib", "/usr/local/lib" }) : _NativeLibraryPaths;
+            foreach (var name in names)
+            {
+                foreach (var folder in folders)
+                {
+                    var path = Path.Combine(folder, name);
+                    IntPtr handle;
+                    if (File.Exists(path) && NativeLibrary.TryLoad(path, out handle))
+                    {
+                        return handle;
+                    }
+                }
+
+                IntPtr systemHandle;
+                if (NativeLibrary.TryLoad(name, out systemHandle))
+                {
+                    return systemHandle;
+                }
+            }
+
+            return IntPtr.Zero;
+        }
+
+        private static string _GetMappedLibraryName(Assembly assembly, string libraryName)
+        {
+            if (OperatingSystem.IsWindows() || string.IsNullOrEmpty(assembly.Location))
+            {
+                return null;
+            }
+
+            var config = assembly.Location + ".config";
+            if (!File.Exists(config))
+            {
+                return null;
+            }
+
+            try
+            {
+                var os = OperatingSystem.IsMacOS() ? "osx" : "linux";
+                foreach (var map in XDocument.Load(config).Descendants("dllmap"))
+                {
+                    var mapOs = (string)map.Attribute("os");
+                    if (string.Equals((string)map.Attribute("dll"), libraryName, StringComparison.OrdinalIgnoreCase) &&
+                        (mapOs == null || mapOs.Split(',').Any(o => o.Trim() == os)))
+                    {
+                        return (string)map.Attribute("target");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<string> _GetNativeLibraryNames(string libraryName)
+        {
+            var baseName = Path.GetFileName(libraryName);
+            foreach (var extension in new[] { ".dll", ".so", ".dylib" })
+            {
+                if (baseName.EndsWith(extension, StringComparison.OrdinalIgnoreCase))
+                {
+                    baseName = baseName.Substring(0, baseName.Length - extension.Length);
+                }
+            }
+
+            var soIndex = baseName.IndexOf(".so.", StringComparison.Ordinal);
+            if (soIndex > 0)
+            {
+                baseName = baseName.Substring(0, soIndex);
+            }
+
+            if (baseName.StartsWith("lib", StringComparison.Ordinal))
+            {
+                baseName = baseName.Substring(3);
+            }
+
+            if (OperatingSystem.IsWindows())
+            {
+                yield return baseName + ".dll";
+                yield return "lib" + baseName + ".dll";
+                yield break;
+            }
+
+            var names = new List<string> { baseName, baseName.ToLowerInvariant() };
+            var versioned = _VersionedLibraryName.Match(baseName);
+            if (versioned.Success)
+            {
+                names.Insert(0, versioned.Groups[1].Value);
+            }
+
+            if (baseName.EndsWith("-libusb", StringComparison.Ordinal))
+            {
+                names.Add(baseName.Substring(0, baseName.Length - "-libusb".Length));
+            }
+
+            foreach (var name in names)
+            {
+                if (OperatingSystem.IsMacOS())
+                {
+                    if (versioned.Success && name == versioned.Groups[1].Value)
+                    {
+                        yield return "lib" + name + "." + versioned.Groups[2].Value + ".dylib";
+                    }
+
+                    yield return "lib" + name + ".dylib";
+                    yield return name + ".dylib";
+                }
+                else
+                {
+                    if (versioned.Success && name == versioned.Groups[1].Value)
+                    {
+                        yield return "lib" + name + ".so." + versioned.Groups[2].Value;
+                    }
+
+                    yield return "lib" + name + ".so";
+                    yield return name + ".so";
+                    for (var version = 0; version <= 2; version++)
+                    {
+                        yield return "lib" + name + ".so." + version;
+                    }
+                }
+            }
+        }
+
+        private static readonly Mutex _Mutex = new Mutex(false, CSettings.ProgramName + "-SingleInstanceMutex");
 
         private static bool _EnsureSingleInstance()
         {
@@ -553,7 +728,7 @@ namespace Vocaluxe
             if (!_Mutex.WaitOne(TimeSpan.FromSeconds(2), false))
             {
                 //TODO: put it into language file
-                MessageBox.Show("Another Instance of Vocaluxe is already runnning!");
+                CSdl.ShowMessage(CSettings.ProgramName, "Another Instance of Vocaluxe is already runnning!");
 #if WIN
                 var currentProcess = Process.GetCurrentProcess();
                 var processes = Process.GetProcessesByName(currentProcess.ProcessName);
