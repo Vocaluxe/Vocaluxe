@@ -389,8 +389,6 @@
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresa serveru</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Zapněte jej, prosím, a hru spusťte znovu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Promiňte</string>
-  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe postihla chyba a spadl.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
-  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">, že jste zažili chybu.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
   <string name="TR_REPORTER_NO_UPLOAD_TEXT">Nenahrávejte nic (můžete pořád zkopírovat hlášení o chybě výše)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Nahrajte a otevřete téma (veřejně viditelné + vyžaduje účet na Githubu)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Nahrajte a získejte odkaz na svoji zprávu (veřejně viditelné)</string>
