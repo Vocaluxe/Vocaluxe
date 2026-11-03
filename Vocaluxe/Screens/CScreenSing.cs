@@ -264,6 +264,24 @@ namespace Vocaluxe.Screens
             _TimerShortInfoText.Enabled = true;
         }
 
+        public override void ReloadTheme(string xmlPath)
+        {
+            if (string.IsNullOrEmpty(ThemePath))
+            {
+                return;
+            }
+
+            base.ReloadTheme(xmlPath);
+
+            // ReloadTheme removes all elements, including the per-screen copies created in Init, so create them again
+            _CreatePlayerStatics();
+            _CreatePlayerStrings();
+            _CreateProgressBars();
+            _CreateRatingPopups();
+            _StaticsExtra = null;
+            _TextsExtra = null;
+        }
+
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);

@@ -64,6 +64,33 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
+            _StoreNavColors();
+
+            if (_Statics.ContainsKey(_StaticNavIconSelected))
+            {
+                _Statics[_StaticNavIconSelected].Visible = false;
+            }
+
+            if (_Texts.ContainsKey(_TextNavSelected))
+            {
+                _Texts[_TextNavSelected].Visible = false;
+            }
+
+            _NavFocused = false;
+            _UpdateNavHighlight();
+        }
+
+        public override void ReloadSkin()
+        {
+            base.ReloadSkin();
+
+            // Reloading the skin resets rects and colors to the theme values, so the highlight has to be placed again
+            _StoreNavColors();
+            _UpdateNavHighlight();
+        }
+
+        private void _StoreNavColors()
+        {
             _NavColors.Clear();
             foreach (var name in _NavNames)
             {
@@ -79,19 +106,6 @@ namespace Vocaluxe.Screens
                     _NavColors[text] = _Texts[text].Color;
                 }
             }
-
-            if (_Statics.ContainsKey(_StaticNavIconSelected))
-            {
-                _Statics[_StaticNavIconSelected].Visible = false;
-            }
-
-            if (_Texts.ContainsKey(_TextNavSelected))
-            {
-                _Texts[_TextNavSelected].Visible = false;
-            }
-
-            _NavFocused = false;
-            _UpdateNavHighlight();
         }
 
         public override void OnShow()
