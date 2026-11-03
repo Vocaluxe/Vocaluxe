@@ -389,15 +389,16 @@
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING"> Le serveur est hors service. Veuillez l\'activer et redémarrer le jeu !</string>
   <string name="TR_REPORTER_TITLE_TEXT">Nous sommes désolés</string>
-  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe a rencontré une erreur ou un bug.
-Pour nous aider à résoudre le problème, envoyez-nous un rapport.
-Avant de soumettre le bug, modifiez le journal pour supprimer des informations sensibles.</string>
-  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">Vous avez rencontré une erreur ou un bug.
-Pour nous aider à résoudre le problème, envoyez-nous un rapport.
-Avant de soumettre le bug, modifiez le journal suivant pour supprimer des informations sensibles.</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">que Vocaluxe ait rencontré une erreur et ait planté.\r\nPour nous aider à corriger le problème, veuillez nous envoyer un rapport.\r\nOuvrez le journal pour le vérifier et supprimez toute information potentiellement sensible avant de l’envoyer.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">que vous ayez rencontré une erreur.\r\nPour nous aider à corriger le problème, veuillez nous envoyer un rapport.\r\nOuvrez le journal pour le vérifier et supprimez toute information potentiellement sensible avant de l’envoyer.</string>
   <string name="TR_REPORTER_NO_UPLOAD_TEXT"> Ne rien envoyer (vous pouvez toujours copier le message d\'erreur ci-dessus)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Envoyer et ouvrir un problème (visible publiquement + nécessite un compte github)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Envoyer et obtenir le lien de votre rapport (visible publiquement)</string>
+  <string name="TR_REPORTER_OPEN_LOG_TEXT">Ouvrir le journal pour le consulter ou le modifier</string>
+  <string name="TR_REPORTER_NO_UPLOAD_BUTTON">Ne pas téléverser</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_BUTTON">Téléverser + signaler</string>
+  <string name="TR_REPORTER_GIST_ONLY_BUTTON">Téléverser</string>
+  <string name="TR_REPORTER_OPEN_LOG_BUTTON">Ouvrir le journal</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Soumettre</string>
   <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Envoyer</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Quitter</string>
