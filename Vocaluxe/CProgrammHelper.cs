@@ -26,24 +26,28 @@ namespace Vocaluxe
     /// </summary>
     static class CProgrammHelper
     {
-        private static void _EnsureDataFolderExists()
+#if LINUX || INSTALLER
+        /// <summary>
+        ///     Copies the default profiles (e.g. the guests) from the program folder to the data folder on the first start.
+        ///     The program folder might not be writable (e.g. C:\Program Files), so profiles must be edited in the data folder.
+        ///     Avatars stay in the program folder (see CConfig.AvatarFolders).
+        /// </summary>
+        private static void _CopyDefaultProfiles()
         {
-            if (!Directory.Exists(CSettings.DataFolder))
+            var profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
+            var defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
+            if (Directory.Exists(profilePath) || !defaultProfileDir.Exists)
             {
-                Directory.CreateDirectory(CSettings.DataFolder);
-                // copy default profiles to DataFolder instead of adding ProgramFolder to CConfig.ProfileFolders
-                // because we want to be able to edit them, but might not have permission to write to ProgramFolder
-                var profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
-                Directory.CreateDirectory(profilePath);
-                var defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
-                var files = defaultProfileDir.GetFiles();
-                foreach (var file in files)
-                {
-                    var newPath = Path.Combine(profilePath, file.Name);
-                    file.CopyTo(newPath, false);
-                }
+                return;
+            }
+
+            Directory.CreateDirectory(profilePath);
+            foreach (var file in defaultProfileDir.GetFiles("*.xml"))
+            {
+                file.CopyTo(Path.Combine(profilePath, file.Name), false);
             }
         }
+#endif
 
         public static bool CheckRequirements()
         {
@@ -61,8 +65,8 @@ namespace Vocaluxe
 #endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
             COSFunctions.AddEnvironmentPath(path);
-#if LINUX
-            _EnsureDataFolderExists();
+#if LINUX || INSTALLER
+            _CopyDefaultProfiles();
 #endif
         }
     }

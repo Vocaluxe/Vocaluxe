@@ -58,3 +58,7 @@
   ```
 * Run `Vocaluxe.exe` or copy the whole folder to a location of your choice
 * Have fun! 
+
+## Build the installer
+To create the Windows setup (Inno Setup) run `Installer\build-installer.ps1`.
+See [Installer/README.md](Installer/README.md) for the requirements and details.

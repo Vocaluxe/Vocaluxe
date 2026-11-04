@@ -64,14 +64,10 @@ tx.exe
 /Output/Profiles/*.png
 /Output/*.xml
 /Output/PartyModes/*/Code/*
+/Installer/Setup Files/
 /PartyModes/*/*/*.dll
 /VocaluxeLib/bin
 /ServerLib/bin/ClientServerLib.dll
-/Installer/setup-cache
-/Installer/Files
-/Installer/log.txt
-/Installer/setup-cache
-/Installer/Setup Files
 /WebserverInitalConfig/bin
 /PhoneGap/
 /TestResults

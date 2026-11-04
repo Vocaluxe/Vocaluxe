@@ -289,13 +289,21 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
         {
-#if INSTALLER
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
-            CSettings.FolderNameProfiles
+#if INSTALLER || LINUX
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #elif WIN
             CSettings.FolderNameProfiles
-#elif LINUX
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
+#endif
+        };
+
+        /// <summary>
+        ///     Additional read-only folders with avatars (shipped with the program)
+        ///     Profiles are only loaded from ProfileFolders, because the program folder might not be writable
+        /// </summary>
+        public static readonly List<string> AvatarFolders = new List<string>
+        {
+#if INSTALLER || LINUX
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles)
 #endif
         };
 
