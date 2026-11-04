@@ -83,3 +83,4 @@ tx.exe
 /Tests/bin
 *.orig
 *.DotSettings
+.DS_Store
