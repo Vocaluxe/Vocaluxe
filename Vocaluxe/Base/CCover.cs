@@ -422,7 +422,8 @@ namespace Vocaluxe.Base
 
         private static string _GetCoverCacheFolder(SThemeCover coverTheme)
         {
-            return Path.Combine(CSettings.ProgramFolder, _CoverCacheFolderName, coverTheme.Info.Name);
+            // DataFolder is writable in every build (equals ProgramFolder for portable builds)
+            return Path.Combine(CSettings.DataFolder, _CoverCacheFolderName, coverTheme.Info.Name);
         }
 
         private static string _GetCoverCacheFilePath(string text, ECoverGeneratorType type, CSong firstSong, SThemeCover coverTheme)

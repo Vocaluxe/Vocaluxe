@@ -675,7 +675,7 @@ namespace Vocaluxe.Base
             }
 
             var files = new List<string>();
-            foreach (var path in CConfig.ProfileFolders)
+            foreach (var path in CConfig.ProfileFolders.Concat(CConfig.AvatarFolders))
             {
                 files.AddRange(CHelper.ListImageFiles(path, true, true));
             }

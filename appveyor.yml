@@ -49,10 +49,7 @@ before_build:
     {
         Start-FileDownload 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip'
         & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video-part1.zip'
-        Start-FileDownload 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part2.zip'
-        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video-part2.zip'
         Remove-Item './vocaluxe.themes.vocaluxe-2024.video-part1.zip'
-        Remove-Item './vocaluxe.themes.vocaluxe-2024.video-part2.zip'
     }
     Catch
     {
@@ -135,6 +132,40 @@ after_test:
 - ps: |
     if (($Env:MAIN_REPO) -and ($Env:PLATFORM -eq 'x64') -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
         SonarScanner.MSBuild.exe end /d:sonar.token="$Env:SonarQubeToken"
+    }
+- ps: |
+    # Windows installer (Inno Setup): needs its own build in the InstallerWin configuration
+    # (user data in Documents\Vocaluxe), so it runs after the tests and the ZIP artifact.
+    # Skipped for pull requests to keep them fast, unless the latest commit message
+    # contains "[build installer]".
+    if ($Env:APPVEYOR_PULL_REQUEST_NUMBER) {
+        $commitMessage = "$Env:APPVEYOR_REPO_COMMIT_MESSAGE`n$Env:APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED"
+        if ($commitMessage -notmatch '\[build installer\]') {
+            Write-Host "Pull request build: skipping the installer (add [build installer] to the commit message to build it)"
+            return
+        }
+        Write-Host "Pull request build with [build installer] in the commit message: building the installer"
+    }
+
+    $isccFound = @(${env:ProgramFiles(x86)}, $env:ProgramFiles) | Where-Object { $_ -and (Test-Path $_) } |
+        ForEach-Object { Get-ChildItem -Path $_ -Directory -Filter 'Inno Setup *' -ErrorAction SilentlyContinue } |
+        Where-Object { Test-Path (Join-Path $_.FullName 'ISCC.exe') }
+    if (-not $isccFound) {
+        choco install innosetup -y --no-progress
+        if ($LASTEXITCODE -ne 0) { throw "Installing Inno Setup failed" }
+    }
+
+    .\Installer\build-installer.ps1 -Platform $Env:PLATFORM -SkipThemeVideos -KeepLibs
+
+    $forkBuildTag = ""
+    if(($Env:MAIN_REPO -ne $True) -or ($Env:APPVEYOR_ACCOUNT_NAME -ne "VocaluxeBuildBot")){
+        $forkBuildTag = "_non-official-by-$Env:APPVEYOR_ACCOUNT_NAME"
+    }
+
+    Get-ChildItem ".\Installer\Setup Files\*_Windows_Installer_$($Env:PLATFORM).exe" | ForEach-Object {
+        $fileName = "$($_.BaseName)$forkBuildTag$($_.Extension)"
+        appveyor PushArtifact $_.FullName -FileName $fileName -DeploymentName ReleaseZip
+        Write-Host "Created artifact: $fileName"
     }
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1

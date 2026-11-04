@@ -106,8 +106,8 @@ namespace Vocaluxe
                 // Create data folder
                 Directory.CreateDirectory(CSettings.DataFolder);
 
-                // Init Log
-                CLog.Init(CSettings.FolderNameLogs,
+                // Init Log (in the data folder, the program folder might not be writable)
+                CLog.Init(Path.Combine(CSettings.DataFolder, CSettings.FolderNameLogs),
                     CSettings.FileNameMainLog,
                     CSettings.FileNameSongLog,
                     CSettings.FileNameCrashMarker,
