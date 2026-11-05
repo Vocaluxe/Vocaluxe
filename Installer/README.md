@@ -24,7 +24,7 @@ The setups are written to `Installer\Setup Files`:
 - versioned build: `Vocaluxe_<version>_Windows_Installer_<arch>.exe`, e.g. `Vocaluxe_0.5.0_Windows_Installer_x64.exe`
 - unversioned/nightly build (version 0.0.0): `Vocaluxe_Nightly_Windows_Installer_<arch>.exe`
 
-AppVeyor builds the setups automatically for every platform and attaches them to the GitHub
+The GitHub Actions workflow (`.github/workflows/ci.yml`) builds the setups automatically for every platform and attaches them to the GitHub
 release together with the ZIP files. There the setups are named like the ZIP files, after the
 tag (or the branch as fallback), e.g. `Vocaluxe_Nightly_Windows_Installer_x64.exe` for the
 nightly release, regardless of the version stored in the setup. Pull requests skip the installer, unless the message of the

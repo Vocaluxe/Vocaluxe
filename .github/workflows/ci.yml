@@ -1,0 +1,319 @@
+# Build, test and release Vocaluxe (replaces appveyor.yml)
+#
+# - pull requests:          build + test x64/x86, ZIPs as workflow artifacts
+#                           (installer only with "[build installer]" in the latest commit message)
+# - push to develop:        + installers, SonarCloud analysis, "Nightly" tag/release is moved to this commit
+# - push of any other tag:  + GitHub release for that tag (prerelease if the tag contains alpha/beta/rc)
+# - forks:                  build + test only, artifacts get the "_non-official-by-<owner>" suffix
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+      - 'release-*'
+    tags:
+      - '*'
+      - '!Nightly' # moved by this workflow itself
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  # not named CONFIGURATION/PLATFORM: MSBuild would read those environment variables as properties
+  BUILD_CONFIGURATION: ReleaseWin
+
+jobs:
+  build:
+    name: Windows ${{ matrix.platform }}
+    runs-on: windows-2025 # Windows Server 2025 with Visual Studio 2026
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      checks: write # test report
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x64, x86]
+    env:
+      # keep the version written by winPreBuild.ps1 in AssemblyInfo.cs (the installer build needs it too)
+      VOCALUXE_SKIP_POSTBUILD: true
+    steps:
+      - name: Configure git
+        run: git config --global core.autocrlf true
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # full history and tags for "git describe"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: WebApp/package-lock.json
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~\.nuget\packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', 'Directory.Build.props', 'NuGet.Config') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Prepare build variables
+        id: vars
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          ARCH: ${{ matrix.platform }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          $mainRepo = $Env:REPOSITORY -eq 'Vocaluxe/Vocaluxe'
+          $isPR = $Env:EVENT_NAME -eq 'pull_request'
+
+          # Version for winPreBuild.ps1 (AssemblyInfo) and name used for the artifacts
+          if ($isPR) {
+              $version = "0.0.0-na-PR_$Env:PR_NUMBER"
+              $name = "PR$Env:PR_NUMBER"
+          } else {
+              $version = git describe --long --tags --exclude Nightly 2>$null
+              if (-not $version) { $version = '0.0.0-na-notversioned' }
+              # tag name (e.g. "0.5.0") or branch name as fallback, like on AppVeyor
+              $name = $Env:REF_NAME -replace '[^A-Za-z0-9._-]', '-'
+          }
+          $suffix = if ($mainRepo) { '' } else { "_non-official-by-$Env:OWNER" }
+
+          # Installer: always, except for pull requests without "[build installer]" in the latest commit message
+          $installer = $true
+          if ($isPR) {
+              $message = git log -1 --format=%B $Env:PR_HEAD_SHA
+              $installer = [bool]($message -match '\[build installer\]')
+          }
+
+          # SonarCloud: x64 only, main repo only, develop pushes and pull requests from branches of the main repo
+          # (the SONAR_TOKEN secret is not available for pull requests from forks)
+          $sonar = $mainRepo -and $Env:ARCH -eq 'x64' -and [bool]$Env:SONAR_TOKEN -and (
+              ($Env:EVENT_NAME -eq 'push' -and $Env:REF_NAME -eq 'develop') -or
+              ($isPR -and $Env:PR_HEAD_REPO -eq $Env:REPOSITORY))
+
+          Write-Host "Version:   $version"
+          Write-Host "Name:      $name$suffix"
+          Write-Host "Installer: $installer"
+          Write-Host "Sonar:     $sonar"
+
+          "GIT_VERSION_TAG=$version" >> $Env:GITHUB_ENV
+          "version=$version" >> $Env:GITHUB_OUTPUT
+          "zip=Vocaluxe_${name}_Windows_$($Env:ARCH)$suffix.zip" >> $Env:GITHUB_OUTPUT
+          "installer-name=Vocaluxe_${name}_Windows_Installer_$($Env:ARCH)$suffix.exe" >> $Env:GITHUB_OUTPUT
+          "installer=$($installer.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
+          "sonar=$($sonar.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
+
+      - name: Download theme videos
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          Invoke-WebRequest 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip' -OutFile theme-videos.zip
+          7z x -aoa -oOutput/ theme-videos.zip
+          Remove-Item theme-videos.zip
+
+      - name: Setup Java (SonarCloud)
+        if: steps.vars.outputs.sonar == 'true'
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Begin SonarCloud analysis
+        if: steps.vars.outputs.sonar == 'true'
+        shell: pwsh
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          VERSION: ${{ steps.vars.outputs.version }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_BRANCH: ${{ github.head_ref }}
+          PR_BASE: ${{ github.base_ref }}
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          $sonarArgs = @(
+              '/k:Vocaluxe', '/o:vocaluxe',
+              '/d:sonar.host.url=https://sonarcloud.io',
+              "/d:sonar.token=$Env:SONAR_TOKEN",
+              '/d:sonar.exclusions=WebApp/**/*',
+              '/d:sonar.cs.vstest.reportsPaths=TestResults/*.trx',
+              '/d:sonar.cs.opencover.reportsPaths=TestResults/**/coverage.opencover.xml'
+          )
+          if ($Env:PR_NUMBER) {
+              $sonarArgs += "/d:sonar.pullrequest.key=$Env:PR_NUMBER", "/d:sonar.pullrequest.branch=$Env:PR_BRANCH", "/d:sonar.pullrequest.base=$Env:PR_BASE"
+          } else {
+              $sonarArgs += "/v:$Env:VERSION"
+          }
+          dotnet sonarscanner begin @sonarArgs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build
+        run: msbuild Vocaluxe.sln /restore /m /nologo /verbosity:minimal /bl:msbuild.binlog /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.platform }}
+
+      - name: Test
+        if: matrix.platform == 'x64'
+        shell: pwsh
+        env:
+          COLLECT_COVERAGE: ${{ steps.vars.outputs.sonar }}
+        run: |
+          $coverage = if ($Env:COLLECT_COVERAGE -eq 'true') { @('--collect:XPlat Code Coverage;Format=opencover') } else { @() }
+          dotnet test Tests/Tests.csproj --no-build -c $Env:BUILD_CONFIGURATION -p:Platform=x64 `
+              --logger 'trx;LogFileName=TestResult.trx' --logger 'console;verbosity=normal' `
+              --results-directory TestResults @coverage
+          exit $LASTEXITCODE
+
+      - name: End SonarCloud analysis
+        if: ${{ !cancelled() && steps.vars.outputs.sonar == 'true' }}
+        shell: pwsh
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner end "/d:sonar.token=$Env:SONAR_TOKEN"
+
+      - name: Upload test results
+        if: ${{ !cancelled() && matrix.platform == 'x64' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+
+      - name: Test report
+        # needs "checks: write", which pull requests from forks don't get
+        if: ${{ !cancelled() && matrix.platform == 'x64' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        uses: dorny/test-reporter@v3
+        with:
+          name: Tests (Windows x64)
+          path: TestResults/*.trx
+          reporter: dotnet-trx
+          fail-on-error: false
+
+      - name: Create ZIP
+        shell: pwsh
+        env:
+          ZIP: ${{ steps.vars.outputs.zip }}
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Push-Location Output
+          7z a "../dist/$Env:ZIP" *
+          Pop-Location
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build installer
+        # own build in the InstallerWin configuration (user data in Documents\Vocaluxe), so it runs after the ZIP
+        if: steps.vars.outputs.installer == 'true'
+        shell: pwsh
+        env:
+          ARCH: ${{ matrix.platform }}
+          INSTALLER_NAME: ${{ steps.vars.outputs.installer-name }}
+        run: |
+          if (-not (Get-Command iscc.exe -ErrorAction SilentlyContinue) -and
+              -not (Get-ChildItem ${env:ProgramFiles(x86)}, $env:ProgramFiles -Directory -Filter 'Inno Setup *' -ErrorAction SilentlyContinue)) {
+              choco install innosetup -y --no-progress
+              if ($LASTEXITCODE -ne 0) { throw 'Installing Inno Setup failed' }
+          }
+          ./Installer/build-installer.ps1 -Platform $Env:ARCH -SkipThemeVideos -KeepLibs
+          # same naming as the ZIP: tag name (e.g. "Nightly", "0.5.0") or branch name as fallback
+          $setup = Get-ChildItem "./Installer/Setup Files/*_Windows_Installer_$($Env:ARCH).exe" | Select-Object -First 1
+          if (-not $setup) { throw 'No setup was created' }
+          Copy-Item $setup.FullName "dist/$Env:INSTALLER_NAME"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-${{ matrix.platform }}
+          path: dist/*
+          if-no-files-found: error
+          compression-level: 0 # already compressed
+
+      - name: Upload MSBuild log
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: msbuild-log-${{ matrix.platform }}
+          path: msbuild.binlog
+          if-no-files-found: ignore
+
+  release:
+    name: Release
+    needs: build
+    if: >-
+      github.repository == 'Vocaluxe/Vocaluxe' && github.event_name == 'push' &&
+      (startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write # tags and releases
+      pages: write # rebuild of www.vocaluxe.org
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      REF_NAME: ${{ github.ref_name }}
+    steps:
+      - name: Download builds
+        uses: actions/download-artifact@v8
+        with:
+          pattern: windows-*
+          merge-multiple: true
+          path: dist
+
+      - name: List files
+        run: ls -l dist
+
+      - name: Nightly release
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          gh release delete Nightly --yes || true
+          # move the Nightly tag to this commit (pushes with GITHUB_TOKEN don't trigger new workflow runs)
+          gh api -X PATCH "repos/$GH_REPO/git/refs/tags/Nightly" -f sha="$GITHUB_SHA" -F force=true \
+            || gh api -X POST "repos/$GH_REPO/git/refs" -f ref=refs/tags/Nightly -f sha="$GITHUB_SHA"
+          gh release create Nightly dist/* --verify-tag --prerelease \
+            --title "Latest Nightly build" --notes "$GITHUB_SHA"
+
+      - name: Tag release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          if gh release view "$REF_NAME" > /dev/null 2>&1; then
+            # keep an existing (maybe hand-written) release, only replace its files
+            gh release upload "$REF_NAME" dist/* --clobber
+          else
+            prerelease=""
+            if echo "$REF_NAME" | grep -qiE 'alpha|beta|rc'; then prerelease="--prerelease"; fi
+            gh release create "$REF_NAME" dist/* --verify-tag $prerelease \
+              --title "$REF_NAME" --notes "$GITHUB_SHA"
+          fi
+
+      - name: Update website
+        # www.vocaluxe.org (gh-pages) shows the release downloads
+        continue-on-error: true
+        run: gh api -X POST "repos/$GH_REPO/pages/builds"
