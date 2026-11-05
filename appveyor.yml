@@ -163,7 +163,8 @@ after_test:
     }
 
     Get-ChildItem ".\Installer\Setup Files\*_Windows_Installer_$($Env:PLATFORM).exe" | ForEach-Object {
-        $fileName = "$($_.BaseName)$forkBuildTag$($_.Extension)"
+        # same naming as the ZIP: tag name (e.g. "Nightly", "0.5.0") or branch name as fallback
+        $fileName = "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_Installer_$($Env:PLATFORM)$forkBuildTag$($_.Extension)"
         appveyor PushArtifact $_.FullName -FileName $fileName -DeploymentName ReleaseZip
         Write-Host "Created artifact: $fileName"
     }

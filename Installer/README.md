@@ -25,7 +25,9 @@ The setups are written to `Installer\Setup Files`:
 - unversioned/nightly build (version 0.0.0): `Vocaluxe_Nightly_Windows_Installer_<arch>.exe`
 
 AppVeyor builds the setups automatically for every platform and attaches them to the GitHub
-release together with the ZIP files. Pull requests skip the installer, unless the message of the
+release together with the ZIP files. There the setups are named like the ZIP files, after the
+tag (or the branch as fallback), e.g. `Vocaluxe_Nightly_Windows_Installer_x64.exe` for the
+nightly release, regardless of the version stored in the setup. Pull requests skip the installer, unless the message of the
 latest commit contains `[build installer]`.
 
 To pack a build by hand, build `InstallerWin|x64` (or `x86`) in Visual Studio and run
