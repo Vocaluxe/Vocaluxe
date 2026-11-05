@@ -100,7 +100,11 @@ jobs:
               $name = "PR$Env:PR_NUMBER"
           } else {
               $version = git describe --long --tags --exclude Nightly 2>$null
-              if (-not $version) { $version = '0.0.0-na-notversioned' }
+              if (-not $version) {
+                  # no tag reachable (e.g. a fork without tags): don't fail the step on git's exit code
+                  $version = '0.0.0-na-notversioned'
+                  $global:LASTEXITCODE = 0
+              }
               # tag name (e.g. "0.5.0") or branch name as fallback, like on AppVeyor
               $name = $Env:REF_NAME -replace '[^A-Za-z0-9._-]', '-'
               # develop builds of the main repo are published as the Nightly release
