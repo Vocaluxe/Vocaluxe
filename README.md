@@ -1,6 +1,6 @@
 ![Vocaluxe Logo](https://raw.githubusercontent.com/Vocaluxe/Vocaluxe/develop/Output/Graphics/Logo.png)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/y9ylgebv14i7usxx/branch/develop?svg=true)](https://ci.appveyor.com/project/VocaluxeBuildBot/vocaluxe/branch/develop)
+[![CI](https://github.com/Vocaluxe/Vocaluxe/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/Vocaluxe/Vocaluxe/actions/workflows/ci.yml?query=branch%3Adevelop)
 [![Nightly build](https://img.shields.io/badge/nightly%20build-latest-blue.svg)](https://vocaluxe.org/#download)
 [![Latest stable release](https://img.shields.io/github/release/vocaluxe/Vocaluxe.svg?label=stable%20release)](https://vocaluxe.org/#download)
 [![Known bugs](https://img.shields.io/github/issues-raw/vocaluxe/vocaluxe/bug.svg?label=known%20bugs)](https://github.com/Vocaluxe/Vocaluxe/labels/bug)
