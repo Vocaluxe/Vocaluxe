@@ -2,7 +2,7 @@
 #
 # - pull requests:          build + test x64/x86, ZIPs as workflow artifacts
 #                           (installer only with "[build installer]" in the latest commit message)
-# - push to develop:        + installers, SonarCloud analysis, "Nightly" tag/release is moved to this commit
+# - push to develop:        + installers, "Nightly" tag/release is moved to this commit
 # - push of any other tag:  + GitHub release for that tag (prerelease if the tag contains alpha/beta/rc)
 # - forks:                  build + test only, artifacts get the "_non-official-by-<owner>" suffix
 name: CI
@@ -89,9 +89,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           ARCH: ${{ matrix.platform }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           $mainRepo = $Env:REPOSITORY -eq 'Vocaluxe/Vocaluxe'
           $isPR = $Env:EVENT_NAME -eq 'pull_request'
@@ -115,23 +113,14 @@ jobs:
               $installer = [bool]($message -match '\[build installer\]')
           }
 
-          # SonarCloud: x64 only, main repo only, develop pushes and pull requests from branches of the main repo
-          # (the SONAR_TOKEN secret is not available for pull requests from forks)
-          $sonar = $mainRepo -and $Env:ARCH -eq 'x64' -and [bool]$Env:SONAR_TOKEN -and (
-              ($Env:EVENT_NAME -eq 'push' -and $Env:REF_NAME -eq 'develop') -or
-              ($isPR -and $Env:PR_HEAD_REPO -eq $Env:REPOSITORY))
-
           Write-Host "Version:   $version"
           Write-Host "Name:      $name$suffix"
           Write-Host "Installer: $installer"
-          Write-Host "Sonar:     $sonar"
 
           "GIT_VERSION_TAG=$version" >> $Env:GITHUB_ENV
-          "version=$version" >> $Env:GITHUB_OUTPUT
           "zip=Vocaluxe_${name}_Windows_$($Env:ARCH)$suffix.zip" >> $Env:GITHUB_OUTPUT
           "installer-name=Vocaluxe_${name}_Windows_Installer_$($Env:ARCH)$suffix.exe" >> $Env:GITHUB_OUTPUT
           "installer=$($installer.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
-          "sonar=$($sonar.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
 
       - name: Download theme videos
         continue-on-error: true
@@ -141,61 +130,17 @@ jobs:
           7z x -aoa -oOutput/ theme-videos.zip
           Remove-Item theme-videos.zip
 
-      - name: Setup Java (SonarCloud)
-        if: steps.vars.outputs.sonar == 'true'
-        uses: actions/setup-java@v6
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Begin SonarCloud analysis
-        if: steps.vars.outputs.sonar == 'true'
-        shell: pwsh
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          VERSION: ${{ steps.vars.outputs.version }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_BRANCH: ${{ github.head_ref }}
-          PR_BASE: ${{ github.base_ref }}
-        run: |
-          dotnet tool install --global dotnet-sonarscanner
-          $sonarArgs = @(
-              '/k:Vocaluxe', '/o:vocaluxe',
-              '/d:sonar.host.url=https://sonarcloud.io',
-              "/d:sonar.token=$Env:SONAR_TOKEN",
-              '/d:sonar.exclusions=WebApp/**/*',
-              '/d:sonar.cs.vstest.reportsPaths=TestResults/*.trx',
-              '/d:sonar.cs.opencover.reportsPaths=TestResults/**/coverage.opencover.xml'
-          )
-          if ($Env:PR_NUMBER) {
-              $sonarArgs += "/d:sonar.pullrequest.key=$Env:PR_NUMBER", "/d:sonar.pullrequest.branch=$Env:PR_BRANCH", "/d:sonar.pullrequest.base=$Env:PR_BASE"
-          } else {
-              $sonarArgs += "/v:$Env:VERSION"
-          }
-          dotnet sonarscanner begin @sonarArgs
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
       - name: Build
         run: msbuild Vocaluxe.sln /restore /m /nologo /verbosity:minimal /bl:msbuild.binlog /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.platform }}
 
       - name: Test
         if: matrix.platform == 'x64'
         shell: pwsh
-        env:
-          COLLECT_COVERAGE: ${{ steps.vars.outputs.sonar }}
         run: |
-          $coverage = if ($Env:COLLECT_COVERAGE -eq 'true') { @('--collect:XPlat Code Coverage;Format=opencover') } else { @() }
           dotnet test Tests/Tests.csproj --no-build -c $Env:BUILD_CONFIGURATION -p:Platform=x64 `
               --logger 'trx;LogFileName=TestResult.trx' --logger 'console;verbosity=normal' `
-              --results-directory TestResults @coverage
+              --results-directory TestResults
           exit $LASTEXITCODE
-
-      - name: End SonarCloud analysis
-        if: ${{ !cancelled() && steps.vars.outputs.sonar == 'true' }}
-        shell: pwsh
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: dotnet sonarscanner end "/d:sonar.token=$Env:SONAR_TOKEN"
 
       - name: Upload test results
         if: ${{ !cancelled() && matrix.platform == 'x64' }}
