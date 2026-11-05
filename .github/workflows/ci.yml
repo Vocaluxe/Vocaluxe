@@ -100,9 +100,17 @@ jobs:
               $name = "PR$Env:PR_NUMBER"
           } else {
               $version = git describe --long --tags --exclude Nightly 2>$null
-              if (-not $version) { $version = '0.0.0-na-notversioned' }
+              if (-not $version) {
+                  # no tag reachable (e.g. a fork without tags): don't fail the step on git's exit code
+                  $version = '0.0.0-na-notversioned'
+                  $global:LASTEXITCODE = 0
+              }
               # tag name (e.g. "0.5.0") or branch name as fallback, like on AppVeyor
               $name = $Env:REF_NAME -replace '[^A-Za-z0-9._-]', '-'
+              # develop builds of the main repo are published as the Nightly release
+              if ($mainRepo -and $Env:EVENT_NAME -eq 'push' -and $Env:REF_NAME -eq 'develop') {
+                  $name = 'Nightly'
+              }
           }
           $suffix = if ($mainRepo) { '' } else { "_non-official-by-$Env:OWNER" }
 
@@ -167,7 +175,14 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force dist | Out-Null
           Push-Location Output
-          7z a "../dist/$Env:ZIP" *
+          # leave out debug symbols of third-party libraries (libSkiaSharp.pdb alone is ~90 MB),
+          # keep the small Vocaluxe*.pdb for line numbers in stack traces
+          $exclude = Get-ChildItem -Recurse -File -Filter *.pdb |
+              Where-Object Name -notlike 'Vocaluxe*' |
+              ForEach-Object { (Resolve-Path -Relative $_.FullName) -replace '^\.[\\/]', '' }
+          $exclude | ForEach-Object { Write-Host "Excluded: $_" }
+          $exclude | Set-Content -Encoding utf8 ../zip-exclude.txt
+          7z a "../dist/$Env:ZIP" * '-x@../zip-exclude.txt'
           Pop-Location
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
