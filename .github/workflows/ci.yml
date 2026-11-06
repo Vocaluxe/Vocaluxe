@@ -127,7 +127,7 @@ jobs:
 
           "GIT_VERSION_TAG=$version" >> $Env:GITHUB_ENV
           "zip=Vocaluxe_${name}_Windows_$($Env:ARCH)$suffix.zip" >> $Env:GITHUB_OUTPUT
-          "installer-name=Vocaluxe_${name}_Windows_Installer_$($Env:ARCH)$suffix.exe" >> $Env:GITHUB_OUTPUT
+          "installer-name=Vocaluxe_${name}_Windows_$($Env:ARCH)_Installer$suffix.exe" >> $Env:GITHUB_OUTPUT
           "installer=$($installer.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
 
       - name: Download theme videos
@@ -201,7 +201,7 @@ jobs:
           }
           ./Installer/build-installer.ps1 -Platform $Env:ARCH -SkipThemeVideos -KeepLibs
           # same naming as the ZIP: tag name (e.g. "Nightly", "0.5.0") or branch name as fallback
-          $setup = Get-ChildItem "./Installer/Setup Files/*_Windows_Installer_$($Env:ARCH).exe" | Select-Object -First 1
+          $setup = Get-ChildItem "./Installer/Setup Files/*_Windows_$($Env:ARCH)_Installer.exe" | Select-Object -First 1
           if (-not $setup) { throw 'No setup was created' }
           Copy-Item $setup.FullName "dist/$Env:INSTALLER_NAME"
 
