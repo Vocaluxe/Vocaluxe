@@ -127,7 +127,7 @@ jobs:
 
           "GIT_VERSION_TAG=$version" >> $Env:GITHUB_ENV
           "zip=Vocaluxe_${name}_Windows_$($Env:ARCH)$suffix.zip" >> $Env:GITHUB_OUTPUT
-          "installer-name=Vocaluxe_${name}_Windows_$($Env:ARCH)_Installer$suffix.exe" >> $Env:GITHUB_OUTPUT
+          "installer-name=Vocaluxe_${name}_Windows_$($Env:ARCH)$suffix_Installer.exe" >> $Env:GITHUB_OUTPUT
           "installer=$($installer.ToString().ToLower())" >> $Env:GITHUB_OUTPUT
 
       - name: Download theme videos

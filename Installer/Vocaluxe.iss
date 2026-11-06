@@ -98,7 +98,7 @@ ShowLanguageDialog=auto
 Compression=lzma2/max
 SolidCompression=yes
 OutputDir=Setup Files
-OutputBaseFilename=Vocaluxe_{#FileVersionName}_Windows_Installer_{#Arch}
+OutputBaseFilename=Vocaluxe_{#FileVersionName}_Windows_{#Arch}_Installer
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
