@@ -44,6 +44,9 @@ namespace Vocaluxe.Base
                     _Webcam = new CAForgeNet();
                     break;
             }
+#elif MAC
+            // AVFoundation through FFmpeg (libavdevice)
+            _Webcam = new CFFmpegWebcam();
 #else
             return true;
 #endif

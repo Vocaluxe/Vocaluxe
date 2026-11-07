@@ -27,10 +27,12 @@ Supported Operating Systems / Requirements:
   Nightly Builds:
   - Windows 10 (version 20H2 or later) and Windows 11 with the .NET 10 Runtime and the ASP.NET Core 10 Runtime
   - Graphics card with OpenGL 3.3 or Direct3D 11 (feature level 10.0) support
+  - macOS 14 (Sonoma) or later on a Mac with Apple Silicon (M1 or newer). The app is not signed by Apple and must be allowed
+    by the user before the first start.
 
 
 ## 2. Download
-You can download precompiled Windows binaries at here:
+You can download precompiled binaries for Windows and macOS here:
 https://vocaluxe.org/#download
 
 ## 3. Contributing
@@ -41,6 +43,8 @@ Check out [milestones](https://github.com/Vocaluxe/Vocaluxe/milestones) or our [
 Building Vocaluxe is easy:
 Just follow the guide on our wiki to clone the repository and create your own Vocaluxe build:
 [Build Vocaluxe (Windows)](https://github.com/Vocaluxe/Vocaluxe/wiki/HowTo:-Build-Vocaluxe-(Windows))
+
+For macOS (Apple Silicon) see [HowToBuildMac.md](HowToBuildMac.md).
 
 The WebApp and the webserver (build with Node.js, development, REST API, translations) are described in [VocaluxeWeb/README.md](VocaluxeWeb/README.md).
 
