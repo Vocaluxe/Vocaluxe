@@ -37,6 +37,7 @@ namespace Vocaluxe.Screens
         private const string _StaticNavSelected = "StaticNavSelected";
         private const string _StaticNavIconSelected = "StaticNavIconSelected";
         private const string _TextNavSelected = "TextNavSelected";
+        private const string _ButtonExit = "ButtonExit";
 
         private readonly Dictionary<string, SColorF> _NavColors = new Dictionary<string, SColorF>();
         private bool _NavFocused;
@@ -44,6 +45,8 @@ namespace Vocaluxe.Screens
         private IMenuElement _ContentSelection;
         private bool _PendingNavFocus;
         private bool _PendingContentFocus;
+        private bool _ExitFromNav;
+        private bool _ExitHighlighted;
         private static bool _SwitchingOptions;
 
         protected abstract EScreen _OptionsScreen { get; }
@@ -53,6 +56,16 @@ namespace Vocaluxe.Screens
         private int _CurrentNavIndex
         {
             get { return Array.IndexOf(_NavScreens, _OptionsScreen); }
+        }
+
+        private bool _HasExitButton
+        {
+            get { return _Buttons.ContainsKey(_ButtonExit) && _Buttons[_ButtonExit].Selectable; }
+        }
+
+        private bool _IsExitSelected
+        {
+            get { return _Buttons.ContainsKey(_ButtonExit) && _Buttons[_ButtonExit].Selected; }
         }
 
         private bool _HasNavigation
@@ -113,6 +126,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             _NavFocused = false;
+            _ExitFromNav = false;
             _ContentSelection = null;
             _PendingNavFocus = !_SwitchingOptions;
             _PendingContentFocus = _SwitchingOptions;
@@ -141,6 +155,11 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            if (_HasNavigation && _IsExitSelected != _ExitHighlighted)
+            {
+                _UpdateNavHighlight();
+            }
+
             base.Draw();
         }
 
@@ -165,11 +184,21 @@ namespace Vocaluxe.Screens
                         return false;
 
                     case Keys.Up:
+                        if (_NavCursor == 0 && _SelectExitFromNav())
+                        {
+                            break;
+                        }
+
                         _NavCursor = (_NavCursor - 1 + _NavNames.Length) % _NavNames.Length;
                         _UpdateNavHighlight();
                         break;
 
                     case Keys.Down:
+                        if (_NavCursor == _NavNames.Length - 1 && _SelectExitFromNav())
+                        {
+                            break;
+                        }
+
                         _NavCursor = (_NavCursor + 1) % _NavNames.Length;
                         _UpdateNavHighlight();
                         break;
@@ -189,6 +218,24 @@ namespace Vocaluxe.Screens
                 }
 
                 return true;
+            }
+
+            if (_ExitFromNav)
+            {
+                if (!_Buttons[_ButtonExit].Selected)
+                {
+                    _ExitFromNav = false;
+                    _ContentSelection = null;
+                }
+                else if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.Escape || keyEvent.Key == Keys.Back)
+                {
+                    if (!keyEvent.KeyPressed)
+                    {
+                        _ReturnToNavFromExit(keyEvent.Key == Keys.Up ? _NavNames.Length - 1 : (keyEvent.Key == Keys.Down ? 0 : _CurrentNavIndex));
+                    }
+
+                    return true;
+                }
             }
 
             if (keyEvent.Key == Keys.Escape || keyEvent.Key == Keys.Back)
@@ -242,6 +289,29 @@ namespace Vocaluxe.Screens
             return false;
         }
 
+        private bool _SelectExitFromNav()
+        {
+            if (!_HasExitButton)
+            {
+                return false;
+            }
+
+            _NavFocused = false;
+            _ExitFromNav = true;
+            _SelectElement(_Buttons[_ButtonExit]);
+            _UpdateNavHighlight();
+            return true;
+        }
+
+        private void _ReturnToNavFromExit(int navCursor)
+        {
+            _Buttons[_ButtonExit].Selected = false;
+            _ExitFromNav = false;
+            _NavFocused = true;
+            _NavCursor = navCursor;
+            _UpdateNavHighlight();
+        }
+
         private IMenuElement _GetFirstContentElement()
         {
             return _SelectSlides.Cast<IMenuElement>().Concat(_Buttons).Where(element => element.Selectable).OrderBy(element => element.Rect.Y).ThenBy(element => element.Rect.X)
@@ -277,8 +347,10 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            var highlighted = _NavFocused ? _NavCursor : _CurrentNavIndex;
+            _ExitHighlighted = _IsExitSelected;
+            var highlighted = _NavFocused ? _NavCursor : (_ExitHighlighted ? -1 : _CurrentNavIndex);
             var selected = _Statics[_StaticNavSelected];
+            selected.Visible = highlighted >= 0;
             for (var i = 0; i < _NavNames.Length; i++)
             {
                 var row = "StaticNav" + _NavNames[i];
