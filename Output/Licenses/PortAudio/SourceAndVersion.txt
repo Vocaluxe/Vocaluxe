@@ -5,3 +5,5 @@ Version: January 30, 2014, SVN rev 1919
 Files:
 x86/PortAudio.dll
 x64/PortAudio.dll
+
+macOS: PortAudio v19.7.0, built from source (MacOS/build-dependencies.sh)

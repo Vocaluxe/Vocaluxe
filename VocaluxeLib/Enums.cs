@@ -195,7 +195,10 @@ namespace VocaluxeLib
 
     public enum EWebcamLib
     {
-        AForgeNet
+        AForgeNet,
+#if MAC
+        FFmpeg
+#endif
     }
 
     public enum ERecordLib
