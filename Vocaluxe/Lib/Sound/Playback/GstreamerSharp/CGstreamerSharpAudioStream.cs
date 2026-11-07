@@ -235,7 +235,13 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
 
             _Element["audio-sink"] = audioSinkBin;
-            _Element["flags"] = 1 << 1;
+#if WIN
+            _Element["flags"] = 1 << 1; // GST_PLAY_FLAG_AUDIO
+#else
+            // GST_PLAY_FLAG_AUDIO | GST_PLAY_FLAG_SOFT_VOLUME: without soft volume playbin passes the volume to the audio sink,
+            // which ignores it on macOS (osxaudiosink), so volume settings and fades had no effect
+            _Element["flags"] = (1 << 1) | (1 << 4);
+#endif
             _Element["uri"] = new Uri(_Medium).AbsoluteUri;
             _Element.Connect("about-to-finish", _OnAboutToFinish);
             _Element.SetState(State.Paused);

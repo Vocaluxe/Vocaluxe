@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Vocaluxe</string>
+    <key>CFBundleDisplayName</key>
+    <string>Vocaluxe</string>
+    <key>CFBundleIdentifier</key>
+    <string>org.vocaluxe.Vocaluxe</string>
+    <key>CFBundleExecutable</key>
+    <string>Vocaluxe</string>
+    <key>CFBundleIconFile</key>
+    <string>Vocaluxe.icns</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>@SHORT_VERSION@</string>
+    <key>CFBundleVersion</key>
+    <string>@VERSION@</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.music-games</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>@MIN_MACOS@</string>
+    <key>LSArchitecturePriority</key>
+    <array>
+        <string>arm64</string>
+    </array>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Vocaluxe needs the microphone to rate your singing.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Vocaluxe can show the webcam image while singing and take photos for the score screen.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>The Vocaluxe web app on phones and tablets connects to Vocaluxe in the local network.</string>
+</dict>
+</plist>
