@@ -25,6 +25,7 @@ using AForge.Video.DirectShow;
 using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Webcam
 {
@@ -42,34 +43,51 @@ namespace Vocaluxe.Lib.Webcam
 
         public bool Init()
         {
-            var webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            FilterInfoCollection webcams;
+            try
+            {
+                webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error listing webcams");
+                return true;
+            }
+
             foreach (FilterInfo info in webcams)
             {
-                var tmpdev = new VideoCaptureDevice(info.MonikerString);
-                if (tmpdev.VideoCapabilities.Length == 0)
+                try
                 {
-                    continue;
-                }
-
-                var device = new SWebcamDevice
-                {
-                    Name = info.Name,
-                    MonikerString = info.MonikerString,
-                    Capabilities = new List<SCapabilities>(tmpdev.VideoCapabilities.Length)
-                };
-
-                foreach (var capabilities in tmpdev.VideoCapabilities)
-                {
-                    var item = new SCapabilities
+                    var videoCapabilities = new VideoCaptureDevice(info.MonikerString).VideoCapabilities;
+                    if (videoCapabilities.Length == 0)
                     {
-                        Framerate = capabilities.AverageFrameRate,
-                        Height = capabilities.FrameSize.Height,
-                        Width = capabilities.FrameSize.Width
-                    };
-                    device.Capabilities.Add(item);
-                }
+                        continue;
+                    }
 
-                _Devices.Add(device);
+                    var device = new SWebcamDevice
+                    {
+                        Name = info.Name,
+                        MonikerString = info.MonikerString,
+                        Capabilities = new List<SCapabilities>(videoCapabilities.Length)
+                    };
+
+                    foreach (var capabilities in videoCapabilities)
+                    {
+                        var item = new SCapabilities
+                        {
+                            Framerate = capabilities.AverageFrameRate,
+                            Height = capabilities.FrameSize.Height,
+                            Width = capabilities.FrameSize.Width
+                        };
+                        device.Capabilities.Add(item);
+                    }
+
+                    _Devices.Add(device);
+                }
+                catch (Exception e)
+                {
+                    CLog.Error(e, "Error reading capabilities of webcam " + info.Name);
+                }
             }
 
             return true;

@@ -490,6 +490,21 @@ namespace Vocaluxe.Lib.Video.FFmpeg
 
         private void _Execute()
         {
+            try
+            {
+                _DecodeLoop();
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error decoding video file: " + _FileName);
+                _NoMoreFrames = true;
+                _Terminated = true;
+                _Free();
+            }
+        }
+
+        private void _DecodeLoop()
+        {
             if (!_OpenVideoStream())
             {
                 _Free();

@@ -15,10 +15,12 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using SkiaSharp;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
@@ -53,7 +55,16 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
+            try
+            {
+                _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error selecting the webcam");
+                _Webcam.DeSelect();
+                return true;
+            }
 
             CConfig.Config.Video.WebcamConfig = _Webcam.GetConfig();
             CConfig.SaveConfig();
