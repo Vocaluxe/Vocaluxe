@@ -299,7 +299,10 @@ namespace Vocaluxe.Base
             if (_CurrentPlaylistElement == null || (_BGPlayer.Position <= 1.5f && _PreviousMusicIndex > 0))
             {
                 Stop(); //stop last song
-                _PreviousMusicIndex--;
+                if (_PreviousMusicIndex > 0)
+                {
+                    _PreviousMusicIndex--;
+                }
 
                 _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
             }

@@ -919,6 +919,13 @@ namespace VocaluxeLib.Songs
                                 CLog.Params(_Song.FileName, emptyLines));
                         }
 
+                        if (voice.NumLines == 0)
+                        {
+                            CLog.CSongLog.Error("[{SongFileName}] No notes found for P{VoiceNr}", CLog.Params(_Song.FileName, i + 1));
+                            sr.Dispose();
+                            return false;
+                        }
+
                         voice.UpdateTimings();
                     }
                 }

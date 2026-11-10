@@ -197,8 +197,9 @@ namespace VocaluxeLib
 
             try
             {
-                files = Directory.EnumerateFiles(dir.FullName, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
+                files = Directory.EnumerateFiles(dir.FullName, searchPattern, _GetEnumerationOptions(recursive))
+                    .Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName)
+                    .ToList();
             }
             catch (Exception e)
             {
@@ -207,6 +208,17 @@ namespace VocaluxeLib
             }
 
             return files;
+        }
+
+        private static EnumerationOptions _GetEnumerationOptions(bool recursive)
+        {
+            return new EnumerationOptions
+            {
+                RecurseSubdirectories = recursive,
+                IgnoreInaccessible = true,
+                AttributesToSkip = 0,
+                MatchType = MatchType.Win32
+            };
         }
 
         /// <summary>
@@ -233,9 +245,10 @@ namespace VocaluxeLib
 
             try
             {
-                files = Directory.EnumerateFiles(path, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
-                    .Where(file => extPattern.IsMatch(Path.GetExtension(file)));
-                files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
+                files = Directory.EnumerateFiles(path, "*", _GetEnumerationOptions(recursive))
+                    .Where(file => extPattern.IsMatch(Path.GetExtension(file)))
+                    .Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName)
+                    .ToList();
             }
             catch (Exception e)
             {
