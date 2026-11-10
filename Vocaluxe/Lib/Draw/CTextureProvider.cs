@@ -56,6 +56,7 @@ namespace Vocaluxe.Lib.Draw
             public readonly Size DataSize;
             public readonly object Data;
             public readonly EQueueAction Action;
+            public readonly int TextureId;
 
             /// <summary>
             ///     Creates a new Queue entry
@@ -69,6 +70,16 @@ namespace Vocaluxe.Lib.Draw
                 Action = action;
                 Data = data;
                 DataSize = new Size();
+                TextureId = -1;
+            }
+
+            public STextureQueue(CTextureRef textureRef, int textureId)
+            {
+                TextureOrRef = textureRef;
+                Action = EQueueAction.Delete;
+                Data = null;
+                DataSize = new Size();
+                TextureId = textureId;
             }
 
             /// <summary>
@@ -84,6 +95,7 @@ namespace Vocaluxe.Lib.Draw
                 Action = action;
                 DataSize = dataSize;
                 Data = data;
+                TextureId = -1;
             }
         }
 
@@ -502,6 +514,12 @@ namespace Vocaluxe.Lib.Draw
                 {
                     var q = _TextureQueue.Dequeue();
 
+                    if (q.Action == EQueueAction.Delete)
+                    {
+                        _RemoveTexture((CTextureRef)q.TextureOrRef, q.TextureId);
+                        continue;
+                    }
+
                     if (q.Action == EQueueAction.Add)
                     {
                         var oldTexture = q.TextureOrRef as TTextureType;
@@ -542,7 +560,13 @@ namespace Vocaluxe.Lib.Draw
                     {
                         var textureRef = q.TextureOrRef as CTextureRef;
                         Debug.Assert(textureRef != null, "Queued type is wrong");
-                        if (!_Textures.ContainsKey(textureRef.Id))
+                        bool textureExists;
+                        lock (_Textures)
+                        {
+                            textureExists = _Textures.ContainsKey(textureRef.Id);
+                        }
+
+                        if (!textureExists)
                         {
                             var bmp = q.Data as SKBitmap;
                             if (bmp != null)
@@ -571,10 +595,6 @@ namespace Vocaluxe.Lib.Draw
                                 throw new ArgumentException("q.Data is of invalid type");
                             }
                             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
-                        }
-                        else if (q.Action == EQueueAction.Delete)
-                        {
-                            RemoveTexture(ref textureRef);
                         }
                     }
                 }
@@ -922,7 +942,10 @@ namespace Vocaluxe.Lib.Draw
                 _DisposeTexture(texture);
                 texture = _CreateAndFillTexture(dataSize, data);
                 texture.RefCount = 1;
-                _Textures[textureRef.Id] = texture;
+                lock (_Textures)
+                {
+                    _Textures[textureRef.Id] = texture;
+                }
             }
         }
 
@@ -946,7 +969,10 @@ namespace Vocaluxe.Lib.Draw
                 texture = null;
                 _WriteBitmapToTexture(ref texture, bmp);
                 texture.RefCount = 1;
-                _Textures[textureRef.Id] = texture;
+                lock (_Textures)
+                {
+                    _Textures[textureRef.Id] = texture;
+                }
             }
         }
 
@@ -1029,27 +1055,35 @@ namespace Vocaluxe.Lib.Draw
                 {
                     lock (_TextureQueue)
                     {
-                        _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Delete, null));
+                        _TextureQueue.Enqueue(new STextureQueue(textureRef, textureRef.Id));
                     }
 
                     textureRef = null;
                     return;
                 }
 
-                lock (_Textures)
-                {
-                    TTextureType t;
-                    if (_Textures.TryGetValue(textureRef.Id, out t))
-                    {
-                        _DisposeTexture(t);
-                        _Textures.Remove(textureRef.Id);
-                    }
-
-                    textureRef.SetRemoved();
-                }
+                _RemoveTexture(textureRef, textureRef.Id);
             }
 
             textureRef = null;
+        }
+
+        private void _RemoveTexture(CTextureRef textureRef, int textureId)
+        {
+            lock (_Textures)
+            {
+                TTextureType t;
+                if (_Textures.TryGetValue(textureId, out t))
+                {
+                    _DisposeTexture(t);
+                    _Textures.Remove(textureId);
+                }
+
+                if (textureRef.Id >= 0)
+                {
+                    textureRef.SetRemoved();
+                }
+            }
         }
 
         public int GetTextureCount()

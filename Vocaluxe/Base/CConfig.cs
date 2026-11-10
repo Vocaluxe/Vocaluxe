@@ -446,7 +446,22 @@ namespace Vocaluxe.Base
             var xml = new CXmlDeserializer(new CXmlErrorHandler(_HandleXmlError));
             if (File.Exists(_FileConfig))
             {
-                Config = xml.Deserialize<SConfig>(_FileConfig);
+                try
+                {
+                    Config = xml.Deserialize<SConfig>(_FileConfig);
+                }
+                catch (Exception e)
+                {
+                    CLog.Error(e, "The config file could not be read. Using default values.");
+                    try
+                    {
+                        File.Copy(_FileConfig, _FileConfig + ".broken", true);
+                    }
+                    catch (Exception) { }
+
+                    Config = xml.DeserializeString<SConfig>("<root />");
+                }
+
                 if (_XmlErrorsOccured)
                 {
                     CLog.Error("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
@@ -662,7 +677,9 @@ namespace Vocaluxe.Base
         {
             _CommentsGot.Clear();
             var xml = new CXmlSerializer(true, _GetComment);
-            xml.Serialize(_FileConfig, Config);
+            var tempFile = _FileConfig + ".tmp";
+            xml.Serialize(tempFile, Config);
+            File.Move(tempFile, _FileConfig, true);
         }
 
         /// <summary>

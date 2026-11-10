@@ -535,7 +535,8 @@ float4 PS(SPixel input) : SV_TARGET
             {
                 if (result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code || result.Code == Vortice.DXGI.ResultCode.DeviceReset.Code)
                 {
-                    CLog.Error("The graphics device was removed: " + _Device.DeviceRemovedReason);
+                    CLog.Error("The graphics device was removed: " + _Device.DeviceRemovedReason, true);
+                    _Run = false;
                 }
                 else
                 {

@@ -452,16 +452,23 @@ namespace Vocaluxe.Base
                     {
                         Parallel.ForEach(fileList, options, file =>
                         {
-                            var song = CSong.LoadSong(file);
-                            if (song == null)
+                            try
                             {
-                                return;
-                            }
+                                var song = CSong.LoadSong(file);
+                                if (song == null)
+                                {
+                                    return;
+                                }
 
-                            if (song.LoadNotes())
+                                if (song.LoadNotes())
+                                {
+                                    bag.Add(song);
+                                    Interlocked.Increment(ref _NumSongsLoaded);
+                                }
+                            }
+                            catch (Exception e)
                             {
-                                bag.Add(song);
-                                Interlocked.Increment(ref _NumSongsLoaded);
+                                CLog.Error(e, "Error loading song {SongFilePath}: {ExceptionMessage}", CLog.Params(file, e.Message));
                             }
                         });
                     }
