@@ -49,6 +49,10 @@ namespace Vocaluxe.Base
         private const String _Arch = "x64";
 #endif
 
+#if ARCH_ARM64
+        private const String _Arch = "arm64";
+#endif
+
         //TODO: This should not be here as it can change
         //State of the program
         public static EProgramState ProgramState = EProgramState.Start;
@@ -96,6 +100,9 @@ namespace Vocaluxe.Base
         public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
 #elif LINUX
         public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Vocaluxe");
+#elif MAC
+        // the app bundle is not writable: ~/Library/Application Support/Vocaluxe
+        public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support", "Vocaluxe");
 #else
         public static readonly string DataFolder = ProgramFolder;
 #endif

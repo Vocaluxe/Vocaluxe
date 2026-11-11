@@ -1,0 +1,10 @@
+https://gstreamer.freedesktop.org/
+
+GStreamer is licensed under the GNU Lesser General Public License, version 2.1 or later (LICENSE.txt).
+
+Windows: gstreamer_x64.zip/gstreamer_x86.zip of https://github.com/Vocaluxe/VocaluxeDependencies
+macOS: official GStreamer 1.28.8 framework (only the libraries and plugins Vocaluxe uses, see MacOS/build-dependencies.sh)
+
+The macOS app contains these libraries of the framework (license):
+GStreamer core and plugins, GLib, gettext/libintl, mpg123 (LGPL 2.1 or later),
+libffi, Orc, PCRE2, zlib, libogg, libvorbis, Opus, FLAC (BSD/MIT style), MoltenVK (Apache 2.0)

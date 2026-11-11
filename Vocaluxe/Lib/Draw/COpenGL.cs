@@ -148,6 +148,9 @@ void main()
         private int _Program;
         private int _YuvProgram;
         private int _ProjectionLocation;
+        // projection: virtual coordinates (1920x1080 per screen) -> pixels of the viewport, for the pixel alignment of textures
+        private float _ProjectionLeft, _ProjectionTop;
+        private float _PixelsPerUnitX = 1f, _PixelsPerUnitY = 1f;
         private int _VertexArray;
         private int _VertexBuffer;
         private int _IndexBuffer;
@@ -410,6 +413,10 @@ void main()
             float top = -CConfig.Config.Graphics.BorderTop;
             float zNear = CSettings.ZNear;
             float zFar = CSettings.ZFar;
+            _ProjectionLeft = left;
+            _ProjectionTop = top;
+            _PixelsPerUnitX = _W > 0 ? _W / (right - left) : 1f;
+            _PixelsPerUnitY = _H > 0 ? _H / (bottom - top) : 1f;
             var projection = new Matrix4x4(
                 2f / (right - left), 0f, 0f, 0f,
                 0f, 2f / (top - bottom), 0f, 0f,
@@ -649,11 +656,13 @@ void main()
 
         protected override void _DrawTexture(COGLTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
         {
-            // Align textures to full pixels to reduce artefacts
-            dc.Wx1 = (float)Math.Round(dc.Wx1);
-            dc.Wy1 = (float)Math.Round(dc.Wy1);
-            dc.Wx2 = (float)Math.Round(dc.Wx2);
-            dc.Wy2 = (float)Math.Round(dc.Wy2);
+            // Align textures to full pixels to reduce artefacts. The pixels of the viewport are used, not the virtual units:
+            // on high resolution screens (e.g. Retina) a unit is several pixels, so rounding to units made scaled texts
+            // (e.g. the pulse of selected buttons) jitter. With one pixel per unit (1920x1080) nothing changes.
+            dc.Wx1 = _AlignToPixel(dc.Wx1, _ProjectionLeft, _PixelsPerUnitX);
+            dc.Wy1 = _AlignToPixel(dc.Wy1, _ProjectionTop, _PixelsPerUnitY);
+            dc.Wx2 = _AlignToPixel(dc.Wx2, _ProjectionLeft, _PixelsPerUnitX);
+            dc.Wy2 = _AlignToPixel(dc.Wy2, _ProjectionTop, _PixelsPerUnitY);
 
             color.A *= CGraphics.GlobalAlpha;
             var c = color.AsColor().ToArgb();
@@ -681,6 +690,11 @@ void main()
             _Vertices.Add(new STexturedColoredVertex(Vector3.Transform(new Vector3(dc.Wx2, dc.Wy2, dc.Wz), rotation), new Vector2(dc.Tx2, dc.Ty2), c2));
             _Vertices.Add(new STexturedColoredVertex(Vector3.Transform(new Vector3(dc.Wx2, dc.Wy1, dc.Wz), rotation), new Vector2(dc.Tx2, dc.Ty1), c));
             _VerticesTextures.Add(texture.Name);
+        }
+
+        private static float _AlignToPixel(float value, float origin, float pixelsPerUnit)
+        {
+            return origin + (float)Math.Round((value - origin) * pixelsPerUnit) / pixelsPerUnit;
         }
 
         private void _RenderVertexBuffer()

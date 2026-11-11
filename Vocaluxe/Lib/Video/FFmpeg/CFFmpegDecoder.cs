@@ -89,6 +89,11 @@ namespace Vocaluxe.Lib.Video.FFmpeg
             ffmpeg.av_log_set_level(ffmpeg.AV_LOG_QUIET);
         }
 
+        /// <summary>
+        ///     Loads the FFmpeg libraries (done once by the static constructor), e.g. before using libavdevice.
+        /// </summary>
+        public static void Initialize() { }
+
         private static string _GetLibrariesPath()
         {
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;

@@ -1,0 +1,6 @@
+https://github.com/libusb/hidapi
+
+HIDAPI can be used under one of three licenses (LICENSE.txt), Vocaluxe uses it under the BSD-style license (LICENSE-bsd.txt).
+
+Windows: NuGet package vocaluxe.dependencies.hidapi
+macOS: hidapi 0.15.0, built from source (MacOS/build-dependencies.sh)

@@ -61,6 +61,11 @@ namespace Vocaluxe
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
             AssemblyLoadContext.Default.ResolvingUnmanagedDll += _NativeLibraryResolver;
+#if MAC
+            // Started from the app bundle or Finder the working directory is "/" or the home folder,
+            // but some files (e.g. the languages) are loaded relative to the program folder.
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+#endif
             _Main(args);
         }
 
@@ -520,6 +525,9 @@ namespace Vocaluxe
 #if ARCH_X64
                 var arch = "x64";
 #endif
+#if ARCH_ARM64
+                var arch = "arm64";
+#endif
 
                 string[] probePaths =
                 {
@@ -552,7 +560,7 @@ namespace Vocaluxe
                         _LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
                     }
                 }
-#if LINUX
+#if LINUX || MAC
                 catch (FileNotFoundException) { }
 #endif
             }
@@ -572,6 +580,8 @@ namespace Vocaluxe
             {
 #if ARCH_X86
                 return "x86";
+#elif ARCH_ARM64
+                return "arm64";
 #else
                 return "x64";
 #endif
@@ -584,6 +594,10 @@ namespace Vocaluxe
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "unmanaged", _Arch),
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed"),
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "managed", _Arch),
+#if MAC
+            // GStreamer shipped with the app bundle (see MacOS/build-dependencies.sh)
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "unmanaged", "gstreamer", "lib"),
+#endif
             AppDomain.CurrentDomain.BaseDirectory
         };
 
