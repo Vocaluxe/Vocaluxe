@@ -2,6 +2,8 @@
   <span>
     {% if include.os == "Linux" %}
         <span class="fa fa-linux btnDownloadIcon" aria-hidden="true"></span>
+    {% elsif include.os == "MacOS" %}
+        <span class="fa fa-apple btnDownloadIcon" aria-hidden="true"></span>
     {% else %}
         <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
     {% endif %}
