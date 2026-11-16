@@ -52,6 +52,8 @@
                   {% assign linux86 = asset.browser_download_url %}
                 {% elsif currentReleaseOs == "Linux" and currentReleaseArch == "x64" %}
                   {% assign linux64 = asset.browser_download_url %}
+                {% elsif currentReleaseOs == "MacOS" %}
+                  {% assign macOS = asset.browser_download_url %}
                 {% endif %}
               {% endfor %}
 
@@ -60,6 +62,9 @@
               {% endif %}
               {% if winExe86 or winExe64 %}
                 {% include downloadRow.html x86=winExe86 x64=winExe64 os="Windows" type="Installer" %}
+              {% endif %}
+              {% if macOS %}
+                {% include downloadRow.html x64=macOS os="MacOS" type="MacOS" %}
               {% endif %}
               {% if linux86 or linux64 %}
                 {% include downloadRow.html x86=linux86 x64=linux64 os="Linux" type="Linux" %}
@@ -101,6 +106,8 @@
                   {% assign linux86 = asset.browser_download_url %}
                 {% elsif currentReleaseOs == "Linux" and currentReleaseArch == "x64" %}
                   {% assign linux64 = asset.browser_download_url %}
+                {% elsif currentReleaseOs == "MacOS" %}
+                  {% assign macOS = asset.browser_download_url %}
                 {% endif %}
               {% endfor %}
 
@@ -109,6 +116,9 @@
               {% endif %}
               {% if winExe86 or winExe64 %}
                 {% include downloadRow.html x86=winExe86 x64=winExe64 os="Windows" type="Installer" %}
+              {% endif %}
+              {% if macOS %}
+                {% include downloadRow.html x64=macOS os="MacOS" type="MacOS" %}
               {% endif %}
               {% if linux86 or linux64 %}
                 {% include downloadRow.html x86=linux86 x64=linux64 os="Linux" type="Linux" %}
@@ -150,6 +160,8 @@
                     {% assign linux86 = asset.browser_download_url %}
                   {% elsif currentReleaseOs == "Linux" and currentReleaseArch == "x64" %}
                     {% assign linux64 = asset.browser_download_url %}
+                  {% elsif currentReleaseOs == "MacOS" %}
+                    {% assign macOS = asset.browser_download_url %}
                   {% endif %}
                 {% endfor %}
 
@@ -158,6 +170,9 @@
                 {% endif %}
                 {% if winExe86 or winExe64 %}
                   {% include downloadRow.html x86=winExe86 x64=winExe64 os="Windows" type="Installer" %}
+                {% endif %}
+                {% if macOS %}
+                  {% include downloadRow.html x64=macOS os="MacOS" type="MacOS" %}
                 {% endif %}
                 {% if linux86 or linux64 %}
                   {% include downloadRow.html x86=linux86 x64=linux64 os="Linux" type="Linux" %}
