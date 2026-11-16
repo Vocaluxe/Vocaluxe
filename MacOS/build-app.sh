@@ -167,7 +167,7 @@ if [ $DMG = 1 ]; then
     ln -s /Applications "$staging/Applications"
     rm -f "$IMAGE"
     # ULMO (LZMA): smallest image, supported since macOS 10.15
-    hdiutil create -quiet -volname Vocaluxe -srcfolder "$staging" -fs HFS+ -format ULMO "$IMAGE"
+    hdiutil create -volname Vocaluxe -srcfolder "$staging" -fs HFS+ -format ULMO "$IMAGE"
     rm -rf "$staging"
     echo "Created $IMAGE ($(du -h "$IMAGE" | cut -f1))"
 fi
