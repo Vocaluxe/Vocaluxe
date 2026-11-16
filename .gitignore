@@ -84,3 +84,12 @@ tx.exe
 *.orig
 *.DotSettings
 .DS_Store
+
+# macOS build
+*.o
+PitchTracker/libPitchTracker.dylib
+GstreamerSharpGlue/*.dylib
+GstreamerSharpGlue/*.so
+/MacOS/Build
+/MacOS/Dependencies
+__pycache__/

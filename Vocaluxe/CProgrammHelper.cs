@@ -26,7 +26,7 @@ namespace Vocaluxe
     /// </summary>
     static class CProgrammHelper
     {
-#if LINUX || INSTALLER
+#if LINUX || MAC || INSTALLER
         /// <summary>
         ///     Copies the default profiles (e.g. the guests) from the program folder to the data folder on the first start.
         ///     The program folder might not be writable (e.g. C:\Program Files), so profiles must be edited in the data folder.
@@ -63,9 +63,12 @@ namespace Vocaluxe
 #if ARCH_X64
             var path = "x64";
 #endif
+#if ARCH_ARM64
+            var path = "arm64";
+#endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
             COSFunctions.AddEnvironmentPath(path);
-#if LINUX || INSTALLER
+#if LINUX || MAC || INSTALLER
             _CopyDefaultProfiles();
 #endif
         }

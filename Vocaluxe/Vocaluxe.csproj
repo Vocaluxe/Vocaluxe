@@ -5,21 +5,27 @@
     <AssemblyName>Vocaluxe</AssemblyName>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;arm64</Platforms>
     <OutputPath>..\Output\</OutputPath>
     <SelfContained>false</SelfContained>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RuntimeIdentifiers>win-x86;win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
     <IsWindowsConfig>$(Configuration.EndsWith('Win'))</IsWindowsConfig>
+    <IsLinuxConfig>$(Configuration.EndsWith('Linux'))</IsLinuxConfig>
+    <IsMacConfig>$(Configuration.EndsWith('Mac'))</IsMacConfig>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsWindowsConfig)' == 'true'">
     <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
     <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(IsWindowsConfig)' != 'true' And '$(Platform)' == 'x64'">
+  <PropertyGroup Condition="'$(IsLinuxConfig)' == 'true' And '$(Platform)' == 'x64'">
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsMacConfig)' == 'true'">
+    <!-- Apple Silicon only -->
+    <RuntimeIdentifier>osx-arm64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -61,9 +67,11 @@
 
   <PropertyGroup>
     <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(MSBuildProjectDirectory)\..\.build\winPreBuild.ps1' -ProjectDir '$(MSBuildProjectDirectory)\' -Arch '$(Platform)'"</PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(MSBuildProjectDirectory)/../.build/linuxPreBuildEvent.sh $(MSBuildProjectDirectory)/ $(Platform)</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(IsMacConfig)' == 'true' ">$(MSBuildProjectDirectory)/../.build/macPreBuildEvent.sh $(MSBuildProjectDirectory)/ $(Platform)</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' And '$(IsMacConfig)' != 'true' ">$(MSBuildProjectDirectory)/../.build/linuxPreBuildEvent.sh $(MSBuildProjectDirectory)/ $(Platform)</PreBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(MSBuildProjectDirectory)\..\.build\winPostBuild.ps1' -ProjectDir '$(MSBuildProjectDirectory)\'"</PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(MSBuildProjectDirectory)/../.build/linuxPostBuildEvent.sh $(MSBuildProjectDirectory)/</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(IsMacConfig)' == 'true' ">$(MSBuildProjectDirectory)/../.build/macPostBuildEvent.sh $(MSBuildProjectDirectory)/</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' And '$(IsMacConfig)' != 'true' ">$(MSBuildProjectDirectory)/../.build/linuxPostBuildEvent.sh $(MSBuildProjectDirectory)/</PostBuildEvent>
   </PropertyGroup>
 
   <Target Name="gstreamerBeforeBuild" BeforeTargets="BeforeBuild" Condition="'$(IsWindowsConfig)' == 'true'">

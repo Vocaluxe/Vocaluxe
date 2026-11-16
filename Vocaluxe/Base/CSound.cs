@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.IO;
 using System.Threading;
 using Vocaluxe.Lib.Sound;
@@ -23,6 +24,7 @@ using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
@@ -68,7 +70,33 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            return _Playback.Init();
+            if (_TryInit(_Playback))
+            {
+                return true;
+            }
+
+            if (CConfig.Config.Sound.PlayBackLib == EPlaybackLib.PortAudio)
+            {
+                return false;
+            }
+
+            // e.g. GStreamer is not installed: fall back to PortAudio instead of not starting at all
+            CLog.Warning("Playback library {Lib} could not be initialized, falling back to PortAudio", new object[] { CConfig.Config.Sound.PlayBackLib });
+            _Playback = new CPortAudioPlay();
+            return _TryInit(_Playback);
+        }
+
+        private static bool _TryInit(IPlayback playback)
+        {
+            try
+            {
+                return playback.Init();
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Could not initialize the playback library {Lib}", new object[] { playback.GetType().Name });
+                return false;
+            }
         }
 
         /// <summary>

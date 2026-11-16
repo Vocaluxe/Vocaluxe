@@ -5,6 +5,8 @@
 # - push to develop:        + installers, "Nightly" tag/release is moved to this commit
 # - push of any other tag:  + GitHub release for that tag (prerelease if the tag contains alpha/beta/rc)
 # - forks:                  build + test only, artifacts get the "_non-official-by-<owner>" suffix
+# - macOS (Apple Silicon):  app as disk image (DMG), published with the Windows builds; pull requests build it only with
+#                           "[build mac]" in the latest commit message (macOS runners are often busy)
 name: CI
 
 on:
@@ -221,10 +223,143 @@ jobs:
           path: msbuild.binlog
           if-no-files-found: ignore
 
+  # Pull requests build macOS only with "[build mac]" in the latest commit message, everything else always does
+  macos-check:
+    name: Check macOS build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      build: ${{ steps.check.outputs.build }}
+    steps:
+      - name: Checkout
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+
+      - name: Check commit message
+        id: check
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          build=true
+          if [ "$EVENT_NAME" = pull_request ] && ! git log -1 --format=%B | grep -q '\[build mac\]'; then
+            build=false
+            echo 'macOS is not built for this pull request (add "[build mac]" to the commit message to build it)'
+          fi
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+
+  # macOS (Apple Silicon): self-contained app bundle (.NET runtime and native libraries included), see HowToBuildMac.md
+  macos:
+    name: macOS arm64
+    needs: macos-check
+    if: needs.macos-check.outputs.build == 'true'
+    runs-on: macos-15 # Apple Silicon (the app is built for macOS 14 anyway, independent of the runner version)
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    env:
+      VOCALUXE_SKIP_POSTBUILD: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # full history and tags for "git describe"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: WebApp/package-lock.json
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', 'Directory.Build.props', 'NuGet.Config') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Prepare build variables
+        id: vars
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # same version and naming as the Windows build
+          if [ "$EVENT_NAME" = pull_request ]; then
+            version="0.0.0-na-PR_$PR_NUMBER"
+            name="PR$PR_NUMBER"
+          else
+            version=$(git describe --long --tags --exclude Nightly 2>/dev/null || echo 0.0.0-na-notversioned)
+            name=${REF_NAME//[^A-Za-z0-9._-]/-}
+            if [ "$REPOSITORY" = Vocaluxe/Vocaluxe ] && [ "$EVENT_NAME" = push ] && [ "$REF_NAME" = develop ]; then
+              name=Nightly
+            fi
+          fi
+          suffix=""
+          [ "$REPOSITORY" = Vocaluxe/Vocaluxe ] || suffix="_non-official-by-$OWNER"
+          echo "Version: $version"
+          echo "Name:    $name$suffix"
+          echo "GIT_VERSION_TAG=$version" >> "$GITHUB_ENV"
+          echo "dmg=Vocaluxe_${name}_macOS_arm64$suffix.dmg" >> "$GITHUB_OUTPUT"
+
+      - name: Download theme videos
+        continue-on-error: true
+        run: |
+          curl -fsSL -o theme-videos.zip 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip'
+          unzip -o -q theme-videos.zip -d Output
+          rm theme-videos.zip
+
+      - name: Build app
+        run: MacOS/build-app.sh --no-videos --dmg
+
+      - name: Test
+        run: |
+          dotnet test Tests/Tests.csproj --no-build -c ReleaseMac -p:Platform=arm64 \
+            --logger 'trx;LogFileName=TestResult.trx' --logger 'console;verbosity=normal' \
+            --results-directory TestResults
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-macos
+          path: TestResults/*.trx
+          if-no-files-found: ignore
+
+      - name: Rename disk image
+        env:
+          DMG: ${{ steps.vars.outputs.dmg }}
+        run: |
+          mkdir -p dist
+          mv MacOS/Build/Vocaluxe.dmg "dist/$DMG"
+
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          name: macos-arm64
+          path: dist/*
+          if-no-files-found: error
+          compression-level: 0 # already compressed
+
   release:
     name: Release
-    needs: build
+    needs: [build, macos]
+    # the Windows builds are required, a failed macOS build doesn't stop the release
     if: >-
+      !cancelled() && needs.build.result == 'success' &&
       github.repository == 'Vocaluxe/Vocaluxe' && github.event_name == 'push' &&
       (startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/develop')
     runs-on: ubuntu-latest
@@ -245,6 +380,13 @@ jobs:
         with:
           pattern: windows-*
           merge-multiple: true
+          path: dist
+
+      - name: Download macOS build
+        if: needs.macos.result == 'success'
+        uses: actions/download-artifact@v8
+        with:
+          name: macos-arm64
           path: dist
 
       - name: List files

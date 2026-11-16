@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Configurations>DebugWin;ReleaseWin;InstallerWin;DebugLinux;ReleaseLinux</Configurations>
-    <Platforms>AnyCPU;x86;x64</Platforms>
+    <Configurations>DebugWin;ReleaseWin;InstallerWin;DebugLinux;ReleaseLinux;DebugMac;ReleaseMac</Configurations>
+    <Platforms>AnyCPU;x86;x64;arm64</Platforms>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
@@ -42,6 +42,9 @@
   <PropertyGroup Condition="$(Configuration.EndsWith('Linux'))">
     <DefineConstants>$(DefineConstants);LINUX</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.EndsWith('Mac'))">
+    <DefineConstants>$(DefineConstants);MAC</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'InstallerWin'">
     <DefineConstants>$(DefineConstants);INSTALLER</DefineConstants>
   </PropertyGroup>
@@ -53,5 +56,9 @@
   <PropertyGroup Condition="'$(Platform)' == 'x64'">
     <PlatformTarget>x64</PlatformTarget>
     <DefineConstants>$(DefineConstants);ARCH_X64</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'arm64'">
+    <PlatformTarget>arm64</PlatformTarget>
+    <DefineConstants>$(DefineConstants);ARCH_ARM64</DefineConstants>
   </PropertyGroup>
 </Project>

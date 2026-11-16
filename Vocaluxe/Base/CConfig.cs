@@ -226,7 +226,11 @@ namespace Vocaluxe.Base
             public int DecoderThreads;
             [DefaultValue(EVideoDownscaleResolution.TR_CONFIG_SCALING_DISABLED)]
             public EVideoDownscaleResolution VideoDownscaleResolution;
+#if MAC
+            [DefaultValue(EWebcamLib.FFmpeg)]
+#else
             [DefaultValue(EWebcamLib.AForgeNet)]
+#endif
             public EWebcamLib WebcamLib;
             public SWebcamConfig? WebcamConfig;
         }
@@ -274,7 +278,7 @@ namespace Vocaluxe.Base
         //We need full path for folders for matching folder path with textfile path when loading
         public static readonly List<string> SongFolders = new List<string>
         {
-#if INSTALLER
+#if INSTALLER || MAC
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
             Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif WIN
@@ -289,7 +293,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
         {
-#if INSTALLER || LINUX
+#if INSTALLER || LINUX || MAC
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #elif WIN
             CSettings.FolderNameProfiles
@@ -302,7 +306,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> AvatarFolders = new List<string>
         {
-#if INSTALLER || LINUX
+#if INSTALLER || LINUX || MAC
             Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles)
 #endif
         };

@@ -17,13 +17,41 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Gst;
+using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
     public class CGstreamerSharpAudio : CPlaybackBase
     {
+#if MAC
+        [DllImport("libc", EntryPoint = "setenv")]
+        private static extern int _SetEnv(string name, string value, int overwrite);
+
+        /// <summary>
+        ///     Lets GStreamer use only the plugins shipped with the app bundle (libs/unmanaged/gstreamer, see MacOS/build-dependencies.sh).
+        ///     The variables must be set in the native environment, Environment.SetEnvironmentVariable is not visible to GStreamer.
+        /// </summary>
+        private static void _UseBundledPlugins()
+        {
+            var gstreamer = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs", "unmanaged", "gstreamer");
+            if (!Directory.Exists(gstreamer))
+            {
+                return; // e.g. a development build with GStreamer from Homebrew
+            }
+
+            _SetEnv("GST_PLUGIN_SYSTEM_PATH_1_0", Path.Combine(gstreamer, "lib", "gstreamer-1.0"), 1);
+            _SetEnv("GST_PLUGIN_PATH_1_0", "", 1);
+            _SetEnv("GST_PLUGIN_SCANNER_1_0", Path.Combine(gstreamer, "libexec", "gstreamer-1.0", "gst-plugin-scanner"), 1);
+            // own registry: the plugin cache of another GStreamer installation must not be used
+            var cache = Path.Combine(CSettings.DataFolder, "Cache");
+            Directory.CreateDirectory(cache);
+            _SetEnv("GST_REGISTRY_1_0", Path.Combine(cache, "gstreamer-registry.bin"), 1);
+        }
+#endif
+
         public override bool Init()
         {
             if (_Initialized)
@@ -62,6 +90,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
 
             COSFunctions.AddEnvironmentPath(dllDirectory);
+#endif
+#if MAC
+            _UseBundledPlugins();
 #endif
             Application.Init();
 

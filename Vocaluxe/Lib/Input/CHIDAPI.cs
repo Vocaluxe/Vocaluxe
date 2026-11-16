@@ -66,6 +66,10 @@ namespace Vocaluxe.Lib.Input
 #endif
 #endif
 
+#if MAC
+        private const string _HIDApiDll = "libhidapi.dylib";
+#endif
+
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_init", CharSet = CharSet.Unicode)]
         private static extern int hid_init();
 

@@ -21,10 +21,10 @@ using System.IO;
 using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Log;
-#if WIN
+#if WIN || MAC
 using Newtonsoft.Json.Linq;
 #endif
-#if WIN
+#if WIN || MAC
 using VocaluxeWeb.Hosting;
 #endif
 
@@ -41,7 +41,7 @@ namespace Vocaluxe.Base.Web
 
         public static readonly CRemoteKeyboard Controller = new CRemoteKeyboard();
 
-#if WIN
+#if WIN || MAC
         private static CWebHost _Host;
 #endif
         private static readonly List<string> _PhotosOfThisRound = new List<string>();
@@ -53,7 +53,7 @@ namespace Vocaluxe.Base.Web
                 return;
             }
 
-#if WIN
+#if WIN || MAC
             var options = new CWebServerOptions
             {
                 Port = CConfig.Config.Server.ServerPort,
@@ -82,7 +82,7 @@ namespace Vocaluxe.Base.Web
 
         public static void Close()
         {
-#if WIN
+#if WIN || MAC
             _Host?.Dispose();
             _Host = null;
 #endif
@@ -91,14 +91,14 @@ namespace Vocaluxe.Base.Web
         /// Runs pending webserver requests. Called once per frame from the main thread.
         public static void ProcessTasks()
         {
-#if WIN
+#if WIN || MAC
             _Host?.Tick();
 #endif
         }
 
         public static bool IsServerRunning()
         {
-#if WIN
+#if WIN || MAC
             return _Host != null && _Host.IsRunning;
 #else
             return false;
@@ -107,7 +107,7 @@ namespace Vocaluxe.Base.Web
 
         public static string GetServerAddress()
         {
-#if WIN
+#if WIN || MAC
             return _Host?.Address?.AbsoluteUri ?? "";
 #else
             return "";
@@ -117,7 +117,7 @@ namespace Vocaluxe.Base.Web
         /// Name of the playlist used as WebApp queue; read from the webserver settings also while the server is off.
         public static string GetQueuePlaylistName()
         {
-#if WIN
+#if WIN || MAC
             if (_Host != null)
             {
                 return _Host.QueuePlaylistName;
@@ -146,7 +146,7 @@ namespace Vocaluxe.Base.Web
         /// The queue with requesters and singers, or null if the webserver is not running.
         public static IList<CWebQueue.CItem> GetQueueItems()
         {
-#if WIN
+#if WIN || MAC
             return _Host?.GetQueueForGame().Select(i => new CWebQueue.CItem
             {
                 SongId = i.SongId,
@@ -164,7 +164,7 @@ namespace Vocaluxe.Base.Web
         /// The queue entry at this position was started from the queue screen: it leaves the queue.
         public static void MarkQueueEntryStarted(int index)
         {
-#if WIN
+#if WIN || MAC
             if (_Host != null)
             {
                 _Host.MarkQueueEntryStarted(index);

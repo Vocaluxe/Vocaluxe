@@ -3,7 +3,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
-    <Platforms>x86;x64</Platforms>
+    <Platforms>x86;x64;arm64</Platforms>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
