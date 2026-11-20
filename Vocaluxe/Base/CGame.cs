@@ -284,7 +284,11 @@ namespace Vocaluxe.Base
 
                     if (Players[p].CurrentLine != line && line > 0)
                     {
-                        Players[p].TimeLastLineChange = time;
+                        var finishedLine = Players[p].CurrentLine;
+                        if (finishedLine >= 0 && finishedLine < lines.Length && lines[finishedLine].Points > 0)
+                        {
+                            Players[p].TimeLastLineChange = time;
+                        }
                     }
 
                     //Check for already sung
